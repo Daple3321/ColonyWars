@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 moveInput = moveAction.ReadValue<Vector2>();
         Vector3 moveDir = new Vector3(moveInput.x, 0, moveInput.y);
+        
 
         moveDir = moveDir.normalized * moveSpeed * Time.deltaTime;
 
@@ -38,6 +39,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Debug.DrawRay(transform.position, moveDir * 10, Color.green);
+
+        Vector3 worldPoint = cm.ScreenToWorldPoint(Input.mousePosition);
+        Debug.DrawRay(cm.transform.position, worldPoint);
 
         characterController.Move(moveDir);
     }
