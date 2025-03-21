@@ -15,8 +15,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
         
         cm = Camera.main;
         
@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
         {
             moveDirFixed.y = -fallSpeed * Time.deltaTime;
         }
-        Debug.DrawRay(transform.position, moveDirFixed * 5, Color.blue);
+        //Debug.DrawRay(transform.position, moveDirFixed * 5, Color.blue);
 
 
         //Vector3 projectedVec = Vector3.Project(rotationVector, transform.forward);
@@ -51,13 +51,17 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log(angleToRot);
         Vector3 rotationVector = Quaternion.AngleAxis(90, Vector3.up) * (cm.transform.position - transform.position);
         Vector3 crossProd = Vector3.Cross(transform.up, rotationVector);
-        if (Mathf.Abs(characterController.velocity.magnitude) > 0.5f) // блокировка вращения если velocity маленький
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(crossProd, Vector3.up), rotationSpeed * Time.deltaTime);
-        }
+        // if (Mathf.Abs(characterController.velocity.magnitude) > 0.5f) // блокировка вращения если velocity маленький
+        // {
+            
+        // }
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(crossProd, Vector3.up), rotationSpeed * Time.deltaTime);
 
-        Debug.DrawRay(transform.position, crossProd * 4, Color.green);
-        Debug.DrawRay(cm.transform.position, cm.transform.forward * 4, Color.red);
+        Ray screenPoint = cm.ScreenPointToRay(Input.mousePosition);
+        Debug.DrawRay(screenPoint.origin, screenPoint.direction, Color.magenta);
+
+        //Debug.DrawRay(transform.position, crossProd * 4, Color.green);
+        //Debug.DrawRay(cm.transform.position, cm.transform.forward * 4, Color.red);
 
         characterController.Move(moveDirFixed);
     }
