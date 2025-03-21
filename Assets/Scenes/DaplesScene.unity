@@ -6573,17 +6573,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58fba6aade06ab34db286b67c79867bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 8
+  currentSpeed: 0
+  walkSpeed: 7
+  runSpeed: 11
+  currentStamina: 5
+  staminaRegenSpeed: 1
+  maxStamina: 5
   fallSpeed: 10
   rotationSpeed: 7
   zoomSpeed: 75
-  zoomUpperLimits: {x: 0, y: 11.18, z: -6.61}
-  zoomLowerLimits: {x: 0, y: 4, z: 0}
+  canRegenStamina: 0
   moveAction:
     m_Name: Move
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: 5f3a442e-2162-4bbf-a9d0-6a945b4064dd
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  runAction:
+    m_Name: Run
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 6b8ae940-b508-4679-9155-018feb2f25c7
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
