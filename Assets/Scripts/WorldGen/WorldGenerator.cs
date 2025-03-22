@@ -68,7 +68,7 @@ public class WorldGenerator : MonoBehaviour
         float halfRes = t.terrainData.heightmapResolution / 2f;
 
         for (int y = 0; y < t.terrainData.heightmapResolution; y++) { // HEIGHT
-            for (int x = 0; x < t.terrainData.heightmapResolution; x++){ // WIDTH
+            for (int x = 0; x < t.terrainData.heightmapResolution; x++) { // WIDTH
 
                 float amplitude = _amplitude;
                 float frequency = _frequency;
@@ -95,7 +95,7 @@ public class WorldGenerator : MonoBehaviour
                 // }
 
                 heights[x, y] = noiseHeight;
-                
+
                 // heights[x, y] = Mathf.PerlinNoise(
                 //     ((float)(x + offset) / (float)t.terrainData.heightmapResolution) * freq_1,
                 //     ((float)(y + offset) / (float)t.terrainData.heightmapResolution) * freq_1
@@ -110,41 +110,74 @@ public class WorldGenerator : MonoBehaviour
         }
 
 
-        for (int i = 0; i < t.terrainData.heightmapResolution; i++) // LEFT/RIGHT falloff
+        bool[,] holes = new bool[t.terrainData.heightmapResolution - 1, t.terrainData.heightmapResolution - 1];
+        for (int i = 0; i < t.terrainData.heightmapResolution - 1; i++) // LEFT/RIGHT falloff
+        {
+            float subtractVal = fallOffStrength;
+            float calcVal = subtractVal / fallOffInner;
+
+            for (int innerId = 0; innerId < fallOffInner; innerId++)
+            {
+                heights[i, innerId] -= subtractVal;
+                subtractVal -= calcVal;
+
+                if (heights[i, innerId] <= -3f) // Учитываем, действительно ли точка стала дыркой
+                {
+                    holes[i, innerId] = true;
+                }
+            }
+
+            subtractVal = calcVal;
+            for (int innerId = t.terrainData.heightmapResolution - 1 - fallOffInner; innerId < t.terrainData.heightmapResolution - 1; innerId++)
+            {
+                heights[i, innerId] -= subtractVal;
+                subtractVal += calcVal;
+
+                if (heights[i, innerId] <= -3f)
+                {
+                    holes[i, innerId] = true;
+                }
+            }
+        }
+
+        for (int i = 0; i < t.terrainData.heightmapResolution - 1; i++) // UP/BOTTOM falloff
         {
             float subtractVal = fallOffStrength;
             float calcVal = subtractVal / fallOffInner;
             for (int innerId = 0; innerId < fallOffInner; innerId++)
             {
-                heights[i, innerId] -= subtractVal;
+                heights[innerId, i] -= subtractVal;
                 subtractVal -= calcVal;
+
+                if (heights[innerId, i] <= -3f)
+                {
+                    holes[innerId, i] = true;
+                }
             }
 
             subtractVal = calcVal;
-            for (int innerId = t.terrainData.heightmapResolution-fallOffInner; innerId < t.terrainData.heightmapResolution; innerId++)
+            for (int innerId = t.terrainData.heightmapResolution - fallOffInner - 1; innerId < t.terrainData.heightmapResolution - 1; innerId++)
             {
-                heights[i, innerId] -= subtractVal;
+                heights[innerId, i] -= subtractVal;
                 subtractVal += calcVal;
+
+                if (heights[innerId, i] <= -3f)
+                {
+                    holes[innerId, i] = true;
+                }
+            }
+        }
+
+        for (int y = 0; y < t.terrainData.heightmapResolution - 1; y++)
+        {
+            for (int x = 0; x < t.terrainData.heightmapResolution - 1; x++)
+            {
+                holes[x, y] = !holes[x, y];
             }
         }
         
-        for (int i = 0; i < t.terrainData.heightmapResolution; i++) // UP/BOTTOM falloff
-        {
-            float subtractVal = fallOffStrength;
-            float calcVal = subtractVal / fallOffInner;
-            for (int innerId = 0; innerId < fallOffInner; innerId++)
-            {
-                heights[innerId, i] -= subtractVal;
-                subtractVal -= calcVal;
-            }
 
-            subtractVal = calcVal;
-            for (int innerId = t.terrainData.heightmapResolution-fallOffInner; innerId < t.terrainData.heightmapResolution; innerId++)
-            {
-                heights[innerId, i] -= subtractVal;
-                subtractVal += calcVal;
-            }
-        }
+        t.terrainData.SetHoles(0, 0, holes);
 
 
         for (int y = 0; y < t.terrainData.heightmapResolution; y++) // NORMALIZING HEIGHTS TO 0.0 - 1.0
