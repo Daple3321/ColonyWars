@@ -556,7 +556,7 @@ Transform:
   m_GameObject: {fileID: 108803743}
   serializedVersion: 2
   m_LocalRotation: {x: 0.42290103, y: 0.000000027006154, z: -0.000000012603436, w: 0.9061759}
-  m_LocalPosition: {x: 5.69, y: 41.554134, z: 1.6416006}
+  m_LocalPosition: {x: 5.69, y: 46.414135, z: 1.6416006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -735,10 +735,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrain: {fileID: 1804235185}
-  tiling: 10
-  divideVal: 10
+  tiling: 2
+  divideVal: 25
+  tiling_2: 15
+  divideVal_2: 180
   randomizeSeed: 0
   seed: 15
+  gravelWeight: -3
+  dirtWeight: 0
+  grassWeight: -5
 --- !u!1 &521077763
 GameObject:
   m_ObjectHideFlags: 0
@@ -6577,7 +6582,7 @@ Transform:
   m_GameObject: {fileID: 1501809507}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.69, y: 23.83, z: 11.92}
+  m_LocalPosition: {x: 5.69, y: 28.69, z: 11.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6624,6 +6629,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentSpeed: 0
   walkSpeed: 7
+  fov_default: 0
+  fov_running: 0
   runSpeed: 11
   currentStamina: 5
   staminaRegenSpeed: 1
@@ -6659,6 +6666,8 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  cinemachineCamera: {fileID: 2123470184}
+  terrain: {fileID: 1804235185}
 --- !u!1 &1539002560
 GameObject:
   m_ObjectHideFlags: 0
@@ -12217,7 +12226,7 @@ Transform:
   m_GameObject: {fileID: 2123470181}
   serializedVersion: 2
   m_LocalRotation: {x: 0.42290097, y: 0.000000027006148, z: -0.000000012603431, w: 0.906176}
-  m_LocalPosition: {x: 5.69, y: 41.554134, z: 1.6416006}
+  m_LocalPosition: {x: 5.69, y: 46.414135, z: 1.6416006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

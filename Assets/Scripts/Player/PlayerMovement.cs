@@ -39,6 +39,8 @@ public class PlayerMovement : MonoBehaviour
     private Camera cm;
     public CinemachineCamera cinemachineCamera;
 
+    public Terrain terrain;
+    
     void Start()
     {
         //Cursor.lockState = CursorLockMode.Confined;
@@ -108,6 +110,18 @@ public class PlayerMovement : MonoBehaviour
 
         //     transform.LookAt(new Vector3(pointToLook.x, transform.position.y, pointToLook.z));
         // }
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Debug.Log($"SampleHeight: {terrain.SampleHeight(transform.position)}");
+
+            float normX = (float)1 / (float)terrain.terrainData.alphamapWidth;
+            float normY = (float)1 / (float)terrain.terrainData.alphamapHeight;
+
+            float height = terrain.terrainData.GetHeight(
+                Mathf.RoundToInt(normY * terrain.terrainData.heightmapResolution), Mathf.RoundToInt(normX * terrain.terrainData.heightmapResolution));
+            Debug.Log($"Height in alphamap (5,5): {height}");
+        }
 
         HandleRunning();
         HandleMovementAndRotation();
