@@ -352,7 +352,7 @@ Transform:
   m_GameObject: {fileID: 87360198}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.87, y: 1.07, z: 9.85}
+  m_LocalPosition: {x: 0.131, y: 14.974, z: 0.133}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -735,7 +735,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrain: {fileID: 1804235185}
-  tiling: 5
+  tiling: 10
+  divideVal: 10
   randomizeSeed: 0
   seed: 15
 --- !u!1 &521077763
@@ -6782,7 +6783,7 @@ Transform:
   m_GameObject: {fileID: 1645872177}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

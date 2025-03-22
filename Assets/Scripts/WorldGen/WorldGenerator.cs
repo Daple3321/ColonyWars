@@ -6,7 +6,8 @@ public class WorldGenerator : MonoBehaviour
     public Terrain terrain;
 
     public float tiling = 10f;
-
+    public float divideVal = 10f;
+    
     public bool randomizeSeed;
     public int seed;
 
@@ -40,21 +41,21 @@ public class WorldGenerator : MonoBehaviour
     {
         float[,] heights = new float[terrain.terrainData.heightmapResolution, terrain.terrainData.heightmapResolution];
 
-        int maxOffset = 5;
-        int xOffset = (int)Random.Range(0, maxOffset);
-        int yOffset = (int)Random.Range(0, maxOffset);
+        int maxOffset = 1000;
+        int offset = Random.Range(0, maxOffset);
 
         for (int y = 0; y < terrain.terrainData.heightmapResolution; y++)
         {
             for (int x = 0; x < terrain.terrainData.heightmapResolution; x++)
             {
                 heights[x, y] = Mathf.PerlinNoise(
-                    (x + xOffset / (float)terrain.terrainData.heightmapResolution) * tileSize, // Width?
-                    (y + yOffset / (float)terrain.terrainData.heightmapResolution) * tileSize  // Heigth?
-                ) / 10.0f;
+                    ((float)(x + offset) / (float)terrain.terrainData.heightmapResolution) * tileSize, // Width?
+                    ((float)(y + offset) / (float)terrain.terrainData.heightmapResolution) * tileSize  // Heigth?
+                ) / divideVal;
             }
         }
 
         terrain.terrainData.SetHeights(0, 0, heights);
+        //terrain.terrainData.SetDetailLayer()
     }
 }
