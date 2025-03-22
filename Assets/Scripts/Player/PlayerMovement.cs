@@ -9,6 +9,10 @@ public class PlayerMovement : MonoBehaviour
 {
     public float currentSpeed;
     public float walkSpeed;
+
+    public float fov_default;
+    public float fov_running;
+
     [Space(5), Header("Running")]
     public float runSpeed;
     public float currentStamina;
@@ -33,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController characterController;
     private CinemachineOrbitalFollow cmFollow;
     private Camera cm;
+    public CinemachineCamera cinemachineCamera;
 
     void Start()
     {
@@ -170,18 +175,21 @@ public class PlayerMovement : MonoBehaviour
             canRegenStamina = false;
             currentSpeed = runSpeed;
             isRunning = true;
+            //cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(fov_default, fov_running, 10f * Time.deltaTime);
         }
         else if (!runAction.IsPressed() && isRunning)
         {
             StartCoroutine(StaminaRegenDelayed(1.5f));
             currentSpeed = walkSpeed;
             isRunning = false;
+            //cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(fov_running, fov_default, Time.deltaTime);
         }
         else if (runAction.IsPressed() && isRunning && !CanRun())
         {
             StartCoroutine(StaminaRegenDelayed(1.5f));
             currentSpeed = walkSpeed;
             isRunning = false;
+            //cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(fov_running, fov_default, Time.deltaTime);
         }
 
         HandleStamina();
