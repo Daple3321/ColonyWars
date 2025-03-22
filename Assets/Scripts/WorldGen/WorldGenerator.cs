@@ -6,18 +6,24 @@ public class WorldGenerator : MonoBehaviour
 {
     public Terrain terrain;
 
-    public float tiling = 3;
-    public float divideVal = 25f;
-    public float tiling_2 = 10;
-    public float divideVal_2 = 15;
+    // public float freq_1 = 3;
+    // public float divideVal = 30;
+    // public float freq_2 = 10;
+    // public float divideVal_2 = 180;
+
+    public float perstistance = 0.5f;
+    public float lacunarity = 1.2f;
+    public float _amplitude = 1f;
+    public float _frequency = 3f;
+    public int octaves = 1;
 
     public bool randomizeSeed;
     public int seed;
 
 
-    public float gravelWeight;
-    public float dirtWeight;
-    public float grassWeight;
+    // public float gravelWeight;
+    // public float dirtWeight;
+    // public float grassWeight;
     
     void Awake()
     {
@@ -40,33 +46,60 @@ public class WorldGenerator : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            GenerateHeights(terrain, tiling);
+            GenerateHeights(terrain);
             AlphamapGeneration(terrain);
         }
     }
 
 
-    public void GenerateHeights(Terrain t, float tileSize)
+    public void GenerateHeights(Terrain t)
     {
         float[,] heights = new float[t.terrainData.heightmapResolution, t.terrainData.heightmapResolution];
 
         int maxOffset = 1000;
         int offset = Random.Range(0, maxOffset);
 
-        for (int y = 0; y < t.terrainData.heightmapResolution; y++)
-        {
+        float halfRes = t.terrainData.heightmapResolution / 2f;
+
+        for (int y = 0; y < t.terrainData.heightmapResolution; y++) { // HEIGHT
+            for (int x = 0; x < t.terrainData.heightmapResolution; x++){ // WIDTH
+
+                float amplitude = _amplitude;
+                float frequency = _frequency;
+                float noiseHeight = 0;
+
+                for (int i = 0; i < octaves; i++)
+                {
+                    float sampleX = (x - halfRes) / t.terrainData.heightmapResolution * frequency + offset;
+                    float sampleY = (y - halfRes) / t.terrainData.heightmapResolution * frequency - offset;
+
+                    float perlinValue = Mathf.PerlinNoise(sampleX, sampleY);
+                    noiseHeight += perlinValue * amplitude;
+
+                    amplitude *= perstistance;
+                    frequency *= lacunarity;
+                }
+
+                heights[x, y] = noiseHeight;
+                
+                // heights[x, y] = Mathf.PerlinNoise(
+                //     ((float)(x + offset) / (float)t.terrainData.heightmapResolution) * freq_1,
+                //     ((float)(y + offset) / (float)t.terrainData.heightmapResolution) * freq_1
+                // ) / divideVal;
+
+                // heights[x, y] += Mathf.PerlinNoise(
+                //     ((float)(x + offset) / (float)t.terrainData.heightmapResolution) * freq_2,
+                //     ((float)(y + offset) / (float)t.terrainData.heightmapResolution) * freq_2
+                // ) / divideVal_2;
+
+            }
+        }
+
+        for (int y = 0; y < t.terrainData.heightmapResolution; y++) // NORMALIZING HEIGHTS TO 0.0 - 1.0
+        { // HEIGHT
             for (int x = 0; x < t.terrainData.heightmapResolution; x++)
-            {
-                heights[x, y] = Mathf.PerlinNoise(
-                    ((float)(x + offset) / (float)t.terrainData.heightmapResolution) * tileSize, // Width?
-                    ((float)(y + offset) / (float)t.terrainData.heightmapResolution) * tileSize  // Heigth?
-                ) / divideVal;
-
-                heights[x, y] += Mathf.PerlinNoise(
-                    ((float)(x + offset) / (float)t.terrainData.heightmapResolution) * tiling_2, // Width?
-                    ((float)(y + offset) / (float)t.terrainData.heightmapResolution) * tiling_2  // Heigth?
-                ) / divideVal_2;
-
+            { // WIDTH
+                heights[x, y] = Mathf.InverseLerp(0, 35, heights[x, y]);
             }
         }
 
@@ -149,18 +182,21 @@ public class WorldGenerator : MonoBehaviour
 
                 if (height <= 15)
                 {
-                    splatWeights[1] = 0.7f;
+                    splatWeights[1] = 0.8f;
                 }
                 if (height > 13 && height < 20)
                 {
-                    splatWeights[0] = 0.7f;
+                    splatWeights[0] = 0.8f;
                 }
                 if (height > 18)
                 {
-                    splatWeights[2] = 0.7f;
+                    splatWeights[2] = 0.8f;
                 }
 
-                //splatWeights[0] = Mathf.Clamp01(steepness*steepness/(t.terrainData.heightmapResolution/tiling)+dirtWeight);
+                if (angle > 30 && height <= 15)
+                {
+                    splatWeights[0] = 1 - Mathf.Clamp01(angle / 90f);
+                }
 
                 // Sum of all textures weights must add to 1, so calculate normalization factor from sum of weights
                 float z = splatWeights.Sum();

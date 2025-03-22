@@ -735,15 +735,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrain: {fileID: 1804235185}
-  tiling: 2
-  divideVal: 25
-  tiling_2: 15
-  divideVal_2: 180
+  perstistance: 0.45
+  lacunarity: 1.9
+  _amplitude: 0.8
+  _frequency: 4
+  octaves: 15
   randomizeSeed: 0
   seed: 15
-  gravelWeight: -3
-  dirtWeight: 0
-  grassWeight: -5
 --- !u!1 &521077763
 GameObject:
   m_ObjectHideFlags: 0
