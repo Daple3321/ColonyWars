@@ -17,6 +17,12 @@ public class WorldGenerator : MonoBehaviour
     public float _frequency = 3f;
     public int octaves = 1;
 
+    public float maxNoiseHeight = 35f;
+    public float minNoiseHeight = -3f;
+
+    public int fallOffInner = 35;
+    public int fallOffStrength = 10;
+
     public bool randomizeSeed;
     public int seed;
 
@@ -70,15 +76,23 @@ public class WorldGenerator : MonoBehaviour
 
                 for (int i = 0; i < octaves; i++)
                 {
-                    float sampleX = (x - halfRes) / t.terrainData.heightmapResolution * frequency + offset;
-                    float sampleY = (y - halfRes) / t.terrainData.heightmapResolution * frequency - offset;
+                    float sampleX = (x - halfRes) / t.terrainData.heightmapResolution * frequency + offset * frequency;
+                    float sampleY = (y - halfRes) / t.terrainData.heightmapResolution * frequency - offset * frequency;
 
-                    float perlinValue = Mathf.PerlinNoise(sampleX, sampleY);
+                    float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
                     noiseHeight += perlinValue * amplitude;
 
                     amplitude *= perstistance;
                     frequency *= lacunarity;
                 }
+
+                // if (noiseHeight > maxNoiseHeight)
+                // {
+                //     maxNoiseHeight = noiseHeight;
+                // }
+                // else if (noiseHeight < minNoiseHeight) {
+                //     minNoiseHeight = noiseHeight;
+                // }
 
                 heights[x, y] = noiseHeight;
                 
@@ -95,11 +109,49 @@ public class WorldGenerator : MonoBehaviour
             }
         }
 
+
+        for (int i = 0; i < t.terrainData.heightmapResolution; i++) // LEFT/RIGHT falloff
+        {
+            float subtractVal = fallOffStrength;
+            float calcVal = subtractVal / fallOffInner;
+            for (int innerId = 0; innerId < fallOffInner; innerId++)
+            {
+                heights[i, innerId] -= subtractVal;
+                subtractVal -= calcVal;
+            }
+
+            subtractVal = calcVal;
+            for (int innerId = t.terrainData.heightmapResolution-fallOffInner; innerId < t.terrainData.heightmapResolution; innerId++)
+            {
+                heights[i, innerId] -= subtractVal;
+                subtractVal += calcVal;
+            }
+        }
+        
+        for (int i = 0; i < t.terrainData.heightmapResolution; i++) // UP/BOTTOM falloff
+        {
+            float subtractVal = fallOffStrength;
+            float calcVal = subtractVal / fallOffInner;
+            for (int innerId = 0; innerId < fallOffInner; innerId++)
+            {
+                heights[innerId, i] -= subtractVal;
+                subtractVal -= calcVal;
+            }
+
+            subtractVal = calcVal;
+            for (int innerId = t.terrainData.heightmapResolution-fallOffInner; innerId < t.terrainData.heightmapResolution; innerId++)
+            {
+                heights[innerId, i] -= subtractVal;
+                subtractVal += calcVal;
+            }
+        }
+
+
         for (int y = 0; y < t.terrainData.heightmapResolution; y++) // NORMALIZING HEIGHTS TO 0.0 - 1.0
         { // HEIGHT
             for (int x = 0; x < t.terrainData.heightmapResolution; x++)
             { // WIDTH
-                heights[x, y] = Mathf.InverseLerp(0, 35, heights[x, y]);
+                heights[x, y] = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, heights[x, y]);
             }
         }
 
@@ -180,15 +232,15 @@ public class WorldGenerator : MonoBehaviour
 
                 //splatWeights[0] = Mathf.Clamp(height, 0, 0.3f) * dirtWeight; // DIRT
 
-                if (height <= 15)
+                if (height <= 0.8f)
                 {
                     splatWeights[1] = 0.8f;
                 }
-                if (height > 13 && height < 20)
+                if (height > 0.6f && height < 4f)
                 {
                     splatWeights[0] = 0.8f;
                 }
-                if (height > 18)
+                if (height > 3.5f)
                 {
                     splatWeights[2] = 0.8f;
                 }
