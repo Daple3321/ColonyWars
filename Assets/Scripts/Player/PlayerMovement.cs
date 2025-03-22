@@ -186,7 +186,7 @@ public class PlayerMovement : MonoBehaviour
 
         HandleStamina();
 
-        Debug.Log($"Stamina: {currentStamina}");
+        //Debug.Log($"Stamina: {currentStamina}");
     }
 
     private void HandleStamina()

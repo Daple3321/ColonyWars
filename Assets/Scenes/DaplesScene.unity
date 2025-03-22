@@ -14,8 +14,8 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_Fog: 1
+  m_FogColor: {r: 0.9811321, g: 0.9742539, b: 0.96724814, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
+  m_Sun: {fileID: 1652374936}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -94,7 +94,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 20201, guid: 0000000000000000f000000000000000, type: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 4132138d11a363d4da754b052fd08f8e, type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -352,7 +352,7 @@ Transform:
   m_GameObject: {fileID: 87360198}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.37, y: 1.07, z: 21.85}
+  m_LocalPosition: {x: 9.87, y: 1.07, z: 9.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -531,7 +531,7 @@ Camera:
   far clip plane: 1000
   field of view: 65
   orthographic: 0
-  orthographic size: 5
+  orthographic size: 9.65
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -555,8 +555,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 108803743}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.42290097, y: -0.000000013699218, z: 0.000000006393254, w: 0.9061759}
-  m_LocalPosition: {x: 6.670587, y: 17.909628, z: 9.938426}
+  m_LocalRotation: {x: 0.42290103, y: 0.000000027006154, z: -0.000000012603436, w: 0.9061759}
+  m_LocalPosition: {x: 5.69, y: 41.554134, z: 1.6416006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -690,6 +690,54 @@ Transform:
   - {fileID: 210728288}
   m_Father: {fileID: 1462811807}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &420636910
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 420636911}
+  - component: {fileID: 420636912}
+  m_Layer: 0
+  m_Name: WorldGen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &420636911
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420636910}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &420636912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420636910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7000b8144dff9b74cbc769d54bd35285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrain: {fileID: 1804235185}
+  tiling: 5
+  randomizeSeed: 0
+  seed: 15
 --- !u!1 &521077763
 GameObject:
   m_ObjectHideFlags: 0
@@ -1318,7 +1366,7 @@ Transform:
   m_GameObject: {fileID: 1277428624}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 9.287666, y: 0.47446227, z: 19.712933}
+  m_LocalPosition: {x: 11.53, y: 0.47, z: 7.99}
   m_LocalScale: {x: 100, y: 99.999985, z: 99.999985}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6463,7 +6511,7 @@ Transform:
   m_GameObject: {fileID: 1386194575}
   serializedVersion: 2
   m_LocalRotation: {x: -0.017097952, y: -5.8056036e-11, z: -9.927959e-13, w: 0.99985385}
-  m_LocalPosition: {x: 6.670587, y: 1.3041184, z: 16.668999}
+  m_LocalPosition: {x: 5.69, y: 1.3041184, z: 8.372173}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6528,7 +6576,7 @@ Transform:
   m_GameObject: {fileID: 1501809507}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.670587, y: 0.18549275, z: 20.216825}
+  m_LocalPosition: {x: 5.69, y: 23.83, z: 11.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6579,7 +6627,7 @@ MonoBehaviour:
   currentStamina: 5
   staminaRegenSpeed: 1
   maxStamina: 5
-  fallSpeed: 10
+  fallSpeed: 0
   rotationSpeed: 7
   zoomSpeed: 75
   canRegenStamina: 0
@@ -11721,7 +11769,7 @@ Transform:
   m_GameObject: {fileID: 1732952581}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.56, y: -3.93, z: 19.17}
+  m_LocalPosition: {x: 14.17, y: -3.93, z: 7.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11822,7 +11870,7 @@ Terrain:
   m_HeightmapMaximumLOD: 0
   m_ShadowCastingMode: 2
   m_DrawHeightmap: 1
-  m_DrawInstanced: 0
+  m_DrawInstanced: 1
   m_DrawTreesAndFoliage: 1
   m_StaticShadowCaster: 0
   m_IgnoreQualitySettings: 0
@@ -12141,7 +12189,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 65
-    OrthographicSize: 5
+    OrthographicSize: 9.65
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -12167,8 +12215,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2123470181}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.42290094, y: -0.000000013699217, z: 0.000000006393253, w: 0.9061759}
-  m_LocalPosition: {x: 6.670587, y: 17.909628, z: 9.938426}
+  m_LocalRotation: {x: 0.42290097, y: 0.000000027006148, z: -0.000000012603431, w: 0.906176}
+  m_LocalPosition: {x: 5.69, y: 41.554134, z: 1.6416006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12330,6 +12378,7 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 420636911}
   - {fileID: 1501809508}
   - {fileID: 108803748}
   - {fileID: 2123470185}
