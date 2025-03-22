@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dde29fcef8779f14bbe68e56596a6936, type: 3}
+  m_Name: VoronoiNoise_1
+  m_EditorClassIdentifier: 
+  perstistance: 0.33
+  lacunarity: 2
+  _amplitude: 4
+  _frequency: 4
+  octaves: 15
+  maxNoiseHeight: 25
+  minNoiseHeight: -1
+  fallOffInner: 35
+  fallOffStrength: 9
+  desc: 

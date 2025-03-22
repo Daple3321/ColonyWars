@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.Cinemachine;
+using Unity.Mathematics;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -115,12 +116,12 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log($"SampleHeight: {terrain.SampleHeight(transform.position)}");
 
-            float normX = (float)1 / (float)terrain.terrainData.alphamapWidth;
-            float normY = (float)1 / (float)terrain.terrainData.alphamapHeight;
+            // float normX = (float)1 / (float)terrain.terrainData.alphamapWidth;
+            // float normY = (float)1 / (float)terrain.terrainData.alphamapHeight;
 
-            float height = terrain.terrainData.GetHeight(
-                Mathf.RoundToInt(normY * terrain.terrainData.heightmapResolution), Mathf.RoundToInt(normX * terrain.terrainData.heightmapResolution));
-            Debug.Log($"Height in alphamap (5,5): {height}");
+            // float height = terrain.terrainData.GetHeight(
+            //     Mathf.RoundToInt(normY * terrain.terrainData.heightmapResolution), Mathf.RoundToInt(normX * terrain.terrainData.heightmapResolution));
+            // Debug.Log($"Height in alphamap (5,5): {height}");
         }
 
         HandleRunning();

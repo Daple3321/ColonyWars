@@ -1,10 +1,18 @@
+using System.Diagnostics;
 using System.Linq;
+using Unity.Burst;
+using Unity.Cinemachine;
+using Unity.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Profiling;
 
 public class WorldGenerator : MonoBehaviour
 {
     public Terrain terrain;
+
+    public WorldGenSettings worldGenSettings;
 
     // public float freq_1 = 3;
     // public float divideVal = 30;
@@ -30,17 +38,19 @@ public class WorldGenerator : MonoBehaviour
     // public float gravelWeight;
     // public float dirtWeight;
     // public float grassWeight;
-    
+
     void Awake()
     {
         if (!randomizeSeed)
         {
-            Random.InitState(seed);
+            UnityEngine.Random.InitState(seed);
         }
         else
         {
-            Random.InitState((int)System.DateTime.Now.Ticks);
+            UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
         }
+
+        LoadGenSettings(worldGenSettings);
     }
 
     void Start()
@@ -52,23 +62,52 @@ public class WorldGenerator : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
+            Stopwatch watch = Stopwatch.StartNew();
+
             GenerateHeights(terrain);
             AlphamapGeneration(terrain);
+
+            watch.Stop();
+            UnityEngine.Debug.Log($"Terrain generation took: {watch.ElapsedMilliseconds}ms; {(float)watch.ElapsedMilliseconds/1000} seconds");
+        }
+    }
+
+    public void LoadGenSettings(WorldGenSettings settings = null)
+    {
+        if (settings != null)
+        {
+            perstistance = settings.perstistance;
+            lacunarity = settings.lacunarity;
+            _amplitude = settings._amplitude;
+            _frequency = settings._frequency;
+            octaves = settings.octaves;
+            maxNoiseHeight = settings.maxNoiseHeight;
+            minNoiseHeight = settings.minNoiseHeight;
+            fallOffInner = settings.fallOffInner;
+            fallOffStrength = settings.fallOffStrength;
+        }
+        else
+        {
+            UnityEngine.Debug.Log("No worldGen settings to load.");
         }
     }
 
 
     public void GenerateHeights(Terrain t)
     {
+        Profiler.BeginSample("Terrain height gen");
+
         float[,] heights = new float[t.terrainData.heightmapResolution, t.terrainData.heightmapResolution];
 
         int maxOffset = 1000;
-        int offset = Random.Range(0, maxOffset);
+        int offset = UnityEngine.Random.Range(0, maxOffset);
 
         float halfRes = t.terrainData.heightmapResolution / 2f;
 
-        for (int y = 0; y < t.terrainData.heightmapResolution; y++) { // HEIGHT
-            for (int x = 0; x < t.terrainData.heightmapResolution; x++) { // WIDTH
+        for (int y = 0; y < t.terrainData.heightmapResolution; y++)
+        { // HEIGHT
+            for (int x = 0; x < t.terrainData.heightmapResolution; x++)
+            { // WIDTH
 
                 float amplitude = _amplitude;
                 float frequency = _frequency;
@@ -79,7 +118,8 @@ public class WorldGenerator : MonoBehaviour
                     float sampleX = (x - halfRes) / t.terrainData.heightmapResolution * frequency + offset * frequency;
                     float sampleY = (y - halfRes) / t.terrainData.heightmapResolution * frequency - offset * frequency;
 
-                    float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
+                    //float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
+                    float perlinValue = NoiseGen.GetVoronoiNoiseValue(sampleX, sampleY);
                     noiseHeight += perlinValue * amplitude;
 
                     amplitude *= perstistance;
@@ -175,7 +215,7 @@ public class WorldGenerator : MonoBehaviour
                 holes[x, y] = !holes[x, y];
             }
         }
-        
+
 
         t.terrainData.SetHoles(0, 0, holes);
 
@@ -189,6 +229,8 @@ public class WorldGenerator : MonoBehaviour
         }
 
         t.terrainData.SetHeights(0, 0, heights);
+
+        Profiler.EndSample();
     }
 
     // Set all pixels in a detail map below a certain threshold to zero.
@@ -304,5 +346,26 @@ public class WorldGenerator : MonoBehaviour
             }
         }
         t.terrainData.SetAlphamaps(0, 0, map);
+    }
+}
+
+[BurstCompile]
+public static class NoiseGen
+{
+
+    [BurstCompile]
+    public static float GetVoronoiNoiseValue(float x, float y)
+    {
+        float voronoiValue = noise.cellular(new float2(x, y)).x * 2 - 1;
+
+        return voronoiValue;
+    }
+    
+    [BurstCompile]
+    public static float GetPerlinNoiseValue(float x, float y)
+    {
+        float perlinValue = Mathf.PerlinNoise(x, y) * 2 - 1;
+
+        return perlinValue;
     }
 }
