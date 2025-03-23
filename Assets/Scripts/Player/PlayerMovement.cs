@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerCameraController cameraController;
     private CharacterController characterController;
-    private Camera cm;
+    private Camera mainCamera;
 
     public Terrain terrain;
     
@@ -45,8 +45,8 @@ public class PlayerMovement : MonoBehaviour
         //Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
 
-        cm = Camera.main;
         this.cameraController = cameraController;
+        mainCamera = cameraController.mainCamera;
 
         moveAction = InputSystem.actions.FindAction("Move");
         zoomAction = InputSystem.actions.FindAction("Zoom");
@@ -134,7 +134,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 moveDir = new Vector3(-moveInput.x, 0, moveInput.y);
         //moveDir = moveDir.normalized * moveSpeed * Time.deltaTime;
 
-        Vector3 forwardVec = Quaternion.AngleAxis(90, Vector3.up) * (cm.transform.position - transform.position);
+        Vector3 forwardVec = Quaternion.AngleAxis(90, Vector3.up) * (mainCamera.transform.position - transform.position);
         Vector3 crossProd = Vector3.Cross(transform.up, forwardVec);
 
         Quaternion moveRot = Quaternion.FromToRotation(moveDir, crossProd);

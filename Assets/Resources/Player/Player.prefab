@@ -626,6 +626,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cmFollow: {fileID: 0}
   cinemachineCamera: {fileID: 0}
+  mainCamera: {fileID: 0}
   currentFov: 0
   fov_default: 65
   fov_running: 75
@@ -673,7 +674,7 @@ CharacterController:
   serializedVersion: 3
   m_Height: 1.91
   m_Radius: 0.35
-  m_SlopeLimit: 55
+  m_SlopeLimit: 60
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001

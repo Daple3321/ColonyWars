@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
     public static WorldGenerator worldGenerator;
 
     public Transform pSpawnPoint;
+    public Terrain currentTerrain;
     public GameSettings defaultGameSettings;
 
     void Awake()
@@ -42,6 +43,7 @@ public class GameController : MonoBehaviour
         
         worldGenerator = GameObject.Find("WorldGen").GetComponent<WorldGenerator>();
         worldGenerator.Init(gameSettings.worldGenSettings);
+        currentTerrain = worldGenerator.terrain;
 
         GameObject playerObj = Instantiate(GameAssets.playerPrefab, pSpawnPoint.position, Quaternion.identity);
         p = playerObj.GetComponent<Player>();

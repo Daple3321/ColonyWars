@@ -6,11 +6,12 @@ public class PlayerCameraController : MonoBehaviour
 {
     public CinemachineOrbitalFollow cmFollow;
     public CinemachineCamera cinemachineCamera;
+    public Camera mainCamera;
 
+    [Space(10), Header("FOV settings")]
     public float currentFov;
     public float fov_default = 65f;
     public float fov_running = 75f; // сделать через multiplier (фов же можно будет настроить)
-
     public AnimationCurve fovCurve;
 
     void Awake()
@@ -22,6 +23,7 @@ public class PlayerCameraController : MonoBehaviour
     {
         cmFollow = transform.Find("CinemachineCamera").GetComponent<CinemachineOrbitalFollow>();
         cinemachineCamera = transform.Find("CinemachineCamera").GetComponent<CinemachineCamera>();
+        mainCamera = transform.Find("Main Camera").GetComponent<Camera>();
 
         ResetFov();
 
