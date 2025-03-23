@@ -7,6 +7,7 @@ public class ItemData : ScriptableObject
     [TextArea]
     public string description;
     public Sprite icon;
+    public Rarity rarity;
     public bool IsStackable;
 
     public int id => GetInstanceID();

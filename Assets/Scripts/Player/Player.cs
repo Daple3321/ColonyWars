@@ -7,8 +7,8 @@ public class Player : MonoBehaviour, IDamagable
     public PlayerMovement playerMovement;
     public PlayerFollow playerFollow;
 
-    public float health { get; set; }
-    public float maxHealth { get; set; }
+    public float health;
+    public float maxHealth;
 
 
     public void InitPlayer()
@@ -16,6 +16,8 @@ public class Player : MonoBehaviour, IDamagable
         cameraController.Init(playerFollow);
         playerMovement.Init(cameraController);
         playerCombat.Init();
+        health = maxHealth;
+        UpdateHealth();
     }
 
     public void TakeDamage(int damage)
@@ -27,6 +29,7 @@ public class Player : MonoBehaviour, IDamagable
             Death();
         }
     }
+
     public void UpdateHealth()
     {
         
@@ -42,6 +45,4 @@ public interface IDamagable
 {
     void TakeDamage(int damage);
     void Death();
-    float health { get; set; }
-    float maxHealth { get; set; }
 }

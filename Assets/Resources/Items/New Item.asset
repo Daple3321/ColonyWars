@@ -9,19 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 806f468cab612d24d8ff77e741097ed3, type: 3}
-  m_Name: New Melee Weapon
+  m_Script: {fileID: 11500000, guid: c2310cf7a7f66c549a13d5b15aa339c8, type: 3}
+  m_Name: New Item
   m_EditorClassIdentifier: 
-  itemName: Sword
-  description: 123123
+  itemName: Def item
+  description: Item desc
   icon: {fileID: -1213750339, guid: 10a723cc0f4eaa043b70ae94b5cb80bc, type: 3}
-  rarity: 1
+  rarity: 3
   IsStackable: 0
   maxStackSize: 1
-  itemMesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  itemMesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
   itemMaterials: []
-  customPrefab: {fileID: 0}
-  damage: 1
-  attackDuration: 2
-  attackCharge: 2
-  attackInterval: 1
+  customPrefab: {fileID: 119998569144866766, guid: 1abbd2a2ead452a49a00e619c26ceb05, type: 3}

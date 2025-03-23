@@ -505,6 +505,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046877350070097361}
   - component: {fileID: 3753277259168110574}
+  - component: {fileID: 26623650528081227}
   - component: {fileID: 3820118088357368465}
   - component: {fileID: 561148159243195092}
   - component: {fileID: 5685056463674500617}
@@ -552,6 +553,26 @@ MonoBehaviour:
   playerCombat: {fileID: 3820118088357368465}
   playerMovement: {fileID: 561148159243195092}
   playerFollow: {fileID: 1251615133458478831}
+  health: 0
+  maxHealth: 20
+--- !u!114 &26623650528081227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2512703263411247531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4be6e11c8452bd649ac837fa1047e4c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: []
+  itemDatas:
+  - {fileID: 11400000, guid: 6b5b4916729fbed4abe7fad9b9d5eb3f, type: 2}
+  - {fileID: 11400000, guid: 23313022b98286f42b9ced6461d21457, type: 2}
+  - {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
+  itemPrefab: {fileID: 119998569144866766, guid: 1abbd2a2ead452a49a00e619c26ceb05, type: 3}
 --- !u!114 &3820118088357368465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,7 +665,7 @@ MonoBehaviour:
   panSensetivity: 14
   currentFov: 0
   fov_default: 70
-  fov_running: 75
+  fov_running: 80
   fovCurve:
     serializedVersion: 2
     m_Curve:
