@@ -288,13 +288,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1382572311715122356}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5703107, y: 0.000000010768543, z: -0.0000000074765, w: 0.82142913}
-  m_LocalPosition: {x: 0, y: 13.742482, z: -3.9065723}
+  m_LocalRotation: {x: 0.5703726, y: 0.000000020592493, z: -0.000000014299479, w: 0.82138616}
+  m_LocalPosition: {x: 0, y: 10.232482, z: -2.896572}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8046877350070097361}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 69.552, y: 0.03, z: 0}
 --- !u!20 &1069094133086152113
 Camera:
   m_ObjectHideFlags: 0
@@ -604,15 +604,6 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
-  zoomAction:
-    m_Name: Zoom
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 90a85cb4-3442-4322-bc3b-f9442401f0fb
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
   terrain: {fileID: 0}
 --- !u!114 &5685056463674500617
 MonoBehaviour:
@@ -628,9 +619,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cmFollow: {fileID: 0}
   cinemachineCamera: {fileID: 0}
+  positionComposer: {fileID: 0}
   mainCamera: {fileID: 0}
+  zoomAction:
+    m_Name: Zoom
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: fe047274-79fe-4234-b435-79608c48d231
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  zoomLimits: {x: 2, y: 15}
+  zoomSpeed: 160
+  panAction:
+    m_Name: Pan
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 92341b72-b0ba-46db-8395-25e264001cdd
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  panSensetivity: 14
   currentFov: 0
-  fov_default: 65
+  fov_default: 70
   fov_running: 75
   fovCurve:
     serializedVersion: 2
@@ -881,7 +894,7 @@ Transform:
   m_GameObject: {fileID: 5051092120189399757}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5703726, y: 0.000000020592493, z: -0.000000014299479, w: 0.82138616}
-  m_LocalPosition: {x: 0, y: 13.742483, z: -3.9065685}
+  m_LocalPosition: {x: 0, y: 10.232482, z: -2.896572}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -948,13 +961,13 @@ MonoBehaviour:
     ScreenPosition: {x: 0, y: 0.05}
     DeadZone:
       Enabled: 1
-      Size: {x: 0.15, y: 0.15}
+      Size: {x: 0.048, y: 0.048}
     HardLimits:
       Enabled: 0
       Size: {x: 0.8, y: 0.8}
       Offset: {x: 0, y: 0}
   CenterOnActivate: 1
-  TargetOffset: {x: 0, y: 4.15, z: -1.01}
+  TargetOffset: {x: 0, y: 0.64, z: 0}
   Damping: {x: 0.2, y: 0.2, z: 0.2}
   Lookahead:
     Enabled: 0

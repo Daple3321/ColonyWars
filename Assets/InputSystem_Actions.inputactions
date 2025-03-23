@@ -90,7 +90,7 @@
                     "name": "Zoom",
                     "type": "Value",
                     "id": "2102ddcc-ac99-4586-b342-5974bf7d23c3",
-                    "expectedControlType": "Double",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -103,6 +103,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "CameraPan_Mouse",
+                    "type": "Button",
+                    "id": "1f52e727-acac-4be9-91dc-7ef70729fd78",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -493,7 +502,7 @@
                 },
                 {
                     "name": "",
-                    "id": "766252af-6384-42cd-89e5-5124a185b8be",
+                    "id": "82eb58a9-fa20-442f-92f4-76c6914fe73e",
                     "path": "<Mouse>/scroll/y",
                     "interactions": "",
                     "processors": "",
@@ -507,7 +516,7 @@
                     "id": "2929be8a-698a-4e01-9129-09b6e6e459bb",
                     "path": "2DVector(mode=1)",
                     "interactions": "",
-                    "processors": "ScaleVector2(x=45,y=45)",
+                    "processors": "ScaleVector2",
                     "groups": "",
                     "action": "CameraPan",
                     "isComposite": true,
@@ -541,7 +550,7 @@
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard&Mouse",
                     "action": "CameraPan",
                     "isComposite": false,
                     "isPartOfComposite": true
@@ -552,10 +561,21 @@
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard&Mouse",
                     "action": "CameraPan",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "25265421-20bd-489b-b39c-63d7d6b6f380",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "CameraPan_Mouse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

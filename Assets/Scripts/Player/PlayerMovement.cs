@@ -27,7 +27,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Actions")]
     public InputAction moveAction;
     public InputAction runAction;
-    public InputAction zoomAction;
 
     private PlayerCameraController cameraController;
     private CharacterController characterController;
@@ -49,7 +48,6 @@ public class PlayerMovement : MonoBehaviour
         mainCamera = cameraController.mainCamera;
 
         moveAction = InputSystem.actions.FindAction("Move");
-        zoomAction = InputSystem.actions.FindAction("Zoom");
         runAction = InputSystem.actions.FindAction("Sprint");
         characterController = GetComponent<CharacterController>();
 
@@ -135,7 +133,6 @@ public class PlayerMovement : MonoBehaviour
         //moveDir = moveDir.normalized * moveSpeed * Time.deltaTime;
 
         //Vector3 forwardVec = Quaternion.AngleAxis(90, Vector3.up) * (mainCamera.transform.position - transform.position);
-        //Vector3 forwardVec = Quaternion.AngleAxis(90, Vector3.up) * (mainCamera.transform.position);
         Vector3 forwardVec = mainCamera.transform.rotation * Vector3.forward;
         forwardVec = Quaternion.AngleAxis(-90, Vector3.up) * forwardVec;
         Vector3 crossProd = Vector3.Cross(transform.up, forwardVec);
