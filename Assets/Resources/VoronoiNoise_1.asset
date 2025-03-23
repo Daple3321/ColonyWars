@@ -21,4 +21,4 @@ MonoBehaviour:
   minNoiseHeight: -1
   fallOffInner: 35
   fallOffStrength: 9
-  desc: 
+  desc: "Terrain settings: 150x150 \nHeight: 50\n32\n"

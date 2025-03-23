@@ -1,11 +1,8 @@
 using System.Diagnostics;
 using System.Linq;
 using Unity.Burst;
-using Unity.Cinemachine;
-using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Profiling;
 
 public class WorldGenerator : MonoBehaviour
