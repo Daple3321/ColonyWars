@@ -32,11 +32,12 @@ public class WorldGenerator : MonoBehaviour
     public int seed;
 
 
-    // public float gravelWeight;
-    // public float dirtWeight;
-    // public float grassWeight;
-
     void Awake()
+    {
+        enabled = false;
+    }
+
+    public void Init(WorldGenSettings genSettings = null)
     {
         if (!randomizeSeed)
         {
@@ -47,12 +48,16 @@ public class WorldGenerator : MonoBehaviour
             UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
         }
 
-        LoadGenSettings(worldGenSettings);
-    }
+        if (genSettings == null)
+        {
+            LoadGenSettings(worldGenSettings);
+        }
+        else
+        {
+            LoadGenSettings(genSettings);
+        }
 
-    void Start()
-    {
-        //GenerateHeights(terrain, tiling);
+        enabled = true;
     }
 
     void Update()
@@ -90,7 +95,7 @@ public class WorldGenerator : MonoBehaviour
     }
 
 
-    public void GenerateHeights(Terrain t)
+    public void GenerateHeights(Terrain t) // Maybe convert to jobs system later
     {
         Profiler.BeginSample("Terrain height gen");
 

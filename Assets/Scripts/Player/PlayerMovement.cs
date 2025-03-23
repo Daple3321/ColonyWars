@@ -1,18 +1,12 @@
 using System.Collections;
-using Unity.Cinemachine;
-using Unity.Mathematics;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float currentSpeed;
     public float walkSpeed;
 
-    public float fov_default;
-    public float fov_running;
 
     [Space(5), Header("Running")]
     public float runSpeed;
@@ -35,20 +29,24 @@ public class PlayerMovement : MonoBehaviour
     public InputAction runAction;
     public InputAction zoomAction;
 
+    private PlayerCameraController cameraController;
     private CharacterController characterController;
-    private CinemachineOrbitalFollow cmFollow;
     private Camera cm;
-    public CinemachineCamera cinemachineCamera;
 
     public Terrain terrain;
     
-    void Start()
+    void Awake()
+    {
+        enabled = false;
+    }
+
+    public void Init(PlayerCameraController cameraController)
     {
         //Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
 
         cm = Camera.main;
-        cmFollow = GameObject.Find("CinemachineCamera").GetComponent<CinemachineOrbitalFollow>();
+        this.cameraController = cameraController;
 
         moveAction = InputSystem.actions.FindAction("Move");
         zoomAction = InputSystem.actions.FindAction("Zoom");
@@ -56,8 +54,10 @@ public class PlayerMovement : MonoBehaviour
         characterController = GetComponent<CharacterController>();
 
         currentSpeed = walkSpeed;
-    }
 
+        enabled = true;
+    }
+    
 
     void Update()
     {
@@ -182,6 +182,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private Coroutine _fovRoutine;
     private void HandleRunning()
     {
         if (runAction.IsPressed() && !isRunning && CanRun())
@@ -190,21 +191,36 @@ public class PlayerMovement : MonoBehaviour
             canRegenStamina = false;
             currentSpeed = runSpeed;
             isRunning = true;
-            //cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(fov_default, fov_running, 10f * Time.deltaTime);
+            
+            if (_fovRoutine != null) // Просто переделать всё под PrimeTween
+            {
+                StopCoroutine(_fovRoutine);
+            }
+            _fovRoutine = StartCoroutine(cameraController.ChangeFov(cameraController.currentFov, cameraController.fov_running, 0.3f));
         }
         else if (!runAction.IsPressed() && isRunning)
         {
             StartCoroutine(StaminaRegenDelayed(1.5f));
             currentSpeed = walkSpeed;
             isRunning = false;
-            //cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(fov_running, fov_default, Time.deltaTime);
+            
+            if (_fovRoutine != null)
+            {
+                StopCoroutine(_fovRoutine);
+            }
+            _fovRoutine = StartCoroutine(cameraController.ChangeFov(cameraController.currentFov, cameraController.fov_default, 0.3f));
         }
         else if (runAction.IsPressed() && isRunning && !CanRun())
         {
             StartCoroutine(StaminaRegenDelayed(1.5f));
             currentSpeed = walkSpeed;
             isRunning = false;
-            //cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(fov_running, fov_default, Time.deltaTime);
+            
+            if (_fovRoutine != null)
+            {
+                StopCoroutine(_fovRoutine);
+            }
+            _fovRoutine = StartCoroutine(cameraController.ChangeFov(cameraController.currentFov, cameraController.fov_default, 0.3f));
         }
 
         HandleStamina();
@@ -219,7 +235,7 @@ public class PlayerMovement : MonoBehaviour
             currentStamina -= 1 * Time.deltaTime;
         }
 
-        if (!isRunning && canRegenStamina)
+        if (!isRunning && canRegenStamina && currentStamina < maxStamina)
         {
             currentStamina += staminaRegenSpeed * Time.deltaTime;
         }
