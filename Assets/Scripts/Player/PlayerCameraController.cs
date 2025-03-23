@@ -14,16 +14,24 @@ public class PlayerCameraController : MonoBehaviour
     public float fov_running = 75f; // сделать через multiplier (фов же можно будет настроить)
     public AnimationCurve fovCurve;
 
+    private PlayerFollow playerFollow;
+
     void Awake()
     {
         enabled = false;
     }
 
-    public void Init()
+    public void Init(PlayerFollow playerFollow)
     {
         cmFollow = transform.Find("CinemachineCamera").GetComponent<CinemachineOrbitalFollow>();
         cinemachineCamera = transform.Find("CinemachineCamera").GetComponent<CinemachineCamera>();
         mainCamera = transform.Find("Main Camera").GetComponent<Camera>();
+        
+        this.playerFollow = playerFollow;
+        cinemachineCamera.Target.TrackingTarget = playerFollow.transform;
+
+        mainCamera.transform.SetParent(null);
+        cinemachineCamera.transform.SetParent(null);
 
         ResetFov();
 

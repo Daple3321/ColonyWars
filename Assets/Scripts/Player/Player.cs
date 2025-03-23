@@ -6,9 +6,11 @@ public class Player : MonoBehaviour
     public PlayerCombat playerCombat;
     public PlayerMovement playerMovement;
 
+    public PlayerFollow playerFollow;
+
     public void InitPlayer()
     {
-        cameraController.Init();
+        cameraController.Init(playerFollow);
         playerMovement.Init(cameraController);
         playerCombat.Init();
     }

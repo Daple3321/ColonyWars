@@ -134,8 +134,12 @@ public class PlayerMovement : MonoBehaviour
         Vector3 moveDir = new Vector3(-moveInput.x, 0, moveInput.y);
         //moveDir = moveDir.normalized * moveSpeed * Time.deltaTime;
 
-        Vector3 forwardVec = Quaternion.AngleAxis(90, Vector3.up) * (mainCamera.transform.position - transform.position);
+        //Vector3 forwardVec = Quaternion.AngleAxis(90, Vector3.up) * (mainCamera.transform.position - transform.position);
+        //Vector3 forwardVec = Quaternion.AngleAxis(90, Vector3.up) * (mainCamera.transform.position);
+        Vector3 forwardVec = mainCamera.transform.rotation * Vector3.forward;
+        forwardVec = Quaternion.AngleAxis(-90, Vector3.up) * forwardVec;
         Vector3 crossProd = Vector3.Cross(transform.up, forwardVec);
+        Debug.DrawRay(transform.position, forwardVec*5, Color.green);
 
         Quaternion moveRot = Quaternion.FromToRotation(moveDir, crossProd);
         if (moveInput.sqrMagnitude > 0)
