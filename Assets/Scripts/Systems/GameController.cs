@@ -35,12 +35,11 @@ public class GameController : MonoBehaviour
     private void StartGame(GameSettings gameSettings = null)
     {
         GameAssets.Init(); // это должно быть при запуске игры (в главном меню)
-
         if (gameSettings == null)
         {
             gameSettings = defaultGameSettings;
         }
-        
+
         worldGenerator = GameObject.Find("WorldGen").GetComponent<WorldGenerator>();
         worldGenerator.Init(gameSettings.worldGenSettings);
         currentTerrain = worldGenerator.terrain;
@@ -48,8 +47,8 @@ public class GameController : MonoBehaviour
         GameObject playerObj = Instantiate(GameAssets.playerPrefab, pSpawnPoint.position, Quaternion.identity);
         p = playerObj.GetComponent<Player>();
         p.InitPlayer();
+        
         // World gen
-        // Player spawning
         // Reference assigning
     }
 

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
+    public Weapon weapon;
 
     void Awake()
     {
@@ -11,5 +12,15 @@ public class PlayerCombat : MonoBehaviour
     public void Init()
     {
         enabled = true;
+    }
+
+    public void Shoot()
+    {
+        
+    }
+
+    public void Attack()
+    {
+        
     }
 }

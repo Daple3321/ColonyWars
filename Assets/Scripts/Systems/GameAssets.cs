@@ -4,6 +4,7 @@ using UnityEngine;
 public static class GameAssets
 {
     public static GameObject playerPrefab;
+    public static Controls controls;
 
     public static bool isInitialized { get; private set; } = false;
 
@@ -14,6 +15,8 @@ public static class GameAssets
             Stopwatch resLoad = Stopwatch.StartNew();
 
             playerPrefab = Resources.Load<GameObject>("Player/Player");
+            controls = null;
+            controls = new Controls();
 
             isInitialized = true;
             resLoad.Stop();

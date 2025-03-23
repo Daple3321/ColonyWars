@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Actions")]
     public InputAction moveAction;
     public InputAction runAction;
+    private Controls controls;
 
     private PlayerCameraController cameraController;
     private CharacterController characterController;
@@ -36,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     
     void Awake()
     {
+        controls = GameAssets.controls;
         enabled = false;
     }
 
@@ -46,14 +48,24 @@ public class PlayerMovement : MonoBehaviour
 
         this.cameraController = cameraController;
         mainCamera = cameraController.mainCamera;
-
-        moveAction = InputSystem.actions.FindAction("Move");
-        runAction = InputSystem.actions.FindAction("Sprint");
+        
+        moveAction = controls.Player.Move;
+        runAction = controls.Player.Sprint;
         characterController = GetComponent<CharacterController>();
 
         currentSpeed = walkSpeed;
 
         enabled = true;
+    }
+    
+    protected void OnEnable()
+    {
+        controls.Player.Enable();
+    }
+
+    protected void OnDisable()
+    {
+        controls.Player.Disable();
     }
     
 

@@ -4,8 +4,16 @@ using UnityEngine;
 public class GameSettings
 {
     public WorldGenSettings worldGenSettings;
-
+    public WorldType worldType;
+    
     public GameDifficulty gameDifficulty;
+}
+
+public enum WorldType
+{
+    Default,
+    Mountains,
+    Plains,
 }
 
 public enum GameDifficulty
