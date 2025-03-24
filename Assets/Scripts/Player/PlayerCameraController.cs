@@ -92,7 +92,7 @@ public class PlayerCameraController : MonoBehaviour
         {
             delta = mousePos.x - lastMousePos.x;
             //new Vector3(0, delta * panSensetivity, 0)
-            cinemachineCamera.transform.RotateAround(playerFollow.transform.position, Vector3.up, delta*Time.deltaTime*panSensetivity);
+            cinemachineCamera.transform.RotateAround(playerFollow.transform.position, Vector3.up, delta * Time.deltaTime * panSensetivity);
             lastMousePos = Input.mousePosition;
         }
     }

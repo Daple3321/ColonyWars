@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2310cf7a7f66c549a13d5b15aa339c8, type: 3}
-  m_Name: Item_1
+  m_Name: Rock
   m_EditorClassIdentifier: 
-  itemName: asdsad
-  description: astta
+  itemName: Rock
+  description: rock
   icon: {fileID: 0}
   rarity: 0
   IsStackable: 0

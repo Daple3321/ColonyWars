@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public abstract class Weapon : Equipable
+public class Weapon : Equipable
 {
     public WeaponData weaponData;
 

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 806f468cab612d24d8ff77e741097ed3, type: 3}
-  m_Name: New Melee Weapon
+  m_Name: Sword
   m_EditorClassIdentifier: 
   itemName: Sword
   description: 123123
@@ -19,7 +19,8 @@ MonoBehaviour:
   IsStackable: 0
   maxStackSize: 1
   itemMesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
-  itemMaterials: []
+  itemMaterials:
+  - {fileID: 2100000, guid: 9b97bf6788871ed46adada024f586dab, type: 2}
   customPrefab: {fileID: 0}
   damage: 1
   attackDuration: 2

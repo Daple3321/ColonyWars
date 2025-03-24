@@ -553,6 +553,7 @@ MonoBehaviour:
   playerCombat: {fileID: 3820118088357368465}
   playerMovement: {fileID: 561148159243195092}
   playerFollow: {fileID: 1251615133458478831}
+  playerInventory: {fileID: 26623650528081227}
   health: 0
   maxHealth: 20
 --- !u!114 &26623650528081227
@@ -573,6 +574,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 23313022b98286f42b9ced6461d21457, type: 2}
   - {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
   itemPrefab: {fileID: 119998569144866766, guid: 1abbd2a2ead452a49a00e619c26ceb05, type: 3}
+  selectedSlotId: 0
+  selectedItem:
+    itemName: 
+    description: 
+    icon: {fileID: 0}
+    rarity: 0
+    itemData: {fileID: 0}
 --- !u!114 &3820118088357368465
 MonoBehaviour:
   m_ObjectHideFlags: 0

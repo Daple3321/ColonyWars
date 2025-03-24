@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public abstract class Equipable : Item, IEquipable
+public class Equipable : Item, IEquipable
 {
     public virtual void Equip()
     {

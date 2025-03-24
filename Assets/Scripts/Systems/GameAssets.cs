@@ -1,10 +1,15 @@
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using UnityEngine;
 
 public static class GameAssets
 {
     public static GameObject playerPrefab;
     public static Controls controls;
+    
+    public static GameObject itemPrefab;
+    public static List<ItemData> itemDatas;
 
     public static bool isInitialized { get; private set; } = false;
 
@@ -17,6 +22,13 @@ public static class GameAssets
             playerPrefab = Resources.Load<GameObject>("Player/Player");
             controls = null;
             controls = new Controls();
+            
+            itemDatas = Resources.LoadAll<ItemData>("Items/").ToList();
+            itemPrefab = Resources.Load<GameObject>("ItemPrefab");
+            // foreach (ItemData item in itemDatas)
+            // {
+            //     UnityEngine.Debug.Log($"Found item: {item.itemName}");
+            // }
 
             isInitialized = true;
             resLoad.Stop();

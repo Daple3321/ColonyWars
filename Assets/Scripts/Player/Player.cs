@@ -6,6 +6,7 @@ public class Player : MonoBehaviour, IDamagable
     public PlayerCombat playerCombat;
     public PlayerMovement playerMovement;
     public PlayerFollow playerFollow;
+    public PlayerInventory playerInventory;
 
     public float health;
     public float maxHealth;
@@ -15,7 +16,11 @@ public class Player : MonoBehaviour, IDamagable
     {
         cameraController.Init(playerFollow);
         playerMovement.Init(cameraController);
-        playerCombat.Init();
+        playerInventory.Init(this);
+        playerCombat.Init(playerInventory);
+        
+        playerInventory.SelectItem(0);
+        
         health = maxHealth;
         UpdateHealth();
     }

@@ -27,7 +27,7 @@ public class WorldItem : MonoBehaviour
 
         if (data is WeaponData weaponData)
         {
-            Debug.Log($"Dropped weapon: {weaponData.itemName}, Damage: {weaponData.damage}");
+            //Debug.Log($"Dropped weapon: {weaponData.itemName}, Damage: {weaponData.damage}");
         }
     }
 
