@@ -404,6 +404,7 @@ GameObject:
   - component: {fileID: 3820118088357368465}
   - component: {fileID: 561148159243195092}
   - component: {fileID: 5685056463674500617}
+  - component: {fileID: 8290539460608290715}
   - component: {fileID: 1670130699526852140}
   - component: {fileID: 2345883527334119590}
   m_Layer: 0
@@ -452,6 +453,7 @@ MonoBehaviour:
   playerMovement: {fileID: 561148159243195092}
   playerFollow: {fileID: 1251615133458478831}
   playerInventory: {fileID: 26623650528081227}
+  stateMachine: {fileID: 8290539460608290715}
   health: 0
   maxHealth: 20
   rightHand: {fileID: 3315800805882177323}
@@ -609,6 +611,18 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8290539460608290715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2512703263411247531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 489b2430023f16b4c9f93572cdd04fdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!143 &1670130699526852140
 CharacterController:
   m_ObjectHideFlags: 0
@@ -633,7 +647,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: -0.01, z: 0}
+  m_Center: {x: 0, y: 1.09, z: 0}
 --- !u!95 &2345883527334119590
 Animator:
   serializedVersion: 7

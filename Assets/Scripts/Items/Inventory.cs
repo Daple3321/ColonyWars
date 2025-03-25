@@ -29,7 +29,7 @@ public class Inventory
         if (quantity > itemToAdd.itemData.maxStackSize)
         {
             quantity = itemToAdd.itemData.maxStackSize;
-            Debug.Log($"Adding more {itemToAdd.itemName} than maxStackSize. Limiting quantity");
+            Debug.Log($"Adding more {itemToAdd.itemName}'s than maxStackSize. Limiting quantity");
         }
         
         for (int i = 0; i < inventoryItems.Count; i++)

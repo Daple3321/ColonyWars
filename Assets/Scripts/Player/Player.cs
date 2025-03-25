@@ -1,12 +1,14 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour, IDamagable
+[RequireComponent(typeof(StateMachine))]
+public class Player : MonoBehaviour, IDamageable
 {
     public PlayerCameraController cameraController;
     public PlayerCombat playerCombat;
     public PlayerMovement playerMovement;
     public PlayerFollow playerFollow;
     public PlayerInventory playerInventory;
+    public StateMachine stateMachine;
 
     public float health;
     public float maxHealth;
@@ -22,6 +24,7 @@ public class Player : MonoBehaviour, IDamagable
         playerMovement.Init(cameraController);
         playerInventory.Init(this);
         playerCombat.Init(this);
+        stateMachine.Init(new WalkState());
 
         playerInventory.SelectItem(0);
 
@@ -41,7 +44,7 @@ public class Player : MonoBehaviour, IDamagable
 
     public void UpdateHealth()
     {
-        
+
     }
     public void Death()
     {
@@ -50,7 +53,7 @@ public class Player : MonoBehaviour, IDamagable
 }
 
 
-public interface IDamagable
+public interface IDamageable
 {
     void TakeDamage(int damage);
     void Death();
