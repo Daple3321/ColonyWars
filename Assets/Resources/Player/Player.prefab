@@ -589,8 +589,8 @@ MonoBehaviour:
   playerInventory: {fileID: 26623650528081227}
   health: 0
   maxHealth: 20
-  rightHandPos: {fileID: 3315800805882177323}
-  leftHandPos: {fileID: 3810671238129732571}
+  rightHand: {fileID: 3315800805882177323}
+  leftHand: {fileID: 3810671238129732571}
 --- !u!114 &26623650528081227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -603,6 +603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4be6e11c8452bd649ac837fa1047e4c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventoryStartingSize: 8
   itemDatas:
   - {fileID: 11400000, guid: 6b5b4916729fbed4abe7fad9b9d5eb3f, type: 2}
   - {fileID: 11400000, guid: 23313022b98286f42b9ced6461d21457, type: 2}
@@ -615,6 +616,7 @@ MonoBehaviour:
     icon: {fileID: 0}
     rarity: 0
     itemData: {fileID: 0}
+  selectedWorldItem: {fileID: 0}
 --- !u!114 &3820118088357368465
 MonoBehaviour:
   m_ObjectHideFlags: 0

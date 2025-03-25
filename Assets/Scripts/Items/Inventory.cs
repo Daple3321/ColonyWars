@@ -54,17 +54,7 @@ public class Inventory
             if (inventoryItems[index].quantity > 0)
             {
                 WorldItem worldItem;
-                GameObject obj;
-                if (inventoryItems[index].item.itemData.customPrefab != null) // если есть кастомный префаб
-                {
-                    obj = GameObject.Instantiate(inventoryItems[index].item.itemData.customPrefab, dropPos.position, dropPos.rotation);
-                }
-                else
-                {
-                    obj = GameObject.Instantiate(GameAssets.itemPrefab, dropPos.position, dropPos.rotation);
-                }
-                worldItem = obj.GetComponent<WorldItem>();
-                worldItem.Initialize(inventoryItems[index].item.itemData, inventoryItems[index].item);
+                worldItem = inventoryItems[index].item.SpawnItem(dropPos);
 
                 Item droppedItem = inventoryItems[index].item;
                 inventoryItems[index] = inventoryItems[index].ChangeQuantity(inventoryItems[index].quantity - 1);
@@ -79,7 +69,6 @@ public class Inventory
             else
             {
                 Debug.Log($"[{index}] No item in slot");
-                //return null;
             }
         }
         return null;
@@ -122,6 +111,11 @@ public class Inventory
             return null; // ???
         }
     }
+    
+    public bool HasItemAt(int index)
+    {
+        return !inventoryItems[index].IsEmpty;
+    }
 
     public Item FindItem(ItemData itemData)
     {
@@ -159,7 +153,7 @@ public class Inventory
         {
             if (!inventoryItems[i].IsEmpty)
             {
-                Debug.Log($"[{i}] Item: {inventoryItems[i].item.itemName}, Quantity: {inventoryItems[i].quantity}");
+                Debug.Log($"[{i}] {inventoryItems[i].item.itemName}; ({inventoryItems[i].quantity})");
             }
             else
             {

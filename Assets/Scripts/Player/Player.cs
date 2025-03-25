@@ -12,8 +12,8 @@ public class Player : MonoBehaviour, IDamagable
     public float maxHealth;
 
 
-    public Transform rightHandPos;
-    public Transform leftHandPos;
+    public Transform rightHand;
+    public Transform leftHand;
 
 
     public void InitPlayer()

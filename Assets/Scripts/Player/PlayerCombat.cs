@@ -29,6 +29,7 @@ public class PlayerCombat : MonoBehaviour
         if (e.selectedItem != null && e.selectedItem is Weapon wp)
         {
             currentWeapon = wp;
+            weaponWorld = e.worldItem as WeaponWorldItem;
             SetupWeapon();
         }
         else

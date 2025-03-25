@@ -22,5 +22,13 @@ public class WorldItem : MonoBehaviour
         }
     }
 
+    public virtual void Attach(Transform attachTo)
+    {
+        transform.position = attachTo.position;
+        transform.rotation = attachTo.rotation;
+
+        transform.SetParent(attachTo);
+    }
+
     public ItemData GetItemData() => itemData;
 }

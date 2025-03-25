@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class Item
@@ -16,8 +15,26 @@ public class Item
         Init(_itemData);
         LoadStats();
     }
+
+    public virtual WorldItem SpawnItem(Transform spawnPos)
+    {
+        WorldItem worldItem;
+        GameObject obj;
+        if (itemData.customPrefab != null) // если есть кастомный префаб
+        {
+            obj = GameObject.Instantiate(itemData.customPrefab, spawnPos.position, spawnPos.rotation);
+        }
+        else
+        {
+            obj = GameObject.Instantiate(GameAssets.itemPrefab, spawnPos.position, spawnPos.rotation);
+        }
+        worldItem = obj.GetComponent<WorldItem>();
+        worldItem.Initialize(itemData, this);
+        
+        return worldItem;
+    }
     
-    public virtual void LoadStats(){}
+    public virtual void LoadStats() { }
     
     public virtual void Init<T>(T data)
     {

@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerInventory : MonoBehaviour
 {
     public Inventory inventory;
+    public int inventoryStartingSize = 8;
     
     public List<ItemData> itemDatas = new List<ItemData>();
 
@@ -13,7 +14,7 @@ public class PlayerInventory : MonoBehaviour
 
     public int selectedSlotId = 0;
     public Item selectedItem = null;
-    
+    public WorldItem selectedWorldItem;
 
     private Controls controls;
     void Awake()
@@ -22,21 +23,25 @@ public class PlayerInventory : MonoBehaviour
     }
 
     private Player player;
+    private Transform rightHand;
+    private Transform leftHand;
     public void Init(Player player)
     {
         this.player = player;
+        rightHand = player.rightHand;
+        leftHand = player.leftHand;
         controls = GameAssets.controls;
         enabled = true;
 
-        inventory = new Inventory(8);
+        inventory = new Inventory(inventoryStartingSize);
 
         inventory.AddItem(new RangedWeapon(itemDatas[1]), 1);
         inventory.AddItem(new MeleeWeapon(itemDatas[0]), 1);
         inventory.AddItem(new Item(itemDatas[2]), 5);
 
         //inventory.DeleteItem(2);
-        inventory.DropItem(2, transform, 1);
-        
+        //inventory.DropItem(2, transform, 1);
+
         inventory.PrintInv();
 
         //GameObject droppedItem = Instantiate(itemPrefab, transform.position, Quaternion.identity);
@@ -49,9 +54,30 @@ public class PlayerInventory : MonoBehaviour
     public Item SelectItem(int slotId)
     {
         selectedItem = inventory.GetItem(slotId);
-        OnItemSelected?.Invoke(this, new OnItemSelectedEventArgs { selectedItem = selectedItem, slotId = slotId });
-        if(selectedItem != null)
-            Debug.Log($"[{slotId}] Selected {selectedItem.itemName} item");
+
+        if (selectedItem != null) // If slot has item
+        {
+            if (selectedWorldItem != null)
+            { // это конечно сильно так каждый раз удалять и спавнить...
+                Destroy(selectedWorldItem.gameObject);
+            }
+
+            selectedWorldItem = selectedItem.SpawnItem(rightHand);
+            selectedWorldItem.Attach(rightHand);
+
+            OnItemSelected?.Invoke(this, new OnItemSelectedEventArgs { selectedItem = selectedItem, worldItem = selectedWorldItem, slotId = slotId });
+            
+            if (selectedItem != null)
+                Debug.Log($"[{slotId}] Selected {selectedItem.itemName} item");
+        }
+        else // Switch to empty slot
+        {
+            if (selectedWorldItem != null)
+                Destroy(selectedWorldItem.gameObject);
+                
+            OnItemSelected?.Invoke(this, new OnItemSelectedEventArgs { selectedItem = selectedItem, worldItem = null, slotId = slotId });
+        }
+        
         return selectedItem;
     }
 
@@ -71,9 +97,10 @@ public class PlayerInventory : MonoBehaviour
         if (controls.Player.Drop.WasPressedThisFrame() && selectedItem != null)
         {
             Item droppedItem = inventory.DropItem(selectedSlotId, transform);
-            if (selectedItem == droppedItem)
+            if (selectedItem == droppedItem && !inventory.HasItemAt(selectedSlotId))
             {
-                selectedItem = null; // если выбрасываешь стакаемый предмет это обнуляется (хотя предмет ещё есть)
+                selectedItem = null;
+                Destroy(selectedWorldItem.gameObject);
             }
             OnItemDropped?.Invoke(this, new OnItemDroppedEventArgs { droppedItem = droppedItem, slotId = selectedSlotId });
         }
@@ -90,6 +117,7 @@ public class PlayerInventory : MonoBehaviour
     public class OnItemSelectedEventArgs : EventArgs
     {
         public Item selectedItem;
+        public WorldItem worldItem;
         public int slotId;
     }
 
