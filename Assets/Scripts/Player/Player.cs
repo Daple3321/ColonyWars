@@ -12,15 +12,19 @@ public class Player : MonoBehaviour, IDamagable
     public float maxHealth;
 
 
+    public Transform rightHandPos;
+    public Transform leftHandPos;
+
+
     public void InitPlayer()
     {
         cameraController.Init(playerFollow);
         playerMovement.Init(cameraController);
         playerInventory.Init(this);
-        playerCombat.Init(playerInventory);
-        
+        playerCombat.Init(this);
+
         playerInventory.SelectItem(0);
-        
+
         health = maxHealth;
         UpdateHealth();
     }

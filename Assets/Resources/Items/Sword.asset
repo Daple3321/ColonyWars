@@ -20,7 +20,7 @@ MonoBehaviour:
   maxStackSize: 1
   itemMesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
   itemMaterials:
-  - {fileID: 2100000, guid: 9b97bf6788871ed46adada024f586dab, type: 2}
+  - {fileID: 2100000, guid: c8a7e9370e698af478905a361d0d792c, type: 2}
   customPrefab: {fileID: 0}
   damage: 1
   attackDuration: 2

@@ -9,7 +9,7 @@ public class WorldItem : MonoBehaviour
     public MeshFilter meshFilter;
     public MeshRenderer meshRenderer;
     
-    public void Initialize(ItemData data, Item origin)
+    public virtual void Initialize(ItemData data, Item origin)
     {
         itemData = data;
         name = data.itemName;
@@ -19,15 +19,6 @@ public class WorldItem : MonoBehaviour
         {
             meshFilter.mesh = data.itemMesh;
             meshRenderer.sharedMaterials = data.itemMaterials;
-        }
-        else
-        {
-            
-        }
-
-        if (data is WeaponData weaponData)
-        {
-            //Debug.Log($"Dropped weapon: {weaponData.itemName}, Damage: {weaponData.damage}");
         }
     }
 

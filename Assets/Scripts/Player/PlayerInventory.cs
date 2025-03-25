@@ -38,18 +38,10 @@ public class PlayerInventory : MonoBehaviour
         inventory.DropItem(2, transform, 1);
         
         inventory.PrintInv();
-        // for (int i = 0; i < inventory.Count; i++)
-        // {
-        //     Debug.Log($"Item: {inventory[i].itemName}");
-        //     if (inventory[i] is MeleeWeapon meleeWeapon)
-        //     {
-        //         Debug.Log($"Attack Charge: {meleeWeapon.attackCharge}");
-        //     }
-        // }
 
-        GameObject droppedItem = Instantiate(itemPrefab, transform.position, Quaternion.identity);
-        WorldItem worldItem = droppedItem.GetComponent<WorldItem>();
-        worldItem.Initialize(inventory.GetItem(0).itemData, inventory.GetItem(0));
+        //GameObject droppedItem = Instantiate(itemPrefab, transform.position, Quaternion.identity);
+        //WorldItem worldItem = droppedItem.GetComponent<WorldItem>();
+        //worldItem.Initialize(inventory.GetItem(0).itemData, inventory.GetItem(0));
 
         SelectItem(selectedSlotId);
     }
@@ -59,16 +51,8 @@ public class PlayerInventory : MonoBehaviour
         selectedItem = inventory.GetItem(slotId);
         OnItemSelected?.Invoke(this, new OnItemSelectedEventArgs { selectedItem = selectedItem, slotId = slotId });
         if(selectedItem != null)
-            Debug.Log($"Selected {selectedItem.itemName} item");
+            Debug.Log($"[{slotId}] Selected {selectedItem.itemName} item");
         return selectedItem;
-    }
-
-    void Start()
-    {
-        // for (int i = 0; i < itemDatas.Count; i++)
-        // {
-        //     Debug.Log($"ID: {itemDatas[i].id}");
-        // }
     }
 
     void Update()
@@ -82,6 +66,21 @@ public class PlayerInventory : MonoBehaviour
         {
             selectedSlotId--;
             SelectItem(selectedSlotId);
+        }
+
+        if (controls.Player.Drop.WasPressedThisFrame() && selectedItem != null)
+        {
+            Item droppedItem = inventory.DropItem(selectedSlotId, transform);
+            if (selectedItem == droppedItem)
+            {
+                selectedItem = null; // если выбрасываешь стакаемый предмет это обнуляется (хотя предмет ещё есть)
+            }
+            OnItemDropped?.Invoke(this, new OnItemDroppedEventArgs { droppedItem = droppedItem, slotId = selectedSlotId });
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            inventory.PrintInv();
         }
     }
 
@@ -97,12 +96,14 @@ public class PlayerInventory : MonoBehaviour
     public event EventHandler<OnItemPickedUpEventArgs> OnItemPickedUp;
     public class OnItemPickedUpEventArgs : EventArgs
     {
-
+        public Item pickedUpItem;
+        public int placedSlotId;
     }
     
     public event EventHandler<OnItemDroppedEventArgs> OnItemDropped;
     public class OnItemDroppedEventArgs : EventArgs
     {
-        
+        public Item droppedItem;
+        public int slotId;
     }
 }

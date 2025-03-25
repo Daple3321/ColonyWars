@@ -4,17 +4,23 @@ using UnityEngine;
 public class PlayerCombat : MonoBehaviour
 {
     public Weapon currentWeapon;
+    public WeaponWorldItem weaponWorld;
 
     void Awake()
     {
         enabled = false;
     }
 
+    private Player player;
     private PlayerInventory playerInventory;
-    public void Init(PlayerInventory playerInventory)
+    private Controls controls;
+    public void Init(Player player)
     {
-        this.playerInventory = playerInventory;
+        this.player = player;
+        this.playerInventory = player.playerInventory;
+        controls = GameAssets.controls;
         playerInventory.OnItemSelected += PlayerInventory_OnItemSelected;
+        playerInventory.OnItemDropped += PlayerInventory_OnItemDropped;
         enabled = true;
     }
 
@@ -27,14 +33,23 @@ public class PlayerCombat : MonoBehaviour
         }
         else
         {
-            currentWeapon = null;
+            ClearWeapon();
+        }
+    }
+    private void PlayerInventory_OnItemDropped(object sender, PlayerInventory.OnItemDroppedEventArgs e)
+    {
+        if (e.droppedItem == currentWeapon)
+        {
             ClearWeapon();
         }
     }
 
     void Update()
     {
-        HandleWeapon();
+        if (currentWeapon != null)
+        {
+            HandleWeapon();
+        }
     }
 
     private void SetupWeapon()
@@ -44,16 +59,21 @@ public class PlayerCombat : MonoBehaviour
 
     private void ClearWeapon()
     {
-        
+        currentWeapon = null;
+        weaponWorld = null;
     }
 
     private void HandleWeapon()
     {
-
+        if (controls.Player.Attack.IsPressed())
+        {
+            currentWeapon.Attack();
+            weaponWorld.AttackEffects();
+        }
     }
     
     public void Attack()
     {
-
+        
     }
 }

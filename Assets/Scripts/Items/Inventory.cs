@@ -26,40 +26,63 @@ public class Inventory
 
     public void AddItem(Item itemToAdd, int quantity)
     {
-        for (int i = 0; i < inventoryItems.Count; i++)
+        if (quantity > itemToAdd.itemData.maxStackSize)
         {
-            if (inventoryItems[i].IsEmpty)
-            {
-                inventoryItems[i] = new InventoryItem
-                {
-                    item = itemToAdd,
-                    quantity = quantity,
-                };
-
-                break;
-            }
+            quantity = itemToAdd.itemData.maxStackSize;
+            Debug.Log($"Adding more {itemToAdd.itemName} than maxStackSize. Limiting quantity");
         }
+        
+        for (int i = 0; i < inventoryItems.Count; i++)
+            {
+                if (inventoryItems[i].IsEmpty)
+                {
+                    inventoryItems[i] = new InventoryItem
+                    {
+                        item = itemToAdd,
+                        quantity = quantity,
+                    };
+
+                    break;
+                }
+            }
     }
 
-    public void DropItem(int index, Transform dropPos, int quantity = 1 )
+    public Item DropItem(int index, Transform dropPos, int quantity = 1)
     {
         for (int i = 0; i < quantity; i++)
         {
             if (inventoryItems[index].quantity > 0)
             {
-                // здесь вместо itemPrefab спавнить нужный префаб если он есть
-                GameObject obj = GameObject.Instantiate(GameAssets.itemPrefab, dropPos.position, dropPos.rotation);
-                WorldItem worldItem = obj.GetComponent<WorldItem>();
+                WorldItem worldItem;
+                GameObject obj;
+                if (inventoryItems[index].item.itemData.customPrefab != null) // если есть кастомный префаб
+                {
+                    obj = GameObject.Instantiate(inventoryItems[index].item.itemData.customPrefab, dropPos.position, dropPos.rotation);
+                }
+                else
+                {
+                    obj = GameObject.Instantiate(GameAssets.itemPrefab, dropPos.position, dropPos.rotation);
+                }
+                worldItem = obj.GetComponent<WorldItem>();
                 worldItem.Initialize(inventoryItems[index].item.itemData, inventoryItems[index].item);
-                
+
+                Item droppedItem = inventoryItems[index].item;
                 inventoryItems[index] = inventoryItems[index].ChangeQuantity(inventoryItems[index].quantity - 1);
                 Debug.Log($"[{index}] Dropped {inventoryItems[index].item.itemName}");
+                if (inventoryItems[index].quantity <= 0)
+                {
+                    inventoryItems[index] = InventoryItem.GetEmptyItem();
+                }
+
+                return droppedItem;
             }
             else
             {
-                Debug.Log("Trying to drop more than available quantity!");
+                Debug.Log($"[{index}] No item in slot");
+                //return null;
             }
         }
+        return null;
     }
     public void DropWholeStack(int index, Transform dropPos)
     {

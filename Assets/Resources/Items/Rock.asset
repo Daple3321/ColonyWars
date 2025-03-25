@@ -16,8 +16,9 @@ MonoBehaviour:
   description: rock
   icon: {fileID: 0}
   rarity: 0
-  IsStackable: 0
-  maxStackSize: 1
-  itemMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
-  itemMaterials: []
+  IsStackable: 1
+  maxStackSize: 15
+  itemMesh: {fileID: 4711208715938537054, guid: 0c681abcbc8956743a25ed9b3b533675, type: 3}
+  itemMaterials:
+  - {fileID: -7315951235433553244, guid: 0c681abcbc8956743a25ed9b3b533675, type: 3}
   customPrefab: {fileID: 0}
