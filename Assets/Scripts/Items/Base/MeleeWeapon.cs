@@ -14,6 +14,8 @@ public class MeleeWeapon : Weapon
 
     public override void LoadStats()
     {
+        base.LoadStats();
+        
         if (itemData is MeleeWeaponData weaponData)
         {
             attackDuration = weaponData.attackDuration;

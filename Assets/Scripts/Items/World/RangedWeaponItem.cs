@@ -8,6 +8,8 @@ public class RangedWeaponItem : WeaponWorldItem
     public Transform shootPoint;
     public Transform cartridgePos;
 
+    public ParticleSystem shootEffect;
+
     public override void Initialize(ItemData data, Item origin)
     {
         base.Initialize(data, origin);

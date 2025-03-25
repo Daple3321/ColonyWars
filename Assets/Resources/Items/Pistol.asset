@@ -23,5 +23,6 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 9b97bf6788871ed46adada024f586dab, type: 2}
   customPrefab: {fileID: 1549962704229280597, guid: 4af3d8938075e88468789c45c259ba60, type: 3}
   damage: 5
+  attackType: 2
   shootDistance: 5
   shootInterval: 1

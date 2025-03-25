@@ -8,6 +8,8 @@ public class WorldItem : MonoBehaviour
 
     public MeshFilter meshFilter;
     public MeshRenderer meshRenderer;
+
+    public Transform attachmentPoint;
     
     public virtual void Initialize(ItemData data, Item origin)
     {
@@ -24,7 +26,15 @@ public class WorldItem : MonoBehaviour
 
     public virtual void Attach(Transform attachTo)
     {
-        transform.position = attachTo.position;
+        if (attachmentPoint != null)
+        {
+            Vector3 posCorrection = attachTo.position - attachmentPoint.position;
+            transform.position += posCorrection;
+        }
+        else
+        {
+            transform.position = attachTo.position;
+        }
         transform.rotation = attachTo.rotation;
 
         transform.SetParent(attachTo);

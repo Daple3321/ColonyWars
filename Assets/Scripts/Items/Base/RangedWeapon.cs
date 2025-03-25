@@ -19,6 +19,8 @@ public class RangedWeapon : Weapon
     
     public override void LoadStats()
     {
+        base.LoadStats();
+        
         if (itemData is RangedWeaponData weaponData)
         {
             shootDistance = weaponData.shootDistance;
