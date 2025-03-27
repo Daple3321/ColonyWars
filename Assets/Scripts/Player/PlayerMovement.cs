@@ -1,14 +1,15 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float currentSpeed;
-    public float walkSpeed;
-
-
     [Space(5), Header("Running")]
+    public float currentSpeed;
+    public ModVar curSpeed;
+    public float walkSpeed;
     public float runSpeed;
     public float currentStamina;
     public float staminaRegenSpeed;
@@ -21,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("State vars")]
     public bool canRegenStamina;
     public static bool isRunning;
+    public bool runningAllowed = true;
     
 
     [Space(10)]
@@ -41,34 +43,42 @@ public class PlayerMovement : MonoBehaviour
         enabled = false;
     }
 
-    public void Init(PlayerCameraController cameraController)
+    private PlayerAiming playerAiming;
+    public void Init(PlayerCameraController cameraController, PlayerAiming playerAiming)
     {
         //Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
 
         this.cameraController = cameraController;
+        this.playerAiming = playerAiming;
         mainCamera = cameraController.mainCamera;
-        
+
         moveAction = controls.Player.Move;
         runAction = controls.Player.Sprint;
         characterController = GetComponent<CharacterController>();
 
         currentSpeed = walkSpeed;
+        curSpeed = new ModVar(walkSpeed);
 
         enabled = true;
     }
-    
+
     protected void OnEnable()
     {
         controls.Player.Enable();
+        //PlayerAiming.OnAimStart += () => runningAllowed = false;
+        //PlayerAiming.OnAimEnd += () => runningAllowed = true;
+        PlayerAiming.OnAim += PlayerAiming_OnAim;
     }
 
     protected void OnDisable()
     {
         controls.Player.Disable();
+        PlayerAiming.OnAim -= PlayerAiming_OnAim;
+        //PlayerAiming.OnAimStart -= () => runningAllowed = false;
+        //PlayerAiming.OnAimEnd -= () => runningAllowed = true;
     }
     
-
     void Update()
     {
         //Debug.DrawRay(transform.position, moveDir * 5, Color.magenta);
@@ -169,7 +179,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.DrawRay(transform.position, moveDir * 5, Color.cyan);
 
         Vector3 mousePos = Input.mousePosition;
-        Ray cameraRay = Camera.main.ScreenPointToRay(mousePos);
+        Ray cameraRay = mainCamera.ScreenPointToRay(mousePos);
         // Определяем высоту персонажа (плоскость, на которой он стоит)
         float planeY = transform.position.y;
         // Вычисляем, где луч пересекает эту высоту
@@ -183,6 +193,32 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    private void PlayerAiming_OnAim(bool aimStarted)
+    {
+        if (aimStarted)
+        {
+            runningAllowed = false;
+            //ChangeSpeed(-40f);
+            curSpeed.Add(-40f);
+            currentSpeed = curSpeed.Get();
+        }
+        else
+        {
+            runningAllowed = true;
+            curSpeed.Remove();
+            currentSpeed = curSpeed.Get();
+            //ResetSpeed();
+        }
+    }
+    public void ChangeSpeed(float percent)
+    {
+        currentSpeed = walkSpeed + (walkSpeed * (percent / 100));
+    }
+    public void ResetSpeed()
+    {
+        currentSpeed = walkSpeed;
+    }
+    
     public bool CanRun()
     {
         if (currentStamina > 0)
@@ -198,7 +234,7 @@ public class PlayerMovement : MonoBehaviour
     private Coroutine _fovRoutine;
     private void HandleRunning()
     {
-        if (runAction.IsPressed() && !isRunning && CanRun())
+        if (runAction.IsPressed() && !isRunning && CanRun() && runningAllowed)
         {
             StopCoroutine(nameof(StaminaRegenDelayed));
             canRegenStamina = false;
@@ -214,7 +250,8 @@ public class PlayerMovement : MonoBehaviour
         else if (!runAction.IsPressed() && isRunning)
         {
             StartCoroutine(StaminaRegenDelayed(1.5f));
-            currentSpeed = walkSpeed;
+            //currentSpeed = walkSpeed;
+            currentSpeed = curSpeed.Get();
             isRunning = false;
             
             if (_fovRoutine != null)
@@ -226,7 +263,8 @@ public class PlayerMovement : MonoBehaviour
         else if (runAction.IsPressed() && isRunning && !CanRun())
         {
             StartCoroutine(StaminaRegenDelayed(1.5f));
-            currentSpeed = walkSpeed;
+            //currentSpeed = walkSpeed;
+            currentSpeed = curSpeed.Get();
             isRunning = false;
             
             if (_fovRoutine != null)
@@ -260,4 +298,42 @@ public class PlayerMovement : MonoBehaviour
         canRegenStamina = true;
     }
     
+}
+
+public class ModVar
+{
+    public float baseValue;
+    public Stack<float> stack;
+
+    public ModVar(float startingValue)
+    {
+        stack = new Stack<float>();
+        
+        baseValue = startingValue;
+        stack.Push(startingValue);
+    }
+
+    public void Add(float percent)
+    {
+        float newValue = stack.Peek() + (stack.Peek() * percent / 100);
+        stack.Push(newValue);
+        // foreach (float item in stack)
+        // {
+        //     Debug.Log("stack item: " + item);
+        // }
+    }
+
+    public void Remove()
+    {
+        stack.Pop();
+    }
+
+    public float Get()
+    {
+        // foreach (float item in stack)
+        // {
+        //     Debug.Log("stack item: " + item);
+        // }
+        return stack.Peek();
+    }
 }

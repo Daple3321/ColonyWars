@@ -170,7 +170,7 @@ Camera:
   m_GameObject: {fileID: 1382572311715122356}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.11320752, g: 0.11320752, b: 0.11320752, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -506,6 +506,33 @@ MonoBehaviour:
     damage: 0
     attackType: 0
   weaponWorld: {fileID: 0}
+  concentrationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  concentraion: 0
+  canAttack: 0
+  isAiming: 0
 --- !u!114 &561148159243195092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,9 +552,10 @@ MonoBehaviour:
   staminaRegenSpeed: 1
   maxStamina: 5
   fallSpeed: 10
-  rotationSpeed: 7
+  rotationSpeed: 5
   zoomSpeed: 75
   canRegenStamina: 0
+  runningAllowed: 1
   moveAction:
     m_Name: Move
     m_Type: 0
@@ -563,27 +591,11 @@ MonoBehaviour:
   cinemachineCamera: {fileID: 0}
   positionComposer: {fileID: 0}
   mainCamera: {fileID: 0}
-  zoomAction:
-    m_Name: Zoom
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: fe047274-79fe-4234-b435-79608c48d231
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
   zoomLimits: {x: 2, y: 15}
   zoomSpeed: 160
-  panAction:
-    m_Name: Pan
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 92341b72-b0ba-46db-8395-25e264001cdd
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  panSensetivity: 14
+  tiltSensetivity: 1
+  tiltAngleLimits: {x: 25, y: 80}
+  panSensetivity: 90
   currentFov: 0
   fov_default: 70
   fov_running: 80

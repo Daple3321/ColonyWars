@@ -2,7 +2,6 @@ using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Utilities;
 
 public class PlayerCameraController : MonoBehaviour
 {
@@ -10,13 +9,18 @@ public class PlayerCameraController : MonoBehaviour
     public CinemachineCamera cinemachineCamera;
     public CinemachinePositionComposer positionComposer;
     public Camera mainCamera;
+    private Controls controls;
     
     
     [Space(5), Header("Camera controls")]
-    public InputAction zoomAction;
+    //public InputAction zoomAction;
     public Vector2 zoomLimits;
     public float zoomSpeed;
-    public InputAction panAction;
+    //public InputAction panAction;
+    [Header("Tilt")]
+    public float tiltSensetivity;
+    public Vector2 tiltAngleLimits;
+    [Header("Panning")]
     public float panSensetivity;
     
 
@@ -39,9 +43,10 @@ public class PlayerCameraController : MonoBehaviour
         positionComposer = transform.Find("CinemachineCamera").GetComponent<CinemachinePositionComposer>();
         cinemachineCamera = transform.Find("CinemachineCamera").GetComponent<CinemachineCamera>();
         mainCamera = transform.Find("Main Camera").GetComponent<Camera>();
-        
-        zoomAction = InputSystem.actions.FindAction("Zoom");
-        panAction = InputSystem.actions.FindAction("CameraPan_Mouse");
+
+        controls = GameAssets.controls;
+        //zoomAction = InputSystem.actions.FindAction("Zoom");
+        //panAction = InputSystem.actions.FindAction("CameraPan_Mouse");
         
         this.playerFollow = playerFollow;
         cinemachineCamera.Target.TrackingTarget = playerFollow.transform;
@@ -61,13 +66,14 @@ public class PlayerCameraController : MonoBehaviour
 
     public void HandleCameraControl()
     {
-        HandleCameraPanning();
+        HandleCameraRotation();
+        //HandleCameraPanning();
         HandleCameraZoom();
     }
 
     public void HandleCameraZoom()
     {
-        float scrollY = zoomAction.ReadValue<float>();
+        float scrollY = controls.Player.Zoom.ReadValue<float>();
         if (scrollY > 0 && positionComposer.CameraDistance > zoomLimits.x)
         {
             positionComposer.CameraDistance -= zoomSpeed * Time.deltaTime;
@@ -79,21 +85,55 @@ public class PlayerCameraController : MonoBehaviour
     }
 
     Vector2 lastMousePos = new Vector2();
-    public void HandleCameraPanning()
+    float xRotate = 0;
+    float yRotate = 0;
+    public void HandleCameraRotation() // это просто ужас.
     {
+        Vector2 panDir = controls.Player.CameraPan.ReadValue<Vector2>();
+        if (panDir.x > 0)
+        {
+            //cinemachineCamera.transform.RotateAround(playerFollow.transform.position, Vector3.up, Time.deltaTime * panSensetivity);
+            yRotate += Time.deltaTime * panSensetivity;
+            cinemachineCamera.transform.eulerAngles = new Vector3(xRotate, yRotate, 0.0f);
+        }
+        else if (panDir.x < 0)
+        {
+            yRotate -= Time.deltaTime * panSensetivity;
+            cinemachineCamera.transform.eulerAngles = new Vector3(xRotate, yRotate, 0.0f);
+            //cinemachineCamera.transform.RotateAround(playerFollow.transform.position, Vector3.up, Time.deltaTime * -panSensetivity);
+        }
+
+
         Vector2 mousePos = Input.mousePosition;
-        float delta = 0f;
-        if (panAction.WasPressedThisFrame())
+        float delta;
+        if (controls.Player.CameraTilt_Mouse.WasPressedThisFrame())
         {
             lastMousePos = mousePos;
         }
-
-        if (panAction.IsPressed())
+        //Vector3 dirToCamera = transform.position - cinemachineCamera.transform.position;
+        //float cameraAngle = Vector3.Angle(transform.up, dirToCamera);
+        //Debug.Log($"Camera angle: {cameraAngle}");
+        if (controls.Player.CameraTilt_Mouse.IsPressed())
         {
-            delta = mousePos.x - lastMousePos.x;
-            //new Vector3(0, delta * panSensetivity, 0)
-            cinemachineCamera.transform.RotateAround(playerFollow.transform.position, Vector3.up, delta * Time.deltaTime * panSensetivity);
-            lastMousePos = Input.mousePosition;
+            delta = mousePos.y - lastMousePos.y;
+            xRotate += delta * Time.deltaTime * tiltSensetivity;
+            xRotate = Mathf.Clamp(xRotate, tiltAngleLimits.x, tiltAngleLimits.y);
+            cinemachineCamera.transform.eulerAngles = new Vector3(xRotate, yRotate, 0.0f);
+            //cinemachineCamera.transform.RotateAround(playerFollow.transform.position, Vector3.right, -delta * Time.deltaTime * tiltSensetivity);
+            //lastMousePos = Input.mousePosition;
+        }
+    }
+
+    public void HandleCameraPanning()
+    {
+        Vector2 panDir = controls.Player.CameraPan.ReadValue<Vector2>();
+        if (panDir.x > 0)
+        {
+            cinemachineCamera.transform.RotateAround(playerFollow.transform.position, Vector3.up, Time.deltaTime * panSensetivity);
+        }
+        else if (panDir.x < 0)
+        {
+            cinemachineCamera.transform.RotateAround(playerFollow.transform.position, Vector3.up, Time.deltaTime * -panSensetivity);
         }
     }
     

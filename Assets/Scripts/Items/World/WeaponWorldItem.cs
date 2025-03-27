@@ -12,7 +12,7 @@ public class WeaponWorldItem : WorldItem
         }
     }
 
-    public virtual void AttackEffects()
+    public virtual void Attack(float concentraion)
     {
         
     }

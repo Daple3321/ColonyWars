@@ -105,7 +105,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "CameraPan_Mouse",
+                    "name": "CameraTilt_Mouse",
                     "type": "Button",
                     "id": "1f52e727-acac-4be9-91dc-7ef70729fd78",
                     "expectedControlType": "",
@@ -117,6 +117,15 @@
                     "name": "Drop",
                     "type": "Button",
                     "id": "2618c26a-140d-4e2e-b72e-5df09e93adf1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Aim",
+                    "type": "Button",
+                    "id": "2ded971f-e87a-4eb0-a566-31237c1dfea6",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -525,7 +534,7 @@
                     "id": "2929be8a-698a-4e01-9129-09b6e6e459bb",
                     "path": "2DVector(mode=1)",
                     "interactions": "",
-                    "processors": "ScaleVector2",
+                    "processors": "",
                     "groups": "",
                     "action": "CameraPan",
                     "isComposite": true,
@@ -582,7 +591,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "CameraPan_Mouse",
+                    "action": "CameraTilt_Mouse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -594,6 +603,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Drop",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3d43c46f-b4e0-4474-a26c-5a3ad70fd6dd",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -7,6 +7,7 @@ public class Player : MonoBehaviour, IDamageable
     public PlayerCombat playerCombat;
     public PlayerMovement playerMovement;
     public PlayerFollow playerFollow;
+    public PlayerAiming playerAiming;
     public PlayerInventory playerInventory;
     public StateMachine stateMachine;
 
@@ -21,7 +22,8 @@ public class Player : MonoBehaviour, IDamageable
     public void InitPlayer()
     {
         cameraController.Init(playerFollow);
-        playerMovement.Init(cameraController);
+        playerAiming = new PlayerAiming();
+        playerMovement.Init(cameraController, playerAiming);
         playerInventory.Init(this);
         playerCombat.Init(this);
         stateMachine.Init(new WalkState());
@@ -30,6 +32,11 @@ public class Player : MonoBehaviour, IDamageable
 
         health = maxHealth;
         UpdateHealth();
+    }
+
+    void Update()
+    {
+        playerAiming.HandleAiming();
     }
 
     public void TakeDamage(int damage)
@@ -44,7 +51,7 @@ public class Player : MonoBehaviour, IDamageable
 
     public void UpdateHealth()
     {
-
+        
     }
     public void Death()
     {
