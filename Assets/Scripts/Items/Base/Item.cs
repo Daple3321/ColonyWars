@@ -38,9 +38,13 @@ public class Item
     
     public virtual void Init<T>(T data)
     {
-        if (data is MeleeWeaponData weaponData)
+        // if (data is WeaponData weaponData)
+        // {
+        //     itemData = weaponData;
+        // }
+        if (data is MeleeWeaponData meleeWeaponData)
         {
-            itemData = weaponData;
+            itemData = meleeWeaponData;
         }
         if (data is RangedWeaponData rangedWeaponData)
         {

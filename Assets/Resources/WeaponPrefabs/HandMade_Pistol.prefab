@@ -4963,8 +4963,11 @@ MonoBehaviour:
   meshFilter: {fileID: 0}
   meshRenderer: {fileID: 0}
   attachmentPoint: {fileID: 6561942895709011517}
+  damage: 0
+  attackType: 0
   shootDistance: 0
   shootInterval: 0
+  shootStyle: 0
   concentrationScatter:
     serializedVersion: 2
     m_Curve:
@@ -4994,7 +4997,7 @@ MonoBehaviour:
     m_Bits: 128
   shootPoint: {fileID: 6645474264777826156}
   cartridgePos: {fileID: 699525419641077763}
-  shootEffect: {fileID: 0}
+  shootEffect: {fileID: 9054657458351064944}
 --- !u!33 &2735916817876254769
 MeshFilter:
   m_ObjectHideFlags: 0

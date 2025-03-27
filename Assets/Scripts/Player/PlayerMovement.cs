@@ -210,10 +210,10 @@ public class PlayerMovement : MonoBehaviour
             //ResetSpeed();
         }
     }
-    public void ChangeSpeed(float percent)
-    {
-        currentSpeed = walkSpeed + (walkSpeed * (percent / 100));
-    }
+    // public void ChangeSpeed(float percent)
+    // {
+    //     currentSpeed = walkSpeed + (walkSpeed * (percent / 100));
+    // }
     public void ResetSpeed()
     {
         currentSpeed = walkSpeed;

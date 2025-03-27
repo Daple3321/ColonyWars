@@ -5,6 +5,7 @@ public class RangedWeaponItem : WeaponWorldItem
 {
     public float shootDistance; // МОЖНО И НЕ ПЕРЕДАВАТЬ??
     public float shootInterval; // ДЕЛАТЬ ВСЮ ЛОГИКУ КД И ВСЕГО В itemOriginе?
+    public ShootStyle shootStyle;
     public AnimationCurve concentrationScatter;
 
     public LayerMask hitLayers;
@@ -21,6 +22,7 @@ public class RangedWeaponItem : WeaponWorldItem
         {
             shootDistance = weaponData.shootDistance;
             shootInterval = weaponData.shootInterval;
+            shootStyle = weaponData.shootStyle;
         }
     }
 

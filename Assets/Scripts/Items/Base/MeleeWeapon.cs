@@ -10,6 +10,7 @@ public class MeleeWeapon : Weapon
     public MeleeWeapon(ItemData _itemData) : base(_itemData)
     {
         Init(_itemData);
+        //LoadStats();
     }
 
     public override void LoadStats()

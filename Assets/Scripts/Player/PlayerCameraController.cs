@@ -56,6 +56,9 @@ public class PlayerCameraController : MonoBehaviour
 
         ResetFov();
 
+        xRotate = cinemachineCamera.transform.rotation.eulerAngles.x;
+        yRotate = cinemachineCamera.transform.rotation.eulerAngles.y;
+
         enabled = true;
     }
 

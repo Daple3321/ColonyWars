@@ -5,4 +5,6 @@ public class RangedWeaponData : WeaponData
 {
     public float shootDistance;
     public float shootInterval;
+    public ShootStyle shootStyle;
 }
+
