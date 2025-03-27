@@ -8,6 +8,8 @@ public class RangedWeaponItem : WeaponWorldItem
     public ShootStyle shootStyle;
     public AnimationCurve concentrationScatter;
 
+    public float projectileSpeed;
+    public GameObject projectilePrefab;
     public LayerMask hitLayers;
     public Transform shootPoint;
     public Transform cartridgePos;
@@ -27,6 +29,60 @@ public class RangedWeaponItem : WeaponWorldItem
     }
 
     public override void Attack(float concentraion) // ВЫСТРЕЛЫ ПРОСТО НЕ СПАВНЯТСЯ ЕСЛИ НИЧЕГО НЕ ХИТАНУЛИ.
+    {
+        switch (shootStyle)
+        {
+            case ShootStyle.HITSCAN:
+                HitscanShot(concentraion);
+                PlayShootEffect();
+                break;
+            case ShootStyle.PROJECTILE:
+                ProjectileShot(concentraion);
+                PlayShootEffect();
+                break;
+            case ShootStyle.AREA_HITSCAN:
+                
+                PlayShootEffect();
+                break;
+        }
+    }
+
+    protected virtual void PlayShootEffect()
+    {
+        shootEffect.Play();
+    }
+
+    protected virtual void ProjectileShot(float concentraion)
+    {
+        Vector3 mousePos = Input.mousePosition;
+        Ray mouseRay = Camera.main.ScreenPointToRay(mousePos);
+        RaycastHit mouseHit;
+        if (Physics.Raycast(mouseRay, out mouseHit, Mathf.Infinity, hitLayers))
+        {
+            Vector3 shootDir = mouseHit.point - shootPoint.position;
+            float scatterAmount = concentrationScatter.Evaluate(concentraion);
+            Ray shootRay = new Ray(shootPoint.position, Helper.GetRandPointOnUnitSphereCap(shootDir, scatterAmount));
+            Projectile projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity).GetComponent<Projectile>();
+            //projectile.transform.rotation.SetLookRotation(shootRay.direction, projectile.transform.up);
+            projectile.transform.up = shootRay.direction;
+            projectile.Init(damage, projectileSpeed, Affiliation.Player);
+
+            Debug.DrawLine(shootPoint.position, mouseHit.point, Color.green, 2);
+            Debug.DrawRay(shootPoint.position, shootRay.direction * 4, Color.cyan, 3);
+        }
+
+        // int hits = Physics.RaycastNonAlloc(mouseRay, mouseHit, Mathf.Infinity, hitLayers);
+        // if (hits > 0)
+        // {
+        //     Vector3 shootDir = mouseHit[0].point - shootPoint.position;
+        //     float scatterAmount = concentrationScatter.Evaluate(concentraion);
+        //     Ray shootRay = new Ray(shootPoint.position, Helper.GetRandPointOnUnitSphereCap(shootDir, scatterAmount));
+        //     Projectile projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.LookRotation(shootRay.direction)).GetComponent<Projectile>();
+        //     projectile.Init(damage, projectileSpeed, Affiliation.Player);
+        // }
+    }
+    
+    protected virtual void HitscanShot(float concentraion)
     {
         Vector3 mousePos = Input.mousePosition;
         Ray mouseRay = Camera.main.ScreenPointToRay(mousePos);

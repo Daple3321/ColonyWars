@@ -8,10 +8,11 @@ public class PlayerCameraController : MonoBehaviour
     public CinemachineOrbitalFollow cmFollow;
     public CinemachineCamera cinemachineCamera;
     public CinemachinePositionComposer positionComposer;
+    public static CinemachineBasicMultiChannelPerlin camNoise;
     public Camera mainCamera;
     private Controls controls;
-    
-    
+
+
     [Space(5), Header("Camera controls")]
     //public InputAction zoomAction;
     public Vector2 zoomLimits;
@@ -22,7 +23,7 @@ public class PlayerCameraController : MonoBehaviour
     public Vector2 tiltAngleLimits;
     [Header("Panning")]
     public float panSensetivity;
-    
+
 
     [Space(10), Header("FOV settings")]
     public float currentFov;
@@ -43,11 +44,13 @@ public class PlayerCameraController : MonoBehaviour
         positionComposer = transform.Find("CinemachineCamera").GetComponent<CinemachinePositionComposer>();
         cinemachineCamera = transform.Find("CinemachineCamera").GetComponent<CinemachineCamera>();
         mainCamera = transform.Find("Main Camera").GetComponent<Camera>();
+        camNoise = cinemachineCamera.GetComponent<CinemachineBasicMultiChannelPerlin>();
+        Noise(0, 0);
 
         controls = GameAssets.controls;
         //zoomAction = InputSystem.actions.FindAction("Zoom");
         //panAction = InputSystem.actions.FindAction("CameraPan_Mouse");
-        
+
         this.playerFollow = playerFollow;
         cinemachineCamera.Target.TrackingTarget = playerFollow.transform;
 
@@ -139,7 +142,7 @@ public class PlayerCameraController : MonoBehaviour
             cinemachineCamera.transform.RotateAround(playerFollow.transform.position, Vector3.up, Time.deltaTime * -panSensetivity);
         }
     }
-    
+
     public IEnumerator ChangeFov(float from, float target, float waitTime)
     {
         float elapsedTime = 0f;
@@ -157,10 +160,21 @@ public class PlayerCameraController : MonoBehaviour
         cinemachineCamera.Lens.FieldOfView = target;
         currentFov = cinemachineCamera.Lens.FieldOfView;
     }
-
     public void ResetFov()
     {
         cinemachineCamera.Lens.FieldOfView = fov_default;
         currentFov = cinemachineCamera.Lens.FieldOfView;
     }
+    
+    public static IEnumerator CameraShake(float shakeIntensity = 5f, float shakeTiming = 0.5f)
+    {
+        Noise(1, shakeIntensity);
+        yield return new WaitForSeconds(shakeTiming);
+        Noise(0, 0);
+    }
+    public static void Noise(float amplitudeGain, float frequencyGain)
+    {
+        camNoise.AmplitudeGain = amplitudeGain;  
+        camNoise.FrequencyGain = frequencyGain;
+    }   
 }

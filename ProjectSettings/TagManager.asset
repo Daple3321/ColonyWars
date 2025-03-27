@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Weapon
   - Item
+  - Projectile
   layers:
   - Default
   - TransparentFX
@@ -16,9 +17,9 @@ TagManager:
   - Player
   - Ground
   - Items
-  - 
-  - 
-  - 
+  - EnemyProjectiles
+  - PlayerProjectiles
+  - Enemy
   - 
   - 
   - 

@@ -502,7 +502,6 @@ MonoBehaviour:
     icon: {fileID: 0}
     rarity: 0
     itemData: {fileID: 0}
-    weaponData: {fileID: 0}
     damage: 0
     attackType: 0
   weaponWorld: {fileID: 0}
@@ -595,7 +594,7 @@ MonoBehaviour:
   zoomSpeed: 160
   tiltSensetivity: 1
   tiltAngleLimits: {x: 25, y: 80}
-  panSensetivity: 90
+  panSensetivity: 100
   currentFov: 0
   fov_default: 70
   fov_running: 80
@@ -992,6 +991,7 @@ GameObject:
   - component: {fileID: 6758575918514343607}
   - component: {fileID: 4914851466696106639}
   - component: {fileID: 4215460588050031356}
+  - component: {fileID: 6753777828660487003}
   - component: {fileID: 9157086552723203239}
   m_Layer: 0
   m_Name: CinemachineCamera
@@ -1089,6 +1089,23 @@ MonoBehaviour:
     Time: 0
     Smoothing: 0
     IgnoreY: 0
+--- !u!114 &6753777828660487003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5051092120189399757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NoiseProfile: {fileID: 11400000, guid: dcf7c2e7a07bb1d48b44995a6eb89526, type: 2}
+  PivotOffset: {x: 0, y: 0, z: 0}
+  AmplitudeGain: 1
+  FrequencyGain: 1
+  m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!114 &9157086552723203239
 MonoBehaviour:
   m_ObjectHideFlags: 0

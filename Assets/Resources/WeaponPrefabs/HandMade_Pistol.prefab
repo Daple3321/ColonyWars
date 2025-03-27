@@ -4992,9 +4992,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  projectileSpeed: 25
+  projectilePrefab: {fileID: 1014752688310764929, guid: d96163116091c5941b0d0e79d4b8396e, type: 3}
   hitLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 2432
   shootPoint: {fileID: 6645474264777826156}
   cartridgePos: {fileID: 699525419641077763}
   shootEffect: {fileID: 9054657458351064944}

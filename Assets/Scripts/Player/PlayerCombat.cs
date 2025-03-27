@@ -83,6 +83,7 @@ public class PlayerCombat : MonoBehaviour
         {
             //currentWeapon.Attack();
             weaponWorld.Attack(concentraion);
+            StartCoroutine(PlayerCameraController.CameraShake(1, 0.15f));
         }
     }
 

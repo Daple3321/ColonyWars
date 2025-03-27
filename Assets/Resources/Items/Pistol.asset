@@ -26,3 +26,4 @@ MonoBehaviour:
   attackType: 2
   shootDistance: 5
   shootInterval: 1
+  shootStyle: 1

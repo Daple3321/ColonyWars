@@ -11,6 +11,8 @@ public static class GameAssets
     public static GameObject itemPrefab;
     public static List<ItemData> itemDatas;
 
+    public static GameObject projectilePrefab;
+
     public static bool isInitialized { get; private set; } = false;
 
     public static void Init()
@@ -25,6 +27,8 @@ public static class GameAssets
             
             itemDatas = Resources.LoadAll<ItemData>("Items/").ToList();
             itemPrefab = Resources.Load<GameObject>("ItemPrefab");
+            
+            projectilePrefab = Resources.Load<GameObject>("Projectile");
             // foreach (ItemData item in itemDatas)
             // {
             //     UnityEngine.Debug.Log($"Found item: {item.itemName}");
