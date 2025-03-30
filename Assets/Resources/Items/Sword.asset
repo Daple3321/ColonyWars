@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Sword
   description: 123123
-  icon: {fileID: -1213750339, guid: 10a723cc0f4eaa043b70ae94b5cb80bc, type: 3}
+  icon: {fileID: 3625043607559282579, guid: 156d4a9fd6d3df245afed6da4277aac5, type: 3}
   rarity: 1
   IsStackable: 0
   maxStackSize: 1

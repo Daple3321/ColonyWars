@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class Inventory
 {
     private List<InventoryItem> inventoryItems;
     public int Size { get; private set; } = 8;
+
+    public event Action<Dictionary<int, InventoryItem>> OnInventoryUpdated;
 
     public Inventory(int size)
     {
@@ -31,20 +34,27 @@ public class Inventory
             quantity = itemToAdd.itemData.maxStackSize;
             Debug.Log($"Adding more {itemToAdd.itemName}'s than maxStackSize. Limiting quantity");
         }
-        
-        for (int i = 0; i < inventoryItems.Count; i++)
-            {
-                if (inventoryItems[i].IsEmpty)
-                {
-                    inventoryItems[i] = new InventoryItem
-                    {
-                        item = itemToAdd,
-                        quantity = quantity,
-                    };
 
-                    break;
-                }
+        for (int i = 0; i < inventoryItems.Count; i++)
+        {
+            if (inventoryItems[i].IsEmpty)
+            {
+                inventoryItems[i] = new InventoryItem
+                {
+                    item = itemToAdd,
+                    quantity = quantity,
+                };
+
+                return;
             }
+        }
+
+        InformAboutChange();
+    }
+
+    public void AddItem(InventoryItem item)
+    {
+        AddItem(item.item, item.quantity);
     }
 
     public Item DropItem(int index, Transform dropPos, int quantity = 1)
@@ -63,7 +73,8 @@ public class Inventory
                 {
                     inventoryItems[index] = InventoryItem.GetEmptyItem();
                 }
-
+                
+                InformAboutChange();
                 return droppedItem;
             }
             else
@@ -71,6 +82,7 @@ public class Inventory
                 Debug.Log($"[{index}] No item in slot");
             }
         }
+        //InformAboutChange();
         return null;
     }
     public void DropWholeStack(int index, Transform dropPos)
@@ -82,9 +94,10 @@ public class Inventory
             GameObject obj = GameObject.Instantiate(GameAssets.itemPrefab, dropPos.position, dropPos.rotation);
             WorldItem worldItem = obj.GetComponent<WorldItem>();
             worldItem.Initialize(inventoryItems[index].item.itemData, inventoryItems[index].item);
-            
+
             inventoryItems[index] = inventoryItems[index].ChangeQuantity(inventoryItems[index].quantity - 1);
         }
+        InformAboutChange();
     }
     
 
@@ -102,13 +115,13 @@ public class Inventory
         return returnValue;
     }
 
-    public Item GetItem(int index)
+    public InventoryItem GetItemAt(int index)
     {
         if (!inventoryItems[index].IsEmpty)
-            return inventoryItems[index].item;
+            return inventoryItems[index];
         else
         {
-            return null; // ???
+            return InventoryItem.GetEmptyItem(); // ???
         }
     }
     
@@ -162,22 +175,18 @@ public class Inventory
         }
     }
 
-    // public int FindEmptySlot()
-    // {
-    //     return inventory.LastIndexOf(null);
-    // }
+    public void SwapItems(int itemIndex_1, int itemIndex_2)
+    {
+        InventoryItem item1 = inventoryItems[itemIndex_1];
+        inventoryItems[itemIndex_1] = inventoryItems[itemIndex_2];
+        inventoryItems[itemIndex_2] = item1;
+        InformAboutChange();
+    }
 
-    // public bool HasSpace()
-    // {
-    //     if (inventory.Count < inventory.Capacity)
-    //     {
-    //         return true;
-    //     }
-    //     else
-    //     {
-    //         return false;
-    //     }
-    // }
+    private void InformAboutChange()
+    {
+        OnInventoryUpdated?.Invoke(GetCurrentInventoryState());
+    }
 }
 
 [System.Serializable]

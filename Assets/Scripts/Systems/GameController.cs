@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
     public static Player p;
     public static WorldGenerator worldGenerator;
 
+    public InventoryUI playerInventoryUI; 
     public Transform pSpawnPoint;
     public Terrain currentTerrain;
     public GameSettings defaultGameSettings;
@@ -43,6 +44,8 @@ public class GameController : MonoBehaviour
         worldGenerator = GameObject.Find("WorldGen").GetComponent<WorldGenerator>();
         worldGenerator.Init(gameSettings.worldGenSettings);
         currentTerrain = worldGenerator.terrain;
+        
+        playerInventoryUI = GameObject.Find("PlayerInventory").GetComponent<InventoryUI>();
 
         GameObject playerObj = Instantiate(GameAssets.playerPrefab, pSpawnPoint.position, Quaternion.identity);
         p = playerObj.GetComponent<Player>();

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Gem
   description: Just a gem
-  icon: {fileID: -1213750339, guid: 10a723cc0f4eaa043b70ae94b5cb80bc, type: 3}
+  icon: {fileID: 932606823, guid: 10a723cc0f4eaa043b70ae94b5cb80bc, type: 3}
   rarity: 3
   IsStackable: 1
   maxStackSize: 5

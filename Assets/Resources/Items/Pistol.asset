@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Pistol
   description: sagat
-  icon: {fileID: 1113378588, guid: 10a723cc0f4eaa043b70ae94b5cb80bc, type: 3}
+  icon: {fileID: -1536799493, guid: 05c986f37d7d2654888b5ebdd0b6f314, type: 3}
   rarity: 2
   IsStackable: 0
   maxStackSize: 1

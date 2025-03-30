@@ -25,6 +25,7 @@ public class PlayerInventory : MonoBehaviour
     private Player player;
     private Transform rightHand;
     private Transform leftHand;
+    [SerializeField] private InventoryUI inventoryUI;
     public void Init(Player player)
     {
         this.player = player;
@@ -34,6 +35,7 @@ public class PlayerInventory : MonoBehaviour
         enabled = true;
 
         inventory = new Inventory(inventoryStartingSize);
+        inventory.OnInventoryUpdated += UpdateUI;
 
         inventory.AddItem(new RangedWeapon(itemDatas[1]), 1);
         inventory.AddItem(new MeleeWeapon(itemDatas[0]), 1);
@@ -42,7 +44,10 @@ public class PlayerInventory : MonoBehaviour
         //inventory.DeleteItem(2);
         //inventory.DropItem(2, transform, 1);
 
-        inventory.PrintInv();
+        //inventoryUI = GameController.i.playerInventoryUI;
+        PrepareUI();
+        //inventoryUI.InitializeInventoryUI(inventoryStartingSize);
+        //inventory.PrintInv();
 
         //GameObject droppedItem = Instantiate(itemPrefab, transform.position, Quaternion.identity);
         //WorldItem worldItem = droppedItem.GetComponent<WorldItem>();
@@ -51,9 +56,45 @@ public class PlayerInventory : MonoBehaviour
         SelectItem(selectedSlotId);
     }
 
+    private void UpdateUI(Dictionary<int, InventoryItem> inventoryState)
+    {
+        inventoryUI.ResetAllItems();
+        foreach (var item in inventoryState)
+        {
+            inventoryUI.UpdateData(item.Key, item.Value.item.icon, item.Value.quantity);
+        }
+    }
+
+    private void PrepareUI()
+    {
+        inventoryUI = GameController.i.playerInventoryUI;
+        inventoryUI.InitializeInventoryUI(inventoryStartingSize);
+        this.inventoryUI.OnSwapItems += HandleSwapItems;
+        this.inventoryUI.OnStartDragging += HandleDragging;
+        this.inventoryUI.OnItemActionRequested += HandleItemActionRequest;
+    }
+
+    private void HandleItemActionRequest(int itemIndex)
+    {
+        
+    }
+
+    private void HandleDragging(int itemIndex)
+    {
+        InventoryItem inventoryItem = inventory.GetItemAt(itemIndex);
+        if (inventoryItem.IsEmpty)
+            return;
+        inventoryUI.CreateDraggedItem(inventoryItem.item.icon, inventoryItem.quantity);
+    }
+
+    private void HandleSwapItems(int itemIndex_1, int itemIndex_2)
+    {
+        inventory.SwapItems(itemIndex_1, itemIndex_2);
+    }
+
     public Item SelectItem(int slotId)
     {
-        selectedItem = inventory.GetItem(slotId);
+        selectedItem = inventory.GetItemAt(slotId).item;
 
         if (selectedItem != null) // If slot has item
         {
@@ -66,7 +107,7 @@ public class PlayerInventory : MonoBehaviour
             selectedWorldItem.Attach(rightHand);
 
             OnItemSelected?.Invoke(this, new OnItemSelectedEventArgs { selectedItem = selectedItem, worldItem = selectedWorldItem, slotId = slotId });
-            
+
             if (selectedItem != null)
                 Debug.Log($"[{slotId}] Selected {selectedItem.itemName} item");
         }
@@ -74,10 +115,10 @@ public class PlayerInventory : MonoBehaviour
         {
             if (selectedWorldItem != null)
                 Destroy(selectedWorldItem.gameObject);
-                
+
             OnItemSelected?.Invoke(this, new OnItemSelectedEventArgs { selectedItem = selectedItem, worldItem = null, slotId = slotId });
         }
-        
+
         return selectedItem;
     }
 
@@ -105,10 +146,22 @@ public class PlayerInventory : MonoBehaviour
             OnItemDropped?.Invoke(this, new OnItemDroppedEventArgs { droppedItem = droppedItem, slotId = selectedSlotId });
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (controls.Player.InventoryOpen.WasPressedThisFrame())
         {
-            inventory.PrintInv();
+            if (!inventoryUI.isActiveAndEnabled)
+            {
+                inventoryUI.Show();
+                foreach (var item in inventory.GetCurrentInventoryState())
+                {
+                    inventoryUI.UpdateData(item.Key, item.Value.item.icon, item.Value.quantity);
+                }
+            }
+            else
+            {
+                inventoryUI.Hide();
+            }
         }
+        
     }
 
 
