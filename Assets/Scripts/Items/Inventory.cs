@@ -158,9 +158,17 @@ public class Inventory
             Debug.Log($"No item found at index {index}");
         }
     }
-    public void DeleteItem(Item itemToDelete)
+    public void DestroyItem(InventoryItem item)
     {
-        
+        int itemIndex = inventoryItems.IndexOf(item);
+        if (itemIndex == -1)
+        {
+            Debug.Log($"Can't find item {item.item.itemName} to delete");
+            return;
+        }
+
+        inventoryItems[itemIndex] = InventoryItem.GetEmptyItem();
+        InformAboutChange();
     }
 
     public void PrintInv()
@@ -180,14 +188,22 @@ public class Inventory
 
     public void SwapItems(int itemIndex_1, int itemIndex_2, InventoryItem from, InventoryItem to)
     {
-        // if (inventoryItems[itemIndex_1].IsEmpty || inventoryItems[itemIndex_2].IsEmpty) // чёёё
-        //     return;
-        
-        InventoryItem item1 = inventoryItems[itemIndex_1];
-        inventoryItems[itemIndex_1] = inventoryItems[itemIndex_2];
-        inventoryItems[itemIndex_2] = item1;
+        bool canStack = InventoryItem.CanStackCheck(from, to);
+        if (canStack)
+        {
+            InventoryItem sourceItemChanged;
+            InventoryItem finalItem = InventoryItem.Stack(from, to, out sourceItemChanged);
+            
+            inventoryItems[itemIndex_1] = sourceItemChanged;
+            inventoryItems[itemIndex_2] = finalItem;
+        }
+        else
+        {
+            InventoryItem item1 = inventoryItems[itemIndex_1];
+            inventoryItems[itemIndex_1] = inventoryItems[itemIndex_2];
+            inventoryItems[itemIndex_2] = item1;
+        }
 
-        Debug.Log($"Internal swap in inventory");
         InformAboutChange();
     }
 
@@ -206,6 +222,7 @@ public struct InventoryItem
 
     public bool IsEmpty => item == null;
 
+    public bool CanStack => quantity < MaxStackSize && IsStackable;
     public bool IsStackable => item.itemData.IsStackable;
     public int MaxStackSize => item.itemData.maxStackSize;
 
@@ -234,6 +251,74 @@ public struct InventoryItem
         }
     }
 
+    public static bool CanStackCheck(InventoryItem from, InventoryItem to)
+    {
+        //int maxAvailableTransfer;
+        //maxAvailableTransfer = from.MaxStackSize - to.quantity;
+        return !to.IsEmpty && from.item.itemData == to.item.itemData && to.CanStack;
+    }
+    
+    public static InventoryItem Stack(InventoryItem sourceItem, InventoryItem destinationItem,
+        out InventoryItem sourceItemChanged)
+    {
+        InventoryItem finalItem = sourceItem;
+        sourceItemChanged = sourceItem;
+        
+        int maxAvailableTransfer;
+        maxAvailableTransfer = destinationItem.MaxStackSize - destinationItem.quantity;
+        //bool canStack = sourceItem.item.itemData == destinationItem.item.itemData && destinationItem.CanStack && sourceItem.quantity <= maxAvailableTransfer;
+
+        /* логика стакинга */
+        if (sourceItem.quantity == maxAvailableTransfer) // 5/8 + 3/8 = 8/8
+        {
+            int moveAmount = destinationItem.quantity + maxAvailableTransfer;
+            sourceItemChanged = GetEmptyItem();
+            finalItem = new InventoryItem
+            {
+                quantity = moveAmount,
+                item = sourceItem.item,
+            };
+            Debug.Log($"Stacking to maxAmount {moveAmount}");
+        }
+        else if (sourceItem.quantity == destinationItem.quantity) // 5/10 + 5/10 = 10/10 <-- НЕ РАБОТАЕТ???
+        {
+            int moveAmount = destinationItem.quantity + maxAvailableTransfer;
+            sourceItemChanged = GetEmptyItem();
+            finalItem = new InventoryItem
+            {
+                quantity = moveAmount,
+                item = sourceItem.item,
+            };
+        }
+        else if (sourceItem.quantity < maxAvailableTransfer) // 3/10 + 5/10 = 8/10
+        {
+            int moveAmount = sourceItem.quantity + destinationItem.quantity;
+            sourceItemChanged = GetEmptyItem();
+            finalItem = new InventoryItem
+            {
+                quantity = moveAmount,
+                item = sourceItem.item,
+            };
+            Debug.Log($"Stacking, deleting sourceItem completly {moveAmount}");
+        }
+        else if (sourceItem.quantity > maxAvailableTransfer) // 8/10 + 8/10 = [10/10; 6/10]
+        {
+            int moveAmount = maxAvailableTransfer + destinationItem.quantity;
+            sourceItemChanged = new InventoryItem
+            {
+                quantity = sourceItem.quantity - maxAvailableTransfer,
+                item = sourceItem.item,
+            };
+            finalItem = new InventoryItem
+            {
+                quantity = moveAmount,
+                item = sourceItem.item,
+            };
+        }
+        
+        return finalItem;
+    }
+    
     public static InventoryItem GetEmptyItem()
     => new InventoryItem
     {

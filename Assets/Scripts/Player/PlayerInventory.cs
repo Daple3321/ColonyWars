@@ -20,16 +20,16 @@ public class PlayerInventory : MonoBehaviour
     public WorldItem selectedWorldItem;
 
     private Controls controls;
-    void Awake()
-    {
-        enabled = false;
-    }
 
     private Player player;
     private Transform rightHand;
     private Transform leftHand;
     [SerializeField] private InventoryUI inventoryUI;
     [SerializeField] private InventoryUI hotbarUI;
+    void Awake()
+    {
+        enabled = false;
+    }
     public void Init(Player player)
     {
         this.player = player;
@@ -46,6 +46,7 @@ public class PlayerInventory : MonoBehaviour
         inventory.AddItem(new RangedWeapon(itemDatas[1]), 1);
         inventory.AddItem(new MeleeWeapon(itemDatas[0]), 1);
         inventory.AddItem(new Item(itemDatas[2]), 5);
+        inventory.AddItem(new Item(itemDatas[2]), 8);
 
         hotbar = new Inventory(hotbarStartingSize);
         hotbar.OnInventoryUpdated += UpdateHotbarUI;
@@ -53,10 +54,11 @@ public class PlayerInventory : MonoBehaviour
         
         hotbar.AddItem(new RangedWeapon(itemDatas[1]), 1);
         hotbar.AddItem(new MeleeWeapon(itemDatas[0]), 1);
+        hotbar.AddItem(new Item(itemDatas[2]), 3);
 
         PrepareUI();
 
-        SelectItem(hotbar, selectedSlotId);
+        //SelectItem(hotbar, selectedSlotId);
     }
 
     private void UpdateUI(Dictionary<int, InventoryItem> inventoryState)
@@ -173,20 +175,89 @@ public class PlayerInventory : MonoBehaviour
         // 2. Сложный случай: обмен предметами между слотами разных инвентарей
         else
         {
-            // Проверяем, можно ли стакнуть (если нужно будет реализовать стакинг при переносе)
-            // bool canStack = itemToMove.item == itemAtDestination.item && itemAtDestination.IsStackable && ...
-            // if (canStack) { /* логика стакинга */ } else { /* логика обмена */ }
-
-            // Пока просто обменяем их местами
-            sourceInventory.SetItemAt(sourceIndex, itemAtDestination);
-            destinationInventory.SetItemAt(destinationIndex, itemToMove);
+            bool canStack = InventoryItem.CanStackCheck(itemToMove, itemAtDestination);
+            if (canStack)
+            {
+                /* логика стакинга */
+                // int maxAvailableTransfer;
+                // maxAvailableTransfer = itemAtDestination.MaxStackSize - itemAtDestination.quantity;
+                // if (itemToMove.quantity == maxAvailableTransfer)
+                // {
+                //     //sourceInventory.SetItemAt(sourceIndex, itemAtDestination);
+                //     int moveAmount = itemToMove.quantity + maxAvailableTransfer;
+                //     sourceInventory.DestroyItem(itemToMove);
+                //     destinationInventory.SetItemAt(destinationIndex, new InventoryItem
+                //     {
+                //         quantity = moveAmount,
+                //         item = itemToMove.item,
+                //     });
+                //     Debug.Log($"Stacking to maxAmount {moveAmount}");
+                // }
+                // else if (itemToMove.quantity < maxAvailableTransfer)
+                // {
+                //     int moveAmount = itemToMove.quantity + itemAtDestination.quantity;
+                //     sourceInventory.DestroyItem(itemToMove);
+                //     destinationInventory.SetItemAt(destinationIndex, new InventoryItem
+                //     {
+                //         quantity = moveAmount,
+                //         item = itemToMove.item,
+                //     });
+                //     Debug.Log($"Stacking, deleting sourceItem completly {moveAmount}");
+                // }
+                InventoryItem sourceItemChanged;
+                InventoryItem finalItem = InventoryItem.Stack(itemToMove, itemAtDestination, out sourceItemChanged);
+                sourceInventory.SetItemAt(sourceIndex, sourceItemChanged);
+                destinationInventory.SetItemAt(destinationIndex, finalItem);
+            }
+            else
+            {
+                /* логика обмена */
+                Debug.Log("Cant stack, swapping.");
+                sourceInventory.SetItemAt(sourceIndex, itemAtDestination);
+                destinationInventory.SetItemAt(destinationIndex, itemToMove);
+            }
         }
-
-        // 3. Уведомляем ОБА инвентаря об изменениях, чтобы их UI обновились
+        
         sourceInventory.InformAboutChange();
         destinationInventory.InformAboutChange();
 
         Debug.Log($"Transferred/Swapped item from {sourceInventory} (idx {sourceIndex}) to {destinationInventory} (idx {destinationIndex})");
+    }
+
+    public InventoryItem StackIfAvailable(InventoryItem sourceItem, InventoryItem destinationItem)
+    {
+        InventoryItem finalItem = InventoryItem.GetEmptyItem();
+        
+        bool canStack = sourceItem.item.itemData == destinationItem.item.itemData && destinationItem.CanStack;
+        if (canStack)
+        {
+            /* логика стакинга */
+            int maxAvailableTransfer;
+            maxAvailableTransfer = destinationItem.MaxStackSize - destinationItem.quantity;
+            if (sourceItem.quantity == maxAvailableTransfer)
+            {
+                //sourceInventory.SetItemAt(sourceIndex, itemAtDestination);
+                int moveAmount = sourceItem.quantity + maxAvailableTransfer;
+                finalItem = new InventoryItem
+                {
+                    quantity = moveAmount,
+                    item = sourceItem.item,
+                };
+                Debug.Log($"Stacking to maxAmount {moveAmount}");
+            }
+            else if (sourceItem.quantity < maxAvailableTransfer)
+            {
+                int moveAmount = sourceItem.quantity;
+                finalItem = new InventoryItem
+                {
+                    quantity = moveAmount,
+                    item = sourceItem.item,
+                };
+                Debug.Log($"Stacking, deleting sourceItem completly {moveAmount}");
+            }
+        }
+        
+        return finalItem;
     }
 
     public Item SelectItem(Inventory sourceInv, int slotId)
