@@ -8,6 +8,9 @@ public class PlayerInventory : MonoBehaviour
     public Inventory inventory;
     public int inventoryStartingSize = 8;
     
+    public Inventory hotbar;
+    public int hotbarStartingSize = 3;
+    
     public List<ItemData> itemDatas = new List<ItemData>();
 
     public GameObject itemPrefab;
@@ -26,6 +29,7 @@ public class PlayerInventory : MonoBehaviour
     private Transform rightHand;
     private Transform leftHand;
     [SerializeField] private InventoryUI inventoryUI;
+    [SerializeField] private InventoryUI hotbarUI;
     public void Init(Player player)
     {
         this.player = player;
@@ -40,6 +44,9 @@ public class PlayerInventory : MonoBehaviour
         inventory.AddItem(new RangedWeapon(itemDatas[1]), 1);
         inventory.AddItem(new MeleeWeapon(itemDatas[0]), 1);
         inventory.AddItem(new Item(itemDatas[2]), 5);
+
+        hotbar = new Inventory(hotbarStartingSize);
+        hotbar.OnInventoryUpdated += UpdateUI;
 
         //inventory.DeleteItem(2);
         //inventory.DropItem(2, transform, 1);
@@ -61,17 +68,25 @@ public class PlayerInventory : MonoBehaviour
         inventoryUI.ResetAllItems();
         foreach (var item in inventoryState)
         {
-            inventoryUI.UpdateData(item.Key, item.Value.item.icon, item.Value.quantity);
+            inventoryUI.UpdateData(item.Key, item.Value.item.icon, item.Value.quantity, item.Value);
         }
     }
 
     private void PrepareUI()
     {
-        inventoryUI = GameController.i.playerInventoryUI;
+        GameObject invObj = Instantiate(GameAssets.inventoryUI_Prefab, GameController.i.mainCanvas.transform);
+        inventoryUI = invObj.GetComponent<InventoryUI>();
         inventoryUI.InitializeInventoryUI(inventoryStartingSize);
         this.inventoryUI.OnSwapItems += HandleSwapItems;
         this.inventoryUI.OnStartDragging += HandleDragging;
         this.inventoryUI.OnItemActionRequested += HandleItemActionRequest;
+
+        GameObject hotbarObj = Instantiate(GameAssets.hotbarUI_Prefab, GameController.i.mainCanvas.transform);
+        hotbarUI = hotbarObj.GetComponent<InventoryUI>();
+        hotbarUI.InitializeInventoryUI(hotbarStartingSize);
+        this.hotbarUI.OnSwapItems += HandleSwapItems;
+        this.hotbarUI.OnStartDragging += HandleDragging;
+        this.hotbarUI.OnItemActionRequested += HandleItemActionRequest;
     }
 
     private void HandleItemActionRequest(int itemIndex)
@@ -84,12 +99,12 @@ public class PlayerInventory : MonoBehaviour
         InventoryItem inventoryItem = inventory.GetItemAt(itemIndex);
         if (inventoryItem.IsEmpty)
             return;
-        inventoryUI.CreateDraggedItem(inventoryItem.item.icon, inventoryItem.quantity);
+        inventoryUI.CreateDraggedItem(inventoryItem.item.icon, inventoryItem.quantity, inventoryItem);
     }
 
-    private void HandleSwapItems(int itemIndex_1, int itemIndex_2)
+    private void HandleSwapItems(int itemIndex_1, int itemIndex_2, InventoryItem from, InventoryItem to)
     {
-        inventory.SwapItems(itemIndex_1, itemIndex_2);
+        inventory.SwapItems(itemIndex_1, itemIndex_2, from, to);
     }
 
     public Item SelectItem(int slotId)
@@ -153,7 +168,7 @@ public class PlayerInventory : MonoBehaviour
                 inventoryUI.Show();
                 foreach (var item in inventory.GetCurrentInventoryState())
                 {
-                    inventoryUI.UpdateData(item.Key, item.Value.item.icon, item.Value.quantity);
+                    inventoryUI.UpdateData(item.Key, item.Value.item.icon, item.Value.quantity, item.Value);
                 }
             }
             else

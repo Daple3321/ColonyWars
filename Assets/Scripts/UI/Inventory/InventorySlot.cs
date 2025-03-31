@@ -9,6 +9,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
     [SerializeField] private Image itemImage;
     [SerializeField] private TMP_Text quantityTxt;
     [SerializeField] private Image borderImage;
+    public InventoryItem item;
 
     public event Action<InventorySlot> OnItemClicked, OnRightClick, OnItemDropped,
         OnItemBeginDrag, OnItemEndDrag;
@@ -26,6 +27,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
     {
         this.itemImage.gameObject.SetActive(false);
         quantityTxt.gameObject.SetActive(false);
+        item = InventoryItem.GetEmptyItem();
         empty = true;
     }
 
@@ -38,11 +40,11 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         borderImage.enabled = false;
     }
 
-    public void SetData(Sprite sprite, int quantity)
+    public void SetData(Sprite sprite, int quantity, InventoryItem item)
     {
         this.itemImage.gameObject.SetActive(true);
         quantityTxt.gameObject.SetActive(true);
-        
+        this.item = item;
         itemImage.sprite = sprite;
         quantityTxt.text = quantity.ToString();
         empty = false;

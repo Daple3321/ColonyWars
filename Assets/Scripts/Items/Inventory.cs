@@ -175,8 +175,11 @@ public class Inventory
         }
     }
 
-    public void SwapItems(int itemIndex_1, int itemIndex_2)
+    public void SwapItems(int itemIndex_1, int itemIndex_2, InventoryItem from, InventoryItem to)
     {
+        // if (inventoryItems[itemIndex_1].IsEmpty || inventoryItems[itemIndex_2].IsEmpty) // чёёё
+        //     return;
+        
         InventoryItem item1 = inventoryItems[itemIndex_1];
         inventoryItems[itemIndex_1] = inventoryItems[itemIndex_2];
         inventoryItems[itemIndex_2] = item1;

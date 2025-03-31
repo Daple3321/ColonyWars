@@ -12,9 +12,9 @@ public class MouseFollower : MonoBehaviour
         item = GetComponentInChildren<InventorySlot>();
     }
 
-    public void SetData(Sprite sprite, int quantity)
+    public void SetData(Sprite sprite, int quantity, InventoryItem itemToPut)
     {
-        item.SetData(sprite, quantity);
+        item.SetData(sprite, quantity, itemToPut);
     }
 
     void Update()
@@ -31,7 +31,7 @@ public class MouseFollower : MonoBehaviour
 
     public void Toggle(bool val)
     {
-        Debug.Log($"Item toggled {val}");
+        //Debug.Log($"Item toggled {val}");
         gameObject.SetActive(val);
     }
 }

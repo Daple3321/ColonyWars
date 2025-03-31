@@ -10,6 +10,8 @@ public static class GameAssets
     
     public static GameObject itemPrefab;
     public static List<ItemData> itemDatas;
+    public static GameObject inventoryUI_Prefab;
+    public static GameObject hotbarUI_Prefab;
 
     public static GameObject projectilePrefab;
 
@@ -27,6 +29,9 @@ public static class GameAssets
             
             itemDatas = Resources.LoadAll<ItemData>("Items/").ToList();
             itemPrefab = Resources.Load<GameObject>("ItemPrefab");
+
+            inventoryUI_Prefab = Resources.Load<GameObject>("UI/Inventory");
+            hotbarUI_Prefab = Resources.Load<GameObject>("UI/Hotbar");
             
             projectilePrefab = Resources.Load<GameObject>("Projectile");
             // foreach (ItemData item in itemDatas)

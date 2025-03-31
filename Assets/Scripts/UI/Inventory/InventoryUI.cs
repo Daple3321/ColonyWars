@@ -12,21 +12,20 @@ public class InventoryUI : MonoBehaviour
 
     public List<InventorySlot> inventorySlots = new List<InventorySlot>();
 
+    public bool hideOnInit = true;
+
 
     [SerializeField] private MouseFollower mouseFollower;
 
     private int currentlyDraggedItemIndex = -1;
 
     public event Action<int> OnItemActionRequested, OnStartDragging;
-    public event Action<int, int> OnSwapItems;
-
-    void Awake()
-    {
-        
-    }
+    public event Action<int, int, InventoryItem, InventoryItem> OnSwapItems;
 
     public void InitializeInventoryUI(int size)
     {
+        mouseFollower = GameController.i.mouseFollower;
+        
         for (int i = 0; i < size; i++)
         {
             InventorySlot slot = Instantiate(slotPrefab, Vector3.zero, Quaternion.identity).GetComponent<InventorySlot>();
@@ -40,27 +39,30 @@ public class InventoryUI : MonoBehaviour
             slot.OnRightClick += HandleShowItemActions;
         }
 
-        Hide();
-        mouseFollower.Toggle(false);
+        if (hideOnInit)
+        {
+            Hide();
+            mouseFollower.Toggle(false);
+        }
     }
 
-    public void UpdateData(int itemIndex, Sprite itemImage, int itemQuantity)
+    public void UpdateData(int itemIndex, Sprite itemImage, int itemQuantity, InventoryItem item)
     {
         if (inventorySlots.Count > itemIndex)
         {
-            inventorySlots[itemIndex].SetData(itemImage, itemQuantity);
+            inventorySlots[itemIndex].SetData(itemImage, itemQuantity, item);
         }
     }
 
     private void HandleShowItemActions(InventorySlot slot)
     {
-
+        
     }
 
-    public void CreateDraggedItem(Sprite sprite, int quantity)
+    public void CreateDraggedItem(Sprite sprite, int quantity, InventoryItem item)
     {
         mouseFollower.Toggle(true);
-        mouseFollower.SetData(sprite, quantity);
+        mouseFollower.SetData(sprite, quantity, item);
     }
     
     private void HandleBeginDrag(InventorySlot slot)
@@ -90,7 +92,7 @@ public class InventoryUI : MonoBehaviour
         {
             return;
         }
-        OnSwapItems?.Invoke(currentlyDraggedItemIndex, index);
+        OnSwapItems?.Invoke(currentlyDraggedItemIndex, index, inventorySlots[currentlyDraggedItemIndex].item, slot.item);
         HandleItemSelection(slot);
     }
 
