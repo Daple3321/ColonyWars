@@ -4,12 +4,17 @@ public class MouseFollower : MonoBehaviour
 {
     [SerializeField] private Canvas canvas;
 
-    [SerializeField] private InventorySlot item;
+    [SerializeField] public InventorySlot item;
 
     void Awake()
     {
         canvas = transform.root.GetComponent<Canvas>();
         item = GetComponentInChildren<InventorySlot>();
+    }
+
+    void Start()
+    {
+        //transform.SetAsFirstSibling();   
     }
 
     public void SetData(Sprite sprite, int quantity, InventoryItem itemToPut)

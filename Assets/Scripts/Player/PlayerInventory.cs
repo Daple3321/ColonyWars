@@ -15,7 +15,7 @@ public class PlayerInventory : MonoBehaviour
 
     public GameObject itemPrefab;
 
-    public int selectedSlotId = 0;
+    public int selectedSlotId = -1;
     public Item selectedItem = null;
     public WorldItem selectedWorldItem;
 
@@ -38,6 +38,8 @@ public class PlayerInventory : MonoBehaviour
         controls = GameAssets.controls;
         enabled = true;
 
+        DragDropManager.Init();
+
         inventory = new Inventory(inventoryStartingSize);
         inventory.OnInventoryUpdated += UpdateUI;
 
@@ -46,21 +48,15 @@ public class PlayerInventory : MonoBehaviour
         inventory.AddItem(new Item(itemDatas[2]), 5);
 
         hotbar = new Inventory(hotbarStartingSize);
-        hotbar.OnInventoryUpdated += UpdateUI;
+        hotbar.OnInventoryUpdated += UpdateHotbarUI;
+        hotbar.OnInventoryUpdated += UpdateSelectedItem;
+        
+        hotbar.AddItem(new RangedWeapon(itemDatas[1]), 1);
+        hotbar.AddItem(new MeleeWeapon(itemDatas[0]), 1);
 
-        //inventory.DeleteItem(2);
-        //inventory.DropItem(2, transform, 1);
-
-        //inventoryUI = GameController.i.playerInventoryUI;
         PrepareUI();
-        //inventoryUI.InitializeInventoryUI(inventoryStartingSize);
-        //inventory.PrintInv();
 
-        //GameObject droppedItem = Instantiate(itemPrefab, transform.position, Quaternion.identity);
-        //WorldItem worldItem = droppedItem.GetComponent<WorldItem>();
-        //worldItem.Initialize(inventory.GetItem(0).itemData, inventory.GetItem(0));
-
-        SelectItem(selectedSlotId);
+        SelectItem(hotbar, selectedSlotId);
     }
 
     private void UpdateUI(Dictionary<int, InventoryItem> inventoryState)
@@ -72,6 +68,15 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
+    private void UpdateHotbarUI(Dictionary<int, InventoryItem> inventoryState)
+    {
+        hotbarUI.ResetAllItems();
+        foreach (var item in inventoryState)
+        {
+            hotbarUI.UpdateData(item.Key, item.Value.item.icon, item.Value.quantity, item.Value);
+        }
+    }
+
     private void PrepareUI()
     {
         GameObject invObj = Instantiate(GameAssets.inventoryUI_Prefab, GameController.i.mainCanvas.transform);
@@ -80,13 +85,23 @@ public class PlayerInventory : MonoBehaviour
         this.inventoryUI.OnSwapItems += HandleSwapItems;
         this.inventoryUI.OnStartDragging += HandleDragging;
         this.inventoryUI.OnItemActionRequested += HandleItemActionRequest;
+        this.inventoryUI.OnTransferItemsRequest += HandleTransferRequest;
+        inventoryUI.SetLinkedInventory(inventory);
 
         GameObject hotbarObj = Instantiate(GameAssets.hotbarUI_Prefab, GameController.i.mainCanvas.transform);
         hotbarUI = hotbarObj.GetComponent<InventoryUI>();
         hotbarUI.InitializeInventoryUI(hotbarStartingSize);
-        this.hotbarUI.OnSwapItems += HandleSwapItems;
-        this.hotbarUI.OnStartDragging += HandleDragging;
+        this.hotbarUI.OnSwapItems += HandleSwapItemsHotbar;
+        this.hotbarUI.OnStartDragging += HandleDraggingHotbar;
         this.hotbarUI.OnItemActionRequested += HandleItemActionRequest;
+        this.hotbarUI.OnTransferItemsRequest += HandleTransferRequest;
+        hotbarUI.SetLinkedInventory(hotbar);
+        foreach (var item in hotbar.GetCurrentInventoryState())
+        {
+            hotbarUI.UpdateData(item.Key, item.Value.item.icon, item.Value.quantity, item.Value);
+        }
+
+        GameController.i.mouseFollower.transform.SetAsLastSibling();
     }
 
     private void HandleItemActionRequest(int itemIndex)
@@ -96,20 +111,87 @@ public class PlayerInventory : MonoBehaviour
 
     private void HandleDragging(int itemIndex)
     {
-        InventoryItem inventoryItem = inventory.GetItemAt(itemIndex);
+        HandleDraggingInternal(inventory, inventoryUI, itemIndex);
+    }
+    private void HandleDraggingHotbar(int itemIndex)
+    {
+        HandleDraggingInternal(hotbar, hotbarUI, itemIndex);
+    }
+
+    private void HandleDraggingInternal(Inventory sourceInv, InventoryUI sourceUI, int itemIndex)
+    {
+        InventoryItem inventoryItem = sourceInv.GetItemAt(itemIndex);
         if (inventoryItem.IsEmpty)
             return;
-        inventoryUI.CreateDraggedItem(inventoryItem.item.icon, inventoryItem.quantity, inventoryItem);
+        sourceUI.CreateDraggedItem(inventoryItem.item.icon, inventoryItem.quantity, inventoryItem);
     }
 
     private void HandleSwapItems(int itemIndex_1, int itemIndex_2, InventoryItem from, InventoryItem to)
     {
-        inventory.SwapItems(itemIndex_1, itemIndex_2, from, to);
+        //Debug.Log($"Swapping: {from.item.itemName} with {to.item.itemName}");
+        HandleSwapInternal(inventory, itemIndex_1, itemIndex_2, from, to);
+    }
+    private void HandleSwapItemsHotbar(int itemIndex_1, int itemIndex_2, InventoryItem from, InventoryItem to)
+    {
+        //Debug.Log($"Swapping: {from.item.itemName} with {to.item.itemName}");
+        HandleSwapInternal(hotbar, itemIndex_1, itemIndex_2, from, to);
     }
 
-    public Item SelectItem(int slotId)
+    private void HandleSwapInternal(Inventory sourceInv, int itemIndex_1, int itemIndex_2, InventoryItem from, InventoryItem to)
     {
-        selectedItem = inventory.GetItemAt(slotId).item;
+        sourceInv.SwapItems(itemIndex_1, itemIndex_2, from, to);
+    }
+    
+    private void HandleTransferRequest(InventoryUI sourceUI, int sourceIndex, InventoryUI destinationUI, int destinationIndex)
+    {
+        Inventory sourceInventory = sourceUI.LinkedInventory;
+        Inventory destinationInventory = destinationUI.LinkedInventory;
+
+        if (sourceInventory == null || destinationInventory == null)
+        {
+            Debug.LogError("Transfer failed: Linked inventory not found.");
+            return;
+        }
+
+        InventoryItem itemToMove = sourceInventory.GetItemAt(sourceIndex);
+        if (itemToMove.IsEmpty)
+        {
+            Debug.LogWarning("Transfer failed: Source slot is empty.");
+            return;
+        }
+
+        InventoryItem itemAtDestination = destinationInventory.GetItemAt(destinationIndex);
+
+        // --- Логика переноса/обмена между инвентарями ---
+
+        // 1. Простой случай: перемещение в пустой слот назначения
+        if (itemAtDestination.IsEmpty)
+        {
+            sourceInventory.SetItemAt(sourceIndex, InventoryItem.GetEmptyItem()); // Очищаем источник
+            destinationInventory.SetItemAt(destinationIndex, itemToMove);       // Помещаем в назначение
+        }
+        // 2. Сложный случай: обмен предметами между слотами разных инвентарей
+        else
+        {
+            // Проверяем, можно ли стакнуть (если нужно будет реализовать стакинг при переносе)
+            // bool canStack = itemToMove.item == itemAtDestination.item && itemAtDestination.IsStackable && ...
+            // if (canStack) { /* логика стакинга */ } else { /* логика обмена */ }
+
+            // Пока просто обменяем их местами
+            sourceInventory.SetItemAt(sourceIndex, itemAtDestination);
+            destinationInventory.SetItemAt(destinationIndex, itemToMove);
+        }
+
+        // 3. Уведомляем ОБА инвентаря об изменениях, чтобы их UI обновились
+        sourceInventory.InformAboutChange();
+        destinationInventory.InformAboutChange();
+
+        Debug.Log($"Transferred/Swapped item from {sourceInventory} (idx {sourceIndex}) to {destinationInventory} (idx {destinationIndex})");
+    }
+
+    public Item SelectItem(Inventory sourceInv, int slotId)
+    {
+        selectedItem = sourceInv.GetItemAt(slotId).item;
 
         if (selectedItem != null) // If slot has item
         {
@@ -137,23 +219,40 @@ public class PlayerInventory : MonoBehaviour
         return selectedItem;
     }
 
+    private void UpdateSelectedItem(Dictionary<int, InventoryItem> inventoryState) // hotbar only for now
+    {
+        if (!hotbar.HasItemAt(selectedSlotId)) // если предмет пропал из выбранного слота
+        {
+            SelectItem(hotbar, selectedSlotId);
+            // if (selectedWorldItem != null)
+            //     Destroy(selectedWorldItem.gameObject);
+            // selectedItem = null;
+
+            // OnItemSelected?.Invoke(this, new OnItemSelectedEventArgs { selectedItem = selectedItem, worldItem = null, slotId = selectedSlotId });
+        }
+        else // если предмет появился в выбранном слоте
+        {
+            SelectItem(hotbar, selectedSlotId);
+        }
+    }
+
     void Update()
     {
-        if (controls.Player.Next.WasPressedThisFrame() && selectedSlotId < inventory.Size - 1)
+        if (controls.Player.Next.WasPressedThisFrame() && selectedSlotId < hotbar.Size - 1)
         {
             selectedSlotId++;
-            SelectItem(selectedSlotId);
+            SelectItem(hotbar, selectedSlotId);
         }
         else if (controls.Player.Previous.WasPressedThisFrame() && selectedSlotId > 0)
         {
             selectedSlotId--;
-            SelectItem(selectedSlotId);
+            SelectItem(hotbar, selectedSlotId);
         }
 
-        if (controls.Player.Drop.WasPressedThisFrame() && selectedItem != null)
+        if (controls.Player.Drop.WasPressedThisFrame() && selectedItem != null) // тоже доработать под несколько инвентарей
         {
-            Item droppedItem = inventory.DropItem(selectedSlotId, transform);
-            if (selectedItem == droppedItem && !inventory.HasItemAt(selectedSlotId))
+            Item droppedItem = hotbar.DropItem(selectedSlotId, transform);
+            if (selectedItem == droppedItem && !hotbar.HasItemAt(selectedSlotId))
             {
                 selectedItem = null;
                 Destroy(selectedWorldItem.gameObject);

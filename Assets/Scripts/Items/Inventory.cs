@@ -125,20 +125,23 @@ public class Inventory
         }
     }
     
+    public void SetItemAt(int index, InventoryItem item)
+    {
+        if (index >= 0 && index < inventoryItems.Count)
+        {
+            inventoryItems[index] = item;
+        }
+        else
+        {
+            Debug.LogError($"SetItemAt: Index {index} out of bounds for inventory size {Size}");
+        }
+    }   
+    
     public bool HasItemAt(int index)
     {
         return !inventoryItems[index].IsEmpty;
     }
 
-    public Item FindItem(ItemData itemData)
-    {
-        return null;
-    }
-
-    public Item FindItem(string itemName)
-    {
-        return null;
-    }
 
     public void DeleteItem(int index)
     {
@@ -183,11 +186,14 @@ public class Inventory
         InventoryItem item1 = inventoryItems[itemIndex_1];
         inventoryItems[itemIndex_1] = inventoryItems[itemIndex_2];
         inventoryItems[itemIndex_2] = item1;
+
+        Debug.Log($"Internal swap in inventory");
         InformAboutChange();
     }
 
-    private void InformAboutChange()
+    public void InformAboutChange()
     {
+        Debug.Log($"Informing about change in {this}");
         OnInventoryUpdated?.Invoke(GetCurrentInventoryState());
     }
 }

@@ -21,20 +21,28 @@ public class InventoryUI : MonoBehaviour
 
     public event Action<int> OnItemActionRequested, OnStartDragging;
     public event Action<int, int, InventoryItem, InventoryItem> OnSwapItems;
+    public event Action<InventoryUI, int, InventoryUI, int> OnTransferItemsRequest;
 
+    public Inventory LinkedInventory { get; private set; }
+    public void SetLinkedInventory(Inventory linkedInventory)
+    {
+        LinkedInventory = linkedInventory;
+    }
+    
     public void InitializeInventoryUI(int size)
     {
         mouseFollower = GameController.i.mouseFollower;
-        
+
         for (int i = 0; i < size; i++)
         {
             InventorySlot slot = Instantiate(slotPrefab, Vector3.zero, Quaternion.identity).GetComponent<InventorySlot>();
             slot.transform.SetParent(contentPanel);
+            slot.Init(this);
             inventorySlots.Add(slot);
 
             slot.OnItemClicked += HandleItemSelection;
             slot.OnItemBeginDrag += HandleBeginDrag;
-            slot.OnItemDropped += HandleSwap;
+            slot.OnItemDropped += HandleDrop;
             slot.OnItemEndDrag += HandleEndDrag;
             slot.OnRightClick += HandleShowItemActions;
         }
@@ -68,11 +76,13 @@ public class InventoryUI : MonoBehaviour
     private void HandleBeginDrag(InventorySlot slot)
     {
         int index = inventorySlots.IndexOf(slot);
-        if (index == -1)
+        if (index == -1 || slot.empty)
             return;
+        
         currentlyDraggedItemIndex = index;
+        DragDropManager.currentlyDraggedSlot = slot;
         HandleItemSelection(slot);
-        OnStartDragging?.Invoke(index);
+        OnStartDragging?.Invoke(index); // создаёт mouseFollower
     }
     private void HandleEndDrag(InventorySlot slot)
     {
@@ -83,17 +93,55 @@ public class InventoryUI : MonoBehaviour
     {
         mouseFollower.Toggle(false);
         currentlyDraggedItemIndex = -1;
+        DragDropManager.currentlyDraggedSlot = null;
     }
 
-    private void HandleSwap(InventorySlot slot)
+    private void HandleDrop(InventorySlot destinationSlot)
     {
-        int index = inventorySlots.IndexOf(slot);
-        if (index == -1)
+        if (DragDropManager.currentlyDraggedSlot == null) return;
+
+        int destinationIndex = inventorySlots.IndexOf(destinationSlot);
+
+        InventoryUI sourceUI = DragDropManager.currentlyDraggedSlot.ParentUI;
+        int sourceIndex = sourceUI.inventorySlots.IndexOf(DragDropManager.currentlyDraggedSlot);
+        InventoryItem sourceItem = DragDropManager.currentlyDraggedSlot.item;
+
+        if (sourceUI == this) // если обмен внутри одного инвентаря
         {
-            return;
+            if (destinationIndex == -1) // Упали на свой UI, но не на слот? (Можно обработать или игнорировать)
+            {
+                Debug.Log("Dropped onto self UI but not a specific slot.");
+                return;
+            }
+            Debug.Log($"Swapping within {this.name}: Slot {sourceIndex} <-> Slot {destinationIndex}");
+            // Используем существующее событие для обмена внутри одного инвентаря
+            OnSwapItems?.Invoke(sourceIndex, destinationIndex, sourceItem, destinationSlot.item);
+            HandleItemSelection(destinationSlot); // Выделяем целевой слот
         }
-        OnSwapItems?.Invoke(currentlyDraggedItemIndex, index, inventorySlots[currentlyDraggedItemIndex].item, slot.item);
-        HandleItemSelection(slot);
+        else // перемещение между инвентарями
+        {
+            if (destinationIndex == -1)
+            {
+                Debug.LogError("Destination slot index not found in target UI. This shouldn't happen if dropped on a valid slot.");
+                return;
+            }
+
+            Debug.Log($"Transfer Request: From '{sourceUI.name}' (Slot {sourceIndex}) To '{this.name}' (Slot {destinationIndex})");
+
+            // Нужно новое событие для передачи данных о переносе в PlayerInventory или другой менеджер
+            // Передаем: исходный UI, исходный индекс, целевой UI, целевой индекс
+            OnTransferItemsRequest?.Invoke(sourceUI, sourceIndex, this, destinationIndex);
+        }
+        
+        // int index = inventorySlots.IndexOf(destinationSlot);
+        // if (index == -1)
+        // {
+        //     Debug.Log("Transfering to another inventory", slot);
+        //     return;
+        // }
+        // Debug.Log("Swapping with slot: ", slot);
+        // OnSwapItems?.Invoke(currentlyDraggedItemIndex, index, inventorySlots[currentlyDraggedItemIndex].item, slot.item);
+        // HandleItemSelection(slot);
     }
 
 

@@ -28,7 +28,7 @@ public class Player : MonoBehaviour, IDamageable
         playerCombat.Init(this);
         stateMachine.Init(new WalkState());
 
-        playerInventory.SelectItem(0);
+        playerInventory.SelectItem(playerInventory.hotbar, 0);
 
         health = maxHealth;
         UpdateHealth();

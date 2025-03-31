@@ -16,6 +16,13 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
 
     public bool empty = true;
+    
+    public InventoryUI ParentUI { get;  private set; }
+
+    public void Init(InventoryUI parentUI)
+    {
+        ParentUI = parentUI;
+    }
 
     void Awake()
     {
@@ -66,6 +73,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
     {
         if (empty)
             return;
+        //Debug.Log("Slot is not empty. Beggining drag.", this);
         OnItemBeginDrag?.Invoke(this);
     }
 
@@ -76,7 +84,8 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
     public void OnDrop(PointerEventData eventData)
     {
-        OnItemDropped?.Invoke(this);
+        OnItemDropped?.Invoke(this); // sending slot that we dropped into
+        //Debug.Log("Dropped to slot", this);
     }
 
     public void OnDrag(PointerEventData eventData)
