@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: 
   itemName: Pistol
-  description: sagat
+  description: duh
   icon: {fileID: -1536799493, guid: 05c986f37d7d2654888b5ebdd0b6f314, type: 3}
   rarity: 2
-  IsStackable: 0
-  maxStackSize: 1
+  IsStackable: 1
+  maxStackSize: 2
   itemMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   itemMaterials:
   - {fileID: 2100000, guid: 9b97bf6788871ed46adada024f586dab, type: 2}

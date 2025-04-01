@@ -30,6 +30,8 @@ public class Player : MonoBehaviour, IDamageable
 
         playerInventory.SelectItem(playerInventory.hotbar, 0);
 
+        MouseTooltip.i.Init();
+
         health = maxHealth;
         UpdateHealth();
     }

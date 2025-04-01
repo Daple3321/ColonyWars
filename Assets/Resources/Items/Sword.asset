@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: 
   itemName: Sword
-  description: 123123
+  description: sword desc
   icon: {fileID: 3625043607559282579, guid: 156d4a9fd6d3df245afed6da4277aac5, type: 3}
   rarity: 1
   IsStackable: 0

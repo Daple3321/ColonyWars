@@ -3,8 +3,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using PrimeTween;
 
-public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEndDragHandler, IDropHandler, IDragHandler
+public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEndDragHandler, IDropHandler, IDragHandler,
+    IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Image itemImage;
     [SerializeField] private TMP_Text quantityTxt;
@@ -16,9 +18,10 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
 
     public bool empty = true;
-    
-    public InventoryUI ParentUI { get;  private set; }
 
+    public InventoryUI ParentUI { get; private set; }
+
+    private RectTransform rectTransform;
     public void Init(InventoryUI parentUI)
     {
         ParentUI = parentUI;
@@ -26,6 +29,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
     void Awake()
     {
+        rectTransform = GetComponent<RectTransform>();
         ResetData();
         Deselect();
     }
@@ -49,11 +53,19 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
     public void SetData(Sprite sprite, int quantity, InventoryItem item)
     {
-        this.itemImage.gameObject.SetActive(true);
-        quantityTxt.gameObject.SetActive(true);
         this.item = item;
         itemImage.sprite = sprite;
         quantityTxt.text = quantity.ToString();
+
+        if (item.item.itemData.IsStackable)
+        {
+            quantityTxt.gameObject.SetActive(true);
+        }
+        else
+        {
+            quantityTxt.gameObject.SetActive(false);
+        }
+        this.itemImage.gameObject.SetActive(true);
         empty = false;
     }
 
@@ -90,6 +102,32 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
     public void OnDrag(PointerEventData eventData)
     {
+
+    }
+    
+    
+    private void ShowTooltip()
+    {
+        MouseTooltip.ShowTooltip_Static(item.item.itemName, item.item.GetDescription());
+    }
+    Tween scaleTween;
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (!empty)
+            ShowTooltip();
+
+        //rectTransform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), 0.18f).SetEase(Ease.OutCubic)
+        //.SetUpdate(true).SetRecyclable();
+
+        scaleTween.Stop();
+        scaleTween = Tween.Scale(rectTransform, 1.15f, 0.15f, Ease.OutCubic);
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        scaleTween = Tween.Scale(rectTransform, 1, 0.15f, Ease.InCubic);
+        MouseTooltip.HideTooltip_Static();
         
+        //rectTransform.DOScale(new Vector3(1, 1, 1), 0.18f).SetEase(Ease.OutCubic)
+        //.SetRecyclable();
     }
 }

@@ -1,3 +1,4 @@
+using System.Text;
 using UnityEngine;
 
 [System.Serializable]
@@ -30,12 +31,12 @@ public class Item
         }
         worldItem = obj.GetComponent<WorldItem>();
         worldItem.Initialize(itemData, this);
-        
+
         return worldItem;
     }
-    
+
     public virtual void LoadStats() { }
-    
+
     public virtual void Init<T>(T data)
     {
         // if (data is WeaponData weaponData)
@@ -58,6 +59,13 @@ public class Item
             icon = _itemData.icon;
             rarity = _itemData.rarity;
         }
+    }
+
+    public virtual string GetDescription()
+    {
+        StringBuilder str = new StringBuilder();
+        str.AppendLine(description);
+        return str.ToString();
     }
 }
 

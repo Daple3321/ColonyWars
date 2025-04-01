@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics.Geometry;
 using UnityEngine;
 
 [System.Serializable]
@@ -261,60 +262,98 @@ public struct InventoryItem
     public static InventoryItem Stack(InventoryItem sourceItem, InventoryItem destinationItem,
         out InventoryItem sourceItemChanged)
     {
-        InventoryItem finalItem = sourceItem;
+        InventoryItem finalItem = destinationItem;
         sourceItemChanged = sourceItem;
         
-        int maxAvailableTransfer;
-        maxAvailableTransfer = destinationItem.MaxStackSize - destinationItem.quantity;
-        //bool canStack = sourceItem.item.itemData == destinationItem.item.itemData && destinationItem.CanStack && sourceItem.quantity <= maxAvailableTransfer;
+        if (sourceItem.IsEmpty ||
+            destinationItem.IsEmpty ||
+            sourceItem.item.itemData != destinationItem.item.itemData ||
+            destinationItem.quantity >= destinationItem.MaxStackSize) // Цель уже полная?
+        {
+            Debug.LogWarning($"Stacking failed");
+            return finalItem;
+        }
+        
+        int maxAvailableTransfer = destinationItem.MaxStackSize - destinationItem.quantity;
+        int amountToMove = Mathf.Min(sourceItem.quantity, maxAvailableTransfer);
 
+        if (amountToMove <= 0)
+        {
+            return finalItem;
+        }
+        
+        int sourceNewQuantity = sourceItem.quantity - amountToMove;
+        int destinationNewQuantity = destinationItem.quantity + amountToMove;
+
+        // 4. Формирование итоговых состояний слотов
+        finalItem = new InventoryItem{
+            item = destinationItem.item,
+            quantity = destinationNewQuantity,
+        };
+        
+        if (sourceNewQuantity <= 0)
+        {
+            // Источник полностью опустел
+            sourceItemChanged = GetEmptyItem(); // Используем GetEmpty() для создания "пустого" предмета
+            Debug.Log($"Stacking complete. Dest: {destinationNewQuantity}/{finalItem.MaxStackSize}. Source emptied.");
+        }
+        else
+        {
+            // В источнике остались предметы
+            sourceItemChanged = new InventoryItem{
+                item = sourceItem.item,
+                quantity = sourceNewQuantity
+            };
+            Debug.Log($"Stacking partial. Dest: {destinationNewQuantity}/{finalItem.MaxStackSize}. Source left: {sourceNewQuantity}");
+        }
+        
         /* логика стакинга */
-        if (sourceItem.quantity == maxAvailableTransfer) // 5/8 + 3/8 = 8/8
-        {
-            int moveAmount = destinationItem.quantity + maxAvailableTransfer;
-            sourceItemChanged = GetEmptyItem();
-            finalItem = new InventoryItem
-            {
-                quantity = moveAmount,
-                item = sourceItem.item,
-            };
-            Debug.Log($"Stacking to maxAmount {moveAmount}");
-        }
-        else if (sourceItem.quantity == destinationItem.quantity) // 5/10 + 5/10 = 10/10 <-- НЕ РАБОТАЕТ???
-        {
-            int moveAmount = destinationItem.quantity + maxAvailableTransfer;
-            sourceItemChanged = GetEmptyItem();
-            finalItem = new InventoryItem
-            {
-                quantity = moveAmount,
-                item = sourceItem.item,
-            };
-        }
-        else if (sourceItem.quantity < maxAvailableTransfer) // 3/10 + 5/10 = 8/10
-        {
-            int moveAmount = sourceItem.quantity + destinationItem.quantity;
-            sourceItemChanged = GetEmptyItem();
-            finalItem = new InventoryItem
-            {
-                quantity = moveAmount,
-                item = sourceItem.item,
-            };
-            Debug.Log($"Stacking, deleting sourceItem completly {moveAmount}");
-        }
-        else if (sourceItem.quantity > maxAvailableTransfer) // 8/10 + 8/10 = [10/10; 6/10]
-        {
-            int moveAmount = maxAvailableTransfer + destinationItem.quantity;
-            sourceItemChanged = new InventoryItem
-            {
-                quantity = sourceItem.quantity - maxAvailableTransfer,
-                item = sourceItem.item,
-            };
-            finalItem = new InventoryItem
-            {
-                quantity = moveAmount,
-                item = sourceItem.item,
-            };
-        }
+        // if (sourceItem.quantity == maxAvailableTransfer) // 5/8 + 3/8 = 8/8
+        // {
+        //     int moveAmount = destinationItem.quantity + maxAvailableTransfer;
+        //     sourceItemChanged = GetEmptyItem();
+        //     finalItem = new InventoryItem
+        //     {
+        //         quantity = moveAmount,
+        //         item = sourceItem.item,
+        //     };
+        //     Debug.Log($"Stacking to maxAmount {moveAmount}");
+        // }
+        // else if (sourceItem.quantity == destinationItem.quantity) // 5/10 + 5/10 = 10/10 <-- НЕ РАБОТАЕТ???
+        // {
+        //     int moveAmount = destinationItem.quantity + maxAvailableTransfer;
+        //     sourceItemChanged = GetEmptyItem();
+        //     finalItem = new InventoryItem
+        //     {
+        //         quantity = moveAmount,
+        //         item = sourceItem.item,
+        //     };
+        // }
+        // else if (sourceItem.quantity < maxAvailableTransfer) // 3/10 + 5/10 = 8/10
+        // {
+        //     int moveAmount = sourceItem.quantity + destinationItem.quantity;
+        //     sourceItemChanged = GetEmptyItem();
+        //     finalItem = new InventoryItem
+        //     {
+        //         quantity = moveAmount,
+        //         item = sourceItem.item,
+        //     };
+        //     Debug.Log($"Stacking, deleting sourceItem completly {moveAmount}");
+        // }
+        // else if (sourceItem.quantity > maxAvailableTransfer) // 8/10 + 8/10 = [10/10; 6/10]
+        // {
+        //     int moveAmount = maxAvailableTransfer + destinationItem.quantity;
+        //     sourceItemChanged = new InventoryItem
+        //     {
+        //         quantity = sourceItem.quantity - maxAvailableTransfer,
+        //         item = sourceItem.item,
+        //     };
+        //     finalItem = new InventoryItem
+        //     {
+        //         quantity = moveAmount,
+        //         item = sourceItem.item,
+        //     };
+        // }
         
         return finalItem;
     }
