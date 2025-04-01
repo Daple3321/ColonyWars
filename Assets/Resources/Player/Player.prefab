@@ -471,10 +471,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryStartingSize: 8
+  hotbarStartingSize: 3
   itemDatas:
   - {fileID: 11400000, guid: 6b5b4916729fbed4abe7fad9b9d5eb3f, type: 2}
   - {fileID: 11400000, guid: 23313022b98286f42b9ced6461d21457, type: 2}
   - {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
+  - {fileID: 11400000, guid: 8beb58358a8d4474cadb3154f9adf1c5, type: 2}
+  - {fileID: 11400000, guid: 4605521a04b6af340b388048df7bd6b2, type: 2}
   itemPrefab: {fileID: 119998569144866766, guid: 1abbd2a2ead452a49a00e619c26ceb05, type: 3}
   selectedSlotId: 0
   selectedItem:
@@ -484,6 +487,8 @@ MonoBehaviour:
     rarity: 0
     itemData: {fileID: 0}
   selectedWorldItem: {fileID: 0}
+  inventoryUI: {fileID: 0}
+  hotbarUI: {fileID: 0}
 --- !u!114 &3820118088357368465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,7 +508,9 @@ MonoBehaviour:
     rarity: 0
     itemData: {fileID: 0}
     damage: 0
+    attackRate: 0
     attackType: 0
+    mouseReleased: 0
   weaponWorld: {fileID: 0}
   concentrationCurve:
     serializedVersion: 2

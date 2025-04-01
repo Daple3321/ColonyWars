@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 
-public static class GameAssets
+public class GameAssets
 {
     public static GameObject playerPrefab;
     public static Controls controls;
@@ -14,6 +14,7 @@ public static class GameAssets
     public static GameObject hotbarUI_Prefab;
 
     public static GameObject projectilePrefab;
+    public static GameObject hitParts;
 
     public static bool isInitialized { get; private set; } = false;
 
@@ -34,6 +35,8 @@ public static class GameAssets
             hotbarUI_Prefab = Resources.Load<GameObject>("UI/Hotbar");
             
             projectilePrefab = Resources.Load<GameObject>("Projectile");
+            
+            hitParts = Resources.Load<GameObject>("Effects/hitEffect_1");
             // foreach (ItemData item in itemDatas)
             // {
             //     UnityEngine.Debug.Log($"Found item: {item.itemName}");

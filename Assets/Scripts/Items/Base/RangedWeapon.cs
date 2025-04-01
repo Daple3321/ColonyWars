@@ -4,21 +4,43 @@ using UnityEngine;
 public class RangedWeapon : Weapon
 {
     public float shootDistance;
-    public float shootInterval;
-
+    public float projectileSpeed;
     public ShootStyle shootStyle;
-
-    // public override void LoadStats<RangedWeaponData>(RangedWeaponData stats)
-    // {
-    //     weaponData = stats;
-    // }
-
+    
     public RangedWeapon(ItemData _itemData) : base(_itemData)
     {
         Init(_itemData);
-        //LoadStats();
     }
-    
+
+    public override void UpdateWeapon()
+    {
+        if (_attackCd > 0)
+        {
+            _attackCd -= Time.deltaTime;
+        }
+    }
+
+    public override bool CanAttack()
+    {
+        if (attackType == AttackType.SINGLE && mouseReleased && _attackCd <= 0)
+        {
+            return true;
+        }
+        else if (attackType == AttackType.AUTOMATIC && _attackCd <= 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public override void Attack()
+    {
+        _attackCd = attackRate;
+    }
+
     public override void LoadStats()
     {
         base.LoadStats();
@@ -26,9 +48,10 @@ public class RangedWeapon : Weapon
         if (itemData is RangedWeaponData weaponData)
         {
             shootDistance = weaponData.shootDistance;
-            shootInterval = weaponData.shootInterval;
             shootStyle = weaponData.shootStyle;
         }
+
+        _attackCd = attackRate;
     }
 }
 

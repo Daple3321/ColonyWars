@@ -10,21 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cdec9a7528f287a4299bcf85893eefe5, type: 3}
-  m_Name: Pistol
+  m_Name: AutomaticRifle
   m_EditorClassIdentifier: 
-  itemName: Pistol
-  description: duh
-  icon: {fileID: -1536799493, guid: 05c986f37d7d2654888b5ebdd0b6f314, type: 3}
-  rarity: 1
+  itemName: Automatic rifle
+  description: automatic
+  icon: {fileID: -2413806693520163455, guid: 41f861843f1567149a96e006195cc530, type: 3}
+  rarity: 2
   IsStackable: 0
   maxStackSize: 1
-  itemMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  itemMaterials:
-  - {fileID: 2100000, guid: 9b97bf6788871ed46adada024f586dab, type: 2}
+  itemMesh: {fileID: 0}
+  itemMaterials: []
   customPrefab: {fileID: 1549962704229280597, guid: 4af3d8938075e88468789c45c259ba60, type: 3}
-  damage: 2
+  damage: 4
   attackRate: 0.2
-  attackType: 2
+  attackType: 1
   shootDistance: 50
   projectileSpeed: 35
   concentrationScatter:
@@ -32,9 +31,9 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 25
-      inSlope: -20
-      outSlope: -20
+      value: 20
+      inSlope: -15
+      outSlope: -15
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
@@ -42,8 +41,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 5
-      inSlope: -20
-      outSlope: -20
+      inSlope: -15
+      outSlope: -15
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334

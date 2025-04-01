@@ -4,8 +4,13 @@ using UnityEngine;
 public class Weapon : Equipable
 {
     public float damage;
+    public float attackRate = 0.2f;
+    protected float _attackCd;
     public AttackType attackType;
 
+    //public bool canAttack;
+    public bool mouseReleased = true;
+    
     public Weapon(ItemData _itemData) : base(_itemData)
     {
         Init(_itemData);
@@ -20,10 +25,18 @@ public class Weapon : Equipable
         {
             attackType = data.attackType;
             damage = data.damage;
+            attackRate = data.attackRate;
             //Debug.Log($"LoadStats in Weapon.cs. WeaponData: {weaponData}");
         }
     }
 
+    public virtual void UpdateWeapon(){}
+
+    public virtual bool CanAttack()
+    {
+        return true;
+    }
+    
     public virtual void Attack()
     {
         Debug.Log($"Attacked with {itemName}");

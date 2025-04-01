@@ -10,40 +10,39 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cdec9a7528f287a4299bcf85893eefe5, type: 3}
-  m_Name: Pistol
+  m_Name: SniperRifle
   m_EditorClassIdentifier: 
-  itemName: Pistol
-  description: duh
-  icon: {fileID: -1536799493, guid: 05c986f37d7d2654888b5ebdd0b6f314, type: 3}
-  rarity: 1
+  itemName: Sniper Rifle
+  description: Hitscan rifle
+  icon: {fileID: -527503291, guid: 05c986f37d7d2654888b5ebdd0b6f314, type: 3}
+  rarity: 2
   IsStackable: 0
   maxStackSize: 1
-  itemMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  itemMaterials:
-  - {fileID: 2100000, guid: 9b97bf6788871ed46adada024f586dab, type: 2}
+  itemMesh: {fileID: 0}
+  itemMaterials: []
   customPrefab: {fileID: 1549962704229280597, guid: 4af3d8938075e88468789c45c259ba60, type: 3}
-  damage: 2
-  attackRate: 0.2
+  damage: 10
+  attackRate: 0.5
   attackType: 2
   shootDistance: 50
-  projectileSpeed: 35
+  projectileSpeed: 0
   concentrationScatter:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 25
-      inSlope: -20
-      outSlope: -20
+      value: 20
+      inSlope: -18
+      outSlope: -18
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 5
-      inSlope: -20
-      outSlope: -20
+      value: 2
+      inSlope: -18
+      outSlope: -18
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -51,4 +50,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  shootStyle: 1
+  shootStyle: 0

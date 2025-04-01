@@ -47,6 +47,8 @@ public class PlayerInventory : MonoBehaviour
         inventory.AddItem(new MeleeWeapon(itemDatas[0]), 1);
         inventory.AddItem(new Item(itemDatas[2]), 5);
         inventory.AddItem(new Item(itemDatas[2]), 8);
+        inventory.AddItem(new RangedWeapon(itemDatas[3]), 1);
+        inventory.AddItem(new RangedWeapon(itemDatas[4]), 1);
 
         hotbar = new Inventory(hotbarStartingSize);
         hotbar.OnInventoryUpdated += UpdateHotbarUI;

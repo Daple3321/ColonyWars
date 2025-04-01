@@ -1,10 +1,8 @@
-using UnityEditor;
 using UnityEngine;
 
 public class RangedWeaponItem : WeaponWorldItem
 {
     public float shootDistance; // МОЖНО И НЕ ПЕРЕДАВАТЬ??
-    public float shootInterval; // ДЕЛАТЬ ВСЮ ЛОГИКУ КД И ВСЕГО В itemOriginе?
     public ShootStyle shootStyle;
     public AnimationCurve concentrationScatter;
 
@@ -15,6 +13,7 @@ public class RangedWeaponItem : WeaponWorldItem
     public Transform cartridgePos;
 
     public ParticleSystem shootEffect;
+    public GameObject hitEffect;
 
     public override void Initialize(ItemData data, Item origin)
     {
@@ -23,8 +22,9 @@ public class RangedWeaponItem : WeaponWorldItem
         if (data is RangedWeaponData weaponData)
         {
             shootDistance = weaponData.shootDistance;
-            shootInterval = weaponData.shootInterval;
+            projectileSpeed = weaponData.projectileSpeed;
             shootStyle = weaponData.shootStyle;
+            concentrationScatter = weaponData.concentrationScatter;
         }
     }
 
@@ -93,9 +93,9 @@ public class RangedWeaponItem : WeaponWorldItem
             float scatterAmount = concentrationScatter.Evaluate(concentraion);
             Ray shootRay = new Ray(shootPoint.position, Helper.GetRandPointOnUnitSphereCap(shootDir, scatterAmount));
             RaycastHit hit;
-            if (Physics.Raycast(shootRay, out hit, Mathf.Infinity, hitLayers)) // layermask
+            if (Physics.Raycast(shootRay, out hit, shootDistance, hitLayers)) // layermask
             {
-                Instantiate(GameAssets.itemPrefab, hit.point, Quaternion.FromToRotation(Vector3.zero, hit.normal));
+                Instantiate(hitEffect, hit.point, Quaternion.FromToRotation(Vector3.zero, hit.normal));
                 Debug.Log($"Hit {hit.collider.name}");
                 Debug.DrawLine(shootPoint.position, hit.point, Color.green, 2);
             }

@@ -79,12 +79,55 @@ public class PlayerCombat : MonoBehaviour
 
     private void HandleWeapon()
     {
-        if (controls.Player.Attack.WasPressedThisFrame())
+        if (controls.Player.Attack.IsPressed())
         {
-            //currentWeapon.Attack();
+            switch (currentWeapon.attackType)
+            {
+                case AttackType.AUTOMATIC:
+                    HandleAutomaticAttacks();
+                    break;
+                case AttackType.SINGLE:
+                    HandleSingleAttacks();
+                    break;
+                case AttackType.CHARGE:
+                    HandleChargeAttacks();
+                    break;
+            }
+        }
+
+        if (controls.Player.Attack.WasReleasedThisFrame())
+        {
+            currentWeapon.mouseReleased = true;
+        }
+
+        currentWeapon.UpdateWeapon();
+    }
+
+    private void HandleAutomaticAttacks()
+    {
+        if (currentWeapon.CanAttack())
+        {
+            currentWeapon.Attack();
             weaponWorld.Attack(concentraion);
             StartCoroutine(PlayerCameraController.CameraShake(1, 0.15f));
+
+            currentWeapon.mouseReleased = false;
         }
+    }
+    private void HandleSingleAttacks()
+    {
+        if (currentWeapon.CanAttack())
+        {
+            currentWeapon.Attack();
+            weaponWorld.Attack(concentraion);
+            StartCoroutine(PlayerCameraController.CameraShake(1, 0.15f));
+
+            currentWeapon.mouseReleased = false;
+        }
+    }
+    private void HandleChargeAttacks()
+    {
+        
     }
 
     private void HandleAiming()

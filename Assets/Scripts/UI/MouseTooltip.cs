@@ -56,23 +56,28 @@ public class MouseTooltip : MonoBehaviour
     
     private void Update()
     {
-        Vector2 localPoint;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(parentTransform, Input.mousePosition, uiCamera, out localPoint);
+        //Vector2 localPoint;
+        //RectTransformUtility.ScreenPointToLocalPointInRectangle(parentTransform, Input.mousePosition, uiCamera, out localPoint);
         //transform.localPosition = localPoint + offset;
 
         transform.position = new Vector3(Input.mousePosition.x + offset.x, Input.mousePosition.y + offset.y, 0);
     }
 
-    Sequence seq;
+    //Sequence seq;
+    Tween alphaFade;
     private void ShowToolTip(string headerString, string tooltipString)
     {
         gameObject.SetActive(true);
 
-        seq.Stop();
-        seq = Sequence.Create()
-            .Group(Tween.Alpha(canvasGroup, 1f, 0.1f, Ease.InSine));
-            //.Group(Tween.LocalPositionX(transform, 0, 0.15f, Ease.OutCubic));
-        
+        // seq.Stop();
+        // seq = Sequence.Create()
+        //.Group(Tween.Alpha(canvasGroup, 1f, 0.1f, Ease.InSine));
+        //.Group(Tween.LocalPositionX(transform, 0, 0.15f, Ease.OutCubic));
+        alphaFade.Stop();
+        canvasGroup.alpha = 0f;
+        alphaFade = Tween.Alpha(canvasGroup, 1f, 0.1f, Ease.InSine);
+
+
         tooltipHeader.text = headerString;
         tooltipText.text = tooltipString;
 

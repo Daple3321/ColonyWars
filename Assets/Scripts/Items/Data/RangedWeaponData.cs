@@ -4,7 +4,8 @@ using UnityEngine;
 public class RangedWeaponData : WeaponData
 {
     public float shootDistance;
-    public float shootInterval;
+    public float projectileSpeed;
+    public AnimationCurve concentrationScatter;
     public ShootStyle shootStyle;
 }
 

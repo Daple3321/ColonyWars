@@ -28,7 +28,7 @@ public class Projectile : MonoBehaviour
 
     protected virtual void SpawnEffects()
     {
-        GameObject hit = Instantiate(hitEffect, transform.position, Quaternion.identity);
+        GameObject hit = Instantiate(hitEffect, transform.position, Quaternion.LookRotation(-transform.up, Vector3.right));
         Destroy(hit, 5);
     }
 

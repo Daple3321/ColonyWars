@@ -205,7 +205,7 @@ MonoBehaviour:
   collisionLayermask:
     serializedVersion: 2
     m_Bits: 2176
-  hitEffect: {fileID: 119998569144866766, guid: 1abbd2a2ead452a49a00e619c26ceb05, type: 3}
+  hitEffect: {fileID: 1147993130385414984, guid: 8babfc7d2b60ce84689ee96a10fc3144, type: 3}
 --- !u!33 &7316579652343664645
 MeshFilter:
   m_ObjectHideFlags: 0

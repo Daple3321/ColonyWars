@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
     public static WorldGenerator worldGenerator;
 
     //public InventoryUI inventoryUI;
+    
     public Canvas mainCanvas;
     public MouseFollower mouseFollower;
     public Transform pSpawnPoint;
