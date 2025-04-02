@@ -59,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
 
         currentSpeed = walkSpeed;
         curSpeed = new ModVar(walkSpeed);
+        
+        terrain = GameObject.Find("Terrain").GetComponent<Terrain>();
 
         enabled = true;
     }

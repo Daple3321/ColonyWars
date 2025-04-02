@@ -95,6 +95,7 @@ MonoBehaviour:
     m_Bits: 2432
   shootPoint: {fileID: 6645474264777826156}
   cartridgePos: {fileID: 699525419641077763}
+  hitScanLine: {fileID: 5920317045688699252, guid: 8228aabc9a1a8d1429c57bda970b8f70, type: 3}
   shootEffect: {fileID: 9054657458351064944}
   hitEffect: {fileID: 1147993130385414984, guid: 8babfc7d2b60ce84689ee96a10fc3144, type: 3}
 --- !u!33 &2735916817876254769

@@ -12,6 +12,7 @@ public class RangedWeaponItem : WeaponWorldItem
     public Transform shootPoint;
     public Transform cartridgePos;
 
+    public GameObject hitScanLine;
     public ParticleSystem shootEffect;
     public GameObject hitEffect;
 
@@ -96,6 +97,9 @@ public class RangedWeaponItem : WeaponWorldItem
             if (Physics.Raycast(shootRay, out hit, shootDistance, hitLayers)) // layermask
             {
                 Instantiate(hitEffect, hit.point, Quaternion.FromToRotation(Vector3.zero, hit.normal));
+                GameObject lineObj = Instantiate(hitScanLine, shootPoint.position, Quaternion.FromToRotation(Vector3.zero, hit.point - shootPoint.position));
+                //lineObj.GetComponent<LineRenderer>().SetPosition(1, hit.point);
+                
                 Debug.Log($"Hit {hit.collider.name}");
                 Debug.DrawLine(shootPoint.position, hit.point, Color.green, 2);
             }
