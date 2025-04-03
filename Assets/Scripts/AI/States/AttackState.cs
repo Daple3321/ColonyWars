@@ -1,12 +1,10 @@
 using UnityEngine;
 
-[System.Serializable]
-public class IdleState : UnitState
+public class AttackState : UnitState
 {
-
     public override void Enter()
     {
-
+        
     }
     public override void Update()
     {
@@ -17,5 +15,4 @@ public class IdleState : UnitState
     {
 
     }
-
 }

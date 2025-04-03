@@ -3,8 +3,8 @@ public abstract class UnitState
 {
 
     public StateMachine stateMachine;
-    public CharacterState nextState;
-    public CharacterState previousState;
+    public UnitState nextState;
+    public UnitState previousState;
 
     public Unit owner;
     
