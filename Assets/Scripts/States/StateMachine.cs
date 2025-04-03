@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class StateMachine : MonoBehaviour
 {
-    public CharacterState currentState;
+    public UnitState currentState;
 
     void Awake()
     {
         enabled = false;
     }
 
-    public void Init(CharacterState startState)
+    public void Init(UnitState startState)
     {
         ChangeState(startState);
         enabled = true;
@@ -27,7 +27,7 @@ public class StateMachine : MonoBehaviour
             currentState.FixedUpdate();
     }
 
-    public void ChangeState(CharacterState newState)
+    public void ChangeState(UnitState newState)
     {
         if (currentState != null)
             currentState.Exit();

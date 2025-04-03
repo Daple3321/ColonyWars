@@ -26,7 +26,7 @@ public class Player : MonoBehaviour, IDamageable
         playerMovement.Init(cameraController, playerAiming);
         playerInventory.Init(this);
         playerCombat.Init(this);
-        stateMachine.Init(new WalkState());
+        //stateMachine.Init(new WalkState());
 
         playerInventory.SelectItem(playerInventory.hotbar, 0);
 
@@ -41,7 +41,7 @@ public class Player : MonoBehaviour, IDamageable
         playerAiming.HandleAiming();
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage, float knockback = 0f)
     {
         health -= damage;
         UpdateHealth();
@@ -64,6 +64,6 @@ public class Player : MonoBehaviour, IDamageable
 
 public interface IDamageable
 {
-    void TakeDamage(int damage);
+    void TakeDamage(float damage, float knockback = 0f);
     void Death();
 }

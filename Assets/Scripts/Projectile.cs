@@ -3,6 +3,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public float damage;
+    public float knockBackForce;
     public float speed;
     public int penetrationAmount;
     public float lifeTime;
@@ -53,6 +54,12 @@ public class Projectile : MonoBehaviour
 
     protected void OnTriggerEnter(Collider col)
     {
+        IDamageable damageable;
+        if (col.gameObject.TryGetComponent<IDamageable>(out damageable))
+        {
+            damageable.TakeDamage(damage, knockBackForce);
+        }
+            
         if (col.gameObject.layer == 7) // ground
         {
             DestroyWithEffects();
@@ -62,6 +69,7 @@ public class Projectile : MonoBehaviour
 
             ProccessHit();
         }
+        //Debug.Log($"Hit {col.gameObject.name}");
     }
 }
 

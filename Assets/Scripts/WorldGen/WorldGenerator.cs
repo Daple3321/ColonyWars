@@ -68,7 +68,7 @@ public class WorldGenerator : MonoBehaviour
             rnd = new System.Random();
         }
 
-        UnityEngine.Debug.Log("Size: " + terrain.terrainData.size);
+        //UnityEngine.Debug.Log("Size: " + terrain.terrainData.size);
         enabled = true;
     }
 
