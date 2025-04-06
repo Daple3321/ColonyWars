@@ -134,7 +134,7 @@ public class PlayerMovement : MonoBehaviour
         //     transform.LookAt(new Vector3(pointToLook.x, transform.position.y, pointToLook.z));
         // }
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.N))
         {
             Debug.Log($"SampleHeight: {terrain.SampleHeight(transform.position)}");
 

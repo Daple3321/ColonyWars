@@ -30,12 +30,23 @@ public class Enemy : Unit
 
     void StartStates() // delete later
     {
-        currentTarget = GameController.p.transform;
+        //currentTarget = GameController.p.transform;
         stateMachine.ChangeState(followState);
     }
 
     public override void Death()
     {
+        onUnitDeath?.Invoke(this);
         Destroy(gameObject);
+    }
+
+    public override void StartFollowing()
+    {
+        
+    }
+
+    public override void StopFollowing()
+    {
+        
     }
 }

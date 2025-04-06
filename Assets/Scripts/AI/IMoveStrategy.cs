@@ -27,7 +27,7 @@ public class MovePathfinding : IMoveStrategy
     {
         if (_calcCD <= 0)
         {
-            owner.CalculatePathToTarget();
+            //owner.CalculatePathToTarget();
             _calcCD = calcCD;
         }
         else

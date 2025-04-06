@@ -1,15 +1,37 @@
 using UnityEngine;
 
-public class RetreatState : MonoBehaviour
+public class RetreatState : UnitState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private float enemyCheckDelay;
+    
+    public override void Enter()
     {
-        
+        this.enemyCheckDelay = owner.enemyCheckDelay;
+    }
+    public override void Update()
+    {
+        owner.MoveToHome();
+
+        if (owner.DistanceToHome() <= 1.5f)
+        {
+            stateMachine.ChangeState(nextState);
+        }
+
+        if (enemyCheckDelay > 0)
+        {
+            enemyCheckDelay -= Time.deltaTime;
+        }
+        else
+        {
+            enemyCheckDelay = owner.enemyCheckDelay;
+            if (owner.CheckForEnemies())
+            {
+                stateMachine.ChangeState(previousState);    
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Exit()
     {
         
     }

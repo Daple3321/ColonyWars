@@ -9,6 +9,7 @@ public class Player : MonoBehaviour, IDamageable
     public PlayerFollow playerFollow;
     public PlayerAiming playerAiming;
     public PlayerInventory playerInventory;
+    public SquadManager squadManager;
     public StateMachine stateMachine;
 
     public float health;
@@ -18,7 +19,7 @@ public class Player : MonoBehaviour, IDamageable
     public Transform rightHand;
     public Transform leftHand;
 
-
+    public LayerMask groundLayer;
     public void InitPlayer()
     {
         cameraController.Init(playerFollow);
@@ -26,6 +27,7 @@ public class Player : MonoBehaviour, IDamageable
         playerMovement.Init(cameraController, playerAiming);
         playerInventory.Init(this);
         playerCombat.Init(this);
+        squadManager.Init();
         //stateMachine.Init(new WalkState());
 
         playerInventory.SelectItem(playerInventory.hotbar, 0);
@@ -39,6 +41,22 @@ public class Player : MonoBehaviour, IDamageable
     void Update()
     {
         playerAiming.HandleAiming();
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Vector3 mousePos = Input.mousePosition;
+            Ray mouseRay = Camera.main.ScreenPointToRay(mousePos);
+            RaycastHit mouseHit;
+            if (Physics.Raycast(mouseRay, out mouseHit, 50, groundLayer))
+            {
+                squadManager.SquadOrder(mouseHit.point);
+            }
+        }
+        
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            squadManager.TryAssembleSquad();
+        }
     }
 
     public void TakeDamage(float damage, float knockback = 0f)

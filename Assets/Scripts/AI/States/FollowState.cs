@@ -1,15 +1,19 @@
 using UnityEngine;
 
 public class FollowState : UnitState
-{    
+{
+    public float stopDistance = 2f;
+    
     public override void Enter()
     {
-        //pathCalculationDelay += Random.Range(-0.4f, 0.4f);
-        //_pathDelay = pathCalculationDelay;
+
     }
     public override void Update()
     {
-        owner.moveStrategy.Move();
+        if (Vector3.Distance(owner.transform.position, owner.followTarget.transform.position) > stopDistance)
+        {
+            owner.FollowTarget();
+        }
     }
 
     public override void Exit()

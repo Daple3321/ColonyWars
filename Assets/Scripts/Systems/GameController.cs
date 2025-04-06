@@ -8,11 +8,11 @@ public class GameController : MonoBehaviour
     public static WorldGenerator worldGenerator;
 
     //public InventoryUI inventoryUI;
-    
+
     public Canvas mainCanvas;
     public MouseFollower mouseFollower;
     public Transform pSpawnPoint;
-    public Terrain currentTerrain;
+    public static Terrain currentTerrain;
     public GameSettings defaultGameSettings;
 
     void Awake()
@@ -55,7 +55,7 @@ public class GameController : MonoBehaviour
         GameObject playerObj = Instantiate(GameAssets.playerPrefab, pSpawnPoint.position, Quaternion.identity);
         p = playerObj.GetComponent<Player>();
         p.InitPlayer();
-        
+
         // World gen
         // Reference assigning
     }
@@ -65,4 +65,9 @@ public class GameController : MonoBehaviour
         StartGame();
     }
 
+
+    public static Vector3 GetPointOnTerrain(Vector3 point)
+    {
+        return new Vector3(point.x, currentTerrain.SampleHeight(point), point.z);
+    }
 }

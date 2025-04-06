@@ -9,9 +9,9 @@ public class StateMachine : MonoBehaviour
         enabled = false;
     }
 
-    public void Init(UnitState startState)
+    public void Init(UnitState startState = null)
     {
-        ChangeState(startState);
+        //ChangeState(startState);
         enabled = true;
     }
 
@@ -29,6 +29,7 @@ public class StateMachine : MonoBehaviour
 
     public void ChangeState(UnitState newState)
     {
+        //Debug.Log($"State changed to: {newState}");
         if (currentState != null)
             currentState.Exit();
         currentState = newState;
