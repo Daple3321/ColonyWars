@@ -16,7 +16,7 @@ public class RangedUnit : Unit
             stateMachine = stateMachine,
             owner = this,
         };
-        retreatState = new RetreatState
+        retreatState = new HomeRetreatState
         {
             stateMachine = stateMachine,
             owner = this,

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RetreatState : UnitState
+public class HomeRetreatState : UnitState
 {
     private float enemyCheckDelay;
     
