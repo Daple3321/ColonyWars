@@ -16,6 +16,8 @@ public class GameAssets
     public static GameObject projectilePrefab;
     public static GameObject hitParts;
 
+    private static EventBus eventBus;
+    
     public static bool isInitialized { get; private set; } = false;
 
     public static void Init()
@@ -23,7 +25,9 @@ public class GameAssets
         if (!isInitialized)
         {
             Stopwatch resLoad = Stopwatch.StartNew();
-
+            
+            eventBus = new EventBus();
+            
             playerPrefab = Resources.Load<GameObject>("Player/Player");
             controls = null;
             controls = new Controls();

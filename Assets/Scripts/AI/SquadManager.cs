@@ -26,6 +26,10 @@ public class SquadManager : MonoBehaviour
     {
         squad.MoveOrder(orderPos);
     }
+    public void UnitOrder(Vector3 orderPos, Unit targetUnit)
+    {
+        squad.MoveOrder(orderPos, targetUnit);
+    }
 
     public bool TryAssembleSquad()
     {
@@ -66,9 +70,6 @@ public class Squad
         units = new List<Unit>();
     }
 
-    // ВООБЩЕ НЕ ТАК ДОЛЖНО ВСЁ РАБОТАТЬ.
-    // ПРИ СОЗДАНИИ ОТРЯДА ВСЕ ЮНИТЫ АВТОМАТОМ НАЧИНАЮТ ИДТИ ЗА ИГРОКОМ
-    // При первом же приказе отряд должен отсоединятся от игрока (удалятся из SquadManagerа).
     public void FollowOrder(Transform followTarget)
     {
         if (units.Count <= 0)
@@ -94,6 +95,17 @@ public class Squad
             unit.followTarget = null;
         }
         units.Clear();
+    }
+    public void MoveOrder(Vector3 orderPos, Unit targetUnit)
+    {
+        if (units.Count <= 0)
+            return;
+        if (!units.Contains(targetUnit))
+            return;
+
+        targetUnit.SetHome(orderPos);
+        targetUnit.StopFollowing();
+        targetUnit.followTarget = null;
     }
 
     public void CreateSquad(GameObject[] unitsToAdd)

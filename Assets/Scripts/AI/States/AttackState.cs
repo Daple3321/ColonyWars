@@ -13,8 +13,7 @@ public class AttackState : UnitState
 
         if (owner.DistanceToTarget() <= owner.attackDistance)
         {
-            //stateMachine.ChangeState(nextState);
-            //Debug.Log($"{owner.name} attacked!");
+            owner.HandleAttacking();
         }
         else
         {

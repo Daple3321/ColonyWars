@@ -1,3 +1,4 @@
+using Unity.Burst;
 using UnityEngine;
 
 [RequireComponent(typeof(StateMachine))]
@@ -9,6 +10,7 @@ public class Player : MonoBehaviour, IDamageable
     public PlayerFollow playerFollow;
     public PlayerAiming playerAiming;
     public PlayerInventory playerInventory;
+    public PlayerUI playerUI;
     public SquadManager squadManager;
     public StateMachine stateMachine;
 
@@ -28,6 +30,7 @@ public class Player : MonoBehaviour, IDamageable
         playerInventory.Init(this);
         playerCombat.Init(this);
         squadManager.Init();
+        playerUI.Init();
         //stateMachine.Init(new WalkState());
 
         playerInventory.SelectItem(playerInventory.hotbar, 0);
@@ -35,7 +38,7 @@ public class Player : MonoBehaviour, IDamageable
         MouseTooltip.i.Init();
 
         health = maxHealth;
-        UpdateHealth();
+        EventBus.i.PlayerHealthChanged?.Invoke(health, maxHealth);
     }
 
     void Update()
@@ -52,29 +55,30 @@ public class Player : MonoBehaviour, IDamageable
                 squadManager.SquadOrder(mouseHit.point);
             }
         }
-        
+
         if (Input.GetKeyDown(KeyCode.V))
         {
             squadManager.TryAssembleSquad();
+
+            TakeDamage(2, 100);
         }
     }
 
     public void TakeDamage(float damage, float knockback = 0f)
     {
         health -= damage;
-        UpdateHealth();
+        //onPlayerDamaged?.Invoke(health, maxHealth);
+        EventBus.i.PlayerHealthChanged?.Invoke(health, maxHealth);
+        EventBus.i.PlayerDamaged?.Invoke(damage);
         if (health <= 0)
         {
             Death();
         }
     }
 
-    public void UpdateHealth()
-    {
-        
-    }
     public void Death()
     {
+        EventBus.i.PlayerDeath?.Invoke();
         Destroy(gameObject);
     }
 }

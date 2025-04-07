@@ -54,15 +54,21 @@ public abstract class Unit : MonoBehaviour, IDamageable
         enabled = true;
     }
 
-    public virtual void RegisterToSquad(Squad squad)
+    public virtual void HandleAttacking()
     {
         
+    }
+    
+    public virtual void RegisterToSquad(Squad squad)
+    {
+
     }
     public virtual void UnregisterFromSquad()
     {
         
     }
 
+    public abstract void ConfigureStates();
     public abstract void StartFollowing();
     public abstract void StopFollowing();
 

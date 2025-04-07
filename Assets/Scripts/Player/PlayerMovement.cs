@@ -286,11 +286,13 @@ public class PlayerMovement : MonoBehaviour
         if (isRunning)
         {
             currentStamina -= 1 * Time.deltaTime;
+            EventBus.i.PlayerStaminaChanged?.Invoke(currentStamina, maxStamina);
         }
 
         if (!isRunning && canRegenStamina && currentStamina < maxStamina)
         {
             currentStamina += staminaRegenSpeed * Time.deltaTime;
+            EventBus.i.PlayerStaminaChanged?.Invoke(currentStamina, maxStamina);
         }
     }
 

@@ -6,11 +6,16 @@ public class RangedUnit : Unit
     public UnitState retreatState;
     public UnitState attackState;
     public UnitState followState;
+    
+    
 
     void Start()
     {
         base.Init();
-        
+        ConfigureStates();
+    }
+    public override void ConfigureStates()
+    {
         attackState = new AttackState
         {
             stateMachine = stateMachine,
@@ -48,14 +53,6 @@ public class RangedUnit : Unit
     {
         stateMachine.ChangeState(idleState);
         followTarget = null;
-    }
-    
-    void Update()
-    {
-        // if (Input.GetKeyDown(KeyCode.J))
-        // {
-        //     homePos = GameController.GetPointOnTerrain(homePos);
-        // }
     }
     
     public override void Death()
