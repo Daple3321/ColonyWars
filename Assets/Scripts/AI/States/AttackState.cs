@@ -10,12 +10,11 @@ public class AttackState : UnitState
     }
     public override void Update()
     {
-
-        if (owner.DistanceToTarget() <= owner.attackDistance)
+        if (owner.HasTarget() && owner.DistanceToTarget() <= owner.attackDistance)
         {
             owner.HandleAttacking();
         }
-        else
+        else if(owner.HasTarget())
         {
             owner.MoveToCurrentTarget();
         }

@@ -39,6 +39,10 @@ public class Player : MonoBehaviour, IDamageable
 
         health = maxHealth;
         EventBus.i.PlayerHealthChanged?.Invoke(health, maxHealth);
+
+        //TimeService.OnHourChange += x => Debug.Log($"Hour changed to: {x}. From player.");
+        EventBus.i.OnSunrise += () => Debug.Log($"Sunrise!");
+        EventBus.i.OnSunset += () => Debug.Log($"Sunset.");
     }
 
     void Update()

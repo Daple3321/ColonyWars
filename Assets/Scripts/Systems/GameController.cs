@@ -6,6 +6,7 @@ public class GameController : MonoBehaviour
 
     public static Player p;
     public static WorldGenerator worldGenerator;
+    public static TimeManager timeManager;
 
     //public InventoryUI inventoryUI;
 
@@ -33,6 +34,7 @@ public class GameController : MonoBehaviour
     {
         p = null;
         worldGenerator = null;
+        timeManager = null;
     }
 
     // С параметрами старта (генерация мира, настройки, персонаж)
@@ -47,6 +49,9 @@ public class GameController : MonoBehaviour
         worldGenerator = GameObject.Find("WorldGen").GetComponent<WorldGenerator>();
         worldGenerator.Init(gameSettings.worldGenSettings);
         currentTerrain = worldGenerator.terrain;
+        
+        timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
+        timeManager.Init();
 
         //inventoryUI = GameObject.Find("PlayerInventory").GetComponent<InventoryUI>();
         mainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();

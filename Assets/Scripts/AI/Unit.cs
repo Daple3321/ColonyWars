@@ -118,12 +118,16 @@ public abstract class Unit : MonoBehaviour, IDamageable
     {
         return Vector3.Distance(homePos, transform.position);
     }
-    public float DistanceToTarget()
+    public float DistanceToTarget() // когда target уничтожается всё ломается.
     {
         //Debug.Log($"Dist to target: {Vector3.Distance(transform.position, currentTarget.position)}");
         return Vector3.Distance(transform.position, currentTarget.position);
     }
-
+    public bool HasTarget()
+    {
+        return currentTarget != null;
+    }
+    
     public bool CheckForEnemies()
     {
         var hitColliders = Physics.OverlapSphere(transform.position, homeRadius, enemiesMask);

@@ -604,10 +604,10 @@ MonoBehaviour:
   cinemachineCamera: {fileID: 0}
   positionComposer: {fileID: 0}
   mainCamera: {fileID: 0}
-  zoomLimits: {x: 2, y: 15}
+  zoomLimits: {x: 2, y: 18}
   zoomSpeed: 160
   tiltSensetivity: 1
-  tiltAngleLimits: {x: 25, y: 80}
+  tiltAngleLimits: {x: 18, y: 80}
   panSensetivity: 100
   currentFov: 0
   fov_default: 70

@@ -24,4 +24,13 @@ public class EventBus
 
     public Action<float, float> PlayerStaminaChanged;
     // ----------------------------------------------------------
+
+    // ------------------------ WORLD ---------------------------
+    
+    public Action OnSunrise = delegate {};
+    public Action OnSunset = delegate {};
+    public Action<int> OnHourChange = delegate { };
+    
+    
+    // ----------------------------------------------------------
 }
