@@ -198,13 +198,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 0
+  knockBackForce: 0
   speed: 0
-  penetrationAmount: 1
-  lifeTime: 4
+  penetrationAmount: 0
+  lifeTime: 2.5
   affiliation: 0
-  collisionLayermask:
+  currentExcludeMask:
     serializedVersion: 2
-    m_Bits: 2176
+    m_Bits: 0
+  playerExcludeMask:
+    serializedVersion: 2
+    m_Bits: 5952
+  enemyExcludeMask:
+    serializedVersion: 2
+    m_Bits: 3840
   hitEffect: {fileID: 1147993130385414984, guid: 8babfc7d2b60ce84689ee96a10fc3144, type: 3}
 --- !u!33 &7316579652343664645
 MeshFilter:
@@ -278,8 +285,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.58021015
-  m_Center: {x: 0.5232401, y: -4.0328086e-17, z: 0}
+  m_Radius: 0.58
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &7108919652601319140
 Rigidbody:
   m_ObjectHideFlags: 0

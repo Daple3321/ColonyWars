@@ -8,10 +8,14 @@ public class Bar : MonoBehaviour
     public Image bg;
     public RectTransform bar;
     public TextMeshProUGUI barTxt;
+    
+    public Action<float, float> UpdateCallback;
 
-    public void Init(ref Action<float, float> updateCallback) // bullshit REF?*!
+    public void Init(/*Action<float, float> updateCallback*/) // bullshit REF?*!
     {
-        updateCallback += UpdateBar;
+        //UpdateCallback = updateCallback;
+        //UpdateCallback += UpdateBar;
+        //updateCallback += UpdateBar;
     }
 
     public void UpdateBar(float val, float maxVal)

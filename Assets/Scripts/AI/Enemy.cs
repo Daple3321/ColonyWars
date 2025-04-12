@@ -7,13 +7,19 @@ public class Enemy : Unit
     public UnitState attackState;
     public UnitState followState;
 
-    void Start()
+    public override void Init()
     {
         base.Init();
+        attackData = new RangedAttackData{
+            projectilePrefab = GameAssets.projectilePrefab,
+        };
+        currentAttack = new RangedAttack(this, attackData, affiliation);
+        
         ConfigureStates();
-
+        
         Invoke(nameof(StartStates), Random.Range(0.1f, 3f));
     }
+    
     public override void ConfigureStates()
     {
         attackState = new AttackState

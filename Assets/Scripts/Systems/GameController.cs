@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -15,7 +16,9 @@ public class GameController : MonoBehaviour
     public Transform pSpawnPoint;
     public static Terrain currentTerrain;
     public GameSettings defaultGameSettings;
-
+    
+    private EventBus eventBus;
+    
     void Awake()
     {
         if (i != null)
@@ -26,7 +29,9 @@ public class GameController : MonoBehaviour
         {
             i = this;
         }
-
+        
+        eventBus = new EventBus(); // reseting event bus
+        //EventBus.i.PlayerStaminaChanged += (x, y) => Debug.Log($"{EventBus.i.PlayerStaminaChanged.GetInvocationList()}");
         ResetStaticVars();
     }
 
@@ -40,6 +45,8 @@ public class GameController : MonoBehaviour
     // С параметрами старта (генерация мира, настройки, персонаж)
     private void StartGame(GameSettings gameSettings = null)
     {
+        ResetStaticVars();
+        
         GameAssets.Init(); // это должно быть при запуске игры (в главном меню)
         if (gameSettings == null)
         {
@@ -60,14 +67,26 @@ public class GameController : MonoBehaviour
         GameObject playerObj = Instantiate(GameAssets.playerPrefab, pSpawnPoint.position, Quaternion.identity);
         p = playerObj.GetComponent<Player>();
         p.InitPlayer();
-
+        
+        
+        EventBus.i.OnGameStarted?.Invoke();
         // World gen
         // Reference assigning
     }
 
-    void Start()
+    IEnumerator Start()
     {
+        //yield return new WaitForSeconds(1);
         StartGame();
+        yield return null;
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Keypad0))
+        {
+            Helper.RestartCurrentScene();
+        }
     }
 
 

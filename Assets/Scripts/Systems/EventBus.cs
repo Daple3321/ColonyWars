@@ -2,7 +2,9 @@ using System;
 
 public class EventBus
 {
-    public EventBus() { }
+    public EventBus() { 
+        _instance = this;
+    }
 
     private static EventBus _instance;
 
@@ -16,7 +18,13 @@ public class EventBus
             return _instance;
         }
     }
-
+    
+    
+    // ----------------------- GLOBAL ----------------------------
+    public Action OnGameStarted;
+    // -----------------------------------------------------------
+    
+    
     // ------------------------ PLAYER ---------------------------
     public Action PlayerDeath;
     public Action<float, float> PlayerHealthChanged;

@@ -16,7 +16,7 @@ public class PlayerInventory : MonoBehaviour
     public GameObject itemPrefab;
 
     public int selectedSlotId = -1;
-    public Item selectedItem = null;
+    [SerializeReference] public Item selectedItem = null;
     public WorldItem selectedWorldItem;
 
     private Controls controls;

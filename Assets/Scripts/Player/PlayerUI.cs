@@ -8,9 +8,11 @@ public class PlayerUI : MonoBehaviour
     public void Init()
     {
         healthBar = GameObject.Find("HealthBar").GetComponent<Bar>();
-        healthBar.Init(ref EventBus.i.PlayerHealthChanged);
+        healthBar.Init();
+        EventBus.i.PlayerHealthChanged += healthBar.UpdateBar;
 
         staminaBar = GameObject.Find("StaminaBar").GetComponent<Bar>();
-        staminaBar.Init(ref EventBus.i.PlayerStaminaChanged);
+        staminaBar.Init();
+        EventBus.i.PlayerStaminaChanged += staminaBar.UpdateBar;
     }
 }

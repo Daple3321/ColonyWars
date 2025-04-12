@@ -8,17 +8,38 @@ public class Projectile : MonoBehaviour
     public int penetrationAmount;
     public float lifeTime;
     public Affiliation affiliation;
-    public LayerMask collisionLayermask;
+    public LayerMask currentExcludeMask;
+    public LayerMask playerExcludeMask;
+    public LayerMask enemyExcludeMask;
 
-    public GameObject hitEffect;
+    private Rigidbody rb;
 
-    public virtual void Init(float damage, float speed, Affiliation affiliation)
+    public virtual void Init(float damage, float speed, Affiliation affiliation, int penetrationAmount = 0, float lifeTime = 2.5f)
     {
+        rb = GetComponent<Rigidbody>();
+        
         this.damage = damage;
         this.speed = speed;
+        this.penetrationAmount = penetrationAmount;
+        this.lifeTime = lifeTime;
+        
         this.affiliation = affiliation;
+        SetupAffiliation();
 
         Destroy(gameObject, lifeTime);
+    }
+    
+    void SetupAffiliation()
+    {
+        if(affiliation == Affiliation.Enemy){
+            currentExcludeMask = enemyExcludeMask;
+            gameObject.layer = 9;
+        }
+        else if(affiliation == Affiliation.Player){
+            currentExcludeMask = playerExcludeMask;
+            gameObject.layer = 10;
+        }
+        rb.excludeLayers = currentExcludeMask;
     }
 
     void Update()
@@ -27,28 +48,47 @@ public class Projectile : MonoBehaviour
         transform.Translate(moveDir);
     }
 
-    protected virtual void SpawnEffects()
+    protected virtual void SpawnEffects(HitType hitType)
     {
-        GameObject hit = Instantiate(hitEffect, transform.position, Quaternion.LookRotation(-transform.up, Vector3.right));
+        GameObject hit = null;
+        switch (hitType)
+        {
+            case HitType.UNIT:
+            hit = Instantiate(GameAssets.unitHitParts, transform.position, Quaternion.LookRotation(-transform.up, Vector3.right));
+                break;
+            
+            case HitType.PLAYER:
+            hit = Instantiate(GameAssets.unitHitParts, transform.position, Quaternion.LookRotation(-transform.up, Vector3.right));
+                break;
+            
+            case HitType.GROUND:
+            hit = Instantiate(GameAssets.groundHitParts, transform.position, Quaternion.LookRotation(-transform.up, Vector3.right));
+                break;
+            
+            case HitType.BUILDING:
+            hit = Instantiate(GameAssets.groundHitParts, transform.position, Quaternion.LookRotation(-transform.up, Vector3.right));
+                break;
+        }
+        
         Destroy(hit, 5);
     }
 
-    protected virtual void DestroyWithEffects()
+    protected virtual void DestroyWithEffects(HitType hitType)
     {
-        SpawnEffects();
+        SpawnEffects(hitType);
         Destroy(gameObject);
     }
 
-    protected virtual void ProccessHit()
+    protected virtual void ProccessHit(HitType hitType)
     {
         if (penetrationAmount > 0)
         {
             penetrationAmount--;
-            SpawnEffects();
+            SpawnEffects(hitType);
         }
         else if(penetrationAmount <= 0)
         {
-            DestroyWithEffects();
+            DestroyWithEffects(hitType);
         }
     }
 
@@ -62,12 +102,22 @@ public class Projectile : MonoBehaviour
             
         if (col.gameObject.layer == 7) // ground
         {
-            DestroyWithEffects();
+            DestroyWithEffects(HitType.GROUND);
         }
-        if (col.gameObject.layer == 11) // enemy
+        if (col.gameObject.layer == 6) // player
         {
-
-            ProccessHit();
+            Debug.Log("Player hit");
+            ProccessHit(HitType.PLAYER);
+        }
+        if (col.gameObject.layer == 11) // enemy unit
+        {
+            Debug.Log("Enemy unit hit");
+            ProccessHit(HitType.UNIT);
+        }
+        if (col.gameObject.layer == 12) // player unit
+        {
+            Debug.Log("Player unit hit");
+            ProccessHit(HitType.UNIT);
         }
         //Debug.Log($"Hit {col.gameObject.name}");
     }
@@ -78,4 +128,13 @@ public enum Affiliation : byte
     None,
     Enemy,
     Player,
+}
+
+public enum HitType : byte
+{
+    NONE,
+    GROUND,
+    UNIT,
+    PLAYER,
+    BUILDING,
 }

@@ -14,6 +14,8 @@ public class TimeService
 
     readonly Observer<bool> isDayTime;
     readonly Observer<int> currentHour;
+    
+    readonly ObserverTest<int> currentHourTest;
 
     public TimeService(TimeSettings settings)
     {
@@ -24,9 +26,12 @@ public class TimeService
 
         isDayTime = new Observer<bool>(IsDayTime());
         currentHour = new Observer<int>(currentTime.Hour);
+        
+        currentHourTest = new ObserverTest<int>(currentTime.Hour);
+        currentHourTest.ValueChanged += EventBus.i.OnHourChange.Invoke;
+        //currentHourTest.ValueChanged += x => Debug.Log($"Hour changed {x}");
 
-
-        currentHour.AddListener(EventBus.i.OnHourChange.Invoke);
+        //currentHour.AddListener(EventBus.i.OnHourChange.Invoke);
         isDayTime.AddListener(OnDayChange);
     }
 
@@ -43,6 +48,7 @@ public class TimeService
         currentTime = currentTime.AddSeconds(deltaTime * settings.timeMultiplier);
         isDayTime.Value = IsDayTime();
         currentHour.Value = currentTime.Hour;
+        currentHourTest.Value = currentTime.Hour;
     }
 
     public float CalculateSunAngle()

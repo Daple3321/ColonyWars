@@ -7,13 +7,24 @@ public class RangedUnit : Unit
     public UnitState attackState;
     public UnitState followState;
     
-    
+    public ShootStyle shootStyle;
 
-    void Start()
+    public override void Init()
     {
         base.Init();
+        attackData = new RangedAttackData{
+            projectilePrefab = GameAssets.projectilePrefab,
+        };
+        currentAttack = new RangedAttack(this, attackData, affiliation);
+        
         ConfigureStates();
+        Invoke(nameof(StartStates), Random.Range(0.1f, 3f));
     }
+    private void StartStates()
+    {
+        stateMachine.ChangeState(idleState);
+    }
+    
     public override void ConfigureStates()
     {
         attackState = new AttackState
@@ -44,7 +55,6 @@ public class RangedUnit : Unit
 
         stateMachine.ChangeState(idleState);
     }
-
     public override void StartFollowing()
     {
         stateMachine.ChangeState(followState);

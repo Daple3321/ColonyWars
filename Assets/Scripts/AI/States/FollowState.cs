@@ -10,7 +10,7 @@ public class FollowState : UnitState
     }
     public override void Update()
     {
-        if (Vector3.Distance(owner.transform.position, owner.followTarget.transform.position) > stopDistance)
+        if (Vector3.Distance(owner.transform.position, owner.followTarget.position) > stopDistance)
         {
             owner.FollowTarget();
         }

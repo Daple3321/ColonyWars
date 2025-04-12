@@ -91,7 +91,7 @@ public class TimeManager : MonoBehaviour
         if (timeText != null)
         {
             //timeText.text = service.CurrentTime.ToString("hh:mm");
-            timeText.text = service.CurrentTime.ToShortTimeString();
+            timeText.text = service.CurrentTime.ToShortTimeString(); // allocates gc
         }
     }
 }

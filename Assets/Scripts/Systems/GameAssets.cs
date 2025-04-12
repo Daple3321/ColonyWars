@@ -14,19 +14,20 @@ public class GameAssets
     public static GameObject hotbarUI_Prefab;
 
     public static GameObject projectilePrefab;
-    public static GameObject hitParts;
+    public static GameObject groundHitParts;
+    public static GameObject unitHitParts;
 
-    private static EventBus eventBus;
+    //private static EventBus eventBus;
     
     public static bool isInitialized { get; private set; } = false;
 
     public static void Init()
     {
+        //eventBus = new EventBus();
         if (!isInitialized)
         {
             Stopwatch resLoad = Stopwatch.StartNew();
             
-            eventBus = new EventBus();
             
             playerPrefab = Resources.Load<GameObject>("Player/Player");
             controls = null;
@@ -40,7 +41,8 @@ public class GameAssets
             
             projectilePrefab = Resources.Load<GameObject>("Projectile");
             
-            hitParts = Resources.Load<GameObject>("Effects/hitEffect_1");
+            groundHitParts = Resources.Load<GameObject>("Effects/hitEffect_1");
+            unitHitParts = Resources.Load<GameObject>("Effects/bloodHit_1");
             // foreach (ItemData item in itemDatas)
             // {
             //     UnityEngine.Debug.Log($"Found item: {item.itemName}");

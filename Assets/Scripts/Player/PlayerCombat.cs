@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
-    public Weapon currentWeapon;
-    public WeaponWorldItem weaponWorld;
+    [SerializeReference] public Weapon currentWeapon;
+    [Space(10)] public WeaponWorldItem weaponWorld;
 
     public AnimationCurve concentrationCurve;
     public float concentraion = 0;

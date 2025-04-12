@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,18 +8,27 @@ public abstract class Unit : MonoBehaviour, IDamageable
 {
     public float health;
     public float maxHealth;
-
+    
+    [Space(5), Header("Movement")]
     public float speed;
     public float maxSpeed;
     public float rotationSpeed;
     public float fallSpeed;
     public IMoveStrategy moveStrategy;
-
+    
+    [Space(10), Header("Attack Settings")]
+    [SerializeReference] public Attack currentAttack;
+    [SerializeReference] public AttackData attackData;
+    [Space(10)]
     public float damage;
     public float attackDistance = 1f;
-
-
+    public float attackDuration;
+    public float attackSpeed;
+    protected float _attackSpeed;
     public float concentration;
+    public bool isAttacking;
+
+
     [Space(10), Header("Home Point")]
     public Vector3 homePos;
     public float homeRadius;
@@ -28,14 +38,24 @@ public abstract class Unit : MonoBehaviour, IDamageable
 
 
     private CharacterController characterController;
-    public Transform currentTarget = null;
+    public Transform attackPoint;
+    public Transform attackTarget = null;
     public Transform followTarget = null;
     public Affiliation affiliation;
     public StateMachine stateMachine;
 
     void Awake()
     {
-        //enabled = false;
+    }
+    void Start()
+    {
+        EventBus.i.OnGameStarted += Init;
+        enabled = false;
+        
+    }
+    void OnDestroy()
+    {
+        EventBus.i.OnGameStarted -= Init;
     }
 
     public virtual void Init()
@@ -54,10 +74,38 @@ public abstract class Unit : MonoBehaviour, IDamageable
         enabled = true;
     }
 
-    public virtual void HandleAttacking()
+    protected Coroutine attackRoutine;
+    public virtual void HandleAttacking() 
     {
-        
+        if(CanAttack())
+        {
+            attackRoutine = StartCoroutine(Attack());
+        }
     }
+    public virtual IEnumerator Attack()
+    {
+        isAttacking = true;
+        currentAttack.OneShotAttack();
+
+        float attackDur = this.attackDuration;
+        while(attackDur > 0)
+        {
+            currentAttack.ConstantAttack();
+            attackDur -= Time.deltaTime;
+            yield return null;
+        }
+        
+        _attackSpeed = this.attackSpeed;
+        while(_attackSpeed > 0)
+        {
+            _attackSpeed -= Time.deltaTime;
+            yield return null;
+        }
+        
+        isAttacking = false;
+    }
+    public virtual bool CanAttack(){ return isAttacking ? false : true && _attackSpeed <= 0; }
+    public virtual bool IsAttacking() { return false;}
     
     public virtual void RegisterToSquad(Squad squad)
     {
@@ -80,8 +128,8 @@ public abstract class Unit : MonoBehaviour, IDamageable
     
     public virtual void MoveToCurrentTarget()
     {
-        MoveTo(currentTarget.position);
-        RotateTo(currentTarget.position);
+        MoveTo(attackTarget.position);
+        RotateTo(attackTarget.position);
     }
     
     public virtual void MoveToHome()
@@ -121,25 +169,30 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public float DistanceToTarget() // когда target уничтожается всё ломается.
     {
         //Debug.Log($"Dist to target: {Vector3.Distance(transform.position, currentTarget.position)}");
-        return Vector3.Distance(transform.position, currentTarget.position);
+        return Vector3.Distance(transform.position, attackTarget.position);
     }
     public bool HasTarget()
     {
-        return currentTarget != null;
+        return attackTarget != null;
     }
     
     public bool CheckForEnemies()
     {
-        var hitColliders = Physics.OverlapSphere(transform.position, homeRadius, enemiesMask);
-        if (hitColliders.Length > 0)
-        {
-            currentTarget = FindClosestObject(hitColliders).transform;
+        Collider[] hitColliders;
+        if(homeRadius > attackDistance){
+           hitColliders = Physics.OverlapSphere(homePos, homeRadius, enemiesMask);
+        }
+        else{
+            hitColliders = Physics.OverlapSphere(transform.position, attackDistance, enemiesMask);
+        }
+        
+        if (hitColliders.Length > 0){
+            attackTarget = FindClosestObject(hitColliders).transform;
             //Debug.Log($"Closest enemy: {currentTarget.name}");
             return true;
         }
-        else
-        {
-            currentTarget = null;
+        else{
+            attackTarget = null;
             //Debug.Log("Enemies not found in radius.");
             return false;
         }
@@ -195,9 +248,14 @@ public abstract class Unit : MonoBehaviour, IDamageable
     private void OnDrawGizmos()
     {
         Handles.color = Color.green;
-        Vector3 labelPos1 = new Vector3(homePos.x - 0.5f, homePos.y, homePos.z + homeRadius + 0.1f);
+        Vector3 labelPos1 = new Vector3(homePos.x + 0.5f, homePos.y, homePos.z + homeRadius + 0.1f);
         Handles.Label(labelPos1, "Home Radius");
         Handles.DrawWireDisc(new Vector3(homePos.x, homePos.y, homePos.z), Vector3.up, homeRadius);
+        
+        Handles.color = Color.red;
+        Vector3 labelPos2 = new Vector3(transform.position.x + 0.5f, transform.position.y+1, transform.position.z + attackDistance + 0.1f);
+        Handles.Label(labelPos2, "Attack distance");
+        Handles.DrawWireDisc(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.up, attackDistance);
 
 
         Vector3 labelPos3 = new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z);

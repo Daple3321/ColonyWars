@@ -1,8 +1,8 @@
 using System;
 using System.IO;
 using System.Xml.Serialization;
-using Unity.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public static class Helper
 {
@@ -62,5 +62,49 @@ public static class Helper
     {
         Quaternion randAng = Quaternion.Euler(0, 0, UnityEngine.Random.Range(minAngle, maxAngle + 1));
         return center + randAng * Vector3.forward * radius;
+    }
+    
+    public static GameObject FindClosestObject(Vector3 fromPos, Collider[] colliders)
+    {
+        GameObject closest = null; 
+        float distance = Mathf.Infinity;
+        Vector3 position = fromPos;
+        foreach (Collider go in colliders)
+        {
+            Vector3 diff = go.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = go.gameObject;
+                distance = curDistance;
+                // if (distance < TargetRange /*&& !go.transform.GetComponent<FriendlyUnit_AI>().isDead*/)
+                //     OptimalTarget = go.transform;
+            }
+        }
+        return closest;
+    }
+    public static GameObject FindClosestObject(Vector3 fromPos, GameObject[] objects)
+    {
+        GameObject closest = null; 
+        float distance = Mathf.Infinity;
+        Vector3 position = fromPos;
+        foreach (GameObject go in objects)
+        {
+            Vector3 diff = go.transform.position - position;
+            float curDistance = diff.sqrMagnitude;
+            if (curDistance < distance)
+            {
+                closest = go;
+                distance = curDistance;
+                // if (distance < TargetRange /*&& !go.transform.GetComponent<FriendlyUnit_AI>().isDead*/)
+                //     OptimalTarget = go.transform;
+            }
+        }
+        return closest;
+    }
+    
+    public static void RestartCurrentScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

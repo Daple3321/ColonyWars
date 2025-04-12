@@ -4,7 +4,7 @@ public class WorldItem : MonoBehaviour
 {
     public ItemData itemData;
 
-    public Item originItem;
+    [SerializeReference] public Item originItem;
 
     public MeshFilter meshFilter;
     public MeshRenderer meshRenderer;

@@ -8,8 +8,7 @@ public class Observer<T>
     [SerializeField] T value;
     [SerializeField] UnityEvent<T> onValueChanged;
 
-    public T Value
-    {
+    public T Value { // Allocates GC for some reason
         get => value;
         set => Set(value);
     }
@@ -61,6 +60,70 @@ public class Observer<T>
     {
         RemoveAllListeners();
         onValueChanged = null;
+        value = default;
+    }
+}
+
+
+
+public class ObserverTest<T>
+{
+    [SerializeField] T value;
+    public Action<T> ValueChanged;
+
+    public T Value {
+        get => value;
+        set => Set(value);
+    }
+
+    public ObserverTest(T value, Action<T> callback = null)
+    {
+        this.value = value;
+        //ValueChanged = new EventHandler<T>(null, );
+        //if (callback != null) ValueChanged.AddListener(callback);
+        if (callback != null) ValueChanged += callback;
+    }
+
+    public void Set(T value)
+    {
+        if (Equals(this.value, value)) return;
+        this.value = value;
+        Invoke();
+    }
+
+    public void Invoke()
+    {
+        //Debug.Log($"Invoking {ValueChanged.GetInvocationList()} listeners");
+        ValueChanged?.Invoke(value);
+    }
+
+    // public void AddListener(Action<T> callback)
+    // {
+    //     if (callback == null) return;
+    //     if (ValueChanged == null) ValueChanged = new Action<T>();
+
+    //     ValueChanged += callback;
+    // }
+
+    // public void RemoveListener(UnityAction<T> callback)
+    // {
+    //     if (callback == null) return;
+    //     if (ValueChanged == null) return;
+
+    //     ValueChanged.RemoveListener(callback);
+    // }
+
+    // public void RemoveAllListeners()
+    // {
+    //     if (ValueChanged == null) return;
+
+    //     ValueChanged.RemoveAllListeners();
+    // }
+
+    public void Dispose()
+    {
+        //RemoveAllListeners();
+        ValueChanged = null;
         value = default;
     }
 }
