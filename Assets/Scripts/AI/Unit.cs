@@ -35,28 +35,25 @@ public abstract class Unit : MonoBehaviour, IDamageable
 
     public float enemyCheckDelay = 1f;
     public LayerMask enemiesMask;
+    public LayerMask attackHitMask;
 
 
     private CharacterController characterController;
+    private WorldBar healthBar;
     public Transform attackPoint;
     public Transform attackTarget = null;
     public Transform followTarget = null;
     public Affiliation affiliation;
     public StateMachine stateMachine;
 
-    void Awake()
-    {
-    }
-    void Start()
-    {
-        EventBus.i.OnGameStarted += Init;
-        enabled = false;
+    void Awake(){
         
     }
-    void OnDestroy()
-    {
-        EventBus.i.OnGameStarted -= Init;
+    void Start(){
+        EventBus.i.OnGameStarted += Init;
+        enabled = false;
     }
+    void OnDestroy(){ EventBus.i.OnGameStarted -= Init; }
 
     public virtual void Init()
     {
@@ -67,13 +64,23 @@ public abstract class Unit : MonoBehaviour, IDamageable
         //agent.SetDestination(currentTarget.position);
         characterController = GetComponent<CharacterController>();
         homePos = transform.position;
-        //homePos = GameController.GetPointOnTerrain(homePos);
 
         stateMachine.Init();
-
+        
+        InitUI();
+        
         enabled = true;
     }
-
+    
+    protected virtual void InitUI()
+    {
+        healthBar = Instantiate(GameAssets.worldBar, GameController.i.worldCanvas.transform).GetComponent<WorldBar>();
+        healthBar.Init(affiliation);
+        healthBar.followTarget = transform;
+        healthBar.offset.y = transform.localScale.y + 1.4f;
+        healthBar.UpdateBar(health, maxHealth);
+    }
+    
     protected Coroutine attackRoutine;
     public virtual void HandleAttacking() 
     {
@@ -86,6 +93,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     {
         isAttacking = true;
         currentAttack.OneShotAttack();
+        // Attack effects&animations here
 
         float attackDur = this.attackDuration;
         while(attackDur > 0)
@@ -125,7 +133,6 @@ public abstract class Unit : MonoBehaviour, IDamageable
         MoveTo(followTarget.position);
         RotateTo(followTarget.position);
     }
-    
     public virtual void MoveToCurrentTarget()
     {
         MoveTo(attackTarget.position);
@@ -230,18 +237,16 @@ public abstract class Unit : MonoBehaviour, IDamageable
     }
     protected virtual void HealthChanged()
     {
+        healthBar.UpdateBar(health, maxHealth);
         if (health <= 0)
         {
             Death();
         }
     }
 
-    public virtual void Death() { }
-
+    public virtual void Death() { Destroy(healthBar.gameObject); }
 
     public Action<Unit> onUnitDeath;
-    
-    
     
     
 #if UNITY_EDITOR

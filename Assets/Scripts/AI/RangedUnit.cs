@@ -6,8 +6,6 @@ public class RangedUnit : Unit
     public UnitState retreatState;
     public UnitState attackState;
     public UnitState followState;
-    
-    public ShootStyle shootStyle;
 
     public override void Init()
     {
@@ -15,7 +13,7 @@ public class RangedUnit : Unit
         attackData = new RangedAttackData{
             projectilePrefab = GameAssets.projectilePrefab,
         };
-        currentAttack = new RangedAttack(this, attackData, affiliation);
+        currentAttack = new RangedAttack(this, attackData, affiliation); // может всё таки ScriptableObject?
         
         ConfigureStates();
         Invoke(nameof(StartStates), Random.Range(0.1f, 3f));
@@ -67,6 +65,7 @@ public class RangedUnit : Unit
     
     public override void Death()
     {
+        base.Death();
         onUnitDeath?.Invoke(this);
         Destroy(gameObject);
     }

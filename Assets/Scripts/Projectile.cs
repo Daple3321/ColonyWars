@@ -106,17 +106,17 @@ public class Projectile : MonoBehaviour
         }
         if (col.gameObject.layer == 6) // player
         {
-            Debug.Log("Player hit");
+            //Debug.Log("Player hit");
             ProccessHit(HitType.PLAYER);
         }
         if (col.gameObject.layer == 11) // enemy unit
         {
-            Debug.Log("Enemy unit hit");
+            //Debug.Log("Enemy unit hit");
             ProccessHit(HitType.UNIT);
         }
         if (col.gameObject.layer == 12) // player unit
         {
-            Debug.Log("Player unit hit");
+            //Debug.Log("Player unit hit");
             ProccessHit(HitType.UNIT);
         }
         //Debug.Log($"Hit {col.gameObject.name}");

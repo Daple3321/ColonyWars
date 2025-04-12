@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy : Unit
+public class MeleeUnit : Unit
 {
     public UnitState idleState;
     public UnitState retreatState;
@@ -10,14 +10,16 @@ public class Enemy : Unit
     public override void Init()
     {
         base.Init();
-        attackData = new RangedAttackData{
-            projectilePrefab = GameAssets.projectilePrefab,
+        attackData = new MeleeAttackData{
         };
-        currentAttack = new RangedAttack(this, attackData, affiliation);
+        currentAttack = new MeleeAttack(this, attackData, affiliation); // может всё таки ScriptableObject?
         
         ConfigureStates();
-        
         Invoke(nameof(StartStates), Random.Range(0.1f, 3f));
+    }
+    private void StartStates()
+    {
+        stateMachine.ChangeState(idleState);
     }
     
     public override void ConfigureStates()
@@ -47,13 +49,9 @@ public class Enemy : Unit
         retreatState.Init(idleState, attackState);
         idleState.Init(attackState, retreatState);
         followState.Init(idleState, retreatState);
-        //stateMachine.ChangeState(idleState);
-    }
-    private void StartStates()
-    {
+
         stateMachine.ChangeState(idleState);
     }
-
     public override void StartFollowing()
     {
         stateMachine.ChangeState(followState);

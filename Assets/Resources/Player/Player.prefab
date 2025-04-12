@@ -459,7 +459,7 @@ MonoBehaviour:
   squadManager: {fileID: 8311137189873081287}
   stateMachine: {fileID: 8290539460608290715}
   health: 0
-  maxHealth: 100
+  maxHealth: 45
   rightHand: {fileID: 3315800805882177323}
   leftHand: {fileID: 3810671238129732571}
   groundLayer:

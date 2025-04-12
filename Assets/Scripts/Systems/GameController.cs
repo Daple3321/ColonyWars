@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     //public InventoryUI inventoryUI;
 
     public Canvas mainCanvas;
+    public Canvas worldCanvas;
     public MouseFollower mouseFollower;
     public Transform pSpawnPoint;
     public static Terrain currentTerrain;
@@ -62,12 +63,14 @@ public class GameController : MonoBehaviour
 
         //inventoryUI = GameObject.Find("PlayerInventory").GetComponent<InventoryUI>();
         mainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
+        worldCanvas = GameObject.Find("WorldCanvas").GetComponent<Canvas>();
         mouseFollower = GameObject.Find("MouseFollower").GetComponent<MouseFollower>();
 
         GameObject playerObj = Instantiate(GameAssets.playerPrefab, pSpawnPoint.position, Quaternion.identity);
         p = playerObj.GetComponent<Player>();
         p.InitPlayer();
         
+        worldCanvas.worldCamera = Camera.main; // after player
         
         EventBus.i.OnGameStarted?.Invoke();
         // World gen
@@ -76,7 +79,7 @@ public class GameController : MonoBehaviour
 
     IEnumerator Start()
     {
-        //yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.3f);
         StartGame();
         yield return null;
     }

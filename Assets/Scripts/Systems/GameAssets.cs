@@ -12,12 +12,15 @@ public class GameAssets
     public static List<ItemData> itemDatas;
     public static GameObject inventoryUI_Prefab;
     public static GameObject hotbarUI_Prefab;
+    public static GameObject worldBar;
 
     public static GameObject projectilePrefab;
     public static GameObject groundHitParts;
     public static GameObject unitHitParts;
 
     //private static EventBus eventBus;
+    
+    public static Colors colors;
     
     public static bool isInitialized { get; private set; } = false;
 
@@ -38,11 +41,14 @@ public class GameAssets
 
             inventoryUI_Prefab = Resources.Load<GameObject>("UI/Inventory");
             hotbarUI_Prefab = Resources.Load<GameObject>("UI/Hotbar");
+            worldBar = Resources.Load<GameObject>("UI/WorldBar");
             
             projectilePrefab = Resources.Load<GameObject>("Projectile");
             
             groundHitParts = Resources.Load<GameObject>("Effects/hitEffect_1");
             unitHitParts = Resources.Load<GameObject>("Effects/bloodHit_1");
+            
+            colors = Resources.Load<Colors>("ColorPreset");
             // foreach (ItemData item in itemDatas)
             // {
             //     UnityEngine.Debug.Log($"Found item: {item.itemName}");
