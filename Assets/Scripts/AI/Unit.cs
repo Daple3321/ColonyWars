@@ -1,11 +1,14 @@
 using System;
 using System.Collections;
+using PrimeTween;
 using UnityEditor;
 using UnityEngine;
 
 [RequireComponent(typeof(StateMachine))]
 public abstract class Unit : MonoBehaviour, IDamageable
 {
+    public string unitName;
+    
     public float health;
     public float maxHealth;
     
@@ -37,7 +40,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public LayerMask enemiesMask;
     public LayerMask attackHitMask;
 
-
+    public Squad squad;
     private CharacterController characterController;
     private WorldBar healthBar;
     public Transform attackPoint;
@@ -62,6 +65,8 @@ public abstract class Unit : MonoBehaviour, IDamageable
         //agent.speed = speed;
         //currentTarget = GameController.p.transform;
         //agent.SetDestination(currentTarget.position);
+        gameObject.name = unitName;
+        squad = null;
         characterController = GetComponent<CharacterController>();
         homePos = transform.position;
 
@@ -76,7 +81,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     {
         healthBar = Instantiate(GameAssets.worldBar, GameController.i.worldCanvas.transform).GetComponent<WorldBar>();
         healthBar.Init(affiliation);
-        healthBar.followTarget = transform;
+        healthBar.InitWorldBar(transform, GameController.i.worldCanvas);
         healthBar.offset.y = transform.localScale.y + 1.4f;
         healthBar.UpdateBar(health, maxHealth);
     }
@@ -117,11 +122,16 @@ public abstract class Unit : MonoBehaviour, IDamageable
     
     public virtual void RegisterToSquad(Squad squad)
     {
-
+        this.squad = squad;
+        onRegiesterToSquad?.Invoke(squad);
     }
     public virtual void UnregisterFromSquad()
     {
-        
+        this.squad = null;
+        onUnregisterFromSquad?.Invoke();
+    }
+    public bool InSquad(){
+        return squad == null ? false : true;
     }
 
     public abstract void ConfigureStates();
@@ -238,6 +248,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     protected virtual void HealthChanged()
     {
         healthBar.UpdateBar(health, maxHealth);
+        onUnitHealthChanged?.Invoke(health, maxHealth);
         if (health <= 0)
         {
             Death();
@@ -247,7 +258,9 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public virtual void Death() { Destroy(healthBar.gameObject); }
 
     public Action<Unit> onUnitDeath;
-    
+    public Action<Squad> onRegiesterToSquad;
+    public Action onUnregisterFromSquad;
+    public Action<float, float> onUnitHealthChanged;
     
 #if UNITY_EDITOR
     private void OnDrawGizmos()

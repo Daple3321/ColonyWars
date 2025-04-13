@@ -10,23 +10,43 @@ public class Bar : MonoBehaviour
     public RectTransform bar;
     public Image barImg;
     public TextMeshProUGUI barTxt;
+    protected Canvas parentCanvas;
+    protected Camera mainCam;
+    protected Gradient barColor;
     
     public Action<float, float> UpdateCallback;
-    // сделать больше настроек (c текстом/без, цвет, эффекты, изменение цвета)
+    
+    // TO-DO: сделать больше настроек (c текстом/без)
+    /// <summary>
+    /// Если не указать affiliation - будет использоваться уже заданный цвет
+    /// </summary>
+    /// <param name="affiliation"></param>
     public virtual void Init(Affiliation affiliation = Affiliation.None)
     {
+        mainCam = Camera.main;
+        
         if(affiliation == Affiliation.Enemy){
-            barImg.color = GameAssets.colors.enemyHealthbar;
+            barImg.color = GameAssets.colors.enemyHealthbar.Evaluate(0);
+            barColor = GameAssets.colors.enemyHealthbar;
         }
         else if(affiliation == Affiliation.Player){
-            barImg.color = GameAssets.colors.friendlyHealthbar;
+            barImg.color = GameAssets.colors.friendlyHealthbar.Evaluate(0);
+            barColor = GameAssets.colors.friendlyHealthbar;
+        }
+        else if(affiliation == Affiliation.None){
+            
         }
         //rectTransform = GetComponent<RectTransform>();
     }
 
     public virtual void UpdateBar(float val, float maxVal)
     {
-        bar.localScale = new Vector3(val / maxVal, 1, 1);
+        float normalizedVal = val / maxVal;
+        barImg.fillAmount = normalizedVal;
+        
+        if(barColor != null){
+            barImg.color = barColor.Evaluate(normalizedVal);
+        }
 
         if (barTxt != null)
         {

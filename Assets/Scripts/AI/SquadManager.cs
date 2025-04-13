@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,24 +11,27 @@ public class SquadManager : MonoBehaviour
     
     public int currentUnits;
     public int maxUnits;
+    
+    public SquadPanel squadUI;
+    
+    public Action<Squad> onSquadUpdate;
 
-    void Awake()
-    {
+    void Awake(){
         enabled = false;
     }
 
-    public void Init()
-    {
+    public void Init(){
         squad = new Squad(maxUnits);
+        squadUI = GameController.i.playerSquadPanel;
+        squadUI.Init(squad);
+        onSquadUpdate += squadUI.OnSquadUpdate; 
         enabled = true;
     }
 
-    public void SquadOrder(Vector3 orderPos)
-    {
+    public void SquadOrder(Vector3 orderPos){
         squad.MoveOrder(orderPos);
     }
-    public void UnitOrder(Vector3 orderPos, Unit targetUnit)
-    {
+    public void UnitOrder(Vector3 orderPos, Unit targetUnit){
         squad.MoveOrder(orderPos, targetUnit);
     }
 
@@ -46,6 +50,8 @@ public class SquadManager : MonoBehaviour
                 }
             }
             squad.FollowOrder(transform);
+            
+            onSquadUpdate?.Invoke(squad);
             return true;
         }
         else
@@ -93,8 +99,11 @@ public class Squad
             unit.SetHome(orderPos);
             unit.StopFollowing();
             unit.followTarget = null;
+            unit.UnregisterFromSquad();
         }
-        units.Clear();
+        RemoveAllUnits();
+
+        //units.Clear();
     }
     public void MoveOrder(Vector3 orderPos, Unit targetUnit)
     {
@@ -106,6 +115,8 @@ public class Squad
         targetUnit.SetHome(orderPos);
         targetUnit.StopFollowing();
         targetUnit.followTarget = null;
+        targetUnit.UnregisterFromSquad();
+        RemoveUnit(targetUnit);
     }
 
     public void CreateSquad(GameObject[] unitsToAdd)
@@ -125,29 +136,39 @@ public class Squad
 
     public void RemoveUnit(Unit unitToRemove)
     {
-        if (!units.Contains(unitToRemove))
-        {
-            Debug.Log($"{unitToRemove.name} not found in squad.");
+        if (!units.Contains(unitToRemove)){
+            //Debug.LogWarning($"{unitToRemove.name} not found in squad.");
             return;
         }
-        else
-        {
-            Debug.Log("Removing unit");
+        else{
+            //Debug.Log("Removing unit");
+            unitToRemove.UnregisterFromSquad();
             units.Remove(unitToRemove);
         }
+    }
+    public void RemoveAllUnits()
+    {
+        foreach (Unit unit in units)
+        {
+            unit.UnregisterFromSquad();
+        }
+        units.Clear();
     }
 
     public void TryAddUnit(Unit unit)
     {
         if (units.Count >= maxUnits)
             return;
-        if (units.Contains(unit))
-        {
-            Debug.Log("Unit already in squad!");
+        if (units.Contains(unit)){
+            Debug.LogWarning("Unit already in squad!");
             return;
         }
+        // if(!unit.InSquad()){
+            
+        // }
 
         units.Add(unit);
+        unit.RegisterToSquad(this);
         unit.onUnitDeath += RemoveUnit;
     }
 }

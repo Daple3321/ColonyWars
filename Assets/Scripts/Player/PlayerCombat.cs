@@ -67,7 +67,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void SetupWeapon()
     {
-        Debug.Log($"Selected weapon: {currentWeapon.itemName}.");
+        //Debug.Log($"Selected weapon: {currentWeapon.itemName}.");
     }
 
     private void ClearWeapon()

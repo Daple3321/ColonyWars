@@ -278,8 +278,8 @@ public class PlayerInventory : MonoBehaviour
 
             OnItemSelected?.Invoke(this, new OnItemSelectedEventArgs { selectedItem = selectedItem, worldItem = selectedWorldItem, slotId = slotId });
 
-            if (selectedItem != null)
-                Debug.Log($"[{slotId}] Selected {selectedItem.itemName} item");
+            //if (selectedItem != null)
+            //    Debug.Log($"[{slotId}] Selected {selectedItem.itemName} item");
         }
         else // Switch to empty slot
         {

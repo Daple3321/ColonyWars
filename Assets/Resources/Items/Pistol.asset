@@ -25,8 +25,8 @@ MonoBehaviour:
   damage: 2
   attackRate: 0.2
   attackType: 2
-  shootDistance: 50
-  projectileSpeed: 35
+  shootDistance: 30
+  projectileSpeed: 45
   concentrationScatter:
     serializedVersion: 2
     m_Curve:

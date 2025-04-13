@@ -13,6 +13,7 @@ public class GameAssets
     public static GameObject inventoryUI_Prefab;
     public static GameObject hotbarUI_Prefab;
     public static GameObject worldBar;
+    public static GameObject unitSlot_Prefab;
 
     public static GameObject projectilePrefab;
     public static GameObject groundHitParts;
@@ -42,6 +43,8 @@ public class GameAssets
             inventoryUI_Prefab = Resources.Load<GameObject>("UI/Inventory");
             hotbarUI_Prefab = Resources.Load<GameObject>("UI/Hotbar");
             worldBar = Resources.Load<GameObject>("UI/WorldBar");
+            unitSlot_Prefab = Resources.Load<GameObject>("UI/UnitSlot");
+            //UnityEngine.Debug.Log(unitSlot_Prefab + "Loaded");
             
             projectilePrefab = Resources.Load<GameObject>("Projectile");
             

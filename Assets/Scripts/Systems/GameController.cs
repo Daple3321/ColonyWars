@@ -13,6 +13,8 @@ public class GameController : MonoBehaviour
 
     public Canvas mainCanvas;
     public Canvas worldCanvas;
+    public Canvas squadCanvas;
+    public SquadPanel playerSquadPanel;
     public MouseFollower mouseFollower;
     public Transform pSpawnPoint;
     public static Terrain currentTerrain;
@@ -64,6 +66,10 @@ public class GameController : MonoBehaviour
         //inventoryUI = GameObject.Find("PlayerInventory").GetComponent<InventoryUI>();
         mainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
         worldCanvas = GameObject.Find("WorldCanvas").GetComponent<Canvas>();
+        
+        squadCanvas = GameObject.Find("SquadCanvas").GetComponent<Canvas>();
+        playerSquadPanel = GameObject.Find("SquadPanel").GetComponent<SquadPanel>();
+        
         mouseFollower = GameObject.Find("MouseFollower").GetComponent<MouseFollower>();
 
         GameObject playerObj = Instantiate(GameAssets.playerPrefab, pSpawnPoint.position, Quaternion.identity);
@@ -79,9 +85,8 @@ public class GameController : MonoBehaviour
 
     IEnumerator Start()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.15f);
         StartGame();
-        yield return null;
     }
 
     void Update()
