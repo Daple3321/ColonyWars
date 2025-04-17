@@ -816,7 +816,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!143 &247998316
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1150,7 +1150,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!143 &388275384
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1370,7 +1370,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!143 &424702126
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2716,6 +2716,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MeleeUnit_2
       objectReference: {fileID: 0}
+    - target: {fileID: 2149854553417079418, guid: a4b6347044b78084993e98fe4c4b0af7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2158878422839435738, guid: a4b6347044b78084993e98fe4c4b0af7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 13.91
@@ -3673,6 +3677,10 @@ PrefabInstance:
     - target: {fileID: 8833364481316749265, guid: ed01fc9d95aecf742a4e723288639cb4, type: 3}
       propertyPath: m_Name
       value: RangedUnit_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8833364481316749265, guid: ed01fc9d95aecf742a4e723288639cb4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8963810978971726781, guid: ed01fc9d95aecf742a4e723288639cb4, type: 3}
       propertyPath: unitName
@@ -15151,6 +15159,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RangedUnit_2
       objectReference: {fileID: 0}
+    - target: {fileID: 8833364481316749265, guid: ed01fc9d95aecf742a4e723288639cb4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8963810978971726781, guid: ed01fc9d95aecf742a4e723288639cb4, type: 3}
       propertyPath: unitName
       value: Ranged Unit
@@ -16494,6 +16506,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MeleeUnit_1
       objectReference: {fileID: 0}
+    - target: {fileID: 2149854553417079418, guid: a4b6347044b78084993e98fe4c4b0af7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2158878422839435738, guid: a4b6347044b78084993e98fe4c4b0af7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 26.15
@@ -17634,6 +17650,10 @@ PrefabInstance:
     - target: {fileID: 2149854553417079418, guid: a4b6347044b78084993e98fe4c4b0af7, type: 3}
       propertyPath: m_Name
       value: MeleeUnit
+      objectReference: {fileID: 0}
+    - target: {fileID: 2149854553417079418, guid: a4b6347044b78084993e98fe4c4b0af7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2158878422839435738, guid: a4b6347044b78084993e98fe4c4b0af7, type: 3}
       propertyPath: m_LocalPosition.x
