@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(StateMachine))]
-public class Player : MonoBehaviour, IDamageable
+public class Player : MonoBehaviour, IDamageable, ICommander
 {
     public PlayerCameraController cameraController;
     public PlayerCombat playerCombat;
@@ -21,6 +21,10 @@ public class Player : MonoBehaviour, IDamageable
     public Transform leftHand;
 
     public LayerMask groundLayer;
+    
+    public float commandEnergy;
+    public float maxCommandEnergy;
+
     public void InitPlayer()
     {
         cameraController.Init(playerFollow);
@@ -48,22 +52,15 @@ public class Player : MonoBehaviour, IDamageable
     {
         playerAiming.HandleAiming();
 
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            Vector3 mousePos = Input.mousePosition;
-            Ray mouseRay = Camera.main.ScreenPointToRay(mousePos);
-            RaycastHit mouseHit;
-            if (Physics.Raycast(mouseRay, out mouseHit, 50, groundLayer))
-            {
-                squadManager.SquadOrder(mouseHit.point);
-            }
+        if (Input.GetKeyDown(KeyCode.F)){
+            Command(CommandType.HOMEPOS);
         }
-
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            squadManager.TryAssembleSquad();
-
+        if (Input.GetKeyDown(KeyCode.V)){
+            Command(CommandType.CREATE_SQUAD);
             TakeDamage(2, 100);
+        }
+        if(Input.GetKeyDown(KeyCode.B)){
+            Command(CommandType.FOLLOW); // retreat
         }
     }
 
@@ -84,6 +81,27 @@ public class Player : MonoBehaviour, IDamageable
         EventBus.i.PlayerDeath?.Invoke();
         Destroy(gameObject);
     }
+
+    public void Command(CommandType commandType)
+    {
+        switch(commandType){
+            case CommandType.FOLLOW:
+                squadManager.FollowOrder();
+                break;
+            case CommandType.HOMEPOS:
+                Vector3 mousePos = Input.mousePosition;
+                Ray mouseRay = Camera.main.ScreenPointToRay(mousePos);
+                RaycastHit mouseHit;
+                if (Physics.Raycast(mouseRay, out mouseHit, 50, groundLayer))
+                {
+                    squadManager.HomePosOrder(mouseHit.point);
+                }
+                break;
+            case CommandType.CREATE_SQUAD:
+                squadManager.TryAssembleSquad();
+                break;
+        }
+    }
 }
 
 
@@ -91,4 +109,9 @@ public interface IDamageable
 {
     void TakeDamage(float damage, float knockback = 0f);
     void Death();
+}
+
+public interface ICommander
+{
+    void Command(CommandType commandType);
 }

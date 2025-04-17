@@ -465,6 +465,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
+  commandEnergy: 10
+  maxCommandEnergy: 10
 --- !u!114 &26623650528081227
 MonoBehaviour:
   m_ObjectHideFlags: 0

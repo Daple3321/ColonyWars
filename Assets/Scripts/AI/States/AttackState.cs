@@ -14,7 +14,7 @@ public class AttackState : UnitState
         {
             owner.HandleAttacking();
         }
-        else if(owner.HasTarget())
+        if(owner.DistanceToTarget() > owner.attackDistance)
         {
             owner.MoveToCurrentTarget();
         }

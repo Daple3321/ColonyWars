@@ -27,8 +27,11 @@ public class SquadManager : MonoBehaviour
         onSquadUpdate += squadUI.OnSquadUpdate; 
         enabled = true;
     }
-
-    public void SquadOrder(Vector3 orderPos){
+    
+    public void FollowOrder(){
+        squad.FollowOrder(transform);
+    }
+    public void HomePosOrder(Vector3 orderPos){
         squad.MoveOrder(orderPos);
     }
     public void UnitOrder(Vector3 orderPos, Unit targetUnit){
@@ -49,7 +52,7 @@ public class SquadManager : MonoBehaviour
                     squad.TryAddUnit(hitUnit);
                 }
             }
-            squad.FollowOrder(transform);
+            //squad.FollowOrder(transform);
             
             onSquadUpdate?.Invoke(squad);
             return true;
@@ -99,9 +102,9 @@ public class Squad
             unit.SetHome(orderPos);
             unit.StopFollowing();
             unit.followTarget = null;
-            unit.UnregisterFromSquad();
+            //unit.UnregisterFromSquad();
         }
-        RemoveAllUnits();
+        //RemoveAllUnits();
 
         //units.Clear();
     }
@@ -171,4 +174,12 @@ public class Squad
         unit.RegisterToSquad(this);
         unit.onUnitDeath += RemoveUnit;
     }
+}
+
+public enum CommandType : byte
+{
+    NONE,
+    FOLLOW,
+    HOMEPOS,
+    CREATE_SQUAD,
 }
