@@ -149,7 +149,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""name"": ""Previous"",
                     ""type"": ""Button"",
                     ""id"": ""2776c80d-3c14-4091-8c56-d04ced07a2b0"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -221,6 +221,42 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""name"": ""InventoryOpen"",
                     ""type"": ""Button"",
                     ""id"": ""a8ff06cd-ede8-4086-b675-09335535d015"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SquadAssemble"",
+                    ""type"": ""Button"",
+                    ""id"": ""43ab9389-e6e9-491e-b043-7bd8942ee4bd"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SquadMoveOrder"",
+                    ""type"": ""Button"",
+                    ""id"": ""a5dab587-aaff-4b25-888d-7fd33ab2e22f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SquadRetreat"",
+                    ""type"": ""Button"",
+                    ""id"": ""c66501c1-fe02-4342-aab7-206771651cdf"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SquadAssembleMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""2cdf1f5a-ed86-4999-ad20-8dd3c3533656"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -720,6 +756,50 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""InventoryOpen"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""22ef883d-c1a3-4dcd-b529-e8a1c6763bd2"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""SquadAssemble"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2ced7d76-980a-4cd8-9c5b-58f0fea58b1a"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""SquadMoveOrder"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""04ee9a0a-bc68-4bb1-b0f6-93af699294d5"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""SquadRetreat"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2508f8c7-2618-4dfc-a9a5-a33b279b92f8"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""SquadAssembleMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1322,6 +1402,10 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_Drop = m_Player.FindAction("Drop", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_InventoryOpen = m_Player.FindAction("InventoryOpen", throwIfNotFound: true);
+        m_Player_SquadAssemble = m_Player.FindAction("SquadAssemble", throwIfNotFound: true);
+        m_Player_SquadMoveOrder = m_Player.FindAction("SquadMoveOrder", throwIfNotFound: true);
+        m_Player_SquadRetreat = m_Player.FindAction("SquadRetreat", throwIfNotFound: true);
+        m_Player_SquadAssembleMenu = m_Player.FindAction("SquadAssembleMenu", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1430,6 +1514,10 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Drop;
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_InventoryOpen;
+    private readonly InputAction m_Player_SquadAssemble;
+    private readonly InputAction m_Player_SquadMoveOrder;
+    private readonly InputAction m_Player_SquadRetreat;
+    private readonly InputAction m_Player_SquadAssembleMenu;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1502,6 +1590,22 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @InventoryOpen => m_Wrapper.m_Player_InventoryOpen;
         /// <summary>
+        /// Provides access to the underlying input action "Player/SquadAssemble".
+        /// </summary>
+        public InputAction @SquadAssemble => m_Wrapper.m_Player_SquadAssemble;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SquadMoveOrder".
+        /// </summary>
+        public InputAction @SquadMoveOrder => m_Wrapper.m_Player_SquadMoveOrder;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SquadRetreat".
+        /// </summary>
+        public InputAction @SquadRetreat => m_Wrapper.m_Player_SquadRetreat;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SquadAssembleMenu".
+        /// </summary>
+        public InputAction @SquadAssembleMenu => m_Wrapper.m_Player_SquadAssembleMenu;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1572,6 +1676,18 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @InventoryOpen.started += instance.OnInventoryOpen;
             @InventoryOpen.performed += instance.OnInventoryOpen;
             @InventoryOpen.canceled += instance.OnInventoryOpen;
+            @SquadAssemble.started += instance.OnSquadAssemble;
+            @SquadAssemble.performed += instance.OnSquadAssemble;
+            @SquadAssemble.canceled += instance.OnSquadAssemble;
+            @SquadMoveOrder.started += instance.OnSquadMoveOrder;
+            @SquadMoveOrder.performed += instance.OnSquadMoveOrder;
+            @SquadMoveOrder.canceled += instance.OnSquadMoveOrder;
+            @SquadRetreat.started += instance.OnSquadRetreat;
+            @SquadRetreat.performed += instance.OnSquadRetreat;
+            @SquadRetreat.canceled += instance.OnSquadRetreat;
+            @SquadAssembleMenu.started += instance.OnSquadAssembleMenu;
+            @SquadAssembleMenu.performed += instance.OnSquadAssembleMenu;
+            @SquadAssembleMenu.canceled += instance.OnSquadAssembleMenu;
         }
 
         /// <summary>
@@ -1628,6 +1744,18 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @InventoryOpen.started -= instance.OnInventoryOpen;
             @InventoryOpen.performed -= instance.OnInventoryOpen;
             @InventoryOpen.canceled -= instance.OnInventoryOpen;
+            @SquadAssemble.started -= instance.OnSquadAssemble;
+            @SquadAssemble.performed -= instance.OnSquadAssemble;
+            @SquadAssemble.canceled -= instance.OnSquadAssemble;
+            @SquadMoveOrder.started -= instance.OnSquadMoveOrder;
+            @SquadMoveOrder.performed -= instance.OnSquadMoveOrder;
+            @SquadMoveOrder.canceled -= instance.OnSquadMoveOrder;
+            @SquadRetreat.started -= instance.OnSquadRetreat;
+            @SquadRetreat.performed -= instance.OnSquadRetreat;
+            @SquadRetreat.canceled -= instance.OnSquadRetreat;
+            @SquadAssembleMenu.started -= instance.OnSquadAssembleMenu;
+            @SquadAssembleMenu.performed -= instance.OnSquadAssembleMenu;
+            @SquadAssembleMenu.canceled -= instance.OnSquadAssembleMenu;
         }
 
         /// <summary>
@@ -2033,6 +2161,34 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInventoryOpen(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SquadAssemble" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSquadAssemble(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SquadMoveOrder" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSquadMoveOrder(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SquadRetreat" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSquadRetreat(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SquadAssembleMenu" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSquadAssembleMenu(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

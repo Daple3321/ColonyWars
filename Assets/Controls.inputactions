@@ -63,7 +63,7 @@
                     "name": "Previous",
                     "type": "Button",
                     "id": "2776c80d-3c14-4091-8c56-d04ced07a2b0",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -135,6 +135,42 @@
                     "name": "InventoryOpen",
                     "type": "Button",
                     "id": "a8ff06cd-ede8-4086-b675-09335535d015",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SquadAssemble",
+                    "type": "Button",
+                    "id": "43ab9389-e6e9-491e-b043-7bd8942ee4bd",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SquadMoveOrder",
+                    "type": "Button",
+                    "id": "a5dab587-aaff-4b25-888d-7fd33ab2e22f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SquadRetreat",
+                    "type": "Button",
+                    "id": "c66501c1-fe02-4342-aab7-206771651cdf",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SquadAssembleMenu",
+                    "type": "Button",
+                    "id": "2cdf1f5a-ed86-4999-ad20-8dd3c3533656",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -634,6 +670,50 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "InventoryOpen",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "22ef883d-c1a3-4dcd-b529-e8a1c6763bd2",
+                    "path": "<Keyboard>/v",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SquadAssemble",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2ced7d76-980a-4cd8-9c5b-58f0fea58b1a",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SquadMoveOrder",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "04ee9a0a-bc68-4bb1-b0f6-93af699294d5",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SquadRetreat",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2508f8c7-2618-4dfc-a9a5-a33b279b92f8",
+                    "path": "<Keyboard>/v",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SquadAssembleMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

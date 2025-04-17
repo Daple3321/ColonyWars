@@ -3,18 +3,18 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class NearbyUnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public Unit unit;
     public Bar healthBar;
     public TextMeshProUGUI nameText;
     
-    private SquadPanel parentPanel;
+    private SquadAssemblePanel parentPanel;
     private RectTransform rectTransform;
     
     public RectTransform hoverPanel;
     
-    public void Init(Unit unit, SquadPanel squadPanel)
+    public void Init(Unit unit, SquadAssemblePanel squadPanel)
     {
         this.unit = unit;
         //unit.onUnitDeath += OnUnitDeath;
@@ -29,13 +29,13 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         
         nameText.text = unit.unitName;
         
-        Tween.PunchScale(rectTransform, strength: new Vector3(1.1f, 1.1f, 1), duration: 0.35f, frequency: 4);
+        //Tween.PunchScale(rectTransform, strength: new Vector3(1.1f, 1.1f, 1), duration: 0.35f, frequency: 4);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        unit.squad.RemoveUnit(unit);
-        //unit.UnregisterFromSquad();
+        parentPanel.squadManager.AddUnit(unit);
+        parentPanel.DestroySlot(this);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -55,8 +55,8 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     }
 
     private void OnUnitUnregister(){
-        parentPanel.unitSlots.Remove(this);
-        //Debug.Log($"{unit.unitName} unregistered. Deleting slot");
-        Destroy(gameObject);
+        //parentPanel.unitSlots.Remove(this);
+        parentPanel.DestroySlot(this);
+        //Destroy(gameObject);
     }
 }

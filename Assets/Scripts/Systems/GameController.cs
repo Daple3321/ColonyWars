@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     public Canvas worldCanvas;
     public Canvas squadCanvas;
     public SquadPanel playerSquadPanel;
+    public SquadAssemblePanel squadAssemblePanel;
     public MouseFollower mouseFollower;
     public Transform pSpawnPoint;
     public static Terrain currentTerrain;
@@ -69,6 +70,7 @@ public class GameController : MonoBehaviour
         
         squadCanvas = GameObject.Find("SquadCanvas").GetComponent<Canvas>();
         playerSquadPanel = GameObject.Find("SquadPanel").GetComponent<SquadPanel>();
+        squadAssemblePanel = GameObject.Find("SquadAssemblePanel").GetComponent<SquadAssemblePanel>();
         
         mouseFollower = GameObject.Find("MouseFollower").GetComponent<MouseFollower>();
 

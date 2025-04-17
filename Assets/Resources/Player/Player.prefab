@@ -659,6 +659,9 @@ MonoBehaviour:
   currentUnits: 0
   maxUnits: 6
   squadUI: {fileID: 0}
+  squadAssembleUI: {fileID: 0}
+  searchDelay: 0.5
+  searchingForUnits: 0
 --- !u!114 &8290539460608290715
 MonoBehaviour:
   m_ObjectHideFlags: 0

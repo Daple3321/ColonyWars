@@ -24,6 +24,8 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     
     public float commandEnergy;
     public float maxCommandEnergy;
+    
+    private Controls controls;
 
     public void InitPlayer()
     {
@@ -39,6 +41,8 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         playerInventory.SelectItem(playerInventory.hotbar, 0);
 
         MouseTooltip.i.Init();
+        
+        controls = GameAssets.controls;
 
         health = maxHealth;
         EventBus.i.PlayerHealthChanged?.Invoke(health, maxHealth);
@@ -52,12 +56,17 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     {
         playerAiming.HandleAiming();
 
-        if (Input.GetKeyDown(KeyCode.F)){
+        if (controls.Player.SquadMoveOrder.WasPressedThisFrame()){
             Command(CommandType.HOMEPOS);
         }
-        if (Input.GetKeyDown(KeyCode.V)){
+        if (controls.Player.SquadAssembleMenu.WasPressedThisFrame()){
+            squadManager.SwitchAssemblePanel();
+            //Command(CommandType.CREATE_SQUAD);
+            //TakeDamage(2, 100);
+        }
+        if(controls.Player.SquadAssemble.WasPerformedThisFrame())
+        {
             Command(CommandType.CREATE_SQUAD);
-            TakeDamage(2, 100);
         }
         if(Input.GetKeyDown(KeyCode.B)){
             Command(CommandType.FOLLOW); // retreat

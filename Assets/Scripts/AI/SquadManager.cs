@@ -13,6 +13,11 @@ public class SquadManager : MonoBehaviour
     public int maxUnits;
     
     public SquadPanel squadUI;
+    public SquadAssemblePanel squadAssembleUI;
+    public float searchDelay;
+    private float _searchDelay;
+    public bool searchingForUnits = false;
+    public List<Unit> nearbyUnits = new List<Unit>();
     
     public Action<Squad> onSquadUpdate;
 
@@ -23,9 +28,59 @@ public class SquadManager : MonoBehaviour
     public void Init(){
         squad = new Squad(maxUnits);
         squadUI = GameController.i.playerSquadPanel;
+        squadAssembleUI = GameController.i.squadAssemblePanel;
         squadUI.Init(squad);
+        squadAssembleUI.Init(this);
+        SwitchAssemblePanel();
         onSquadUpdate += squadUI.OnSquadUpdate; 
+        _searchDelay = searchDelay;
+        
         enabled = true;
+    }
+    
+    void Update()
+    {
+        if(_searchDelay > 0 && searchingForUnits){
+            _searchDelay -= Time.deltaTime;
+        }
+        else if(_searchDelay <= 0 && searchingForUnits){
+            SearchForUnits();
+            squadAssembleUI.UpdateUI(nearbyUnits.ToArray());
+            _searchDelay = searchDelay;
+        }
+    }
+    
+    public void SwitchAssemblePanel()
+    {
+        if(squadAssembleUI.isActiveAndEnabled){
+            searchingForUnits = false;
+            squadAssembleUI.gameObject.SetActive(false);
+        }
+        else{
+            searchingForUnits = true;
+            squadAssembleUI.ClearUI();
+            squadAssembleUI.gameObject.SetActive(true);
+        }
+    }
+    public bool SearchForUnits()
+    {
+        var hitColliders = Physics.OverlapSphere(transform.position, squadCallDistance, unitsMask);
+        nearbyUnits.Clear();
+        if (hitColliders.Length > 0)
+        {
+            foreach (Collider col in hitColliders)
+            {
+                Unit hitUnit;
+                if (col.TryGetComponent<Unit>(out hitUnit))
+                {
+                    nearbyUnits.Add(hitUnit);
+                }
+            }
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     
     public void FollowOrder(){
@@ -37,7 +92,13 @@ public class SquadManager : MonoBehaviour
     public void UnitOrder(Vector3 orderPos, Unit targetUnit){
         squad.MoveOrder(orderPos, targetUnit);
     }
-
+    
+    public void AddUnit(Unit unit)
+    {
+        squad.TryAddUnit(unit);
+        onSquadUpdate?.Invoke(squad);
+    }
+    
     public bool TryAssembleSquad()
     {
         var hitColliders = Physics.OverlapSphere(transform.position, squadCallDistance, unitsMask);

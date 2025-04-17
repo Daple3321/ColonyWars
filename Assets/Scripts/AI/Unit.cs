@@ -128,6 +128,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public virtual void UnregisterFromSquad()
     {
         this.squad = null;
+        followTarget = null;
         onUnregisterFromSquad?.Invoke();
     }
     public bool InSquad(){
@@ -195,11 +196,11 @@ public abstract class Unit : MonoBehaviour, IDamageable
     
     public bool CheckForEnemies()
     {
-        Collider[] hitColliders;
+        Collider[] hitColliders = {};
         if(homeRadius > attackDistance){
            hitColliders = Physics.OverlapSphere(homePos, homeRadius, enemiesMask);
         }
-        else{
+        else if(homeRadius < attackDistance){
             hitColliders = Physics.OverlapSphere(transform.position, attackDistance, enemiesMask);
         }
         
