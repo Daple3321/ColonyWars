@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -34,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerCameraController cameraController;
     private CharacterController characterController;
     private Camera mainCamera;
+    private Animator animator;
 
     public Terrain terrain;
     
@@ -52,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
         this.cameraController = cameraController;
         this.playerAiming = playerAiming;
         mainCamera = cameraController.mainCamera;
+        animator = GetComponent<Animator>();
 
         moveAction = controls.Player.Move;
         runAction = controls.Player.Sprint;
@@ -153,6 +154,9 @@ public class PlayerMovement : MonoBehaviour
     private void HandleMovementAndRotation()
     {
         Vector2 moveInput = moveAction.ReadValue<Vector2>();
+        //animator.SetFloat("Speed X", moveInput.x);
+        //animator.SetFloat("Speed Z", moveInput.y);
+        
         Vector3 moveDir = new Vector3(-moveInput.x, 0, moveInput.y);
         //moveDir = moveDir.normalized * moveSpeed * Time.deltaTime;
 
@@ -176,7 +180,24 @@ public class PlayerMovement : MonoBehaviour
         {
             moveDir.y = -fallSpeed * Time.deltaTime;
         }
+                
         characterController.Move(moveDir);
+        
+        //float speedX = Mathf.Clamp(Mathf.Lerp(animator.GetFloat("Speed X"), characterController.velocity.x, 3*Time.deltaTime), -2, 2);
+        //float speedZ = Mathf.Clamp(Mathf.Lerp(animator.GetFloat("Speed Z"), characterController.velocity.z, 3*Time.deltaTime), -2, 2);
+        
+        //float speedX = Mathf.Lerp(animator.GetFloat("Speed X"), moveInput.x, 4*Time.deltaTime);
+        //float speedZ = Mathf.Lerp(animator.GetFloat("Speed Z"), moveInput.y, 4*Time.deltaTime);
+        
+        float speedX = Mathf.Clamp(characterController.velocity.x, -2, 2);
+        float speedZ = Mathf.Clamp(characterController.velocity.z, -2, 2);
+        if(!isRunning){
+            speedX = Mathf.Clamp(characterController.velocity.x, -1, 1);
+            speedZ = Mathf.Clamp(characterController.velocity.z, -1, 1);
+        }
+        animator.SetFloat("Speed X", speedX, 0.1f, Time.deltaTime);
+        animator.SetFloat("Speed Z", speedZ, 0.1f, Time.deltaTime);
+        
         Debug.DrawRay(transform.position, crossProd * 2, Color.red);
         Debug.DrawRay(transform.position, moveDir * 5, Color.cyan);
 

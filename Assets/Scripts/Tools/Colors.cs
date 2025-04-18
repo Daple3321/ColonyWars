@@ -5,4 +5,7 @@ public class Colors : ScriptableObject
 {
     public Gradient friendlyHealthbar;
     public Gradient enemyHealthbar;
+    
+    public Gradient playerBulletTrail;
+    public Gradient enemyBulletTrail;
 }

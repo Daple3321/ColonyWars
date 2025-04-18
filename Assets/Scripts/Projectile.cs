@@ -13,10 +13,12 @@ public class Projectile : MonoBehaviour
     public LayerMask enemyExcludeMask;
 
     private Rigidbody rb;
+    private TrailRenderer trail;
 
     public virtual void Init(float damage, float speed, Affiliation affiliation, int penetrationAmount = 0, float lifeTime = 2.5f)
     {
         rb = GetComponent<Rigidbody>();
+        trail = GetComponentInChildren<TrailRenderer>();
         
         this.damage = damage;
         this.speed = speed;
@@ -34,10 +36,14 @@ public class Projectile : MonoBehaviour
         if(affiliation == Affiliation.Enemy){
             currentExcludeMask = enemyExcludeMask;
             gameObject.layer = 9;
+            
+            trail.colorGradient = GameAssets.colors.enemyBulletTrail;
         }
         else if(affiliation == Affiliation.Player){
             currentExcludeMask = playerExcludeMask;
             gameObject.layer = 10;
+            
+            trail.colorGradient = GameAssets.colors.playerBulletTrail;
         }
         rb.excludeLayers = currentExcludeMask;
     }

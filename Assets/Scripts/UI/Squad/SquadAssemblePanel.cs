@@ -33,7 +33,7 @@ public class SquadAssemblePanel : MonoBehaviour
                     GameObject slotObj = Instantiate(GameAssets.nearbyUnitSlot_Prefab, transform);
                     NearbyUnitSlot slot = slotObj.GetComponent<NearbyUnitSlot>();
                     slot.Init(unit, this);
-                    Debug.Log("Spawning new slot");
+                    //Debug.Log("Spawning new slot");
                     
                     unitSlots.Add(slot);
                 }
@@ -60,9 +60,13 @@ public class SquadAssemblePanel : MonoBehaviour
         List<NearbyUnitSlot> slotsToDestoy = new List<NearbyUnitSlot>();
         foreach(NearbyUnitSlot slot in unitSlots)
         {
-            Unit foundUnit = nearbyUnits.Find(x => x == slot.unit);
-            if(foundUnit == null)
-            {
+            // Unit foundUnit = nearbyUnits.Find(x => x == slot.unit); // Change to .Contains()?
+            // if(foundUnit == null)
+            // {
+            //     slotsToDestoy.Add(slot);
+            // }
+            
+            if(!nearbyUnits.Contains(slot.unit)){
                 slotsToDestoy.Add(slot);
             }
         }
