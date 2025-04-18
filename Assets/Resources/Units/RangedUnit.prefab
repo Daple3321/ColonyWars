@@ -989,6 +989,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3f7c423969a96e4ca6c2de284ebe4c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitName: Ranged Unit
   health: 25
   maxHealth: 25
   speed: 6
@@ -1000,20 +1001,24 @@ MonoBehaviour:
   attackData:
     rid: -2
   damage: 4
-  attackDistance: 8
+  attackDistance: 11.64
   attackDuration: 0
   attackSpeed: 0.8
   concentration: 0
   isAttacking: 0
   homePos: {x: 0, y: 0, z: 0}
   homeRadius: 5
-  enemyCheckDelay: 1
+  enemyCheckDelay: 0.5
   enemiesMask:
     serializedVersion: 2
     m_Bits: 2048
   attackHitMask:
     serializedVersion: 2
     m_Bits: 2176
+  squad:
+    units: []
+    maxUnits: 0
+    followTarget: {fileID: 0}
   attackPoint: {fileID: 6049868573793015363}
   attackTarget: {fileID: 0}
   followTarget: {fileID: 0}

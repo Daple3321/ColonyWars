@@ -45,7 +45,7 @@ public class SquadManager : MonoBehaviour
         }
         else if(_searchDelay <= 0 && searchingForUnits){
             SearchForUnits();
-            squadAssembleUI.UpdateUI(nearbyUnits.ToArray());
+            squadAssembleUI.UpdateUI(nearbyUnits);
             _searchDelay = searchDelay;
         }
     }
@@ -58,7 +58,7 @@ public class SquadManager : MonoBehaviour
         }
         else{
             searchingForUnits = true;
-            squadAssembleUI.ClearUI();
+            //squadAssembleUI.ClearUI();
             squadAssembleUI.gameObject.SetActive(true);
         }
     }

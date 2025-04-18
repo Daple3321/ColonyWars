@@ -34,7 +34,8 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        unit.squad.RemoveUnit(unit);
+        // делать здесь set homePos
+        unit.squad.RemoveUnit(unit); // как-то это не правильно
         //unit.UnregisterFromSquad();
     }
 

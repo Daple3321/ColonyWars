@@ -302,6 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bfc332b951ab5a4f90df199d3e1d242, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitName: Melee unit
   health: 45
   maxHealth: 45
   speed: 5
@@ -320,13 +321,17 @@ MonoBehaviour:
   isAttacking: 0
   homePos: {x: 0, y: 0, z: 0}
   homeRadius: 15
-  enemyCheckDelay: 1
+  enemyCheckDelay: 0.5
   enemiesMask:
     serializedVersion: 2
     m_Bits: 2048
   attackHitMask:
     serializedVersion: 2
     m_Bits: 2176
+  squad:
+    units: []
+    maxUnits: 0
+    followTarget: {fileID: 0}
   attackPoint: {fileID: 7571345222274897524}
   attackTarget: {fileID: 0}
   followTarget: {fileID: 0}
