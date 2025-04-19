@@ -11,6 +11,8 @@ public class IdleState : UnitState
     }
     public override void Update()
     {
+        owner.UpdateAnimationParams();
+        
         if (enemyCheckDelay > 0)
         {
             enemyCheckDelay -= Time.deltaTime;

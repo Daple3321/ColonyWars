@@ -26,6 +26,8 @@ MonoBehaviour:
   attackType: 2
   shootDistance: 50
   projectileSpeed: 0
+  penetrationAmount: 1
+  projectileLifetime: 2
   concentrationScatter:
     serializedVersion: 2
     m_Curve:

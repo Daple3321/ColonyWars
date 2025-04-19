@@ -13,11 +13,13 @@ public class AttackState : UnitState
         if (owner.HasTarget() && owner.DistanceToTarget() <= owner.attackDistance)
         {
             owner.HandleAttacking();
+            owner.RotateTo(owner.attackTarget.position);
         }
-        if(owner.HasTarget() && owner.DistanceToTarget() > owner.attackDistance)
-        {
-            owner.MoveToCurrentTarget();
-        }
+        owner.MoveToAttackTarget();
+        // if(owner.HasTarget() && owner.DistanceToTarget() > owner.attackDistance)
+        // {
+        //     owner.MoveToAttackTarget();
+        // }
         
         if (owner.DistanceToHome() > owner.homeRadius)
         {

@@ -463,8 +463,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
-  commandEnergy: 10
-  maxCommandEnergy: 10
+  commandEnergy: 30
+  maxCommandEnergy: 30
+  commandEnergyRegenSpeed: 0.35
 --- !u!114 &26623650528081227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -649,6 +650,9 @@ MonoBehaviour:
   squad:
     units: []
     maxUnits: 0
+    stats:
+      speedMultiplier: 0
+      meanDamage: 0
     followTarget: {fileID: 0}
   squadCallDistance: 4
   unitsMask:

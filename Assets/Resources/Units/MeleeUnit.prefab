@@ -265,6 +265,7 @@ GameObject:
   - component: {fileID: 8211662545435870813}
   - component: {fileID: 6832292291311947986}
   - component: {fileID: 980786773719870623}
+  - component: {fileID: -6965935124265511778}
   m_Layer: 12
   m_Name: MeleeUnit
   m_TagString: Untagged
@@ -313,7 +314,7 @@ MonoBehaviour:
     rid: -2
   attackData:
     rid: -2
-  damage: 4
+  damage: 5
   attackDistance: 2.3
   attackDuration: 0
   attackSpeed: 0.7
@@ -331,6 +332,8 @@ MonoBehaviour:
   squad:
     units: []
     maxUnits: 0
+    speed: 0
+    meanDamage: 0
     followTarget: {fileID: 0}
   attackPoint: {fileID: 7571345222274897524}
   attackTarget: {fileID: 0}
@@ -379,6 +382,28 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!95 &-6965935124265511778
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2149854553417079418}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 88cf9e3e7f7490246aadb6733316ef97, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2947046092343387509
 GameObject:
   m_ObjectHideFlags: 0

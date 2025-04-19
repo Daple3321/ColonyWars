@@ -24,6 +24,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     
     public float commandEnergy;
     public float maxCommandEnergy;
+    public float commandEnergyRegenSpeed;
     
     private Controls controls;
 
@@ -46,6 +47,8 @@ public class Player : MonoBehaviour, IDamageable, ICommander
 
         health = maxHealth;
         EventBus.i.PlayerHealthChanged?.Invoke(health, maxHealth);
+        
+        playerUI.UpdateCommandEnergy(commandEnergy, maxCommandEnergy);
 
         //TimeService.OnHourChange += x => Debug.Log($"Hour changed to: {x}. From player.");
         EventBus.i.OnSunrise += () => Debug.Log($"Sunrise!");
@@ -56,23 +59,9 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     {
         playerAiming.HandleAiming();
 
-        if (controls.Player.SquadMoveOrder.WasPressedThisFrame()){
-            Command(CommandType.HOMEPOS);
-        }
-        if (controls.Player.SquadAssembleMenu.WasPressedThisFrame()){
-            squadManager.SwitchAssemblePanel();
-            //Command(CommandType.CREATE_SQUAD);
-            //TakeDamage(2, 100);
-        }
-        if(controls.Player.SquadAssemble.WasPerformedThisFrame())
-        {
-            Command(CommandType.CREATE_SQUAD);
-        }
-        if(Input.GetKeyDown(KeyCode.B)){
-            Command(CommandType.FOLLOW); // retreat
-        }
+        HandleCommands();
     }
-
+    
     public void TakeDamage(float damage, float knockback = 0f)
     {
         health -= damage;
@@ -90,14 +79,60 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         EventBus.i.PlayerDeath?.Invoke();
         Destroy(gameObject);
     }
-
-    public void Command(CommandType commandType)
+    
+    public void HandleCommands()
     {
+        if (controls.Player.SquadMoveOrder.WasPressedThisFrame()){
+            Command(CommandType.HOMEPOS, 5);
+        }
+        if (controls.Player.SquadAssembleMenu.WasPressedThisFrame()){
+            squadManager.SwitchAssemblePanel();
+            //Command(CommandType.CREATE_SQUAD);
+            //TakeDamage(2, 100);
+        }
+        if(controls.Player.SquadAssemble.WasPerformedThisFrame())
+        {
+            Command(CommandType.CREATE_SQUAD);
+        }
+        if(Input.GetKeyDown(KeyCode.B)){
+            Command(CommandType.FOLLOW, 5); // retreat
+        }
+        
+        HandleCommandEnergy();
+    }
+    public void HandleCommandEnergy()
+    {
+        if(commandEnergy < maxCommandEnergy){
+            commandEnergy += commandEnergyRegenSpeed * Time.deltaTime;
+            
+            playerUI.UpdateCommandEnergy(commandEnergy, maxCommandEnergy);
+        }
+        
+    }
+    public bool HasSquad(){
+        return squadManager.HasSquad();
+    }
+    public bool CanCommand(float commandPrice){
+        return commandEnergy >= commandPrice;
+    }
+    public void Command(CommandType commandType, float commandPrice = 0f)
+    {
+        if(commandPrice > 0 && !CanCommand(commandPrice)){
+            Debug.Log("Not enough command energy");
+            return;
+        }
+        
         switch(commandType){
             case CommandType.FOLLOW:
+                if(!HasSquad())
+                    return;
                 squadManager.FollowOrder();
+                commandEnergy -= commandPrice;
                 break;
             case CommandType.HOMEPOS:
+                if(!HasSquad())
+                    return;
+            
                 Vector3 mousePos = Input.mousePosition;
                 Ray mouseRay = Camera.main.ScreenPointToRay(mousePos);
                 RaycastHit mouseHit;
@@ -105,11 +140,15 @@ public class Player : MonoBehaviour, IDamageable, ICommander
                 {
                     squadManager.HomePosOrder(mouseHit.point);
                 }
+                
+                commandEnergy -= commandPrice;
                 break;
             case CommandType.CREATE_SQUAD:
                 squadManager.TryAssembleSquad();
                 break;
         }
+        
+        playerUI.UpdateCommandEnergy(commandEnergy, maxCommandEnergy);
     }
 }
 
@@ -122,5 +161,5 @@ public interface IDamageable
 
 public interface ICommander
 {
-    void Command(CommandType commandType);
+    void Command(CommandType commandType, float commandPrice = 0f);
 }

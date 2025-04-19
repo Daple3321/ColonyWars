@@ -11,9 +11,11 @@ public class HomeRetreatState : UnitState
     public override void Update()
     {
         owner.MoveToHome();
+        owner.UpdateAnimationParams();
 
         if (owner.DistanceToHome() <= 1.5f)
         {
+            owner.ResetVelocity();
             stateMachine.ChangeState(nextState);
         }
 

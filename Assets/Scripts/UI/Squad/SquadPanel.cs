@@ -13,37 +13,42 @@ public class SquadPanel : MonoBehaviour
     
     public CanvasGroup panelGroup;
     
+    public bool hidden = false;
+    
     public void Init(Squad squad)
     {
         unitSlots = new List<UnitSlot>();
         this.squad = squad;
-        SetupSquadUI(squad);
+        UpdateSquadUI(squad);
     }
     
     public void OnSquadUpdate(Squad newSquad)
     {
-        SetupSquadUI(newSquad);
+        UpdateSquadUI(newSquad);
     }
     
-    public void SetupSquadUI(Squad newSquad)
+    public void UpdateSquadUI(Squad newSquad)
     {
         ClearSquadUI();
         
-        float meanDmg = 0;
+        if(squad.units.Count <= 0){
+            Hide();
+        }
+        else{
+            Show();
+        }
+        
         foreach (Unit unit in newSquad.units)
         {   
             GameObject slotObj = Instantiate(GameAssets.unitSlot_Prefab, transform);
             UnitSlot slot = slotObj.GetComponent<UnitSlot>();
             slot.Init(unit, this);
             
-            meanDmg += unit.damage;
-            
             unitSlots.Add(slot);
         }
         
-        meanDmg /= newSquad.units.Count;
         squadLabel.text = $"Player's squad {newSquad.units.Count}/{newSquad.maxUnits}";
-        squadStats.text = $"| Attack: {meanDmg} | ";
+        squadStats.text = $"| Damage: {newSquad.stats.meanDamage} | ";
     }
     
     public void ClearSquadUI()
@@ -56,5 +61,30 @@ public class SquadPanel : MonoBehaviour
         
         squadLabel.text = $"Player's squad 0/{squad.maxUnits}";
         squadStats.text = $"| Attack: 0 | ";
+    }
+    
+    public void Show()
+    {
+        if(!isActiveAndEnabled){
+            gameObject.SetActive(true);
+            hidden = false;
+        }
+    }
+    public void Hide()
+    {
+        gameObject.SetActive(false);
+        hidden = true;
+    }
+    
+    public void Switch()
+    {
+        if(isActiveAndEnabled){
+            gameObject.SetActive(false);
+            hidden = true;
+        }
+        else{
+            gameObject.SetActive(true);
+            hidden = false;
+        }
     }
 }

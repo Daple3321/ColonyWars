@@ -10,10 +10,15 @@ public class FollowState : UnitState
     }
     public override void Update()
     {
-        if (owner.followTarget != null && Vector3.Distance(owner.transform.position, owner.followTarget.position) > stopDistance)
-        {
-            owner.FollowTarget();
-        }
+        owner.FollowTarget();
+        // if (owner.followTarget != null && Vector3.Distance(owner.transform.position, owner.followTarget.position) > stopDistance)
+        // {
+        //     owner.FollowTarget();
+        // }
+        // else{
+        //     owner.characterController.SimpleMove(Vector3.zero);
+        // }
+        // owner.UpdateAnimationParams();
         
         if(owner.followTarget == null){
             stateMachine.ChangeState(nextState);

@@ -7,6 +7,8 @@ public class RangedWeaponItem : WeaponWorldItem
     public AnimationCurve concentrationScatter;
 
     public float projectileSpeed;
+    public int penetrationAmount;
+    public float projectileLifetime;
     public GameObject projectilePrefab;
     public LayerMask hitLayers;
     public Transform shootPoint;
@@ -24,6 +26,8 @@ public class RangedWeaponItem : WeaponWorldItem
         {
             shootDistance = weaponData.shootDistance;
             projectileSpeed = weaponData.projectileSpeed;
+            projectileLifetime = weaponData.projectileLifetime;
+            penetrationAmount = weaponData.penetrationAmount;
             shootStyle = weaponData.shootStyle;
             concentrationScatter = weaponData.concentrationScatter;
         }
@@ -66,7 +70,7 @@ public class RangedWeaponItem : WeaponWorldItem
             Projectile projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity).GetComponent<Projectile>();
             //projectile.transform.rotation.SetLookRotation(shootRay.direction, projectile.transform.up);
             projectile.transform.up = shootRay.direction;
-            projectile.Init(damage, projectileSpeed, Affiliation.Player);
+            projectile.Init(damage, projectileSpeed, Affiliation.Player, penetrationAmount, projectileLifetime);
 
             Debug.DrawLine(shootPoint.position, mouseHit.point, Color.green, 2);
             Debug.DrawRay(shootPoint.position, shootRay.direction * 4, Color.cyan, 3);

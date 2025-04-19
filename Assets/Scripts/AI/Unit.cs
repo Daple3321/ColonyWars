@@ -35,14 +35,16 @@ public abstract class Unit : MonoBehaviour, IDamageable
     [Space(10), Header("Home Point")]
     public Vector3 homePos;
     public float homeRadius;
+    public float targetStopDistance = 2f;
 
     public float enemyCheckDelay = 1f;
     public LayerMask enemiesMask;
     public LayerMask attackHitMask;
 
     public Squad squad;
-    private CharacterController characterController;
+    protected CharacterController characterController;
     private WorldBar healthBar;
+    private Animator animator;
     public Transform attackPoint;
     public Transform attackTarget = null;
     public Transform followTarget = null;
@@ -68,6 +70,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
         gameObject.name = unitName;
         squad = null;
         characterController = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
         homePos = transform.position;
 
         stateMachine.Init();
@@ -141,13 +144,34 @@ public abstract class Unit : MonoBehaviour, IDamageable
 
     public virtual void FollowTarget()
     {
-        MoveTo(followTarget.position);
-        RotateTo(followTarget.position);
+        if (followTarget != null && Vector3.Distance(transform.position, followTarget.position) > targetStopDistance)
+        {
+            MoveTo(followTarget.position);
+            RotateTo(followTarget.position);
+        }
+        else{
+            ResetVelocity();
+        }
+        UpdateAnimationParams();
+        
+        //MoveTo(followTarget.position);
     }
-    public virtual void MoveToCurrentTarget()
+    public virtual void MoveToAttackTarget()
     {
-        MoveTo(attackTarget.position);
-        RotateTo(attackTarget.position);
+        if(HasTarget() && DistanceToTarget() > attackDistance)
+        {
+            MoveTo(attackTarget.position);
+            RotateTo(attackTarget.position);
+        }
+        else{
+            ResetVelocity();
+        }
+        UpdateAnimationParams();
+        
+        //MoveTo(attackTarget.position);
+    }
+    public void ResetVelocity(){
+        characterController.SimpleMove(Vector3.zero);
     }
     
     public virtual void MoveToHome()
@@ -156,16 +180,23 @@ public abstract class Unit : MonoBehaviour, IDamageable
         RotateTo(homePos);
     }
     
+    Vector3 moveDir = new Vector3(0, 0, 0);
     protected virtual void MoveTo(Vector3 target)
     {
-        Vector3 dir = (target - transform.position).normalized;
+        moveDir = (target - transform.position).normalized;
         if (!characterController.isGrounded)
         {
-            dir.y = -fallSpeed;
+            moveDir.y = -fallSpeed;
         }
-        characterController.Move(dir * speed * Time.deltaTime);
+        characterController.Move(moveDir * speed * Time.deltaTime);
+        
+        //Debug.DrawRay(transform.position, moveDir*10, Color.cyan);
+        //float speedX = Mathf.Clamp(characterController.velocity.x, -1, 1);
+        //float speedZ = Mathf.Clamp(characterController.velocity.z, -1, 1);
+        //animator.SetFloat("Speed X", dir.x, 0.1f, Time.deltaTime);
+        //animator.SetFloat("Speed Z", dir.z, 0.1f, Time.deltaTime);
     }
-    protected virtual void RotateTo(Vector3 target)
+    public virtual void RotateTo(Vector3 target)
     {
         Vector3 dir = (target - transform.position).normalized;
         Vector3 lookDir = Quaternion.AngleAxis(-90, Vector3.up) * Vector3.Cross(Vector3.up, dir);
@@ -173,9 +204,20 @@ public abstract class Unit : MonoBehaviour, IDamageable
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, rotationSpeed * Time.deltaTime);
         
         Debug.DrawRay(transform.position, dir*8, Color.red);
-        Debug.DrawRay(transform.position, lookDir*10, Color.cyan);    
+        //Debug.DrawRay(transform.position, lookDir*10, Color.cyan);    
     }
-
+    public virtual void UpdateAnimationParams()
+    {
+        //Debug.DrawRay(transform.position, moveDir*10, Color.cyan);
+        // animator.SetFloat("Speed X", moveDir.x, 0.1f, Time.deltaTime);
+        // animator.SetFloat("Speed Z", moveDir.z, 0.1f, Time.deltaTime);
+        
+        float speedX = Mathf.Clamp(characterController.velocity.x, -1, 1);
+        float speedZ = Mathf.Clamp(characterController.velocity.z, -1, 1);
+        animator.SetFloat("Speed X", speedX, 0.1f, Time.deltaTime);
+        animator.SetFloat("Speed Z", speedZ, 0.1f, Time.deltaTime);
+    }
+    
     public void SetHome(Vector3 newHomePos)
     {
         homePos = newHomePos;

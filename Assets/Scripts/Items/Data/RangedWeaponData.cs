@@ -5,6 +5,8 @@ public class RangedWeaponData : WeaponData
 {
     public float shootDistance;
     public float projectileSpeed;
+    public int penetrationAmount;
+    public float projectileLifetime;
     public AnimationCurve concentrationScatter;
     public ShootStyle shootStyle;
 }
