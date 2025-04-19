@@ -48,7 +48,7 @@ public class SquadPanel : MonoBehaviour
         }
         
         squadLabel.text = $"Player's squad {newSquad.units.Count}/{newSquad.maxUnits}";
-        squadStats.text = $"| Damage: {newSquad.stats.meanDamage} | ";
+        squadStats.text = $"| Damage: {newSquad.stats.meanDamage:F1} | ";
     }
     
     public void ClearSquadUI()

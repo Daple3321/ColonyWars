@@ -1,4 +1,7 @@
+using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(StateMachine))]
 public class Player : MonoBehaviour, IDamageable, ICommander
@@ -21,13 +24,15 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     public Transform leftHand;
 
     public LayerMask groundLayer;
+    public LayerMask mouseClickLayers;
     
     public float commandEnergy;
     public float maxCommandEnergy;
     public float commandEnergyRegenSpeed;
     
     private Controls controls;
-
+    private Mouse mouse;
+    private Camera mainCam;
     public void InitPlayer()
     {
         cameraController.Init(playerFollow);
@@ -44,6 +49,8 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         MouseTooltip.i.Init();
         
         controls = GameAssets.controls;
+        mouse = Mouse.current;
+        mainCam = Camera.main;
 
         health = maxHealth;
         EventBus.i.PlayerHealthChanged?.Invoke(health, maxHealth);
@@ -60,6 +67,18 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         playerAiming.HandleAiming();
 
         HandleCommands();
+        
+        if (mouse.leftButton.wasPressedThisFrame && !EventSystem.current.IsPointerOverGameObject())
+        {
+            Vector3 mousePosition = mouse.position.ReadValue();
+            Ray ray = mainCam.ScreenPointToRay(mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, mouseClickLayers))
+            {
+                if(hit.collider.TryGetComponent(out IClickable clickable)){
+                    clickable.OnClick(gameObject);
+                }
+            }
+        }
     }
     
     public void TakeDamage(float damage, float knockback = 0f)
@@ -162,4 +181,9 @@ public interface IDamageable
 public interface ICommander
 {
     void Command(CommandType commandType, float commandPrice = 0f);
+}
+
+public interface IClickable
+{
+    void OnClick(GameObject caller);
 }

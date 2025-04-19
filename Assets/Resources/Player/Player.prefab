@@ -463,6 +463,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
+  mouseClickLayers:
+    serializedVersion: 2
+    m_Bits: 63648
   commandEnergy: 30
   maxCommandEnergy: 30
   commandEnergyRegenSpeed: 0.35
@@ -691,6 +694,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar: {fileID: 0}
   staminaBar: {fileID: 0}
+  commandEnergy: {fileID: 0}
 --- !u!143 &1670130699526852140
 CharacterController:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerAiming
 {
@@ -15,6 +16,7 @@ public class PlayerAiming
         //OnAimStart = null;
         //OnAimEnd = null;
         OnAim = null;
+        cm = Camera.main;
         controls = GameAssets.controls;
     }
 
@@ -29,6 +31,26 @@ public class PlayerAiming
         {
             EndAiming();
         }
+    }
+    
+    private static Camera cm;
+    public static bool Raycast(LayerMask layerMask, out RaycastHit hit)
+    {
+        hit = new RaycastHit();
+        if(!EventSystem.current.IsPointerOverGameObject())
+        {
+            Vector3 mousePos = Input.mousePosition;
+            Ray mouseRay = cm.ScreenPointToRay(mousePos);
+            RaycastHit mouseHit;
+            if (Physics.Raycast(mouseRay, out mouseHit, Mathf.Infinity, layerMask))
+            {
+                
+                hit = mouseHit;
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     private void StartAiming()

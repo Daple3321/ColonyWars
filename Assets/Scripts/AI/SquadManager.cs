@@ -91,9 +91,9 @@ public class SquadManager : MonoBehaviour
         squad.MoveOrder(orderPos, targetUnit);
     }
     
-    public void AddUnit(Unit unit)
+    public bool AddUnit(Unit unit)
     {
-        squad.TryAddUnit(unit);
+        return squad.TryAddUnit(unit);
     }
     
     public bool TryAssembleSquad()

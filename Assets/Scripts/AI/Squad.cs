@@ -111,13 +111,13 @@ public class Squad
         onSquadUpdate?.Invoke(this);
     }
 
-    public void TryAddUnit(Unit unit)
+    public bool TryAddUnit(Unit unit)
     {
         if (units.Count >= maxUnits)
-            return;
+            return false;
         if (units.Contains(unit)){
             Debug.LogWarning("Unit already in squad!");
-            return;
+            return false;
         }
         // if(!unit.InSquad()){
             
@@ -129,6 +129,8 @@ public class Squad
         
         UpdateStats();
         onSquadUpdate?.Invoke(this);
+        
+        return true;
     }
     
     public void UpdateStats()

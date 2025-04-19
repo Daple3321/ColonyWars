@@ -34,8 +34,10 @@ public class NearbyUnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        parentPanel.squadManager.AddUnit(unit);
-        parentPanel.DestroySlot(this);
+        bool wasAdded = parentPanel.squadManager.AddUnit(unit);
+        if(wasAdded){
+            parentPanel.DestroySlot(this);
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
