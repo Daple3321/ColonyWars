@@ -9,7 +9,7 @@ public class PlayerInventory : MonoBehaviour
     public int inventoryStartingSize = 8;
     
     public Inventory hotbar;
-    public int hotbarStartingSize = 3;
+    public int hotbarStartingSize = 4;
     
     public List<ItemData> itemDatas = new List<ItemData>();
 
@@ -43,23 +43,25 @@ public class PlayerInventory : MonoBehaviour
         inventory = new Inventory(inventoryStartingSize);
         inventory.OnInventoryUpdated += UpdateUI;
 
-        inventory.AddItem(new RangedWeapon(itemDatas[1]), 1);
-        inventory.AddItem(new MeleeWeapon(itemDatas[0]), 1);
-        inventory.AddItem(new Item(itemDatas[2]), 5);
-        inventory.AddItem(new Item(itemDatas[2]), 8);
-        inventory.AddItem(new RangedWeapon(itemDatas[3]), 1);
-        inventory.AddItem(new RangedWeapon(itemDatas[4]), 1);
 
         hotbar = new Inventory(hotbarStartingSize);
         hotbar.OnInventoryUpdated += UpdateHotbarUI;
         hotbar.OnInventoryUpdated += UpdateSelectedItem;
         
-        hotbar.AddItem(new RangedWeapon(itemDatas[1]), 1);
-        hotbar.AddItem(new MeleeWeapon(itemDatas[0]), 1);
-        hotbar.AddItem(new Item(itemDatas[2]), 3);
 
         PrepareUI();
 
+        inventory.AddItem(new RangedWeapon(itemDatas[1]), 1);
+        inventory.AddItem(new MeleeWeapon(itemDatas[0]), 1);
+        //inventory.AddItem(new Item(itemDatas[2]), 5);
+        //inventory.AddItem(new Item(itemDatas[2]), 8);
+        inventory.AddItem(new RangedWeapon(itemDatas[3]), 1);
+        inventory.AddItem(new RangedWeapon(itemDatas[4]), 1);
+        
+        
+        hotbar.AddItem(new RangedWeapon(itemDatas[1]), 1);
+        hotbar.AddItem(new MeleeWeapon(itemDatas[0]), 1);
+        hotbar.AddItem(new Item(itemDatas[2]), 3);
         //SelectItem(hotbar, selectedSlotId);
     }
 
@@ -311,14 +313,37 @@ public class PlayerInventory : MonoBehaviour
 
     void Update()
     {
-        if (controls.Player.Next.WasPressedThisFrame() && selectedSlotId < hotbar.Size - 1)
+        // if (controls.Player.Next.WasPressedThisFrame() && selectedSlotId < hotbar.Size - 1)
+        // {
+        //     selectedSlotId++;
+        //     SelectItem(hotbar, selectedSlotId);
+        // }
+        // else if (controls.Player.Previous.WasPressedThisFrame() && selectedSlotId > 0)
+        // {
+        //     selectedSlotId--;
+        //     SelectItem(hotbar, selectedSlotId);
+        // }
+        
+        // TO-DO: придумать систему лучше этого бреда + сделать визуализацию выбора
+        if(Input.GetKeyDown(KeyCode.Alpha1))
         {
-            selectedSlotId++;
+            //selectedSlotId++;
+            selectedSlotId = 0;
             SelectItem(hotbar, selectedSlotId);
         }
-        else if (controls.Player.Previous.WasPressedThisFrame() && selectedSlotId > 0)
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            selectedSlotId--;
+            selectedSlotId = 1;
+            SelectItem(hotbar, selectedSlotId);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            selectedSlotId = 2;
+            SelectItem(hotbar, selectedSlotId);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            selectedSlotId = 3;
             SelectItem(hotbar, selectedSlotId);
         }
 

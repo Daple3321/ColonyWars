@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -27,14 +28,37 @@ public class Inventory
 
     }
 
-    public void AddItem(Item itemToAdd, int quantity)
+    public void AddItem(Item itemToAdd, int quantity) // TODO: onItemAdded event for popUps
     {
-        if (quantity > itemToAdd.itemData.maxStackSize)
-        {
+        if (quantity > itemToAdd.itemData.maxStackSize){
             quantity = itemToAdd.itemData.maxStackSize;
-            Debug.Log($"Adding more {itemToAdd.itemName}'s than maxStackSize. Limiting quantity");
+            Debug.LogWarning($"Adding more {itemToAdd.itemName}'s than maxStackSize. Limiting quantity");
+        }
+        
+        // если нашли схожий предмет
+        int foundSlotIndex = HasStackableItem(itemToAdd);
+        if(foundSlotIndex != -1)  
+        {
+            InventoryItem itemToStack = new InventoryItem{item = itemToAdd, quantity = quantity};
+            bool canStack = InventoryItem.CanStackCheck(itemToStack, inventoryItems[foundSlotIndex]);
+            if (canStack)
+            {
+                InventoryItem sourceItemChanged;
+                InventoryItem finalItem = InventoryItem.Stack(itemToStack, inventoryItems[foundSlotIndex], out sourceItemChanged);
+                SetItemAt(foundSlotIndex, finalItem);
+            }
+        }
+        else
+        {
+            // Если не нашли похожий предмет
+            AddToFirstEmptySlot(itemToAdd, quantity);
         }
 
+        InformAboutChange();
+    }
+    
+    public bool AddToFirstEmptySlot(Item itemToAdd, int quantity)
+    {
         for (int i = 0; i < inventoryItems.Count; i++)
         {
             if (inventoryItems[i].IsEmpty)
@@ -45,11 +69,12 @@ public class Inventory
                     quantity = quantity,
                 };
 
-                return;
+                return true;
             }
         }
-
-        InformAboutChange();
+        
+        Debug.LogWarning("[AddToFirstEmptySlot] Not enough space in inventory!");
+        return false;
     }
 
     public void AddItem(InventoryItem item)
@@ -137,6 +162,41 @@ public class Inventory
         }
     }   
     
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns>Index of item if it is found. -1 is not found</returns>
+    public int HasItem(InventoryItem item)
+    {
+        return inventoryItems.IndexOf(item);
+    }
+    
+    public int HasItem(Item item)
+    {
+        int foundIndex = inventoryItems.FindIndex(x => !x.IsEmpty && x.item.itemData == item.itemData);
+        // if(foundIndex >= 0){
+        //     Debug.Log(inventoryItems[foundIndex].item.itemName + " found item");
+        // }
+        // else{
+        //     Debug.Log($"[HasItem]: {item.itemName} not found in inventory");
+        // }
+        return foundIndex;
+    }
+    
+    public int HasStackableItem(Item item)
+    {
+        int foundIndex = inventoryItems.FindIndex(x => !x.IsEmpty && x.item.itemData == item.itemData && x.CanStack);
+        // if(foundIndex >= 0)
+        // {
+        //     Debug.Log($"[HasStackableItem]: {inventoryItems[foundIndex].item.itemName} found item");
+        // }
+        // else{
+        //     Debug.Log($"[HasStackableItem]: {item.itemName} not found in inventory");
+        // }
+        return foundIndex;
+    }
+    
     public bool HasItemAt(int index)
     {
         return !inventoryItems[index].IsEmpty;
@@ -155,7 +215,7 @@ public class Inventory
         }
         else if (inventoryItems[index].IsEmpty)
         {
-            Debug.Log($"No item found at index {index}");
+            Debug.LogWarning($"No item found at index {index}");
         }
     }
     public void DestroyItem(InventoryItem item)
@@ -209,7 +269,7 @@ public class Inventory
 
     public void InformAboutChange()
     {
-        Debug.Log($"Informing about change in {this}");
+        //Debug.Log($"Informing about change in {this}");
         OnInventoryUpdated?.Invoke(GetCurrentInventoryState());
     }
 }
@@ -294,7 +354,7 @@ public struct InventoryItem
         {
             // Источник полностью опустел
             sourceItemChanged = GetEmptyItem(); // Используем GetEmpty() для создания "пустого" предмета
-            Debug.Log($"Stacking complete. Dest: {destinationNewQuantity}/{finalItem.MaxStackSize}. Source emptied.");
+            //Debug.Log($"Stacking complete. Dest: {destinationNewQuantity}/{finalItem.MaxStackSize}. Source emptied.");
         }
         else
         {
@@ -303,7 +363,7 @@ public struct InventoryItem
                 item = sourceItem.item,
                 quantity = sourceNewQuantity
             };
-            Debug.Log($"Stacking partial. Dest: {destinationNewQuantity}/{finalItem.MaxStackSize}. Source left: {sourceNewQuantity}");
+            //Debug.Log($"Stacking partial. Dest: {destinationNewQuantity}/{finalItem.MaxStackSize}. Source left: {sourceNewQuantity}");
         }
         
         /* логика стакинга */

@@ -24,9 +24,12 @@ public class ResourceNode : MonoBehaviour, IClickable
         if(!isInfinite)
         {
             if(quantity > 0){
-                quantity--;
-                
                 Shake();
+                
+                quantity--;
+            }
+            else{
+                Destroy(gameObject);
             }
             
         }
@@ -41,15 +44,18 @@ public class ResourceNode : MonoBehaviour, IClickable
         Tween.ShakeScale(transform, strength: new Vector3(1.1f, 1.1f, 1.1f), duration: 0.25f, frequency: 2);
         colorSeq.Complete();
         colorSeq = Sequence.Create()
-            .Chain(Tween.MaterialColor(mat, Color.yellow, 0.15f))
+            .Chain(Tween.MaterialColor(mat, Color.blue, 0.15f))
             .Chain(Tween.MaterialColor(mat, Color.white, 0.15f));
     }
 
     public void OnClick(GameObject caller)
     {
         if(Vector3.Distance(transform.position, caller.transform.position) <= gatherRadius){
-            Debug.Log($"Clicked on {resource.name} node");
+            //Debug.Log($"Clicked on {resource.name} node");
+            
+            GameController.p.playerInventory.inventory.AddItem(new Item(resource), 2); // <-- player mine yield stat here!
             Gather();
+            
         }
     }
 }

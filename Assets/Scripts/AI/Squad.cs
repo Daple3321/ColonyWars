@@ -113,8 +113,11 @@ public class Squad
 
     public bool TryAddUnit(Unit unit)
     {
-        if (units.Count >= maxUnits)
+        if (units.Count >= maxUnits){
+            // TO-DO: Some kind of action callback here
+            Debug.LogWarning("Squad max capacity!");
             return false;
+        }
         if (units.Contains(unit)){
             Debug.LogWarning("Unit already in squad!");
             return false;

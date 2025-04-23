@@ -53,9 +53,9 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         mainCam = Camera.main;
 
         health = maxHealth;
+        commandEnergy = maxCommandEnergy;
         EventBus.i.PlayerHealthChanged?.Invoke(health, maxHealth);
-        
-        playerUI.UpdateCommandEnergy(commandEnergy, maxCommandEnergy);
+        EventBus.i.PlayerCommandEnergyChanged?.Invoke(commandEnergy, maxCommandEnergy);
 
         //TimeService.OnHourChange += x => Debug.Log($"Hour changed to: {x}. From player.");
         EventBus.i.OnSunrise += () => Debug.Log($"Sunrise!");
@@ -124,7 +124,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         if(commandEnergy < maxCommandEnergy){
             commandEnergy += commandEnergyRegenSpeed * Time.deltaTime;
             
-            playerUI.UpdateCommandEnergy(commandEnergy, maxCommandEnergy);
+            EventBus.i.PlayerCommandEnergyChanged?.Invoke(commandEnergy, maxCommandEnergy);
         }
         
     }
@@ -167,7 +167,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
                 break;
         }
         
-        playerUI.UpdateCommandEnergy(commandEnergy, maxCommandEnergy);
+        EventBus.i.PlayerCommandEnergyChanged?.Invoke(commandEnergy, maxCommandEnergy);
     }
 }
 

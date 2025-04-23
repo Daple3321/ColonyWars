@@ -19,6 +19,7 @@ public class PlayerUI : MonoBehaviour
         EventBus.i.PlayerStaminaChanged += staminaBar.UpdateBar;
         
         commandEnergy = GameObject.Find("commandEnergy_text").GetComponent<TextMeshProUGUI>();
+        EventBus.i.PlayerCommandEnergyChanged += UpdateCommandEnergy;
     }
     
     public void UpdateCommandEnergy(float energy, float maxEnergy)
