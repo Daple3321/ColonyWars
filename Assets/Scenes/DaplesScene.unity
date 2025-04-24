@@ -25,8 +25,8 @@ RenderSettings:
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 0
-  m_SubtractiveShadowColor: {r: 0.08810963, g: 0.095212795, b: 0.11320752, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SubtractiveShadowColor: {r: 0.111739054, g: 0.124856345, b: 0.254717, a: 1}
+  m_SkyboxMaterial: {fileID: 2100000, guid: a20128d386a5d324c84cd361bf4637c1, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -2943,8 +2943,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4290772797
-  m_fontColor: {r: 0.24056602, g: 1, b: 0.747611, a: 1}
+    rgba: 4294965504
+  m_fontColor: {r: 0, g: 0.97821903, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -7007,7 +7007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 0.64705884}
+  m_Color: {r: 0.0754717, g: 0.0754717, b: 0.0754717, a: 0.64705884}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7049,6 +7049,36 @@ MonoBehaviour:
   bar: {fileID: 834689054}
   barImg: {fileID: 834689055}
   barTxt: {fileID: 1763268052}
+  barColor:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
 --- !u!1 &1024157317
 GameObject:
   m_ObjectHideFlags: 0
@@ -15048,7 +15078,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.16078432, g: 0.16078432, b: 0.16078432, a: 0.64705884}
+  m_Color: {r: 0.066037714, g: 0.066037714, b: 0.066037714, a: 0.64705884}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -15090,6 +15120,36 @@ MonoBehaviour:
   bar: {fileID: 1368998369}
   barImg: {fileID: 1368998370}
   barTxt: {fileID: 0}
+  barColor:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
 --- !u!1 &1487231889
 GameObject:
   m_ObjectHideFlags: 0
@@ -22918,21 +22978,21 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 6.403784
-      outSlope: 6.403784
+      inSlope: 2.742619
+      outSlope: 2.742619
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.122982435
-      value: 0.78755295
-      inSlope: 1.1229663
-      outSlope: 1.1229663
+      time: 0.23337236
+      value: 0.6400515
+      inSlope: 1.6148036
+      outSlope: 1.6148036
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33476797
-      outWeight: 0.049198918
+      outWeight: 0.07010336
     - serializedVersion: 3
       time: 1
       value: 1
@@ -22984,6 +23044,7 @@ MonoBehaviour:
   dayAmbientLight: {r: 1, g: 1, b: 1, a: 0}
   nightAmbientLight: {r: 0.83137256, g: 0.5294118, b: 0.7234818, a: 0}
   volume: {fileID: 1174698140}
+  skyboxMaterial: {fileID: 2100000, guid: a20128d386a5d324c84cd361bf4637c1, type: 2}
 --- !u!4 &1848512790
 Transform:
   m_ObjectHideFlags: 0

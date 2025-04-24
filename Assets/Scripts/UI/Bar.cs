@@ -12,7 +12,7 @@ public class Bar : MonoBehaviour
     public TextMeshProUGUI barTxt;
     protected Canvas parentCanvas;
     protected Camera mainCam;
-    protected Gradient barColor;
+    public Gradient barColor;
     
     public Action<float, float> UpdateCallback;
     
@@ -21,10 +21,15 @@ public class Bar : MonoBehaviour
     /// Если не указать affiliation - будет использоваться уже заданный цвет
     /// </summary>
     /// <param name="affiliation"></param>
-    public virtual void Init(Affiliation affiliation = Affiliation.None)
+    public virtual void Init(Affiliation affiliation = Affiliation.None, Gradient color = null)
     {
         mainCam = Camera.main;
         
+        if(color != null){
+            barColor = color;
+            barImg.color = barColor.Evaluate(1);
+        }
+
         if(affiliation == Affiliation.Enemy){
             barImg.color = GameAssets.colors.enemyHealthbar.Evaluate(0);
             barColor = GameAssets.colors.enemyHealthbar;
@@ -33,9 +38,7 @@ public class Bar : MonoBehaviour
             barImg.color = GameAssets.colors.friendlyHealthbar.Evaluate(0);
             barColor = GameAssets.colors.friendlyHealthbar;
         }
-        else if(affiliation == Affiliation.None){
-            
-        }
+        
         //rectTransform = GetComponent<RectTransform>();
     }
 

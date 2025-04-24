@@ -6,9 +6,9 @@ public class WorldBar : Bar
     public Transform followTarget;
     public Vector3 offset;
     
-    public override void Init(Affiliation affiliation = Affiliation.None)
+    public override void Init(Affiliation affiliation = Affiliation.None, Gradient color = null)
     {
-        base.Init(affiliation);
+        base.Init(affiliation, color);
     }
     
     public void InitWorldBar(Transform target, Canvas parentCanvas)

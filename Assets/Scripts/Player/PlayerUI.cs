@@ -11,11 +11,11 @@ public class PlayerUI : MonoBehaviour
     public void Init()
     {
         healthBar = GameObject.Find("HealthBar").GetComponent<Bar>();
-        healthBar.Init();
+        healthBar.Init(Affiliation.None, GameAssets.colors.playerHealthbar);
         EventBus.i.PlayerHealthChanged += healthBar.UpdateBar;
 
         staminaBar = GameObject.Find("StaminaBar").GetComponent<Bar>();
-        staminaBar.Init();
+        staminaBar.Init(Affiliation.None, GameAssets.colors.playerStaminaBar);
         EventBus.i.PlayerStaminaChanged += staminaBar.UpdateBar;
         
         commandEnergy = GameObject.Find("commandEnergy_text").GetComponent<TextMeshProUGUI>();

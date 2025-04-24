@@ -20,7 +20,8 @@ public class TimeManager : MonoBehaviour
     [SerializeField] Color dayAmbientLight;
     [SerializeField] Color nightAmbientLight;
     [SerializeField] Volume volume;
-
+    
+    [SerializeField] Material skyboxMaterial;
     ColorAdjustments colorAdjustments;
 
     TimeService service;
@@ -51,6 +52,7 @@ public class TimeManager : MonoBehaviour
         RotateSun();
         //RotateMoon();
         UpdateLightSettings();
+        UpdateSkyBlend();
 
         if (Input.GetKeyDown(KeyCode.Keypad2))
         {
@@ -83,6 +85,13 @@ public class TimeManager : MonoBehaviour
     {
         float rotation = -service.CalculateSunAngle();
         moon.transform.rotation = Quaternion.AngleAxis(rotation, Vector3.right);
+    }
+    
+    void UpdateSkyBlend()
+    {
+        float dotProduct = Vector3.Dot(sun.transform.forward, Vector3.up);
+        float blend = Mathf.Lerp(0, 1, lightIntensityCurve.Evaluate(dotProduct));
+        skyboxMaterial.SetFloat("_Blend", blend);
     }
     
     void UpdateTimeOfDay()
