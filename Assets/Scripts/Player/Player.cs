@@ -109,12 +109,14 @@ public class Player : MonoBehaviour, IDamageable, ICommander
             //Command(CommandType.CREATE_SQUAD);
             //TakeDamage(2, 100);
         }
-        if(controls.Player.SquadAssemble.WasPerformedThisFrame())
-        {
+        if(controls.Player.SquadAssemble.WasPerformedThisFrame()){
             Command(CommandType.CREATE_SQUAD);
         }
-        if(Input.GetKeyDown(KeyCode.B)){
-            Command(CommandType.FOLLOW, 5); // retreat
+        if(controls.Player.SquadRetreat.WasPerformedThisFrame()){
+            Command(CommandType.FOLLOW, 5);
+        }
+        if(controls.Player.SquadClear.WasPerformedThisFrame()){
+            Command(CommandType.CLEAR_SQUAD);
         }
         
         HandleCommandEnergy();
@@ -164,6 +166,9 @@ public class Player : MonoBehaviour, IDamageable, ICommander
                 break;
             case CommandType.CREATE_SQUAD:
                 squadManager.TryAssembleSquad();
+                break;
+            case CommandType.CLEAR_SQUAD:
+                squadManager.ClearSquad();
                 break;
         }
         

@@ -90,6 +90,9 @@ public class SquadManager : MonoBehaviour
     public void UnitOrder(Vector3 orderPos, Unit targetUnit){
         squad.MoveOrder(orderPos, targetUnit);
     }
+    public void ClearSquad(){
+        squad.RemoveAllUnits();
+    }
     
     public bool AddUnit(Unit unit)
     {
@@ -133,4 +136,5 @@ public enum CommandType : byte
     FOLLOW,
     HOMEPOS,
     CREATE_SQUAD,
+    CLEAR_SQUAD,
 }

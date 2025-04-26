@@ -53,7 +53,7 @@ public class ResourceNode : MonoBehaviour, IClickable
         if(Vector3.Distance(transform.position, caller.transform.position) <= gatherRadius){
             //Debug.Log($"Clicked on {resource.name} node");
             
-            GameController.p.playerInventory.inventory.AddItem(new Item(resource), 2); // <-- player mine yield stat here!
+            GameController.p.playerInventory.inventory.AddItem(new Item(resource), 8); // <-- player mine yield stat here!
             Gather();
             
         }

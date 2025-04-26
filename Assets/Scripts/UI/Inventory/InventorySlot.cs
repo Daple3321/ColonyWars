@@ -13,11 +13,16 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
     [SerializeField] private Image borderImage;
     public InventoryItem item;
 
-    public event Action<InventorySlot> OnItemClicked, OnRightClick, OnItemDropped,
-        OnItemBeginDrag, OnItemEndDrag;
-
+    public event Action<InventorySlot> OnItemClicked, OnRightClick, OnItemEndDrag;
+    
+    public event Action<InventorySlot, int> OnItemVoidDrop;
+    public event Action<InventorySlot, int> OnItemDropped;
+    public event Action<InventorySlot, bool> OnItemBeginDrag;
 
     public bool empty = true;
+    
+    private bool canDrop;
+    private bool rightClickDrag;
 
     public InventoryUI ParentUI { get; private set; }
 
@@ -83,20 +88,61 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (empty)
+        if (empty){
+            //Debug.Log($"[OnBeginDrag] slot empty. Returning.", this);
             return;
-        //Debug.Log("Slot is not empty. Beggining drag.", this);
-        OnItemBeginDrag?.Invoke(this);
+        }
+        
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            Debug.Log("BeginDrag with right click");
+            rightClickDrag = true;
+            OnItemBeginDrag?.Invoke(this, true);
+        }
+        else{
+            rightClickDrag = false;
+            OnItemBeginDrag?.Invoke(this, false);
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if(!canDrop && rightClickDrag)// if dropped in void and halfStack drop
+        {
+            if(item.IsStackable){
+                OnItemVoidDrop?.Invoke(this, item.HalfQuantity());
+            }
+            else{
+                OnItemVoidDrop?.Invoke(this, item.quantity);
+            }
+            Debug.Log($"[OnEndDrag] Void halfStack drop", this);
+        }
+        else if(!canDrop && !rightClickDrag){
+            OnItemVoidDrop?.Invoke(this, -1);
+            Debug.Log($"[OnEndDrag] Void drop", this);
+        }
+        //Debug.Log($"[OnEndDrag]", this);
         OnItemEndDrag?.Invoke(this);
+        canDrop = false;
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        OnItemDropped?.Invoke(this); // sending slot that we dropped into
+        InventorySlot dropSlot = eventData.pointerDrag.GetComponent<InventorySlot>();
+        if(dropSlot != null){ // check for drop in void
+            dropSlot.canDrop = true;
+            if(rightClickDrag){
+                OnItemDropped?.Invoke(this, item.HalfQuantity()); // sending slot that we dropped into
+            }
+            else{
+                OnItemDropped?.Invoke(this, item.quantity);
+            }
+            
+            
+            Debug.Log($"[OnDrop] dropped in {dropSlot}", dropSlot);
+        }
+        
+        
         //Debug.Log("Dropped to slot", this);
     }
 

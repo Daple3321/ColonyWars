@@ -175,6 +175,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SquadClear",
+                    "type": "Button",
+                    "id": "0ecdea2f-6129-4a6f-9ad9-0bb76104b266",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -714,6 +723,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "SquadAssembleMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7bccdecd-499c-4ae5-b6fb-7cd212998a57",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SquadClear",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -19,9 +20,11 @@ public class InventoryUI : MonoBehaviour
 
     private int currentlyDraggedItemIndex = -1;
 
-    public event Action<int> OnItemActionRequested, OnStartDragging;
+    public event Action<int> OnItemActionRequested;
     public event Action<int, int, InventoryItem, InventoryItem> OnSwapItems;
     public event Action<InventoryUI, int, InventoryUI, int> OnTransferItemsRequest;
+    public event Action<int, int> OnItemVoidDrop;
+    public event Action<int, int> OnStartDragging;
 
     public Inventory LinkedInventory { get; private set; }
     public void SetLinkedInventory(Inventory linkedInventory)
@@ -43,6 +46,7 @@ public class InventoryUI : MonoBehaviour
             slot.OnItemClicked += HandleItemSelection;
             slot.OnItemBeginDrag += HandleBeginDrag;
             slot.OnItemDropped += HandleDrop;
+            slot.OnItemVoidDrop += HandleVoidDrop;
             slot.OnItemEndDrag += HandleEndDrag;
             slot.OnRightClick += HandleShowItemActions;
         }
@@ -73,16 +77,23 @@ public class InventoryUI : MonoBehaviour
         mouseFollower.SetData(sprite, quantity, item);
     }
     
-    private void HandleBeginDrag(InventorySlot slot)
+    private void HandleBeginDrag(InventorySlot slot, bool isRightClickDrag)
     {
         int index = inventorySlots.IndexOf(slot);
         if (index == -1 || slot.empty)
             return;
         
+        //Debug.Log($"[HandleBeginDrag], begin drag. Slot is not empty and index != -1");
         currentlyDraggedItemIndex = index;
         DragDropManager.currentlyDraggedSlot = slot;
+        if(isRightClickDrag){
+            DragDropManager.dragQuantity = slot.item.HalfQuantity();
+        }
+        else{
+            DragDropManager.dragQuantity = slot.item.quantity;
+        }
         HandleItemSelection(slot);
-        OnStartDragging?.Invoke(index); // создаёт mouseFollower
+        OnStartDragging?.Invoke(index, DragDropManager.dragQuantity); // создаёт mouseFollower
     }
     private void HandleEndDrag(InventorySlot slot)
     {
@@ -94,9 +105,21 @@ public class InventoryUI : MonoBehaviour
         mouseFollower.Toggle(false);
         currentlyDraggedItemIndex = -1;
         DragDropManager.currentlyDraggedSlot = null;
+        DragDropManager.dragQuantity = -1;
+    }
+    
+    private void HandleVoidDrop(InventorySlot dropFromSlot, int quantity)
+    {
+        int slotIndex = inventorySlots.IndexOf(dropFromSlot);
+        if(slotIndex == -1){
+            Debug.LogWarning($"No slot found while dropping in void");
+            return;
+        }
+        
+        OnItemVoidDrop?.Invoke(slotIndex, quantity);
     }
 
-    private void HandleDrop(InventorySlot destinationSlot)
+    private void HandleDrop(InventorySlot destinationSlot, int quantity)
     {
         if (DragDropManager.currentlyDraggedSlot == null) return;
 
@@ -105,7 +128,8 @@ public class InventoryUI : MonoBehaviour
         InventoryUI sourceUI = DragDropManager.currentlyDraggedSlot.ParentUI;
         int sourceIndex = sourceUI.inventorySlots.IndexOf(DragDropManager.currentlyDraggedSlot);
         InventoryItem sourceItem = DragDropManager.currentlyDraggedSlot.item;
-
+        
+        Debug.Log($"[HandleDrop] destIndex = {destinationIndex}");
         if (sourceUI == this) // если обмен внутри одного инвентаря
         {
             if (destinationIndex == -1) // Упали на свой UI, но не на слот? (Можно обработать или игнорировать)
@@ -132,16 +156,6 @@ public class InventoryUI : MonoBehaviour
             // Передаем: исходный UI, исходный индекс, целевой UI, целевой индекс
             OnTransferItemsRequest?.Invoke(sourceUI, sourceIndex, this, destinationIndex);
         }
-        
-        // int index = inventorySlots.IndexOf(destinationSlot);
-        // if (index == -1)
-        // {
-        //     Debug.Log("Transfering to another inventory", slot);
-        //     return;
-        // }
-        // Debug.Log("Swapping with slot: ", slot);
-        // OnSwapItems?.Invoke(currentlyDraggedItemIndex, index, inventorySlots[currentlyDraggedItemIndex].item, slot.item);
-        // HandleItemSelection(slot);
     }
 
 

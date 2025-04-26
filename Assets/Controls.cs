@@ -261,6 +261,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SquadClear"",
+                    ""type"": ""Button"",
+                    ""id"": ""0ecdea2f-6129-4a6f-9ad9-0bb76104b266"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -800,6 +809,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""SquadAssembleMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7bccdecd-499c-4ae5-b6fb-7cd212998a57"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""SquadClear"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1406,6 +1426,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Player_SquadMoveOrder = m_Player.FindAction("SquadMoveOrder", throwIfNotFound: true);
         m_Player_SquadRetreat = m_Player.FindAction("SquadRetreat", throwIfNotFound: true);
         m_Player_SquadAssembleMenu = m_Player.FindAction("SquadAssembleMenu", throwIfNotFound: true);
+        m_Player_SquadClear = m_Player.FindAction("SquadClear", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1518,6 +1539,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SquadMoveOrder;
     private readonly InputAction m_Player_SquadRetreat;
     private readonly InputAction m_Player_SquadAssembleMenu;
+    private readonly InputAction m_Player_SquadClear;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1606,6 +1628,10 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @SquadAssembleMenu => m_Wrapper.m_Player_SquadAssembleMenu;
         /// <summary>
+        /// Provides access to the underlying input action "Player/SquadClear".
+        /// </summary>
+        public InputAction @SquadClear => m_Wrapper.m_Player_SquadClear;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1688,6 +1714,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @SquadAssembleMenu.started += instance.OnSquadAssembleMenu;
             @SquadAssembleMenu.performed += instance.OnSquadAssembleMenu;
             @SquadAssembleMenu.canceled += instance.OnSquadAssembleMenu;
+            @SquadClear.started += instance.OnSquadClear;
+            @SquadClear.performed += instance.OnSquadClear;
+            @SquadClear.canceled += instance.OnSquadClear;
         }
 
         /// <summary>
@@ -1756,6 +1785,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @SquadAssembleMenu.started -= instance.OnSquadAssembleMenu;
             @SquadAssembleMenu.performed -= instance.OnSquadAssembleMenu;
             @SquadAssembleMenu.canceled -= instance.OnSquadAssembleMenu;
+            @SquadClear.started -= instance.OnSquadClear;
+            @SquadClear.performed -= instance.OnSquadClear;
+            @SquadClear.canceled -= instance.OnSquadClear;
         }
 
         /// <summary>
@@ -2189,6 +2221,13 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSquadAssembleMenu(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SquadClear" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSquadClear(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

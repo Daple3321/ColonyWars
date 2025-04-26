@@ -12,13 +12,13 @@ GameObject:
   - component: {fileID: 405141052122210159}
   - component: {fileID: 4466384338392922546}
   - component: {fileID: 6734773352968536953}
-  - component: {fileID: 4695991326574422021}
+  - component: {fileID: 7983584484517046220}
   m_Layer: 8
   m_Name: ItemPrefab
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 20
   m_IsActive: 1
 --- !u!4 &18488989955796468
 Transform:
@@ -49,13 +49,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemData: {fileID: 0}
   originItem:
-    itemName: 
-    description: 
-    icon: {fileID: 0}
-    rarity: 0
-    itemData: {fileID: 0}
+    rid: -2
+  quantity: 0
   meshFilter: {fileID: 4466384338392922546}
   meshRenderer: {fileID: 6734773352968536953}
+  attachmentPoint: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!33 &4466384338392922546
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -109,8 +112,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &4695991326574422021
-SphereCollider:
+--- !u!65 &7983584484517046220
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -128,5 +131,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}

@@ -5,17 +5,19 @@ public class WorldItem : MonoBehaviour
     public ItemData itemData;
 
     [SerializeReference] public Item originItem;
-
+    
+    public int quantity;
     public MeshFilter meshFilter;
     public MeshRenderer meshRenderer;
 
     public Transform attachmentPoint;
     
-    public virtual void Initialize(ItemData data, Item origin)
+    public virtual void Initialize(ItemData data, Item origin, int quantity = 1)
     {
         itemData = data;
         name = data.itemName;
         originItem = origin;
+        this.quantity = quantity;   
 
         if (data.customPrefab == null)
         {

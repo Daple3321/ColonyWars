@@ -10,6 +10,7 @@ public class Inventory
     public int Size { get; private set; } = 8;
 
     public event Action<Dictionary<int, InventoryItem>> OnInventoryUpdated;
+    public event Action<Item, int> onItemAdded;
 
     public Inventory(int size)
     {
@@ -53,7 +54,8 @@ public class Inventory
             // Если не нашли похожий предмет
             AddToFirstEmptySlot(itemToAdd, quantity);
         }
-
+        
+        onItemAdded?.Invoke(itemToAdd, quantity);
         InformAboutChange();
     }
     
@@ -84,45 +86,63 @@ public class Inventory
 
     public Item DropItem(int index, Transform dropPos, int quantity = 1)
     {
-        for (int i = 0; i < quantity; i++)
+        // for (int i = 0; i < quantity; i++)
+        // {
+        // }
+        
+        if (inventoryItems[index].quantity > 0)
         {
-            if (inventoryItems[index].quantity > 0)
-            {
-                WorldItem worldItem;
-                worldItem = inventoryItems[index].item.SpawnItem(dropPos);
+            WorldItem worldItem;
+            worldItem = inventoryItems[index].item.SpawnItem(dropPos, quantity);
 
-                Item droppedItem = inventoryItems[index].item;
-                inventoryItems[index] = inventoryItems[index].ChangeQuantity(inventoryItems[index].quantity - 1);
-                Debug.Log($"[{index}] Dropped {inventoryItems[index].item.itemName}");
-                if (inventoryItems[index].quantity <= 0)
-                {
-                    inventoryItems[index] = InventoryItem.GetEmptyItem();
-                }
-                
-                InformAboutChange();
-                return droppedItem;
-            }
-            else
+            Item droppedItem = inventoryItems[index].item;
+            inventoryItems[index] = inventoryItems[index].ChangeQuantity(inventoryItems[index].quantity - quantity);
+            Debug.Log($"[{index}] Dropped {inventoryItems[index].item.itemName}");
+            if (inventoryItems[index].quantity <= 0)
             {
-                Debug.Log($"[{index}] No item in slot");
+                inventoryItems[index] = InventoryItem.GetEmptyItem();
             }
+            
+            InformAboutChange();
+            return droppedItem;
         }
+        else{
+            Debug.Log($"[{index}] No item in slot");
+        }
+        
         //InformAboutChange();
         return null;
     }
-    public void DropWholeStack(int index, Transform dropPos)
+    public Item DropWholeStack(int index, Transform dropPos)
     {
-        int startingQuantity = inventoryItems[index].quantity;
-        for (int i = 0; i < startingQuantity; i++)
+        if(inventoryItems[index].quantity > 0)
         {
+            int startingQuantity = inventoryItems[index].quantity;
+            
+            WorldItem worldItem;
+            worldItem = inventoryItems[index].item.SpawnItem(dropPos, startingQuantity);
+            Item droppedItem = inventoryItems[index].item;
+            inventoryItems[index] = inventoryItems[index].ChangeQuantity(0);
+            //Debug.Log($"[{index}] Dropped {inventoryItems[index].item.itemName}");
+            if (inventoryItems[index].quantity <= 0)
+            {
+                inventoryItems[index] = InventoryItem.GetEmptyItem();
+            }
             // здесь вместо itemPrefab спавнить нужный префаб если он есть
-            GameObject obj = GameObject.Instantiate(GameAssets.itemPrefab, dropPos.position, dropPos.rotation);
-            WorldItem worldItem = obj.GetComponent<WorldItem>();
-            worldItem.Initialize(inventoryItems[index].item.itemData, inventoryItems[index].item);
+            // GameObject obj = GameObject.Instantiate(GameAssets.itemPrefab, dropPos.position, dropPos.rotation);
+            // WorldItem worldItem = obj.GetComponent<WorldItem>();
+            // worldItem.Initialize(inventoryItems[index].item.itemData, inventoryItems[index].item, startingQuantity);
+            
+            //inventoryItems[index] = inventoryItems[index].ChangeQuantity(inventoryItems[index].quantity - 1);
 
-            inventoryItems[index] = inventoryItems[index].ChangeQuantity(inventoryItems[index].quantity - 1);
+            InformAboutChange();
+            return droppedItem;
         }
-        InformAboutChange();
+        else{
+            Debug.Log($"[DropWholeStack][{index}] No item in slot");
+        }
+        
+        return null;
     }
     
 
@@ -423,4 +443,17 @@ public struct InventoryItem
         item = null,
         quantity = 0,
     };
+    
+    public InventoryItem Half()
+    {
+        return new InventoryItem
+        {
+            item = item,
+            quantity = Math.Clamp(Mathf.CeilToInt(this.quantity/2), 1, 1000)
+        };
+    }
+    public int HalfQuantity()
+    {
+        return Math.Clamp(Mathf.CeilToInt(this.quantity/2), 1, 1000);
+    }
 }

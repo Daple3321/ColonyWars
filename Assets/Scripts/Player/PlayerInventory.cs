@@ -90,6 +90,7 @@ public class PlayerInventory : MonoBehaviour
         inventoryUI.InitializeInventoryUI(inventoryStartingSize);
         this.inventoryUI.OnSwapItems += HandleSwapItems;
         this.inventoryUI.OnStartDragging += HandleDragging;
+        this.inventoryUI.OnItemVoidDrop += HandleVoidDrop;
         this.inventoryUI.OnItemActionRequested += HandleItemActionRequest;
         this.inventoryUI.OnTransferItemsRequest += HandleTransferRequest;
         inventoryUI.SetLinkedInventory(inventory);
@@ -99,6 +100,7 @@ public class PlayerInventory : MonoBehaviour
         hotbarUI.InitializeInventoryUI(hotbarStartingSize);
         this.hotbarUI.OnSwapItems += HandleSwapItemsHotbar;
         this.hotbarUI.OnStartDragging += HandleDraggingHotbar;
+        this.hotbarUI.OnItemVoidDrop += HandleVoidDropHotbar;
         this.hotbarUI.OnItemActionRequested += HandleItemActionRequest;
         this.hotbarUI.OnTransferItemsRequest += HandleTransferRequest;
         hotbarUI.SetLinkedInventory(hotbar);
@@ -114,22 +116,47 @@ public class PlayerInventory : MonoBehaviour
     {
         
     }
-
-    private void HandleDragging(int itemIndex)
+    
+    private void HandleVoidDrop(int itemIndex, int quantity)
     {
-        HandleDraggingInternal(inventory, inventoryUI, itemIndex);
+        HandleVoidDropInternal(inventory, itemIndex, quantity);
     }
-    private void HandleDraggingHotbar(int itemIndex)
+    private void HandleVoidDropHotbar(int itemIndex, int quantity)
     {
-        HandleDraggingInternal(hotbar, hotbarUI, itemIndex);
+        HandleVoidDropInternal(hotbar, itemIndex, quantity);
+    }
+    private void HandleVoidDropInternal(Inventory sourceInv, int itemIndex, int quantity)
+    {
+        if(quantity == -1){
+            sourceInv.DropWholeStack(itemIndex, rightHand);
+        }
+        else
+        {
+            sourceInv.DropItem(itemIndex, rightHand, quantity);
+        }
     }
 
-    private void HandleDraggingInternal(Inventory sourceInv, InventoryUI sourceUI, int itemIndex)
+    private void HandleDragging(int itemIndex, int dragQuantity)
+    {
+        HandleDraggingInternal(inventory, inventoryUI, itemIndex, dragQuantity);
+    }
+    private void HandleDraggingHotbar(int itemIndex, int dragQuantity)
+    {
+        HandleDraggingInternal(hotbar, hotbarUI, itemIndex, dragQuantity);
+    }
+
+    private void HandleDraggingInternal(Inventory sourceInv, InventoryUI sourceUI, int itemIndex, int dragQuantity)
     {
         InventoryItem inventoryItem = sourceInv.GetItemAt(itemIndex);
         if (inventoryItem.IsEmpty)
             return;
-        sourceUI.CreateDraggedItem(inventoryItem.item.icon, inventoryItem.quantity, inventoryItem);
+        
+        if(dragQuantity == -1){ // взять полностью весь стак
+            sourceUI.CreateDraggedItem(inventoryItem.item.icon, inventoryItem.quantity, inventoryItem);
+        }
+        else{
+            sourceUI.CreateDraggedItem(inventoryItem.item.icon, dragQuantity, inventoryItem);
+        }
     }
 
     private void HandleSwapItems(int itemIndex_1, int itemIndex_2, InventoryItem from, InventoryItem to)
@@ -145,7 +172,11 @@ public class PlayerInventory : MonoBehaviour
 
     private void HandleSwapInternal(Inventory sourceInv, int itemIndex_1, int itemIndex_2, InventoryItem from, InventoryItem to)
     {
-        sourceInv.SwapItems(itemIndex_1, itemIndex_2, from, to);
+        InventoryItem fromModified = new InventoryItem{
+            item = from.item,
+            quantity = DragDropManager.dragQuantity
+        };
+        sourceInv.SwapItems(itemIndex_1, itemIndex_2, fromModified, to);
     }
     
     private void HandleTransferRequest(InventoryUI sourceUI, int sourceIndex, InventoryUI destinationUI, int destinationIndex)
@@ -275,7 +306,7 @@ public class PlayerInventory : MonoBehaviour
                 Destroy(selectedWorldItem.gameObject);
             }
 
-            selectedWorldItem = selectedItem.SpawnItem(rightHand);
+            selectedWorldItem = selectedItem.SpawnItem(rightHand, 1);
             selectedWorldItem.Attach(rightHand);
 
             OnItemSelected?.Invoke(this, new OnItemSelectedEventArgs { selectedItem = selectedItem, worldItem = selectedWorldItem, slotId = slotId });

@@ -17,7 +17,7 @@ public class Item
         LoadStats();
     }
 
-    public virtual WorldItem SpawnItem(Transform spawnPos)
+    public virtual WorldItem SpawnItem(Transform spawnPos, int quantity)
     {
         WorldItem worldItem;
         GameObject obj;
@@ -30,7 +30,7 @@ public class Item
             obj = GameObject.Instantiate(GameAssets.itemPrefab, spawnPos.position, spawnPos.rotation);
         }
         worldItem = obj.GetComponent<WorldItem>();
-        worldItem.Initialize(itemData, this);
+        worldItem.Initialize(itemData, this, quantity);
 
         return worldItem;
     }
