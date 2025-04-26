@@ -172,11 +172,11 @@ public class PlayerInventory : MonoBehaviour
 
     private void HandleSwapInternal(Inventory sourceInv, int itemIndex_1, int itemIndex_2, InventoryItem from, InventoryItem to)
     {
-        InventoryItem fromModified = new InventoryItem{
-            item = from.item,
-            quantity = DragDropManager.dragQuantity
-        };
-        sourceInv.SwapItems(itemIndex_1, itemIndex_2, fromModified, to);
+        // InventoryItem fromModified = new InventoryItem{
+        //     item = from.item,
+        //     quantity = DragDropManager.dragQuantity
+        // };
+        sourceInv.SwapItems(itemIndex_1, itemIndex_2, from, to, DragDropManager.dragQuantity);
     }
     
     private void HandleTransferRequest(InventoryUI sourceUI, int sourceIndex, InventoryUI destinationUI, int destinationIndex)
@@ -198,61 +198,73 @@ public class PlayerInventory : MonoBehaviour
         }
 
         InventoryItem itemAtDestination = destinationInventory.GetItemAt(destinationIndex);
+        int quantityToMove = DragDropManager.dragQuantity; // Получаем количество для переноса
+
 
         // --- Логика переноса/обмена между инвентарями ---
 
         // 1. Простой случай: перемещение в пустой слот назначения
         if (itemAtDestination.IsEmpty)
         {
-            sourceInventory.SetItemAt(sourceIndex, InventoryItem.GetEmptyItem()); // Очищаем источник
-            destinationInventory.SetItemAt(destinationIndex, itemToMove);       // Помещаем в назначение
-        }
-        // 2. Сложный случай: обмен предметами между слотами разных инвентарей
-        else
-        {
-            bool canStack = InventoryItem.CanStackCheck(itemToMove, itemAtDestination);
-            if (canStack)
+            //sourceInventory.SetItemAt(sourceIndex, InventoryItem.GetEmptyItem()); // Очищаем источник
+            //destinationInventory.SetItemAt(destinationIndex, itemToMove);       // Помещаем в назначение
+            
+            // Уменьшаем количество в источнике
+            InventoryItem sourceRemaining = itemToMove.ChangeQuantity(itemToMove.quantity - quantityToMove);
+            if (sourceRemaining.quantity <= 0)
             {
-                /* логика стакинга */
-                // int maxAvailableTransfer;
-                // maxAvailableTransfer = itemAtDestination.MaxStackSize - itemAtDestination.quantity;
-                // if (itemToMove.quantity == maxAvailableTransfer)
-                // {
-                //     //sourceInventory.SetItemAt(sourceIndex, itemAtDestination);
-                //     int moveAmount = itemToMove.quantity + maxAvailableTransfer;
-                //     sourceInventory.DestroyItem(itemToMove);
-                //     destinationInventory.SetItemAt(destinationIndex, new InventoryItem
-                //     {
-                //         quantity = moveAmount,
-                //         item = itemToMove.item,
-                //     });
-                //     Debug.Log($"Stacking to maxAmount {moveAmount}");
-                // }
-                // else if (itemToMove.quantity < maxAvailableTransfer)
-                // {
-                //     int moveAmount = itemToMove.quantity + itemAtDestination.quantity;
-                //     sourceInventory.DestroyItem(itemToMove);
-                //     destinationInventory.SetItemAt(destinationIndex, new InventoryItem
-                //     {
-                //         quantity = moveAmount,
-                //         item = itemToMove.item,
-                //     });
-                //     Debug.Log($"Stacking, deleting sourceItem completly {moveAmount}");
-                // }
-                InventoryItem sourceItemChanged;
-                InventoryItem finalItem = InventoryItem.Stack(itemToMove, itemAtDestination, out sourceItemChanged);
-                sourceInventory.SetItemAt(sourceIndex, sourceItemChanged);
-                destinationInventory.SetItemAt(destinationIndex, finalItem);
+                sourceInventory.SetItemAt(sourceIndex, InventoryItem.GetEmptyItem());
             }
             else
             {
-                /* логика обмена */
-                Debug.Log("Cant stack, swapping.");
-                sourceInventory.SetItemAt(sourceIndex, itemAtDestination);
-                destinationInventory.SetItemAt(destinationIndex, itemToMove);
+                sourceInventory.SetItemAt(sourceIndex, sourceRemaining);
+            }
+
+            // Помещаем в назначение
+            destinationInventory.SetItemAt(destinationIndex, new InventoryItem { item = itemToMove.item, quantity = quantityToMove });
+        }
+        // 2. Предметы одинаковые и можно стакать
+        else if (InventoryItem.CanStackCheck(itemToMove, itemAtDestination))
+        {
+            int maxCanTake = itemAtDestination.MaxStackSize - itemAtDestination.quantity;
+            int actualMoveAmount = Mathf.Min(quantityToMove, maxCanTake); // Сколько реально можем переместить
+
+            if (actualMoveAmount > 0)
+            {
+                // Уменьшаем количество в источнике
+                InventoryItem sourceRemaining = itemToMove.ChangeQuantity(itemToMove.quantity - actualMoveAmount);
+                if (sourceRemaining.quantity <= 0)
+                {
+                    sourceInventory.SetItemAt(sourceIndex, InventoryItem.GetEmptyItem());
+                }
+                else
+                {
+                    sourceInventory.SetItemAt(sourceIndex, sourceRemaining);
+                }
+
+                // Увеличиваем количество в назначении
+                destinationInventory.SetItemAt(destinationIndex, itemAtDestination.ChangeQuantity(itemAtDestination.quantity + actualMoveAmount));
+            }
+            else // Если стакать некуда (dest полный), и это был полный драг ЛКМ - меняем местами
+            {
+                if (quantityToMove == itemToMove.quantity) // Проверяем, был ли это полный драг
+                {
+                    sourceInventory.SetItemAt(sourceIndex, itemAtDestination);
+                    destinationInventory.SetItemAt(destinationIndex, itemToMove);
+                }
+                // Иначе (ПКМ драг на полный слот того же типа) - ничего не делаем
             }
         }
-        
+        // 3. Предметы разные ИЛИ одинаковые, но стакать нельзя/некуда (и это был полный драг)
+        else if (quantityToMove == itemToMove.quantity) // Только если перетаскивали весь стак
+        {
+            // Меняем местами
+            sourceInventory.SetItemAt(sourceIndex, itemAtDestination);
+            destinationInventory.SetItemAt(destinationIndex, itemToMove);
+        }
+        // 4. Если предметы разные и это был частичный драг (ПКМ) - не позволяем обмен.
+        // else { Debug.Log("Cannot split stack onto a different item type between inventories."); }
+
         sourceInventory.InformAboutChange();
         destinationInventory.InformAboutChange();
 

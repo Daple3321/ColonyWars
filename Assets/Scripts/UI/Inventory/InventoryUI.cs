@@ -129,7 +129,7 @@ public class InventoryUI : MonoBehaviour
         int sourceIndex = sourceUI.inventorySlots.IndexOf(DragDropManager.currentlyDraggedSlot);
         InventoryItem sourceItem = DragDropManager.currentlyDraggedSlot.item;
         
-        Debug.Log($"[HandleDrop] destIndex = {destinationIndex}");
+        //Debug.Log($"[HandleDrop] destIndex = {destinationIndex}");
         if (sourceUI == this) // если обмен внутри одного инвентаря
         {
             if (destinationIndex == -1) // Упали на свой UI, но не на слот? (Можно обработать или игнорировать)

@@ -95,7 +95,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            Debug.Log("BeginDrag with right click");
+            //Debug.Log("BeginDrag with right click");
             rightClickDrag = true;
             OnItemBeginDrag?.Invoke(this, true);
         }
@@ -107,23 +107,46 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if(!canDrop && rightClickDrag)// if dropped in void and halfStack drop
+        bool droppedOnOriginSlot = false;
+        // Проверяем, находится ли указатель мыши над объектом UI
+        if (eventData.pointerEnter != null)
         {
-            if(item.IsStackable){
-                OnItemVoidDrop?.Invoke(this, item.HalfQuantity());
+            // Пытаемся получить компонент InventorySlot из объекта под указателем
+            //InventorySlot slotUnderPointer = eventData.pointerEnter.GetComponentInParent<InventorySlot>();
+            InventorySlot slotUnderPointer = eventData.pointerDrag.GetComponent<InventorySlot>();
+            // Сравниваем найденный слот с тем, откуда начали перетаскивание (хранится в DragDropManager)
+            if (slotUnderPointer != null && slotUnderPointer == DragDropManager.currentlyDraggedSlot)
+            {
+                droppedOnOriginSlot = true;
+                // Можно добавить Debug.Log("Dropped back onto the origin slot.");
             }
-            else{
-                OnItemVoidDrop?.Invoke(this, item.quantity);
-            }
-            Debug.Log($"[OnEndDrag] Void halfStack drop", this);
         }
-        else if(!canDrop && !rightClickDrag){
-            OnItemVoidDrop?.Invoke(this, -1);
-            Debug.Log($"[OnEndDrag] Void drop", this);
+        
+        // --- Логика выброса в пустоту, теперь с дополнительной проверкой ---
+        // Выбрасываем только если:
+        // 1. Не было успешного OnDrop на каком-либо слоте (canDrop == false)
+        // 2. И курсор НЕ был отпущен над исходным слотом (droppedOnOriginSlot == false)
+        if(!canDrop && !droppedOnOriginSlot)
+        {
+            if(rightClickDrag)// if dropped in void and halfStack drop
+            {
+                if(item.IsStackable){
+                    OnItemVoidDrop?.Invoke(this, item.HalfQuantity());
+                }
+                else{
+                    OnItemVoidDrop?.Invoke(this, item.quantity);
+                }
+                //Debug.Log($"[OnEndDrag] Void halfStack drop", this);
+            }
+            else if(!canDrop && !rightClickDrag){
+                OnItemVoidDrop?.Invoke(this, -1);
+                //Debug.Log($"[OnEndDrag] Void drop", this);
+            }
         }
         //Debug.Log($"[OnEndDrag]", this);
         OnItemEndDrag?.Invoke(this);
         canDrop = false;
+        rightClickDrag = false;
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -139,7 +162,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
             }
             
             
-            Debug.Log($"[OnDrop] dropped in {dropSlot}", dropSlot);
+            //Debug.Log($"[OnDrop] dropped in {dropSlot}", dropSlot);
         }
         
         
@@ -148,7 +171,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
     public void OnDrag(PointerEventData eventData)
     {
-
+        //Debug.Log($"DragAmount: {DragDropManager.dragQuantity}");
     }
     
     

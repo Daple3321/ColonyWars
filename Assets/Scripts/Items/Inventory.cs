@@ -139,7 +139,7 @@ public class Inventory
             return droppedItem;
         }
         else{
-            Debug.Log($"[DropWholeStack][{index}] No item in slot");
+            //Debug.Log($"[DropWholeStack][{index}] No item in slot");
         }
         
         return null;
@@ -283,6 +283,71 @@ public class Inventory
             inventoryItems[itemIndex_1] = inventoryItems[itemIndex_2];
             inventoryItems[itemIndex_2] = item1;
         }
+
+        InformAboutChange();
+    }
+    
+    public void SwapItems(int itemIndex_1, int itemIndex_2, InventoryItem from, InventoryItem to, int quantityToMove)
+    {
+        // Если пытаемся перетащить на тот же слот, ничего не делаем
+        if (itemIndex_1 == itemIndex_2) return;
+
+        // Если целевой слот пуст, просто перемещаем quantityToMove предметов
+        if (to.IsEmpty)
+        {
+            // Уменьшаем количество в исходном слоте
+            inventoryItems[itemIndex_1] = inventoryItems[itemIndex_1].ChangeQuantity(inventoryItems[itemIndex_1].quantity - quantityToMove);
+            if (inventoryItems[itemIndex_1].quantity <= 0)
+            {
+                inventoryItems[itemIndex_1] = InventoryItem.GetEmptyItem();
+            }
+
+            // Создаем новый стак в целевом слоте
+            inventoryItems[itemIndex_2] = new InventoryItem { item = from.item, quantity = quantityToMove };
+        }
+        // Если предметы одинаковые и можно стакать
+        else if (InventoryItem.CanStackCheck(from, to))
+        {
+            int maxCanTake = to.MaxStackSize - to.quantity;
+            int actualMoveAmount = Mathf.Min(quantityToMove, maxCanTake); // Сколько реально можем переместить
+
+            if (actualMoveAmount <= 0) // Если целевой слот уже полон
+            {
+                // Если перетаскивали не весь стак (ПКМ), то ничего не делаем
+                // Если перетаскивали весь стак (ЛКМ), то можно поменять местами, как раньше
+                if (quantityToMove == inventoryItems[itemIndex_1].quantity) // Проверяем, был ли это полный драг
+                {
+                    InventoryItem item1 = inventoryItems[itemIndex_1];
+                    inventoryItems[itemIndex_1] = inventoryItems[itemIndex_2];
+                    inventoryItems[itemIndex_2] = item1;
+                }
+                // Иначе (ПКМ драг на полный слот того же типа) - ничего не делаем
+                InformAboutChange(); // Вызываем на всякий случай, хотя изменений не было
+                return;
+            }
+
+
+            // Уменьшаем количество в исходном слоте
+            inventoryItems[itemIndex_1] = inventoryItems[itemIndex_1].ChangeQuantity(inventoryItems[itemIndex_1].quantity - actualMoveAmount);
+            if (inventoryItems[itemIndex_1].quantity <= 0)
+            {
+                inventoryItems[itemIndex_1] = InventoryItem.GetEmptyItem();
+            }
+
+            // Увеличиваем количество в целевом слоте
+            inventoryItems[itemIndex_2] = inventoryItems[itemIndex_2].ChangeQuantity(inventoryItems[itemIndex_2].quantity + actualMoveAmount);
+
+        }
+        // Если предметы разные ИЛИ одинаковые, но стакать нельзя/некуда (и это был полный драг)
+        else if (quantityToMove == inventoryItems[itemIndex_1].quantity) // Только если перетаскивали весь стак
+        {
+            // Меняем местами, как и раньше
+            InventoryItem item1 = inventoryItems[itemIndex_1];
+            inventoryItems[itemIndex_1] = inventoryItems[itemIndex_2];
+            inventoryItems[itemIndex_2] = item1;
+        }
+        // Если предметы разные и это был частичный драг (ПКМ), не позволяем обмен.
+        // Можно добавить Debug.Log("Cannot split stack onto a different item type.");
 
         InformAboutChange();
     }
