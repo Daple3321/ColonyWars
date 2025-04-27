@@ -9,6 +9,8 @@ public class Weapon : Equipable
     public AttackType attackType;
 
     //public bool canAttack;
+    public bool needsAmmo;
+    public ItemData ammoType;
     public bool mouseReleased = true;
     
     public Weapon(ItemData _itemData) : base(_itemData)
@@ -26,6 +28,8 @@ public class Weapon : Equipable
             attackType = data.attackType;
             damage = data.damage;
             attackRate = data.attackRate;
+            needsAmmo = data.needsAmmo;
+            ammoType = data.ammoType;
             //Debug.Log($"LoadStats in Weapon.cs. WeaponData: {weaponData}");
         }
     }
@@ -35,6 +39,38 @@ public class Weapon : Equipable
     public virtual bool CanAttack()
     {
         return true;
+    }
+    
+    public virtual int GetAmmoInfo()
+    {
+        if(!needsAmmo) return 0;
+        
+        return GameController.p.playerInventory.ItemAmount(ammoType);
+    }
+    public virtual bool CheckAmmo()
+    {
+        if(needsAmmo)
+        {
+            (Inventory inv, int index) = GameController.p.playerInventory.HasItem(ammoType);
+            if(index != -1)
+            {
+                //Debug.Log($"Has ammo: {inv.GetItemAt(index).item.itemName}, {inv.GetItemAt(index).quantity}");
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return true;
+        }
+    }
+    public virtual void SubtractAmmo()
+    {
+        if(!needsAmmo) return;
+        
+        (Inventory inv, int index) = GameController.p.playerInventory.HasItem(ammoType);
+        inv.DeleteItem(index);
     }
     
     public virtual void Attack()

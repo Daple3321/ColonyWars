@@ -24,11 +24,11 @@ public class RangedWeapon : Weapon
 
     public override bool CanAttack()
     {
-        if (attackType == AttackType.SINGLE && mouseReleased && _attackCd <= 0)
+        if (attackType == AttackType.SINGLE && mouseReleased && _attackCd <= 0 && CheckAmmo())
         {
             return true;
         }
-        else if (attackType == AttackType.AUTOMATIC && _attackCd <= 0)
+        else if (attackType == AttackType.AUTOMATIC && _attackCd <= 0 && CheckAmmo())
         {
             return true;
         }
@@ -37,10 +37,16 @@ public class RangedWeapon : Weapon
             return false;
         }
     }
+    
 
     public override void Attack()
     {
         _attackCd = attackRate;
+        if(needsAmmo)
+        {
+            SubtractAmmo();
+            Debug.Log($"Ammo count: {GetAmmoInfo()}");
+        }
     }
 
     public override void LoadStats()

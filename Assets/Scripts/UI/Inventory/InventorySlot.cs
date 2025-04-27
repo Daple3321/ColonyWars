@@ -122,7 +122,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
             }
         }
         
-        // --- Логика выброса в пустоту, теперь с дополнительной проверкой ---
+        // --- Логика выброса в пустоту ---
         // Выбрасываем только если:
         // 1. Не было успешного OnDrop на каком-либо слоте (canDrop == false)
         // 2. И курсор НЕ был отпущен над исходным слотом (droppedOnOriginSlot == false)

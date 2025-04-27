@@ -21,13 +21,16 @@ MonoBehaviour:
   itemMesh: {fileID: 0}
   itemMaterials: []
   customPrefab: {fileID: 1549962704229280597, guid: 4af3d8938075e88468789c45c259ba60, type: 3}
-  damage: 10
-  attackRate: 0.5
+  damage: 7
+  attackRate: 0.6
+  needsAmmo: 1
+  ammoType: {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
   attackType: 2
-  shootDistance: 50
+  shootDistance: 30
   projectileSpeed: 0
-  penetrationAmount: 1
+  penetrationAmount: 0
   projectileLifetime: 2
+  knockBackForce: 50
   concentrationScatter:
     serializedVersion: 2
     m_Curve:

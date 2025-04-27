@@ -9,6 +9,7 @@ public class RangedWeaponItem : WeaponWorldItem
     public float projectileSpeed;
     public int penetrationAmount;
     public float projectileLifetime;
+    public float knockBackForce;
     public GameObject projectilePrefab;
     public LayerMask hitLayers;
     public Transform shootPoint;
@@ -28,6 +29,7 @@ public class RangedWeaponItem : WeaponWorldItem
             projectileSpeed = weaponData.projectileSpeed;
             projectileLifetime = weaponData.projectileLifetime;
             penetrationAmount = weaponData.penetrationAmount;
+            knockBackForce = weaponData.knockBackForce;
             shootStyle = weaponData.shootStyle;
             concentrationScatter = weaponData.concentrationScatter;
         }
@@ -123,12 +125,15 @@ public class RangedWeaponItem : WeaponWorldItem
             RaycastHit hit;
             if (Physics.Raycast(shootRay, out hit, shootDistance, hitLayers))
             {
-                Instantiate(hitEffect, hit.point, Quaternion.FromToRotation(Vector3.zero, hit.normal));
-                GameObject lineObj = Instantiate(hitScanLine, shootPoint.position, Quaternion.FromToRotation(Vector3.zero, hit.point - shootPoint.position));
-                //lineObj.GetComponent<LineRenderer>().SetPosition(1, hit.point);
+                IDamageable damageable;
+                if (hit.collider.gameObject.TryGetComponent<IDamageable>(out damageable))
+                {
+                    damageable.TakeDamage(damage, knockBackForce);
+                }
                 
-                Debug.Log($"Hit {hit.collider.name}");
-                Debug.DrawLine(shootPoint.position, hit.point, Color.green, 2);
+                GameObject lineObj = Instantiate(hitScanLine, shootPoint.position, Quaternion.identity);
+                lineObj.GetComponent<HitscanLine>().Init(shootPoint.position, hit.point);
+                Helper.SpawnHitEffect(hit.point, hit.normal, hit.collider.gameObject.layer);
             }
             
             PlayShootEffect();

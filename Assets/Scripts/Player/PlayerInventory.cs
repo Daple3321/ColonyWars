@@ -336,7 +336,52 @@ public class PlayerInventory : MonoBehaviour
 
         return selectedItem;
     }
-
+    
+    /// <summary>
+    /// Global search in all player's inventories
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns>Inventory the item was found in and Item index</returns>
+    public (Inventory foundInventory, int index) HasItem(Item item)
+    {
+        int inventoryIndex = inventory.HasItem(item);
+        int hotbarIndex = hotbar.HasItem(item);
+        
+        if (inventoryIndex != -1){
+            return (inventory, inventoryIndex);
+        }
+        if(hotbarIndex != -1){
+            return (hotbar, inventoryIndex);;
+        }
+        
+        return (null, -1);
+    }
+    /// <summary>
+    /// Global search in all player's inventories
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns>Inventory the item was found in and Item index</returns>
+    public (Inventory foundInventory, int index) HasItem(ItemData item)
+    {
+        int inventoryIndex = inventory.HasItem(item);
+        int hotbarIndex = hotbar.HasItem(item);
+        
+        if (inventoryIndex != -1){
+            return (inventory, inventoryIndex);
+        }
+        if(hotbarIndex != -1){
+            return (hotbar, hotbarIndex);
+        }
+        
+        return (null, -1);
+    }
+    public int ItemAmount(ItemData itemData)
+    {
+        int amount = 0;
+        amount += inventory.ItemAmount(itemData) + hotbar.ItemAmount(itemData);
+        return amount;
+    }
+    
     private void UpdateSelectedItem(Dictionary<int, InventoryItem> inventoryState) // hotbar only for now
     {
         if (!hotbar.HasItemAt(selectedSlotId)) // если предмет пропал из выбранного слота

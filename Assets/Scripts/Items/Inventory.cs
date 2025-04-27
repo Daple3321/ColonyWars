@@ -204,6 +204,23 @@ public class Inventory
         return foundIndex;
     }
     
+    public int HasItem(ItemData itemData)
+    {
+        int foundIndex = inventoryItems.FindIndex(x => !x.IsEmpty && x.item.itemData == itemData);
+        return foundIndex;
+    }
+    
+    public int ItemAmount(ItemData itemData)
+    {
+        List<InventoryItem> foundItems = inventoryItems.FindAll(x => !x.IsEmpty && x.item.itemData == itemData);
+        int count = 0;
+        foreach (InventoryItem item in foundItems)
+        {
+            count += item.quantity;
+        }
+        return count;
+    }
+    
     public int HasStackableItem(Item item)
     {
         int foundIndex = inventoryItems.FindIndex(x => !x.IsEmpty && x.item.itemData == item.itemData && x.CanStack);
@@ -225,6 +242,11 @@ public class Inventory
 
     public void DeleteItem(int index)
     {
+        if(inventoryItems[index].IsEmpty){
+            Debug.LogWarning($"No item found at index {index}");
+            return;
+        }
+        
         if (!inventoryItems[index].IsEmpty && inventoryItems[index].IsStackable)
         {
             inventoryItems[index] = inventoryItems[index].SubtractQuantity();
@@ -233,12 +255,10 @@ public class Inventory
         {
             inventoryItems[index] = InventoryItem.GetEmptyItem();
         }
-        else if (inventoryItems[index].IsEmpty)
-        {
-            Debug.LogWarning($"No item found at index {index}");
-        }
+        
+        InformAboutChange();
     }
-    public void DestroyItem(InventoryItem item)
+    public void DeleteItem(InventoryItem item)
     {
         int itemIndex = inventoryItems.IndexOf(item);
         if (itemIndex == -1)
