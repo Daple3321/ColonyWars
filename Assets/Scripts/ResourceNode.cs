@@ -10,6 +10,9 @@ public class ResourceNode : MonoBehaviour, IClickable
     
     public float gatherRadius;
     
+    public int clicksToGather = 1;
+    public int clicksLeft = 1;
+    
     private Collider col;
     private Material mat;
 
@@ -17,25 +20,33 @@ public class ResourceNode : MonoBehaviour, IClickable
     {
         mat = GetComponent<MeshRenderer>().material;
         col = GetComponent<Collider>();
+        
+        clicksLeft = clicksToGather;
     }
-
-    public virtual void Gather()
+    
+    
+    public virtual void HandleClick()
     {
         if(!isInfinite)
         {
-            if(quantity > 0){
-                Shake();
-                
+            if(quantity > 0 && clicksLeft <= 0){
+                Gather();
                 quantity--;
             }
-            else{
+            else if(quantity <= 0){
                 Destroy(gameObject);
             }
             
         }
-        else{
-            Shake();
+        else if(isInfinite && clicksLeft <= 0){
+            Gather();
         }
+        Shake();
+    }
+    public virtual void Gather()
+    {
+        GameController.p.playerInventory.inventory.AddItem(new Item(resource), 1);
+        clicksLeft = clicksToGather;
     }
     
     Sequence colorSeq;
@@ -51,11 +62,10 @@ public class ResourceNode : MonoBehaviour, IClickable
     public void OnClick(GameObject caller)
     {
         if(Vector3.Distance(transform.position, caller.transform.position) <= gatherRadius){
-            //Debug.Log($"Clicked on {resource.name} node");
             
-            GameController.p.playerInventory.inventory.AddItem(new Item(resource), 8); // <-- player mine yield stat here!
-            Gather();
-            
+            clicksLeft--;
+            HandleClick();
+            //Gather();
         }
     }
 }

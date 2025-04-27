@@ -51,6 +51,8 @@ MonoBehaviour:
   isInfinite: 1
   quantity: 25
   gatherRadius: 2.5
+  clicksToGather: 3
+  clicksLeft: 3
 --- !u!135 &1607908798483870603
 SphereCollider:
   m_ObjectHideFlags: 0

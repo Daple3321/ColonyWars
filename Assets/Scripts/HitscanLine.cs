@@ -8,6 +8,6 @@ public class HitscanLine : MonoBehaviour
     {
         lineRenderer.SetPosition(1, new Vector3(0,0, Vector3.Distance(origin, destination)));
         transform.rotation = Quaternion.LookRotation(destination - origin, Vector3.up);
-        Destroy(gameObject, 1.5f);
+        Destroy(gameObject, 0.45f);
     }
 }
