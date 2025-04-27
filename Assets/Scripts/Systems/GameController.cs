@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
 
     public static Player p;
     public static WorldGenerator worldGenerator;
+    public static ObjectGenerator objectGenerator;
     public static TimeManager timeManager;
 
     //public InventoryUI inventoryUI;
@@ -43,6 +44,7 @@ public class GameController : MonoBehaviour
     {
         p = null;
         worldGenerator = null;
+        objectGenerator = null;
         timeManager = null;
     }
 
@@ -60,6 +62,9 @@ public class GameController : MonoBehaviour
         worldGenerator = GameObject.Find("WorldGen").GetComponent<WorldGenerator>();
         worldGenerator.Init(gameSettings.worldGenSettings);
         currentTerrain = worldGenerator.terrain;
+        
+        objectGenerator = GameObject.Find("WorldGen").GetComponent<ObjectGenerator>();
+        objectGenerator.Init(gameSettings.objectGenSettings);
         
         timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
         timeManager.Init();

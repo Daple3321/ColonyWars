@@ -11,7 +11,7 @@ using UnityEngine.Profiling;
 public class WorldGenerator : MonoBehaviour
 {
     public Terrain terrain;
-
+    
     public WorldGenSettings worldGenSettings;
 
     // public float freq_1 = 3;
@@ -532,7 +532,7 @@ public class WorldGenerator : MonoBehaviour
         t.terrainData.SetAlphamaps(0, 0, map);
     }
 
-    private void GenerateTrees()
+    public void GenerateTrees()
     {
         float terrainHeight = terrain.terrainData.size.x;
         float terrainWidth = terrain.terrainData.size.z;

@@ -4,6 +4,7 @@ using UnityEngine;
 public class GameSettings
 {
     public WorldGenSettings worldGenSettings;
+    public ObjectGenSettings objectGenSettings;
     public WorldType worldType;
     
     public GameDifficulty gameDifficulty;

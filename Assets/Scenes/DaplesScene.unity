@@ -3323,6 +3323,7 @@ GameObject:
   m_Component:
   - component: {fileID: 420636911}
   - component: {fileID: 420636912}
+  - component: {fileID: 420636913}
   m_Layer: 0
   m_Name: WorldGen
   m_TagString: Untagged
@@ -3358,6 +3359,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrain: {fileID: 984281502}
+  objectGenerator: {fileID: 0}
   worldGenSettings: {fileID: 11400000, guid: 4638ba10e9471554cabf5f625e1c6c02, type: 2}
   treeGenSkip: 4
   treeSpawnChance: 0.03
@@ -3375,6 +3377,20 @@ MonoBehaviour:
   fallOffStrength: 9
   randomizeSeed: 0
   seed: 14
+--- !u!114 &420636913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420636910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6ce97b2a5450644497cb28cf91d6011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrain: {fileID: 984281502}
+  genSettings: {fileID: 11400000, guid: ec9454641d302b6449d9b8434ddda813, type: 2}
 --- !u!1 &429245636
 GameObject:
   m_ObjectHideFlags: 0
@@ -7554,6 +7570,7 @@ MonoBehaviour:
   pSpawnPoint: {fileID: 1091325589}
   defaultGameSettings:
     worldGenSettings: {fileID: 11400000, guid: 4638ba10e9471554cabf5f625e1c6c02, type: 2}
+    objectGenSettings: {fileID: 11400000, guid: ec9454641d302b6449d9b8434ddda813, type: 2}
     worldType: 0
     gameDifficulty: 2
 --- !u!1 &1076013094
@@ -26648,6 +26665,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1063750242}
+  - {fileID: 420636911}
   - {fileID: 151968771}
   - {fileID: 1848512790}
   - {fileID: 773294776}
@@ -26656,7 +26674,6 @@ SceneRoots:
   - {fileID: 1834750538}
   - {fileID: 1948009802}
   - {fileID: 984281503}
-  - {fileID: 420636911}
   - {fileID: 1174698141}
   - {fileID: 1652374937}
   - {fileID: 717383868}
