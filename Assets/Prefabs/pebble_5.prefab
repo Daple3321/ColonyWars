@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 2938601685596494390}
   - component: {fileID: 7164696029986452918}
   m_Layer: 0
-  m_Name: Cube.006
+  m_Name: pebble_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 20
   m_IsActive: 1
 --- !u!4 &2433244588832623094
 Transform:

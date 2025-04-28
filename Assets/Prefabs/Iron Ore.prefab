@@ -18,7 +18,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 22
   m_IsActive: 1
 --- !u!4 &6088028581210978075
 Transform:
@@ -51,6 +51,8 @@ MonoBehaviour:
   isInfinite: 1
   quantity: 25
   gatherRadius: 2.5
+  clicksToGather: 5
+  clicksLeft: 5
 --- !u!135 &2100706952052904712
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -138,7 +138,15 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.N))
         {
             Debug.Log($"SampleHeight: {terrain.SampleHeight(transform.position)}");
-
+            
+            Ray ray = new Ray(new Vector3(transform.position.x, 50, transform.position.z), Vector3.down);
+            RaycastHit hit;
+            if(Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+            {
+                Debug.Log($"Angle: {Vector3.Angle(Vector3.up, hit.normal)}");
+            }
+            //Debug.Log($"GetSteepness: {terrain.terrainData.GetSteepness(transform.position.x, transform.position.z)}");
+            //Debug.Log($"GetInterplNormal: {terrain.terrainData.GetInterpolatedNormal(transform.position.x, transform.position.z)}");
             // float normX = (float)1 / (float)terrain.terrainData.alphamapWidth;
             // float normY = (float)1 / (float)terrain.terrainData.alphamapHeight;
 

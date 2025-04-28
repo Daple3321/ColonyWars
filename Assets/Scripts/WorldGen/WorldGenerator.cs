@@ -131,7 +131,7 @@ public class WorldGenerator : MonoBehaviour
         //terrain.terrainData.SetHoles(0, 0, holes);
         AlphamapGeneration(terrain);
         //DetailMapCutoff(terrain, 0.2f);
-        GenerateTrees();
+        //GenerateTrees();
 
         RemoveDetail();
         GenerateDetailMap();
@@ -567,13 +567,19 @@ public class WorldGenerator : MonoBehaviour
         }
 
         terrain.terrainData.SetDetailLayer(0, 0, 0, map);
+        terrain.terrainData.SetDetailLayer(0, 0, 1, map);
+        terrain.terrainData.SetDetailLayer(0, 0, 2, map);
+        terrain.terrainData.SetDetailLayer(0, 0, 3, map);
     }
     
     private void GenerateDetailMap()
     {
         float terrainHeight = terrain.terrainData.size.x;
         float terrainWidth = terrain.terrainData.size.z;
-        int[,] detailMap = terrain.terrainData.GetDetailLayer(0, 0, terrain.terrainData.detailWidth, terrain.terrainData.detailHeight, 0);
+        int[,] grassMap = terrain.terrainData.GetDetailLayer(0, 0, terrain.terrainData.detailWidth, terrain.terrainData.detailHeight, 0);
+        int[,] pebbleMap = terrain.terrainData.GetDetailLayer(0, 0, terrain.terrainData.detailWidth, terrain.terrainData.detailHeight, 1);
+        int[,] logMap = terrain.terrainData.GetDetailLayer(0, 0, terrain.terrainData.detailWidth, terrain.terrainData.detailHeight, 2);
+        int[,] stickMap = terrain.terrainData.GetDetailLayer(0, 0, terrain.terrainData.detailWidth, terrain.terrainData.detailHeight, 3);
         for (int y = 0; y < terrainHeight; y++)
         {
             for (int x = 0; x < terrainWidth; x++)
@@ -591,13 +597,28 @@ public class WorldGenerator : MonoBehaviour
 
                 if (height > 2f && height < 7f)
                 {
-                    detailMap[(int)terrainDetailPos.z, (int)terrainDetailPos.x] = 550;
+                    grassMap[(int)terrainDetailPos.z, (int)terrainDetailPos.x] = 550;
                 }
+                
+                if(height >= 0 && height < 1.2f)
+                {
+                    pebbleMap[(int)terrainDetailPos.z, (int)terrainDetailPos.x] = 25;
+                    stickMap[(int)terrainDetailPos.z, (int)terrainDetailPos.x] = 45;
+                    logMap[(int)terrainDetailPos.z, (int)terrainDetailPos.x] = 30;
+                }
+                if(height > 11f)
+                {
+                    pebbleMap[(int)terrainDetailPos.z, (int)terrainDetailPos.x] = 25;
+                }
+                
             }
         }
 
 
-        terrain.terrainData.SetDetailLayer(0, 0, 0, detailMap);
+        terrain.terrainData.SetDetailLayer(0, 0, 0, grassMap);
+        terrain.terrainData.SetDetailLayer(0, 0, 1, pebbleMap);
+        terrain.terrainData.SetDetailLayer(0, 0, 2, logMap);
+        terrain.terrainData.SetDetailLayer(0, 0, 3, stickMap);
         terrain.Flush();
     }
     
