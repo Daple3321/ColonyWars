@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -26,12 +28,10 @@ public class GameController : MonoBehaviour
     
     void Awake()
     {
-        if (i != null)
-        {
+        if (i != null){
             Destroy(this);
         }
-        else
-        {
+        else{
             i = this;
         }
         
@@ -49,13 +49,13 @@ public class GameController : MonoBehaviour
     }
 
     // С параметрами старта (генерация мира, настройки, персонаж)
+    public static event Action OnGameStarted;
     private void StartGame(GameSettings gameSettings = null)
     {
         ResetStaticVars();
         
         GameAssets.Init(); // это должно быть при запуске игры (в главном меню)
-        if (gameSettings == null)
-        {
+        if (gameSettings == null){
             gameSettings = defaultGameSettings;
         }
 
@@ -68,6 +68,8 @@ public class GameController : MonoBehaviour
         
         timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
         timeManager.Init();
+        
+        Pools.Init();
 
         //inventoryUI = GameObject.Find("PlayerInventory").GetComponent<InventoryUI>();
         mainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
@@ -85,14 +87,13 @@ public class GameController : MonoBehaviour
         
         worldCanvas.worldCamera = Camera.main; // after player
         
-        EventBus.i.OnGameStarted?.Invoke();
+        OnGameStarted?.Invoke();
         // World gen
         // Reference assigning
     }
-
-    IEnumerator Start()
+    
+    void Start()
     {
-        yield return new WaitForSeconds(0.15f);
         StartGame();
     }
 
@@ -101,6 +102,14 @@ public class GameController : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Keypad0))
         {
             Helper.RestartCurrentScene();
+        }
+        if(Input.GetKeyDown(KeyCode.Keypad3))
+        {
+            objectGenerator.GenerateObjects().Forget();
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad4))
+        {
+            worldGenerator.GenerateTerrain().Forget();
         }
     }
 

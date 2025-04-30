@@ -75,7 +75,8 @@ public class WorldGenerator : MonoBehaviour
     float[,] heights;
     bool[,] holes;
     public System.Random rnd;
-    void Update()
+    
+    /*void Update()
     {
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -107,7 +108,7 @@ public class WorldGenerator : MonoBehaviour
             //watch.Stop();
             //UnityEngine.Debug.Log($"Terrain generation took: {watch.ElapsedMilliseconds}ms; {(float)watch.ElapsedMilliseconds / 1000} seconds");
         }
-    }
+    }*/
 
     public async UniTask GenerateTerrain()
     {

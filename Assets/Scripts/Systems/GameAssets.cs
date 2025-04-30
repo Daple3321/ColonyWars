@@ -22,6 +22,8 @@ public class GameAssets
 
     //private static EventBus eventBus;
     
+    public static GameObject objectPooler;
+    
     public static Colors colors;
     
     public static bool isInitialized { get; private set; } = false;
@@ -52,6 +54,8 @@ public class GameAssets
             
             groundHitParts = Resources.Load<GameObject>("Effects/hitEffect_1");
             unitHitParts = Resources.Load<GameObject>("Effects/bloodHit_1");
+            
+            objectPooler = Resources.Load<GameObject>("ObjectPooler");
             
             colors = Resources.Load<Colors>("ColorPreset");
             // foreach (ItemData item in itemDatas)

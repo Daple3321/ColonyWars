@@ -52,13 +52,15 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public StateMachine stateMachine;
 
     void Awake(){
-        
-    }
-    void Start(){
-        EventBus.i.OnGameStarted += Init;
+        GameController.OnGameStarted += Init;
         enabled = false;
     }
-    void OnDestroy(){ EventBus.i.OnGameStarted -= Init; }
+    void Start(){
+        
+    }
+    void OnDestroy(){ 
+        GameController.OnGameStarted -= Init;
+    }
 
     public virtual void Init()
     {

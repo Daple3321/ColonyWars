@@ -108,7 +108,7 @@ public static class Helper
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
-    public static void SpawnHitEffect(Transform pos, HitType hitType) // OBJECT POOL!!
+    /*public static void SpawnHitEffect(Transform pos, HitType hitType) // OBJECT POOL!!
     {
         GameObject hit = null;
         switch (hitType)
@@ -131,8 +131,8 @@ public static class Helper
         }
         
         GameObject.Destroy(hit, 5);
-    }
-    public static void SpawnHitEffect(Transform pos, int objLayer) // OBJECT POOL!!
+    }*/
+    /*public static void SpawnHitEffect(Transform pos, int objLayer) // OBJECT POOL!!
     {
         GameObject hit = null;
         switch (objLayer)
@@ -161,31 +161,38 @@ public static class Helper
         }
         
         GameObject.Destroy(hit, 5);
-    }
+    }*/
     public static void SpawnHitEffect(Vector3 pos, Vector3 hitNormal, int objLayer) // OBJECT POOL!!
     {
         GameObject hit = null;
         switch (objLayer)
         {
             case 11: // enemy unit
-            hit = GameObject.Instantiate(GameAssets.unitHitParts, pos, Quaternion.LookRotation(hitNormal, Vector3.right));
+            //hit = GameObject.Instantiate(GameAssets.unitHitParts, pos, Quaternion.LookRotation(hitNormal, Vector3.right));
+            //hit = Pools.particle.Pool.Get();
+            //hit = GameAssets.unitHitParts;
                 break;
             case 12: // player unit
+            //hit = Pools.particle.Pool.Get();
             hit = GameObject.Instantiate(GameAssets.unitHitParts, pos, Quaternion.LookRotation(hitNormal, Vector3.right));
                 break;
             
             case 6: // player
+            //hit = Pools.particle.Pool.Get();
             hit = GameObject.Instantiate(GameAssets.unitHitParts, pos, Quaternion.LookRotation(hitNormal, Vector3.right));
                 break;
             
             case 7: // ground
+            //hit = Pools.particle.Pool.Get();
             hit = GameObject.Instantiate(GameAssets.groundHitParts, pos, Quaternion.LookRotation(hitNormal, Vector3.right));
                 break;
             
             case 13: // enemy building
+            //hit = Pools.particle.Pool.Get();
             hit = GameObject.Instantiate(GameAssets.groundHitParts, pos, Quaternion.LookRotation(hitNormal, Vector3.right));
                 break;
             case 14: // player building
+            //hit = Pools.particle.Pool.Get();
             hit = GameObject.Instantiate(GameAssets.groundHitParts, pos, Quaternion.LookRotation(hitNormal, Vector3.right));
                 break;
         }

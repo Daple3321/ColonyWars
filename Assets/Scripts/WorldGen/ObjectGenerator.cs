@@ -22,14 +22,6 @@ public class ObjectGenerator : MonoBehaviour
         enabled = true;
     }
 
-    void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Keypad3))
-        {
-            GenerateObjects().Forget();
-        }
-    }
-
     public async UniTask GenerateObjects()
     {
         Stopwatch watch = Stopwatch.StartNew();
@@ -120,7 +112,7 @@ public class ObjectGenerator : MonoBehaviour
         {
             foreach(SpawnRule rule in obj.spawnRules)
             {
-                if(HandleSpawnRule(rule, hit[0])){
+                if(CheckSpawnRule(rule, hit[0])){
                     continue;
                 }
                 else{
@@ -143,7 +135,7 @@ public class ObjectGenerator : MonoBehaviour
         return false;
     }
     
-    private bool HandleSpawnRule(SpawnRule rule, RaycastHit hit)
+    private bool CheckSpawnRule(SpawnRule rule, RaycastHit hit)
     {
         switch(rule.spawnRuleType)
         {
