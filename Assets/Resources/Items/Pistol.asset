@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Pistol
   description: duh
-  icon: {fileID: -1536799493, guid: 05c986f37d7d2654888b5ebdd0b6f314, type: 3}
+  icon: {fileID: 21300000, guid: 0ad0f1a9e9cca144b983a6a92d10b324, type: 3}
   rarity: 1
   IsStackable: 0
   maxStackSize: 1
@@ -24,11 +24,14 @@ MonoBehaviour:
   customPrefab: {fileID: 1549962704229280597, guid: 4af3d8938075e88468789c45c259ba60, type: 3}
   damage: 2
   attackRate: 0.2
+  needsAmmo: 0
+  ammoType: {fileID: 0}
   attackType: 2
   shootDistance: 30
   projectileSpeed: 50
   penetrationAmount: 0
   projectileLifetime: 0.35
+  knockBackForce: 0
   concentrationScatter:
     serializedVersion: 2
     m_Curve:

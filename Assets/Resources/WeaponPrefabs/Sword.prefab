@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 3526081707962301592}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.882, z: 0}
+  m_LocalPosition: {x: 0, y: -0.017, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -81,17 +81,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemData: {fileID: 11400000, guid: 6b5b4916729fbed4abe7fad9b9d5eb3f, type: 2}
   originItem:
-    itemName: 
-    description: 
-    icon: {fileID: 0}
-    rarity: 0
-    itemData: {fileID: 0}
+    rid: -2
+  quantity: 0
   meshFilter: {fileID: 8488482192516776509}
   meshRenderer: {fileID: 2415919697532575574}
   attachmentPoint: {fileID: 4441035918419973149}
+  damage: 0
+  attackType: 0
   attackDuration: 0
   attackCharge: 0
   attackInterval: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!33 &8488482192516776509
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -99,7 +103,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5369362668547743331}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4686849319519084627, guid: 56a9f43cd34cac74ca4c5053a7e7dc0a, type: 3}
 --- !u!23 &2415919697532575574
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -123,7 +127,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 5d06ee7953fa13943b54e218da7f9922, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -165,6 +169,6 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 2
+  m_Height: 1.15
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.32, z: 0}
