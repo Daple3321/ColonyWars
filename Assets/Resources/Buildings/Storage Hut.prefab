@@ -51,8 +51,8 @@ MonoBehaviour:
   health: 35
   maxHealth: 35
   interactionRange: 8
-  buildTime: 3
   affiliation: 2
+  buildTime: 3
   built: 0
   buildProgress: 0
 --- !u!65 &3962175799654124192

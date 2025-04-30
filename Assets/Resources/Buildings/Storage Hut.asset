@@ -14,5 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingName: Storage Hut
   buildingIcon: {fileID: 3625043607559282579, guid: 156d4a9fd6d3df245afed6da4277aac5, type: 3}
+  craftPrice:
+    requirements:
+    - item: {fileID: 11400000, guid: dfe06b9807283144fb496089e9fc5643, type: 2}
+      quantity: 5
+    - item: {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
+      quantity: 2
   overlapRadius: 2.5
+  maxBuildAngle: 25
   prefab: {fileID: 2534605460234014678, guid: ee32103f9f6f0bd41a740071afa85d2d, type: 3}

@@ -29,12 +29,14 @@ public class PlayerBuilding : MonoBehaviour
         availableBuildings.Add(building);
         availableBuildingsChanged?.Invoke(availableBuildings);
     }
-
-    public void Init()
+    
+    private PlayerInventory playerInventory;
+    public void Init(PlayerInventory playerInventory)
     {
         //availableBuildings = new List<BuildingData>();
         controls = GameAssets.controls;
         mouse = Mouse.current;
+        this.playerInventory = playerInventory;
         
         GameObject go = Instantiate(GameAssets.buildCanvas);
         buildUI = go.transform.Find("BuildPanel").GetComponent<BuildUI>();
@@ -85,7 +87,10 @@ public class PlayerBuilding : MonoBehaviour
             return false;
         }
         
+        playerInventory.ConsumeItemRequirements(building.craftPrice);
+        
         Building newBuilding = Instantiate(building.prefab, PlayerAiming.worldMouseFollower.transform.position, Quaternion.identity).GetComponent<Building>();
+        newBuilding.Init();
         StartCoroutine(newBuilding.Build());
         SwitchBuildingMode();
         

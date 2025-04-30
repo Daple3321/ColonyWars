@@ -18,6 +18,9 @@ public class BuildProjection : MonoBehaviour
         go.layer = 0;
         
         meshes = transform.GetComponentsInChildren<MeshRenderer>();
+        foreach(MeshRenderer mesh in meshes){
+            mesh.material.SetTexture("_BaseMap", null);
+        }
         
         Destroy(go.GetComponent<Building>());
         Destroy(go.GetComponent<Collider>());

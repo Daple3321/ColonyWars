@@ -92,6 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingData: {fileID: 0}
   buildingIcon: {fileID: 4451335629083758375}
+  statusImg: {fileID: 3778361640752766742}
   rectTransform: {fileID: 7239018711395430028}
 --- !u!1 &3968572951387754053
 GameObject:

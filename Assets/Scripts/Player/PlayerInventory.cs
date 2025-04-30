@@ -48,7 +48,8 @@ public class PlayerInventory : MonoBehaviour
         hotbar.OnInventoryUpdated += UpdateHotbarUI;
         hotbar.OnInventoryUpdated += UpdateSelectedItem;
         
-
+        inventory.OnInventoryUpdated += OnInventoryUpdated;
+        
         PrepareUI();
 
         inventory.AddItem(new RangedWeapon(itemDatas[1]), 1);
@@ -382,6 +383,46 @@ public class PlayerInventory : MonoBehaviour
         return amount;
     }
     
+    public bool CheckItemRequirements(ItemRequirements requirements) // сделать на уровне инвентаря
+    {   
+        foreach(ItemRequirement req in requirements.requirements)
+        {
+            (Inventory _, int index) = HasItem(req.item);
+            if(index == -1 || ItemAmount(req.item) < req.quantity)
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    public bool CheckItemRequirements(ItemRequirements requirements, Inventory inventory) // сделать на уровне инвентаря
+    {   
+        foreach(ItemRequirement req in requirements.requirements)
+        {
+            int index = inventory.HasItem(req.item);
+            if(index == -1 || inventory.ItemAmount(req.item) < req.quantity)
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    public void ConsumeItemRequirements(ItemRequirements requirements)
+    {
+        foreach(ItemRequirement req in requirements.requirements)
+        {
+            (Inventory inv, int index) = HasItem(req.item);
+            inv.DeleteItem(index, req.quantity);
+            
+            // if(index != -1 || ItemAmount(req.item) < req.quantity)
+            // {
+            //     return false;
+            // }
+        }
+    }
+    
     private void UpdateSelectedItem(Dictionary<int, InventoryItem> inventoryState) // hotbar only for now
     {
         if (!hotbar.HasItemAt(selectedSlotId)) // если предмет пропал из выбранного слота
@@ -464,8 +505,12 @@ public class PlayerInventory : MonoBehaviour
         
     }
 
-
-
+    public void OnInventoryUpdated(Dictionary<int, InventoryItem> invState)
+    {
+        OnInventoriesUpdated?.Invoke();
+    }
+    public event Action OnInventoriesUpdated;
+    
     public event EventHandler<OnItemSelectedEventArgs> OnItemSelected;
     public class OnItemSelectedEventArgs : EventArgs
     {

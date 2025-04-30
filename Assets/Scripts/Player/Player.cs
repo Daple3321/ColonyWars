@@ -41,7 +41,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         playerMovement.Init(cameraController, playerAiming);
         playerInventory.Init(this);
         playerCombat.Init(this);
-        playerBuilding.Init();
+        playerBuilding.Init(playerInventory);
         squadManager.Init();
         playerUI.Init();
         //stateMachine.Init(new WalkState());

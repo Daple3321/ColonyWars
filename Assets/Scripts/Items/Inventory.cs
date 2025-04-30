@@ -221,6 +221,18 @@ public class Inventory
         return count;
     }
     
+    // public bool CheckItemRequirements(ItemRequirements requirements)
+    // {
+    //     foreach(ItemRequirement req in requirements.requirements)
+    //     {
+    //         (Inventory _, int index) = HasItem(req.item);
+    //         if(index != -1 && ItemAmount(req.item) > req.quantity)
+    //         {
+                
+    //         }
+    //     }
+    // }
+    
     public int HasStackableItem(Item item)
     {
         int foundIndex = inventoryItems.FindIndex(x => !x.IsEmpty && x.item.itemData == item.itemData && x.CanStack);
@@ -258,6 +270,28 @@ public class Inventory
         
         InformAboutChange();
     }
+    public void DeleteItem(int index, int quantity)
+    {
+        if(inventoryItems[index].IsEmpty){
+            Debug.LogWarning($"No item found at index {index}");
+            return;
+        }
+        
+        if (!inventoryItems[index].IsEmpty && inventoryItems[index].IsStackable)
+        {
+            for(int i = 0; i < quantity; i++){
+                inventoryItems[index] = inventoryItems[index].SubtractQuantity();
+            }
+        }
+        else if (!inventoryItems[index].IsEmpty && !inventoryItems[index].IsStackable)
+        {
+            inventoryItems[index] = InventoryItem.GetEmptyItem();
+            Debug.LogWarning("Deleting NON stackable item with quantity arg");
+        }
+        
+        InformAboutChange();
+    }
+    
     public void DeleteItem(InventoryItem item)
     {
         int itemIndex = inventoryItems.IndexOf(item);

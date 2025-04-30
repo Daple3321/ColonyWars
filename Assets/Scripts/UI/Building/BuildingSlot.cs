@@ -11,29 +11,66 @@ public class BuildingSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     public Action<BuildingSlot> OnSlotClicked;
     
     public Image buildingIcon;
+    public Image statusImg;
 
     public RectTransform rectTransform;
     
+    private PlayerInventory playerInventory;
+    private UIState state;
     public void Init(BuildingData buildingData)
     {
         this.buildingData = buildingData;
         buildingIcon.sprite = buildingData.buildingIcon;
+        
+        playerInventory = GameController.p.playerInventory;
+        playerInventory.OnInventoriesUpdated += UpdateState;
+        
+        UpdateState();
+    }
+    
+    public void UpdateState()
+    {
+        if(CheckBuildPrice()){
+            statusImg.color = GameAssets.colors.availableColor;
+            state = UIState.Enabled;
+        }
+        else{
+            statusImg.color = GameAssets.colors.blockedColor;
+            state = UIState.Blocked;
+        }
+    }
+    public bool CheckBuildPrice()
+    {
+        return playerInventory.CheckItemRequirements(buildingData.craftPrice, playerInventory.inventory);
     }
     
     public void OnPointerClick(PointerEventData eventData)
     {
-        OnSlotClicked?.Invoke(this);
+        if(state == UIState.Enabled)
+        {
+            OnSlotClicked?.Invoke(this);
+        }
     }
     
     Tween scaleTween;
     public void OnPointerEnter(PointerEventData eventData)
     {
-        scaleTween.Stop();
-        scaleTween = Tween.Scale(rectTransform, 1.15f, 0.15f, Ease.OutCubic);
+        if(state != UIState.Blocked){
+            scaleTween.Stop();
+            scaleTween = Tween.Scale(rectTransform, 1.15f, 0.15f, Ease.OutCubic);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        scaleTween = Tween.Scale(rectTransform, 1, 0.15f, Ease.InCubic);
+        if(state != UIState.Blocked){
+            scaleTween = Tween.Scale(rectTransform, 1, 0.15f, Ease.InCubic);
+        }
     }
+}
+
+public enum UIState : byte
+{
+    Enabled,
+    Blocked,
 }
