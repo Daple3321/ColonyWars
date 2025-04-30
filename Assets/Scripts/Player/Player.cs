@@ -12,6 +12,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     public PlayerFollow playerFollow;
     public PlayerAiming playerAiming;
     public PlayerInventory playerInventory;
+    public PlayerBuilding playerBuilding;
     public PlayerUI playerUI;
     public SquadManager squadManager;
     public StateMachine stateMachine;
@@ -40,6 +41,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         playerMovement.Init(cameraController, playerAiming);
         playerInventory.Init(this);
         playerCombat.Init(this);
+        playerBuilding.Init();
         squadManager.Init();
         playerUI.Init();
         //stateMachine.Init(new WalkState());

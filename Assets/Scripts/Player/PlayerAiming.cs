@@ -8,16 +8,18 @@ public class PlayerAiming
     //public static event Action OnAimEnd;
     public static event Action<bool> OnAim;
 
-    private static bool isAiming = false;
+    //private static bool isAiming = false;
+    public static GameObject worldMouseFollower;
 
     public PlayerAiming()
     {
-        isAiming = false;
+        //isAiming = false;
         //OnAimStart = null;
         //OnAimEnd = null;
         OnAim = null;
         cm = Camera.main;
         controls = GameAssets.controls;
+        worldMouseFollower = new GameObject("WorldMouseFollower");
     }
 
     private Controls controls;
@@ -55,14 +57,14 @@ public class PlayerAiming
 
     private void StartAiming()
     {
-        isAiming = true;
+        //isAiming = true;
         OnAim?.Invoke(true);
         //OnAimStart?.Invoke();
     }
 
     private void EndAiming()
     {
-        isAiming = false;
+        //isAiming = false;
         OnAim?.Invoke(false);
         //OnAimEnd?.Invoke();
     }

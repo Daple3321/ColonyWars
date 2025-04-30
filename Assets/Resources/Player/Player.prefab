@@ -400,6 +400,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8046877350070097361}
   - component: {fileID: 3753277259168110574}
+  - component: {fileID: 8888628033046219892}
   - component: {fileID: 26623650528081227}
   - component: {fileID: 3820118088357368465}
   - component: {fileID: 561148159243195092}
@@ -453,6 +454,7 @@ MonoBehaviour:
   playerMovement: {fileID: 561148159243195092}
   playerFollow: {fileID: 1251615133458478831}
   playerInventory: {fileID: 26623650528081227}
+  playerBuilding: {fileID: 8888628033046219892}
   playerUI: {fileID: 7880495096100524603}
   squadManager: {fileID: 8311137189873081287}
   stateMachine: {fileID: 8290539460608290715}
@@ -469,6 +471,30 @@ MonoBehaviour:
   commandEnergy: 30
   maxCommandEnergy: 30
   commandEnergyRegenSpeed: 0.35
+--- !u!114 &8888628033046219892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2512703263411247531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14ca6fe515f7ba6478c455796af95212, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildMode: 0
+  availableBuildings:
+  - {fileID: 11400000, guid: 75b30877b2793c84fa86c56373c9ba93, type: 2}
+  selectedBuilding: {fileID: 0}
+  maxBuildDistance: 10
+  maxBuildAngle: 25
+  buildRaycastMask:
+    serializedVersion: 2
+    m_Bits: 128
+  buildingOverlapMask:
+    serializedVersion: 2
+    m_Bits: 24576
 --- !u!114 &26623650528081227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -606,11 +632,11 @@ MonoBehaviour:
   cinemachineCamera: {fileID: 0}
   positionComposer: {fileID: 0}
   mainCamera: {fileID: 0}
-  zoomLimits: {x: 2, y: 18}
-  zoomSpeed: 160
+  zoomLimits: {x: 2, y: 20}
+  zoomSpeed: 170
   tiltSensetivity: 1
   tiltAngleLimits: {x: 18, y: 80}
-  panSensetivity: 100
+  panSensetivity: 150
   currentFov: 0
   fov_default: 70
   fov_running: 80

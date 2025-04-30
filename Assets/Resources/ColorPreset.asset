@@ -192,3 +192,5 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
+  availableColor: {r: 0.30980393, g: 0.8980392, b: 0.48235294, a: 0.5686275}
+  blockedColor: {r: 0.7264151, g: 0.12677999, b: 0.13840441, a: 0.77254903}

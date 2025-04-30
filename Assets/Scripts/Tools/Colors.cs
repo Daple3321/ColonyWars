@@ -10,4 +10,7 @@ public class Colors : ScriptableObject
     
     public Gradient playerBulletTrail;
     public Gradient enemyBulletTrail;
+    
+    public Color availableColor;
+    public Color blockedColor;
 }

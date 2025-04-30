@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6d8a1e42e4efff4ca2e80f29ce0d19a, type: 3}
+  m_Name: Storage Hut
+  m_EditorClassIdentifier: 
+  buildingName: Storage Hut
+  buildingIcon: {fileID: 3625043607559282579, guid: 156d4a9fd6d3df245afed6da4277aac5, type: 3}
+  overlapRadius: 2.5
+  prefab: {fileID: 2534605460234014678, guid: ee32103f9f6f0bd41a740071afa85d2d, type: 3}

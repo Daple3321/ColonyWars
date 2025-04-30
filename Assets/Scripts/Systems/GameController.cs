@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour
 {
@@ -117,5 +118,19 @@ public class GameController : MonoBehaviour
     public static Vector3 GetPointOnTerrain(Vector3 point)
     {
         return new Vector3(point.x, currentTerrain.SampleHeight(point), point.z);
+    }
+    public static float GetTerrainAngle(Vector3 point)
+    {
+        float angle = 0;
+        
+        Vector3 rayOrigin = new Vector3(point.x, 50, point.z);
+        Ray ray = new Ray(rayOrigin, Vector3.down);
+        RaycastHit[] hit = new RaycastHit[1];
+        if(Physics.RaycastNonAlloc(ray, hit, Mathf.Infinity, LayerMask.GetMask("Ground")) > 0) // добавить ещё проверку на объекты вокруг? overlapSphere
+        {
+            angle = Vector3.Angle(Vector3.up, hit[0].normal);
+        }
+        
+        return angle;
     }
 }

@@ -15,6 +15,11 @@ public class GameAssets
     public static GameObject worldBar;
     public static GameObject unitSlot_Prefab;
     public static GameObject nearbyUnitSlot_Prefab;
+    
+    // ----- Building -----
+    public static GameObject buildCanvas;
+    public static GameObject buildingSlot;
+    // --------------------
 
     public static GameObject projectilePrefab;
     public static GameObject groundHitParts;
@@ -49,6 +54,9 @@ public class GameAssets
             unitSlot_Prefab = Resources.Load<GameObject>("UI/UnitSlot");
             nearbyUnitSlot_Prefab = Resources.Load<GameObject>("UI/NearbyUnitSlot");
             //UnityEngine.Debug.Log(unitSlot_Prefab + "Loaded");
+            
+            buildCanvas = Resources.Load<GameObject>("UI/BuildCanvas");
+            buildingSlot = Resources.Load<GameObject>("UI/BuildingSlot");
             
             projectilePrefab = Resources.Load<GameObject>("Projectile");
             

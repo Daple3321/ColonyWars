@@ -1009,6 +1009,7 @@ MonoBehaviour:
   isAttacking: 0
   homePos: {x: 0, y: 0, z: 0}
   homeRadius: 5
+  targetStopDistance: 2
   enemyCheckDelay: 0.5
   enemiesMask:
     serializedVersion: 2
@@ -1019,8 +1020,9 @@ MonoBehaviour:
   squad:
     units: []
     maxUnits: 0
-    speed: 0
-    meanDamage: 0
+    stats:
+      speedMultiplier: 0
+      meanDamage: 0
     followTarget: {fileID: 0}
   attackPoint: {fileID: 6049868573793015363}
   attackTarget: {fileID: 0}
@@ -1057,7 +1059,7 @@ CharacterController:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 24576
   m_LayerOverridePriority: 0
   m_ProvidesContacts: 0
   m_Enabled: 1

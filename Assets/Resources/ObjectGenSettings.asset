@@ -25,7 +25,7 @@ MonoBehaviour:
     spawnRules:
     - spawnRuleType: 0
       valueRange: {x: 12, y: 15}
-    spawnAmount: 35
+    spawnAmount: 25
     spawnChance: 0.03
     alignToGround: 1
     prefab: {fileID: 5983225864649344031, guid: 0d3c90b1a7b0a0e4e936d5ac7964dfc2, type: 3}
@@ -35,7 +35,7 @@ MonoBehaviour:
       valueRange: {x: 11, y: 15}
     - spawnRuleType: 1
       valueRange: {x: 15, y: 30}
-    spawnAmount: 45
+    spawnAmount: 35
     spawnChance: 0.03
     alignToGround: 1
     prefab: {fileID: 8024054669736437981, guid: 6139c64865f86b94bb7659212089c394, type: 3}

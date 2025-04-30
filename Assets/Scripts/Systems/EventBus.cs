@@ -32,6 +32,8 @@ public class EventBus
     public Action<float, float> PlayerCommandEnergyChanged;
 
     public Action<float, float> PlayerStaminaChanged;
+    
+    public Action PlayerBuildModeEnter;
     // ----------------------------------------------------------
 
     // ------------------------ WORLD ---------------------------
