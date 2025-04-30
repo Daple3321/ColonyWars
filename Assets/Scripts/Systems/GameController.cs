@@ -69,7 +69,7 @@ public class GameController : MonoBehaviour
         timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
         timeManager.Init();
         
-        Pools.Init();
+        //Pools.Init();
 
         //inventoryUI = GameObject.Find("PlayerInventory").GetComponent<InventoryUI>();
         mainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();

@@ -4,8 +4,9 @@ using UnityEngine.Pool;
 [RequireComponent(typeof(ParticleSystem))]
 public class ReturnToPool : MonoBehaviour
 {
+    public GameObject Prefab { get; set; }
     public ParticleSystem system;
-    public IObjectPool<ParticleSystem> pool;
+    //public IObjectPool<ParticleSystem> pool;
 
     void Start()
     {
@@ -17,6 +18,9 @@ public class ReturnToPool : MonoBehaviour
     void OnParticleSystemStopped()
     {
         // Return to the pool
-        pool.Release(system);
+        //pool.Release(system);
+        PoolManager.Release(gameObject);
     }
+    
+    
 }

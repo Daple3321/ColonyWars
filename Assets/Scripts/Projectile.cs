@@ -60,23 +60,35 @@ public class Projectile : MonoBehaviour
         switch (hitType)
         {
             case HitType.UNIT:
-            hit = Instantiate(GameAssets.unitHitParts, transform.position, Quaternion.LookRotation(-transform.up, Vector3.right));
+            hit = PoolManager.Get(GameAssets.unitHitParts);
+            hit.transform.position = transform.position;
+            hit.transform.rotation = Quaternion.LookRotation(-transform.up, Vector3.right);
+            //hit = Instantiate(GameAssets.unitHitParts, transform.position, Quaternion.LookRotation(-transform.up, Vector3.right));
                 break;
             
             case HitType.PLAYER:
-            hit = Instantiate(GameAssets.unitHitParts, transform.position, Quaternion.LookRotation(-transform.up, Vector3.right));
+            hit = PoolManager.Get(GameAssets.unitHitParts);
+            hit.transform.position = transform.position;
+            hit.transform.rotation = Quaternion.LookRotation(-transform.up, Vector3.right);
+            //hit = Instantiate(GameAssets.unitHitParts, transform.position, Quaternion.LookRotation(-transform.up, Vector3.right));
                 break;
             
             case HitType.GROUND:
-            hit = Instantiate(GameAssets.groundHitParts, transform.position, Quaternion.LookRotation(-transform.up, Vector3.right));
+            hit = PoolManager.Get(GameAssets.groundHitParts);
+            hit.transform.position = transform.position;
+            hit.transform.rotation = Quaternion.LookRotation(-transform.up, Vector3.right);
+            //hit = Instantiate(GameAssets.groundHitParts, transform.position, Quaternion.LookRotation(-transform.up, Vector3.right));
                 break;
             
             case HitType.BUILDING:
-            hit = Instantiate(GameAssets.groundHitParts, transform.position, Quaternion.LookRotation(-transform.up, Vector3.right));
+            hit = PoolManager.Get(GameAssets.groundHitParts);
+            hit.transform.position = transform.position;
+            hit.transform.rotation = Quaternion.LookRotation(-transform.up, Vector3.right);
+            //hit = Instantiate(GameAssets.groundHitParts, transform.position, Quaternion.LookRotation(-transform.up, Vector3.right));
                 break;
         }
         
-        Destroy(hit, 5);
+        //Destroy(hit, 5);
     }
 
     protected virtual void DestroyWithEffects(HitType hitType)

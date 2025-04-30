@@ -34,7 +34,7 @@ public class ParticlePool : MonoBehaviour
     
     public ParticleSystem CreatePooledItem()
     {
-        var go = new GameObject("Pooled Particle System");
+        var go = new GameObject("Pooled Particle");
         var ps = go.AddComponent<ParticleSystem>();
         ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
 
@@ -45,7 +45,7 @@ public class ParticlePool : MonoBehaviour
 
         // This is used to return ParticleSystems to the pool when they have stopped.
         var returnToPool = go.AddComponent<ReturnToPool>();
-        returnToPool.pool = Pool;
+        //returnToPool.pool = Pool;
 
         return ps;
     }
