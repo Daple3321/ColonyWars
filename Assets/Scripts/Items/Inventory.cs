@@ -29,11 +29,12 @@ public class Inventory
 
     }
 
-    public void AddItem(Item itemToAdd, int quantity) // TODO: onItemAdded event for popUps
+    public bool AddItem(Item itemToAdd, int quantity) // TODO: onItemAdded event for popUps
     {
         if (quantity > itemToAdd.itemData.maxStackSize){
             quantity = itemToAdd.itemData.maxStackSize;
             Debug.LogWarning($"Adding more {itemToAdd.itemName}'s than maxStackSize. Limiting quantity");
+            return false;
         }
         
         // если нашли схожий предмет
@@ -47,16 +48,25 @@ public class Inventory
                 InventoryItem sourceItemChanged;
                 InventoryItem finalItem = InventoryItem.Stack(itemToStack, inventoryItems[foundSlotIndex], out sourceItemChanged);
                 SetItemAt(foundSlotIndex, finalItem);
+                
+                onItemAdded?.Invoke(itemToAdd, quantity);
+                InformAboutChange();
+                return true;
             }
         }
         else
         {
             // Если не нашли похожий предмет
-            AddToFirstEmptySlot(itemToAdd, quantity);
+            if(AddToFirstEmptySlot(itemToAdd, quantity)){
+                onItemAdded?.Invoke(itemToAdd, quantity);
+                InformAboutChange();
+                return true;
+            }
         }
         
-        onItemAdded?.Invoke(itemToAdd, quantity);
-        InformAboutChange();
+        //onItemAdded?.Invoke(itemToAdd, quantity);
+        //InformAboutChange();
+        return false;
     }
     
     public bool AddToFirstEmptySlot(Item itemToAdd, int quantity)
@@ -94,6 +104,7 @@ public class Inventory
         {
             WorldItem worldItem;
             worldItem = inventoryItems[index].item.SpawnItem(dropPos, quantity);
+            worldItem.Drop();
 
             Item droppedItem = inventoryItems[index].item;
             inventoryItems[index] = inventoryItems[index].ChangeQuantity(inventoryItems[index].quantity - quantity);
@@ -121,6 +132,9 @@ public class Inventory
             
             WorldItem worldItem;
             worldItem = inventoryItems[index].item.SpawnItem(dropPos, startingQuantity);
+            worldItem.Drop();
+            
+            
             Item droppedItem = inventoryItems[index].item;
             inventoryItems[index] = inventoryItems[index].ChangeQuantity(0);
             //Debug.Log($"[{index}] Dropped {inventoryItems[index].item.itemName}");

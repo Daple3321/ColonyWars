@@ -31,6 +31,7 @@ public class Item
         }
         worldItem = obj.GetComponent<WorldItem>();
         worldItem.Initialize(itemData, this, quantity);
+        //worldItem.Drop();
 
         return worldItem;
     }

@@ -9,14 +9,17 @@ public class WorldItem : MonoBehaviour
     public int quantity;
     public MeshFilter meshFilter;
     public MeshRenderer meshRenderer;
-
+    
     public Transform attachmentPoint;
+    
+    public bool dropped = false;
     
     public virtual void Initialize(ItemData data, Item origin, int quantity = 1)
     {
         itemData = data;
         name = data.itemName;
         originItem = origin;
+        gameObject.layer = 8; // items
         this.quantity = quantity;   
 
         if (data.customPrefab == null)
@@ -24,6 +27,17 @@ public class WorldItem : MonoBehaviour
             meshFilter.mesh = data.itemMesh;
             meshRenderer.sharedMaterials = data.itemMaterials;
         }
+    }
+    
+    public virtual void Drop()
+    {
+        gameObject.AddComponent<LootDrop>().onDropped += OnDropped;
+    }
+    public virtual void OnDropped()
+    {
+        dropped = true;
+        // drop effect?
+        // item halo
     }
 
     public virtual void Attach(Transform attachTo)

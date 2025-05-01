@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6455580303588317608}
   - component: {fileID: 2735916817876254769}
   - component: {fileID: 8075168548466267950}
+  - component: {fileID: 9157484488952366039}
   m_Layer: 0
   m_Name: HandMade_Pistol
   m_TagString: Weapon
@@ -52,11 +53,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemData: {fileID: 11400000, guid: 23313022b98286f42b9ced6461d21457, type: 2}
   originItem:
-    itemName: 
-    description: 
-    icon: {fileID: 0}
-    rarity: 0
-    itemData: {fileID: 0}
+    rid: -2
+  quantity: 0
   meshFilter: {fileID: 0}
   meshRenderer: {fileID: 0}
   attachmentPoint: {fileID: 6561942895709011517}
@@ -89,6 +87,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   projectileSpeed: 35
+  penetrationAmount: 0
+  projectileLifetime: 0
+  knockBackForce: 0
   projectilePrefab: {fileID: 1014752688310764929, guid: d96163116091c5941b0d0e79d4b8396e, type: 3}
   hitLayers:
     serializedVersion: 2
@@ -98,6 +99,11 @@ MonoBehaviour:
   hitScanLine: {fileID: 5920317045688699252, guid: 8228aabc9a1a8d1429c57bda970b8f70, type: 3}
   shootEffect: {fileID: 9054657458351064944}
   hitEffect: {fileID: 1147993130385414984, guid: 8babfc7d2b60ce84689ee96a10fc3144, type: 3}
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!33 &2735916817876254769
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -151,6 +157,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &9157484488952366039
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549962704229280597}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.28157616, y: 0.44942677, z: 0.6324278}
+  m_Center: {x: 0.01233387, y: -0.02478093, z: 0.08532876}
 --- !u!1 &4125814572208240286
 GameObject:
   m_ObjectHideFlags: 0

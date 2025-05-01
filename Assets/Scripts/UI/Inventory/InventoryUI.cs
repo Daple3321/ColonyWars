@@ -159,9 +159,18 @@ public class InventoryUI : MonoBehaviour
     }
 
 
-    private void HandleItemSelection(InventorySlot slot)
+    public void HandleItemSelection(InventorySlot slot)
     {
         int index = inventorySlots.IndexOf(slot);
+        if (index == -1)
+            return;
+        DeselectAllItems();
+        inventorySlots[index].Select();
+        // descriptionRequested
+    }
+    public void HandleItemSelection(int index)
+    {
+        //int index = inventorySlots.IndexOf(slot);
         if (index == -1)
             return;
         DeselectAllItems();

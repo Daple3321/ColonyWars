@@ -95,36 +95,52 @@ public class PlayerCameraController : MonoBehaviour
     float yRotate = 0;
     public void HandleCameraRotation() // это просто ужас.
     {
-        Vector2 panDir = controls.Player.CameraPan.ReadValue<Vector2>();
-        if (panDir.x > 0)
-        {
-            //cinemachineCamera.transform.RotateAround(playerFollow.transform.position, Vector3.up, Time.deltaTime * panSensetivity);
-            yRotate += Time.deltaTime * panSensetivity;
-            cinemachineCamera.transform.eulerAngles = new Vector3(xRotate, yRotate, 0.0f);
-        }
-        else if (panDir.x < 0)
-        {
-            yRotate -= Time.deltaTime * panSensetivity;
-            cinemachineCamera.transform.eulerAngles = new Vector3(xRotate, yRotate, 0.0f);
-            //cinemachineCamera.transform.RotateAround(playerFollow.transform.position, Vector3.up, Time.deltaTime * -panSensetivity);
-        }
+        // Vector2 panDir = controls.Player.CameraPan.ReadValue<Vector2>();
+        // if (panDir.x > 0)
+        // {
+        //     //cinemachineCamera.transform.RotateAround(playerFollow.transform.position, Vector3.up, Time.deltaTime * panSensetivity);
+        //     yRotate += Time.deltaTime * panSensetivity;
+        //     cinemachineCamera.transform.eulerAngles = new Vector3(xRotate, yRotate, 0.0f);
+        // }
+        // else if (panDir.x < 0)
+        // {
+        //     yRotate -= Time.deltaTime * panSensetivity;
+        //     cinemachineCamera.transform.eulerAngles = new Vector3(xRotate, yRotate, 0.0f);
+        //     //cinemachineCamera.transform.RotateAround(playerFollow.transform.position, Vector3.up, Time.deltaTime * -panSensetivity);
+        // }
 
 
         Vector2 mousePos = Input.mousePosition;
-        float delta;
+        float deltaY;
+        Vector2 mouseDelta;
         if (controls.Player.CameraTilt_Mouse.WasPressedThisFrame())
         {
             lastMousePos = mousePos;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        if(controls.Player.CameraTilt_Mouse.WasReleasedThisFrame()){
+            Cursor.lockState = CursorLockMode.None;
         }
         //Vector3 dirToCamera = transform.position - cinemachineCamera.transform.position;
         //float cameraAngle = Vector3.Angle(transform.up, dirToCamera);
         //Debug.Log($"Camera angle: {cameraAngle}");
         if (controls.Player.CameraTilt_Mouse.IsPressed())
         {
-            delta = mousePos.y - lastMousePos.y;
-            xRotate += delta * Time.deltaTime * tiltSensetivity;
+            mouseDelta = Input.mousePositionDelta;
+            deltaY = mousePos.y - lastMousePos.y;
+            xRotate += mouseDelta.y * Time.deltaTime * tiltSensetivity;
             xRotate = Mathf.Clamp(xRotate, tiltAngleLimits.x, tiltAngleLimits.y);
             cinemachineCamera.transform.eulerAngles = new Vector3(xRotate, yRotate, 0.0f);
+            
+            float deltaX = mousePos.x - lastMousePos.x;
+            if(deltaX > 0){
+                yRotate += mouseDelta.x * Time.deltaTime * panSensetivity;
+                cinemachineCamera.transform.eulerAngles = new Vector3(xRotate, yRotate, 0.0f);
+            }
+            else if(deltaX < 0){
+                yRotate += mouseDelta.x * Time.deltaTime * panSensetivity;
+                cinemachineCamera.transform.eulerAngles = new Vector3(xRotate, yRotate, 0.0f);
+            }
             //cinemachineCamera.transform.RotateAround(playerFollow.transform.position, Vector3.right, -delta * Time.deltaTime * tiltSensetivity);
             //lastMousePos = Input.mousePosition;
         }

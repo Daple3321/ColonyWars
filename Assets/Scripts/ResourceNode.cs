@@ -45,7 +45,7 @@ public class ResourceNode : MonoBehaviour, IClickable
     }
     public virtual void Gather()
     {
-        GameController.p.playerInventory.inventory.AddItem(new Item(resource), 1);
+        GameController.p.playerInventory.TryAddItem(new Item(resource), 1);
         clicksLeft = clicksToGather;
     }
     

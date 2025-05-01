@@ -420,6 +420,18 @@ public class PlayerInventory : MonoBehaviour
         }
     }
     
+    public bool TryAddItem(Item itemToAdd, int quantity)
+    {
+        if(inventory.AddItem(itemToAdd, quantity)){
+            return true;
+        }
+        if(hotbar.AddItem(itemToAdd, quantity)){
+            return true;
+        }
+        
+        return false;
+    }
+    
     private void UpdateSelectedItem(Dictionary<int, InventoryItem> inventoryState) // hotbar only for now
     {
         if (!hotbar.HasItemAt(selectedSlotId)) // если предмет пропал из выбранного слота
@@ -456,26 +468,32 @@ public class PlayerInventory : MonoBehaviour
             //selectedSlotId++;
             selectedSlotId = 0;
             SelectItem(hotbar, selectedSlotId);
+            hotbarUI.HandleItemSelection(selectedSlotId);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             selectedSlotId = 1;
             SelectItem(hotbar, selectedSlotId);
+            hotbarUI.HandleItemSelection(selectedSlotId);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             selectedSlotId = 2;
             SelectItem(hotbar, selectedSlotId);
+            hotbarUI.HandleItemSelection(selectedSlotId);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             selectedSlotId = 3;
             SelectItem(hotbar, selectedSlotId);
+            hotbarUI.HandleItemSelection(selectedSlotId);
         }
+        
+        HandlePickup();
 
         if (controls.Player.Drop.WasPressedThisFrame() && selectedItem != null) // тоже доработать под несколько инвентарей
         {
-            Item droppedItem = hotbar.DropItem(selectedSlotId, transform);
+            Item droppedItem = hotbar.DropItem(selectedSlotId, rightHand);
             if (selectedItem == droppedItem && !hotbar.HasItemAt(selectedSlotId))
             {
                 selectedItem = null;
@@ -500,6 +518,57 @@ public class PlayerInventory : MonoBehaviour
             }
         }
         
+    }
+
+    public WorldItem nearbyItem;
+    public void HandlePickup()
+    {
+        if(nearbyItem == null) return;
+        
+        if(controls.Player.Interact.WasPressedThisFrame())
+        {
+            if(TryAddItem(nearbyItem.originItem, nearbyItem.quantity)){
+                Destroy(nearbyItem.gameObject);
+                
+                CheckForNearbyItems(); // не работает
+            }
+        }
+    }
+    public bool CheckForNearbyItems()
+    {
+        Collider[] hitColliders = new Collider[1];
+        Physics.OverlapSphereNonAlloc(transform.position, 1.5f, hitColliders, LayerMask.GetMask("Items"));
+        if(hitColliders.Length > 0)
+        {
+            nearbyItem = hitColliders[0].GetComponent<WorldItem>();
+            return true;
+        }
+        
+        nearbyItem = null;
+        return false;
+    }
+    
+    public void OnTriggerEnter(Collider col)
+    {
+        WorldItem item = null;
+        col.TryGetComponent(out item);
+        if(item != null && item.dropped)
+        {
+            if(item.itemData.instantPickup)
+            {
+                if(TryAddItem(item.originItem, item.quantity)){
+                    Destroy(col.gameObject);
+                }
+            }
+            else{
+                nearbyItem = item;
+                // ui & button interaction
+            }
+        }
+    }
+    public void OnTriggerExit(Collider col)
+    {
+        nearbyItem = null;
     }
 
     public void OnInventoryUpdated(Dictionary<int, InventoryItem> invState)

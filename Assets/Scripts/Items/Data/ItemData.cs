@@ -13,6 +13,8 @@ public class ItemData : ScriptableObject
     public int id => GetInstanceID();
 
     public int maxStackSize = 1;
+    
+    public bool instantPickup = false;
 
 
     public Mesh itemMesh;

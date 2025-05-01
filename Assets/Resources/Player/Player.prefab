@@ -486,6 +486,7 @@ MonoBehaviour:
   buildMode: 0
   availableBuildings:
   - {fileID: 11400000, guid: 75b30877b2793c84fa86c56373c9ba93, type: 2}
+  - {fileID: 11400000, guid: c4914aa10d3008741a49a281c5816309, type: 2}
   selectedBuilding: {fileID: 0}
   maxBuildDistance: 10
   maxBuildAngle: 25
@@ -634,9 +635,9 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   zoomLimits: {x: 2, y: 20}
   zoomSpeed: 170
-  tiltSensetivity: 1
+  tiltSensetivity: 35
   tiltAngleLimits: {x: 18, y: 80}
-  panSensetivity: 150
+  panSensetivity: 35
   currentFov: 0
   fov_default: 70
   fov_running: 80
@@ -1164,7 +1165,7 @@ MonoBehaviour:
     ScreenPosition: {x: 0, y: 0}
     DeadZone:
       Enabled: 1
-      Size: {x: 0.048, y: 0.048}
+      Size: {x: 0.03, y: 0.03}
     HardLimits:
       Enabled: 0
       Size: {x: 0.8, y: 0.8}

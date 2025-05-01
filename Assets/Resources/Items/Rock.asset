@@ -18,6 +18,7 @@ MonoBehaviour:
   rarity: 0
   IsStackable: 1
   maxStackSize: 15
+  instantPickup: 1
   itemMesh: {fileID: 4711208715938537054, guid: 0c681abcbc8956743a25ed9b3b533675, type: 3}
   itemMaterials:
   - {fileID: -7315951235433553244, guid: 0c681abcbc8956743a25ed9b3b533675, type: 3}

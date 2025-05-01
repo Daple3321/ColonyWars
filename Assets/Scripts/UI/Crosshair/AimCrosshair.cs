@@ -14,11 +14,5 @@ public class AimCrosshair : Crosshair
     public void UpdateCrosshair(float concentraion)
     {
         rectTransform.sizeDelta = new Vector2(concentraion, concentraion);
-        Debug.Log("Updating crosshair");
-    }
-
-    void Update()
-    {
-        //UpdateCrosshair();
     }
 }
