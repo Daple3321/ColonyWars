@@ -20,6 +20,8 @@ public class GameAssets
     public static GameObject buildCanvas;
     public static GameObject buildingSlot;
     // --------------------
+    
+    public static GameObject crosshairCanvas;
 
     public static GameObject projectilePrefab;
     public static GameObject groundHitParts;
@@ -57,6 +59,8 @@ public class GameAssets
             
             buildCanvas = Resources.Load<GameObject>("UI/BuildCanvas");
             buildingSlot = Resources.Load<GameObject>("UI/BuildingSlot");
+            
+            crosshairCanvas = Resources.Load<GameObject>("UI/CrosshairCanvas");
             
             projectilePrefab = Resources.Load<GameObject>("Projectile");
             

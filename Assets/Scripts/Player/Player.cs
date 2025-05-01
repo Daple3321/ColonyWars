@@ -49,6 +49,8 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         playerInventory.SelectItem(playerInventory.hotbar, 0);
 
         MouseTooltip.i.Init();
+        CrosshairManager.i.Init();
+        CrosshairManager.SwitchCrosshair(false);
         
         controls = GameAssets.controls;
         mouse = Mouse.current;

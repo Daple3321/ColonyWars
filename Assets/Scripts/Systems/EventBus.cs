@@ -33,6 +33,8 @@ public class EventBus
 
     public Action<float, float> PlayerStaminaChanged;
     
+    public Action<float> PlayerConcentrationChanged;
+    
     public Action PlayerBuildModeEnter;
     // ----------------------------------------------------------
 

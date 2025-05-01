@@ -411,15 +411,12 @@ public class PlayerInventory : MonoBehaviour
     }
     public void ConsumeItemRequirements(ItemRequirements requirements)
     {
+        // ВПРИНЦИПЕ проблему с несколькими instancами нужного предмета можно пофиксить
+        // записывать текущее удалённое количество и если оно меньше чем надо то искать ещё раз
         foreach(ItemRequirement req in requirements.requirements)
         {
             (Inventory inv, int index) = HasItem(req.item);
             inv.DeleteItem(index, req.quantity);
-            
-            // if(index != -1 || ItemAmount(req.item) < req.quantity)
-            // {
-            //     return false;
-            // }
         }
     }
     

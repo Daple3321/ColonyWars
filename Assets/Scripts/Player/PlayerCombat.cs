@@ -174,6 +174,7 @@ public class PlayerCombat : MonoBehaviour
         {
             float normalizedProgess = progress / concentrationTime;
             concentraion = concentrationCurve.Evaluate(normalizedProgess);
+            EventBus.i.PlayerConcentrationChanged?.Invoke(concentraion);
 
             progress += Time.deltaTime;
             yield return null;
