@@ -22,6 +22,7 @@ public class PlayerInventory : MonoBehaviour
     private Controls controls;
 
     private Player player;
+    [SerializeField] private Transform dropPoint;
     private Transform rightHand;
     private Transform leftHand;
     [SerializeField] private InventoryUI inventoryUI;
@@ -422,10 +423,10 @@ public class PlayerInventory : MonoBehaviour
     
     public bool TryAddItem(Item itemToAdd, int quantity)
     {
-        if(inventory.AddItem(itemToAdd, quantity)){
+        if(hotbar.AddItem(itemToAdd, quantity)){
             return true;
         }
-        if(hotbar.AddItem(itemToAdd, quantity)){
+        if(inventory.AddItem(itemToAdd, quantity)){
             return true;
         }
         
@@ -493,7 +494,7 @@ public class PlayerInventory : MonoBehaviour
 
         if (controls.Player.Drop.WasPressedThisFrame() && selectedItem != null) // тоже доработать под несколько инвентарей
         {
-            Item droppedItem = hotbar.DropItem(selectedSlotId, rightHand);
+            Item droppedItem = hotbar.DropItem(selectedSlotId, dropPoint);
             if (selectedItem == droppedItem && !hotbar.HasItemAt(selectedSlotId))
             {
                 selectedItem = null;

@@ -155,7 +155,7 @@ Transform:
   m_GameObject: {fileID: 1382572311715122356}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5703726, y: 0.000000020592493, z: -0.000000014299479, w: 0.82138616}
-  m_LocalPosition: {x: 0, y: 10.619923, z: -3.4935017}
+  m_LocalPosition: {x: -11.916, y: 8.896921, z: 23.417496}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -193,7 +193,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 50
   field of view: 65
   orthographic: 0
   orthographic size: 9.65
@@ -435,6 +435,7 @@ Transform:
   - {fileID: 1024002299772789609}
   - {fileID: 4384406888478173048}
   - {fileID: 6758575918514343607}
+  - {fileID: 1358582417517567280}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3753277259168110574
@@ -521,8 +522,10 @@ MonoBehaviour:
   selectedItem:
     rid: -2
   selectedWorldItem: {fileID: 0}
+  dropPoint: {fileID: 1358582417517567280}
   inventoryUI: {fileID: 0}
   hotbarUI: {fileID: 0}
+  nearbyItem: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -746,7 +749,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1.09, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!95 &2345883527334119590
 Animator:
   serializedVersion: 7
@@ -1365,7 +1368,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d1f7daa244d7af042b606cce4f1aedee, type: 2}
+  - {fileID: 2100000, guid: c8a7e9370e698af478905a361d0d792c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1550,6 +1553,37 @@ Transform:
   - {fileID: 936581443199095632}
   m_Father: {fileID: 6261431586254404448}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8313118772992294355
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1358582417517567280}
+  m_Layer: 6
+  m_Name: DropPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1358582417517567280
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8313118772992294355}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.9386437, z: 0.3448886, w: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8046877350070097361}
+  m_LocalEulerAnglesHint: {x: -40.35, y: 180, z: 0}
 --- !u!1 &8546561269008332475
 GameObject:
   m_ObjectHideFlags: 0
