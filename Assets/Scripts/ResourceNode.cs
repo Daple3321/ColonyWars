@@ -59,7 +59,7 @@ public class ResourceNode : MonoBehaviour, IClickable
             .Chain(Tween.MaterialColor(mat, Color.white, 0.15f));
     }
 
-    public void OnClick(GameObject caller)
+    public void OnClick(Player caller)
     {
         if(Vector3.Distance(transform.position, caller.transform.position) <= gatherRadius){
             

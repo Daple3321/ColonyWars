@@ -14,6 +14,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     public PlayerInventory playerInventory;
     public PlayerBuilding playerBuilding;
     public PlayerUI playerUI;
+    public BuildingPanelManager buildingPanelManager;
     public SquadManager squadManager;
     public StateMachine stateMachine;
 
@@ -44,6 +45,9 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         playerBuilding.Init(playerInventory);
         squadManager.Init();
         playerUI.Init();
+        
+        buildingPanelManager = GameController.i.buildingPanelManager;
+        buildingPanelManager.Init();
         //stateMachine.Init(new WalkState());
 
         playerInventory.SelectItem(playerInventory.hotbar, 0);
@@ -79,7 +83,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, mouseClickLayers))
             {
                 if(hit.collider.TryGetComponent(out IClickable clickable)){
-                    clickable.OnClick(gameObject);
+                    clickable.OnClick(this);
                 }
             }
         }
@@ -194,5 +198,5 @@ public interface ICommander
 
 public interface IClickable
 {
-    void OnClick(GameObject caller);
+    void OnClick(Player caller);
 }

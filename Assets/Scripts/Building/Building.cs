@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -7,6 +8,9 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
     
     public float health;
     public float maxHealth;
+    
+    public Action<float, float> OnHealthChanged;
+    public Action<Building> OnBuildingDestroyed;
     
     public float interactionRange = 8;
     
@@ -47,18 +51,21 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
     public virtual void TakeDamage(float damage, float knockback = 0)
     {
         health -= damage;
+        OnHealthChanged?.Invoke(health, maxHealth);
         if(health <= 0){
             Death();
         }
     }
     public virtual void Death(){
+        OnBuildingDestroyed?.Invoke(this);
         Destroy(gameObject);
     }
 
-    public void OnClick(GameObject caller)
+    public virtual void OnClick(Player caller)
     {
         if(Vector3.Distance(transform.position, caller.transform.position) <= interactionRange){
-            Debug.Log($"Clicked on {buildingData.buildingName}");
+            //Debug.Log($"Clicked on {buildingData.buildingName}");
+            caller.buildingPanelManager.CreatePanel(this);
         }
     }
     
@@ -67,5 +74,13 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
         foreach(MeshRenderer mesh in meshes){
             mesh.material.SetColor("_BaseColor", color);
         }
+    }
+    
+    public virtual BuildingPanel CreatePanel(RectTransform parentContainer)
+    {
+        GameObject go = Instantiate(GameAssets.buildingPanel, parentContainer);
+        BuildingPanel panel = go.GetComponent<BuildingPanel>();
+        panel.Init(this);
+        return panel;
     }
 }
