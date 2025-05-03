@@ -28,6 +28,27 @@ public class Inventory
         }
 
     }
+    
+    public void LoadFromData(InventoryData data)
+    {
+        foreach(InventoryItem item in data.inventoryItems)
+        {
+            if(item.item.itemData == null){
+                Debug.LogWarning("Inventory item entry with NULL itemData");
+                continue;
+            }
+            if (item.quantity <= 0){
+                Debug.LogWarning($"Item {item.item.itemName} has quantity {item.quantity}. Skipping.");
+                continue;
+            }
+            
+            // Используем фабричный метод из ItemData для создания ПРАВИЛЬНОГО экземпляра Item
+            Item newItemInstance = item.item.itemData.CreateItemInstance();
+
+            // Добавляем созданный экземпляр в инвентарь
+            AddItem(newItemInstance, item.quantity);
+        }
+    }
 
     public bool AddItem(Item itemToAdd, int quantity) // TODO: onItemAdded event for popUps
     {
@@ -284,26 +305,65 @@ public class Inventory
         
         InformAboutChange();
     }
-    public void DeleteItem(int index, int quantity)
+    public bool DeleteItem(int index, int quantity)
     {
         if(inventoryItems[index].IsEmpty){
             Debug.LogWarning($"No item found at index {index}");
-            return;
+            return false;
         }
         
+        int amountDeleted = 0;
         if (!inventoryItems[index].IsEmpty && inventoryItems[index].IsStackable)
         {
             for(int i = 0; i < quantity; i++){
                 inventoryItems[index] = inventoryItems[index].SubtractQuantity();
+                amountDeleted++;
             }
         }
         else if (!inventoryItems[index].IsEmpty && !inventoryItems[index].IsStackable)
         {
+            amountDeleted++;
             inventoryItems[index] = InventoryItem.GetEmptyItem();
             Debug.LogWarning("Deleting NON stackable item with quantity arg");
         }
         
+        //Debug.Log($"Amount deleted: {amountDeleted}");
         InformAboutChange();
+        
+        if(amountDeleted == quantity)
+            return true;
+        else
+            return false;
+    }
+    public int DeleteAmount(int index, int quantity)
+    {
+        if(inventoryItems[index].IsEmpty){
+            Debug.LogWarning($"No item found at index {index}");
+            return -1;
+        }
+        
+        int amountDeleted = 0;
+        string itemName = inventoryItems[index].item.itemName;
+        if (!inventoryItems[index].IsEmpty && inventoryItems[index].IsStackable)
+        {
+            for(int i = 0; i < quantity; i++){
+                if(inventoryItems[index].quantity > 0){
+                    inventoryItems[index] = inventoryItems[index].SubtractQuantity();
+                    amountDeleted++;
+                }
+            }
+        }
+        else if (!inventoryItems[index].IsEmpty && !inventoryItems[index].IsStackable)
+        {
+            amountDeleted++;
+            inventoryItems[index] = InventoryItem.GetEmptyItem();
+            Debug.LogWarning("Deleting NON stackable item with quantity arg");
+        }
+        
+        Debug.Log($"Deleted {amountDeleted} {itemName}");
+        InformAboutChange();
+        
+        return amountDeleted;
     }
     
     public void DeleteItem(InventoryItem item)
@@ -460,6 +520,7 @@ public struct InventoryItem
         }
         else
         {
+            Debug.LogWarning("[Subtract Quant] GetEmptyItem");
             return GetEmptyItem();
         }
     }

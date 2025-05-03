@@ -29,6 +29,12 @@ public class GameAssets
 
     //private static EventBus eventBus;
     
+    public static Material intersectionMaterial;
+    public static Mesh box;
+    public static Mesh cylinder;
+    public static Mesh sphere;
+    public static Mesh capsule;
+    
     public static GameObject objectPooler;
     
     public static Colors colors;
@@ -68,6 +74,8 @@ public class GameAssets
             unitHitParts = Resources.Load<GameObject>("Effects/bloodHit_1");
             
             objectPooler = Resources.Load<GameObject>("ObjectPooler");
+            
+            intersectionMaterial = Resources.Load<Material>("IntersectionMat");
             
             colors = Resources.Load<Colors>("ColorPreset");
             // foreach (ItemData item in itemDatas)

@@ -41,7 +41,7 @@ public class BuildingSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     }
     public bool CheckBuildPrice()
     {
-        return playerInventory.CheckItemRequirements(buildingData.craftPrice, playerInventory.inventory);
+        return playerInventory.CheckItemRequirements(buildingData.craftPrice);
     }
     
     public void OnPointerClick(PointerEventData eventData)

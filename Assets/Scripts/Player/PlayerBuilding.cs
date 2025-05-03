@@ -128,6 +128,7 @@ public class PlayerBuilding : MonoBehaviour
         if(buildMode){
             buildMode = false;
             selectedBuilding = null;
+            Destroy(playerBuildZone.gameObject);
             DestroyBuildingProjection();
         }
         else if(!buildMode){
@@ -140,11 +141,31 @@ public class PlayerBuilding : MonoBehaviour
         } 
     }
     
+    Zone overlapZone;
+    Zone playerBuildZone;
     public void CreateBuildingProjection(BuildingData building)
     {
         GameObject projection = new GameObject("Build Projection");
         projection.transform.position = PlayerAiming.worldMouseFollower.transform.position;
         projection.transform.SetParent(PlayerAiming.worldMouseFollower.transform);
+        
+        overlapZone = ZoneFactory.CreateZone(
+            PlayerAiming.worldMouseFollower.transform.position,
+            GameAssets.colors.buildingOverlap,
+            GameAssets.colors.buildingOverlap,
+            ZoneShape.Cylinder,
+            building.overlapRadius);
+        overlapZone.transform.SetParent(PlayerAiming.worldMouseFollower.transform);
+        overlapZone.transform.localPosition = Vector3.zero;
+        
+        playerBuildZone = ZoneFactory.CreateZone(
+            transform.position,
+            GameAssets.colors.playerBuildZone,
+            GameAssets.colors.playerBuildZone,
+            ZoneShape.Cylinder,
+            maxBuildDistance);
+        playerBuildZone.transform.SetParent(transform);
+        playerBuildZone.transform.localPosition = Vector3.zero;
 
         buildingProjection = projection.AddComponent<BuildProjection>();
         buildingProjection.Init(building, this);
@@ -152,5 +173,6 @@ public class PlayerBuilding : MonoBehaviour
     
     public void DestroyBuildingProjection(){
         Destroy(buildingProjection.gameObject);
+        Destroy(overlapZone.gameObject);
     }
 }

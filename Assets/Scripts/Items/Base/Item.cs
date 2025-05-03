@@ -11,9 +11,9 @@ public class Item
 
     public ItemData itemData;
 
-    public Item(ItemData _itemData)
+    public Item(ItemData data)
     {
-        Init(_itemData);
+        Init(data);
         LoadStats();
     }
 

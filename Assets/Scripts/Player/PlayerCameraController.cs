@@ -128,7 +128,7 @@ public class PlayerCameraController : MonoBehaviour
         {
             mouseDelta = Input.mousePositionDelta;
             deltaY = mousePos.y - lastMousePos.y;
-            xRotate += mouseDelta.y * Time.deltaTime * tiltSensetivity;
+            xRotate += -mouseDelta.y * Time.deltaTime * tiltSensetivity;
             xRotate = Mathf.Clamp(xRotate, tiltAngleLimits.x, tiltAngleLimits.y);
             cinemachineCamera.transform.eulerAngles = new Vector3(xRotate, yRotate, 0.0f);
             

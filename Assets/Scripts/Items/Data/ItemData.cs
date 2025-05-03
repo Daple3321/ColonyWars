@@ -20,4 +20,8 @@ public class ItemData : ScriptableObject
     public Mesh itemMesh;
     public Material[] itemMaterials;
     public GameObject customPrefab;
+    
+    public virtual Item CreateItemInstance(){
+        return new Item(this);
+    }
 }

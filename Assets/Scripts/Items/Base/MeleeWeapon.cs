@@ -8,7 +8,7 @@ public class MeleeWeapon : Weapon
     public float attackCharge;
     public float attackInterval;
 
-    public MeleeWeapon(ItemData _itemData) : base(_itemData)
+    public MeleeWeapon(MeleeWeaponData _itemData) : base(_itemData)
     {
         Init(_itemData);
         //LoadStats();

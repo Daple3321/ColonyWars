@@ -13,4 +13,10 @@ public class Colors : ScriptableObject
     
     public Color availableColor;
     public Color blockedColor;
+    
+    [Space(5), Header("Zones")]
+    [ColorUsage(true, true)]
+    public Color playerBuildZone;
+    [ColorUsage(true, true)]
+    public Color buildingOverlap;
 }

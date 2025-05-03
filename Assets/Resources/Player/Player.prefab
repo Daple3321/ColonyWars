@@ -155,7 +155,7 @@ Transform:
   m_GameObject: {fileID: 1382572311715122356}
   serializedVersion: 2
   m_LocalRotation: {x: 0.5703726, y: 0.000000020592493, z: -0.000000014299479, w: 0.82138616}
-  m_LocalPosition: {x: -11.916, y: 8.896921, z: 23.417496}
+  m_LocalPosition: {x: 0, y: 10.619923, z: -3.4935017}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -193,7 +193,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 50
+  far clip plane: 1000
   field of view: 65
   orthographic: 0
   orthographic size: 9.65
@@ -515,13 +515,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6b5b4916729fbed4abe7fad9b9d5eb3f, type: 2}
   - {fileID: 11400000, guid: 23313022b98286f42b9ced6461d21457, type: 2}
   - {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
-  - {fileID: 11400000, guid: 8beb58358a8d4474cadb3154f9adf1c5, type: 2}
-  - {fileID: 11400000, guid: 4605521a04b6af340b388048df7bd6b2, type: 2}
+  - {fileID: 11400000, guid: dfe06b9807283144fb496089e9fc5643, type: 2}
+  - {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
   itemPrefab: {fileID: 119998569144866766, guid: 1abbd2a2ead452a49a00e619c26ceb05, type: 3}
   selectedSlotId: 0
   selectedItem:
     rid: -2
   selectedWorldItem: {fileID: 0}
+  starterInventory: {fileID: 11400000, guid: 6cbfda2174ee86842880c747cdcdaee9, type: 2}
   dropPoint: {fileID: 1358582417517567280}
   inventoryUI: {fileID: 0}
   hotbarUI: {fileID: 0}

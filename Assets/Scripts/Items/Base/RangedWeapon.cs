@@ -9,7 +9,7 @@ public class RangedWeapon : Weapon
     public float projectileLifetime;
     public ShootStyle shootStyle;
     
-    public RangedWeapon(ItemData _itemData) : base(_itemData)
+    public RangedWeapon(RangedWeaponData _itemData) : base(_itemData)
     {
         Init(_itemData);
     }

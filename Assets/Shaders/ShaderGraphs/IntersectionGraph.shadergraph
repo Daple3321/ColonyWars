@@ -1906,13 +1906,13 @@
     "hlslDeclarationOverride": 0,
     "m_Hidden": false,
     "m_Value": {
-        "r": 0.0,
-        "g": 0.0,
-        "b": 0.0,
-        "a": 0.0
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
     },
     "isMainColor": false,
-    "m_ColorMode": 0
+    "m_ColorMode": 1
 }
 
 {
@@ -1968,7 +1968,7 @@
     "m_AlphaMode": 0,
     "m_RenderFace": 0,
     "m_AlphaClip": false,
-    "m_CastShadows": true,
+    "m_CastShadows": false,
     "m_ReceiveShadows": true,
     "m_DisableTint": false,
     "m_AdditionalMotionVectorMode": 0,
@@ -2305,7 +2305,7 @@
     "m_ObjectId": "7996a2110a9146cc8a49681157af0231",
     "m_Title": "Base color",
     "m_Position": {
-        "x": -2010.9998779296875,
+        "x": -2011.000244140625,
         "y": -1076.0
     }
 }
@@ -3750,7 +3750,7 @@
     "m_ObjectId": "e6a4af15df7243d8b5da101bdd8072e8",
     "m_Title": "Depth",
     "m_Position": {
-        "x": -2385.999755859375,
+        "x": -2386.000244140625,
         "y": -447.00006103515627
     }
 }
@@ -3933,7 +3933,7 @@
     "m_ObjectId": "f1b0d35585fe49ee8eed3e0203ffdfc1",
     "m_Title": "Noise Scroll",
     "m_Position": {
-        "x": -3040.999755859375,
+        "x": -3041.000244140625,
         "y": 0.0
     }
 }

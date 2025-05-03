@@ -20,7 +20,9 @@ public class PlayerInventory : MonoBehaviour
     public WorldItem selectedWorldItem;
 
     private Controls controls;
-
+    
+    public InventoryData starterInventory;
+    
     private Player player;
     [SerializeField] private Transform dropPoint;
     private Transform rightHand;
@@ -50,20 +52,25 @@ public class PlayerInventory : MonoBehaviour
         hotbar.OnInventoryUpdated += UpdateSelectedItem;
         
         inventory.OnInventoryUpdated += OnInventoryUpdated;
+        hotbar.OnInventoryUpdated += OnInventoryUpdated;
         
         PrepareUI();
 
-        inventory.AddItem(new RangedWeapon(itemDatas[1]), 1);
-        inventory.AddItem(new MeleeWeapon(itemDatas[0]), 1);
+        //inventory.AddItem(new RangedWeapon(itemDatas[1]), 1);
         //inventory.AddItem(new Item(itemDatas[2]), 5);
-        //inventory.AddItem(new Item(itemDatas[2]), 8);
-        inventory.AddItem(new RangedWeapon(itemDatas[3]), 1);
-        inventory.AddItem(new RangedWeapon(itemDatas[4]), 1);
+        //inventory.AddItem(new MeleeWeapon(itemDatas[0]), 1);
+        //inventory.AddItem(new Item(itemDatas[2]), 1);
+        //inventory.AddItem(new RangedWeapon(itemDatas[3]), 1);
+        //inventory.AddItem(new RangedWeapon(itemDatas[4]), 1);
+        
+        hotbar.LoadFromData(starterInventory);
+        //hotbar.LoadFromData(starterInventory);
         
         
-        hotbar.AddItem(new RangedWeapon(itemDatas[1]), 1);
-        hotbar.AddItem(new MeleeWeapon(itemDatas[0]), 1);
-        hotbar.AddItem(new Item(itemDatas[2]), 3);
+        //hotbar.AddItem(new RangedWeapon(itemDatas[1]), 1);
+        //hotbar.AddItem(new MeleeWeapon(itemDatas[0]), 1);
+        //hotbar.AddItem(new Item(itemDatas[3]), 5);
+        //hotbar.AddItem(new Item(itemDatas[4]), 3);
         //SelectItem(hotbar, selectedSlotId);
     }
 
@@ -388,7 +395,7 @@ public class PlayerInventory : MonoBehaviour
     {   
         foreach(ItemRequirement req in requirements.requirements)
         {
-            (Inventory _, int index) = HasItem(req.item);
+            (Inventory inv, int index) = HasItem(req.item);
             if(index == -1 || ItemAmount(req.item) < req.quantity)
             {
                 return false;
@@ -416,8 +423,9 @@ public class PlayerInventory : MonoBehaviour
         // записывать текущее удалённое количество и если оно меньше чем надо то искать ещё раз
         foreach(ItemRequirement req in requirements.requirements)
         {
-            (Inventory inv, int index) = HasItem(req.item);
-            inv.DeleteItem(index, req.quantity);
+            DeleteAmount(req.item, req.quantity);
+            //(Inventory inv, int index) = HasItem(req.item);
+            //inv.DeleteItem(index, req.quantity);
         }
     }
     
@@ -431,6 +439,47 @@ public class PlayerInventory : MonoBehaviour
         }
         
         return false;
+    }
+    
+    public bool DeleteAmount(ItemData item, int quantity)
+    {
+        if(ItemAmount(item) < quantity){
+            Debug.LogWarning("Not enough items to delete.");
+            return false;
+        }
+        
+        int maxIterations = 15; // защита
+        //int itemsDeleted = 0;
+        int quantityTarget = ItemAmount(item) - quantity;
+        
+        int itemsToDelete = quantity;
+        // while(itemsDeleted != quantity && maxIterations > 0)
+        // {
+                //int itemsDeleted = 0;
+        
+        //     (Inventory inv, int index) = HasItem(item);
+        //     itemsDeleted += inv.DeleteAmount(index, itemsToDelete);
+        //     itemsToDelete -= itemsDeleted;
+            
+        //     Debug.Log($"[{item.itemName}] left to delete: " + itemsToDelete);
+            
+        //     maxIterations--;
+        // }
+        
+        while(ItemAmount(item) != quantityTarget && maxIterations > 0)
+        {
+            int itemsDeleted = 0;
+            
+            (Inventory inv, int index) = HasItem(item);
+            itemsDeleted += inv.DeleteAmount(index, itemsToDelete);
+            itemsToDelete -= itemsDeleted;
+            
+            Debug.Log($"[{item.itemName}] left to delete: " + itemsToDelete);
+            
+            maxIterations--;
+        }
+        
+        return true;
     }
     
     private void UpdateSelectedItem(Dictionary<int, InventoryItem> inventoryState) // hotbar only for now

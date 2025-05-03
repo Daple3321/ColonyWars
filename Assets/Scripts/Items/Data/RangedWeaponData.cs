@@ -10,5 +10,9 @@ public class RangedWeaponData : WeaponData
     public float knockBackForce;
     public AnimationCurve concentrationScatter;
     public ShootStyle shootStyle;
+    
+    public override Item CreateItemInstance(){
+        return new RangedWeapon(this);
+    }
 }
 
