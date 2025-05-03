@@ -16,9 +16,6 @@ public class Zone : MonoBehaviour
     public float height = 5f;
     
     public Color color;
-    
-    [ColorUsage(true, true)]
-    public Color glowColor;
     public MeshFilter meshFilter;
     public MeshRenderer meshRenderer;
     public Material mat;
@@ -26,7 +23,7 @@ public class Zone : MonoBehaviour
     
     public ZoneShape shape;
     
-    public void Init(Color color, Color glowColor, float radius = 1f, ZoneShape shape = ZoneShape.Cylinder)
+    public void Init(Color color, float radius = 1f, ZoneShape shape = ZoneShape.Cylinder)
     {
         meshFilter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();

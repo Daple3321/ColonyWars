@@ -6,8 +6,8 @@ public class TriggerZone : Zone
     public LayerMask collisionMask;
     public Collider col;
     
-    public Action<GameObject> OnZoneEnter;
-    public Action<GameObject> OnZoneExit;
+    public event Action<GameObject> OnZoneEnter;
+    public event Action<GameObject> OnZoneExit;
 
     protected virtual void OnTriggerEnter(Collider other)
     {

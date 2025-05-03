@@ -4,7 +4,7 @@ public static class ZoneFactory
 {
     
     
-    public static Zone CreateZone(Vector3 pos, Color color, Color glowColor, ZoneShape shape = ZoneShape.Cylinder, float radius = 1f)
+    public static Zone CreateZone(Vector3 pos, Color color, ZoneShape shape = ZoneShape.Cylinder, float radius = 1f)
     {
         GameObject go = null;
         
@@ -31,13 +31,13 @@ public static class ZoneFactory
         
         Zone zone = go.AddComponent<Zone>();
         radius *= 2;
-        zone.Init(color, glowColor, radius, shape);
+        zone.Init(color, radius, shape);
         
         //Debug.Log("ZONE CREATED");
         return zone;
     }
     
-    public static Zone CreateTriggerZone(Vector3 pos, Color color, Color glowColor, ZoneShape shape = ZoneShape.Cylinder, float radius = 1f)
+    public static Zone CreateTriggerZone(Vector3 pos, Color color, ZoneShape shape = ZoneShape.Cylinder, float radius = 1f)
     {
         GameObject go = null;
         
@@ -60,7 +60,7 @@ public static class ZoneFactory
         }
         
         Zone zone = go.AddComponent<Zone>();
-        zone.Init(color, glowColor, radius, shape);
+        zone.Init(color, radius, shape);
         return zone;
     }
 }

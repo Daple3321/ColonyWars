@@ -137,11 +137,10 @@ public class PlayerInventory : MonoBehaviour
     private void HandleVoidDropInternal(Inventory sourceInv, int itemIndex, int quantity)
     {
         if(quantity == -1){
-            sourceInv.DropWholeStack(itemIndex, rightHand);
+            sourceInv.DropWholeStack(itemIndex, dropPoint);
         }
-        else
-        {
-            sourceInv.DropItem(itemIndex, rightHand, quantity);
+        else{
+            sourceInv.DropItem(itemIndex, dropPoint, quantity);
         }
     }
 

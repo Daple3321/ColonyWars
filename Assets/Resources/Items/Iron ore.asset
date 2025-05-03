@@ -22,4 +22,4 @@ MonoBehaviour:
   itemMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   itemMaterials:
   - {fileID: 2100000, guid: 89724052ada5ea540a83d7b1e4d279b2, type: 2}
-  customPrefab: {fileID: 0}
+  customPrefab: {fileID: 862038934410061097, guid: 185dc46c6fbc3584d9325ed0b430caab, type: 3}

@@ -152,18 +152,18 @@ public class PlayerBuilding : MonoBehaviour
         overlapZone = ZoneFactory.CreateZone(
             PlayerAiming.worldMouseFollower.transform.position,
             GameAssets.colors.buildingOverlap,
-            GameAssets.colors.buildingOverlap,
             ZoneShape.Cylinder,
             building.overlapRadius);
+        
         overlapZone.transform.SetParent(PlayerAiming.worldMouseFollower.transform);
         overlapZone.transform.localPosition = Vector3.zero;
         
         playerBuildZone = ZoneFactory.CreateZone(
             transform.position,
             GameAssets.colors.playerBuildZone,
-            GameAssets.colors.playerBuildZone,
             ZoneShape.Cylinder,
             maxBuildDistance);
+            
         playerBuildZone.transform.SetParent(transform);
         playerBuildZone.transform.localPosition = Vector3.zero;
 
