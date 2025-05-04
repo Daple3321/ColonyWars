@@ -22,7 +22,7 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
     public bool built = false;
     public float buildProgress = 0;
     
-    private MeshRenderer[] meshes;
+    protected MeshRenderer[] meshes;
 
     public virtual IEnumerator Build()
     {
@@ -41,11 +41,11 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
         ChangeColor(Color.white);
     }
     
-    public void Init()
+    public virtual void Init(BuildingData data)
     {
         meshes = transform.GetComponentsInChildren<MeshRenderer>();
         
-        
+        this.buildingData = data;
     }
     
     public virtual void TakeDamage(float damage, float knockback = 0)

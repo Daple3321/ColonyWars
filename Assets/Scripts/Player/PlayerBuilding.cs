@@ -82,7 +82,7 @@ public class PlayerBuilding : MonoBehaviour
     
     public bool TryBuild(BuildingData building, Vector3 buildPos)
     {
-        if(!CheckBuildConditions(building, buildPos)){
+        if(!CheckBuildConditions(building, buildPos) || !building.CheckBuildConditions(buildPos)){
             Debug.LogWarning("Build conditions not met.");
             return false;
         }
@@ -90,7 +90,7 @@ public class PlayerBuilding : MonoBehaviour
         playerInventory.ConsumeItemRequirements(building.craftPrice);
         
         Building newBuilding = Instantiate(building.prefab, PlayerAiming.worldMouseFollower.transform.position, Quaternion.identity).GetComponent<Building>();
-        newBuilding.Init();
+        newBuilding.Init(building);
         StartCoroutine(newBuilding.Build());
         SwitchBuildingMode();
         
@@ -141,7 +141,7 @@ public class PlayerBuilding : MonoBehaviour
         } 
     }
     
-    Zone overlapZone;
+    Zone[] projectionZones;
     Zone playerBuildZone;
     public void CreateBuildingProjection(BuildingData building)
     {
@@ -149,14 +149,16 @@ public class PlayerBuilding : MonoBehaviour
         projection.transform.position = PlayerAiming.worldMouseFollower.transform.position;
         projection.transform.SetParent(PlayerAiming.worldMouseFollower.transform);
         
-        overlapZone = ZoneFactory.CreateZone(
-            PlayerAiming.worldMouseFollower.transform.position,
-            GameAssets.colors.buildingOverlap,
-            ZoneShape.Cylinder,
-            building.overlapRadius);
         
-        overlapZone.transform.SetParent(PlayerAiming.worldMouseFollower.transform);
-        overlapZone.transform.localPosition = Vector3.zero;
+        projectionZones = building.CreateProjectionZones();
+        // overlapZone = ZoneFactory.CreateZone(
+        //     PlayerAiming.worldMouseFollower.transform.position,
+        //     GameAssets.colors.buildingOverlap,
+        //     ZoneShape.Cylinder,
+        //     building.overlapRadius);
+        
+        // overlapZone.transform.SetParent(PlayerAiming.worldMouseFollower.transform);
+        // overlapZone.transform.localPosition = Vector3.zero;
         
         playerBuildZone = ZoneFactory.CreateZone(
             transform.position,
@@ -173,6 +175,11 @@ public class PlayerBuilding : MonoBehaviour
     
     public void DestroyBuildingProjection(){
         Destroy(buildingProjection.gameObject);
-        Destroy(overlapZone.gameObject);
+        
+        if(projectionZones != null){
+            foreach(Zone zone in projectionZones){
+                Destroy(zone.gameObject);
+            }
+        }
     }
 }

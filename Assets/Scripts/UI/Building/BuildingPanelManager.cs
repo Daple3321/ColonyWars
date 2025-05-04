@@ -27,11 +27,19 @@ public class BuildingPanelManager : MonoBehaviour
         currentPanel = building.CreatePanel(panelParent);
         panelRectTransform = currentPanel.GetComponent<RectTransform>();
         
-        currentPanel.building.OnBuildingDestroyed += x => {ClearCurrentPanel();};
+        currentPanel.building.OnBuildingDestroyed += x => {
+            ClearCurrentPanel(); 
+            StopCoroutine(delayRoutine); 
+            canHide = false;
+        };
         
-        StartCoroutine(HideDelay());
+        if(delayRoutine != null){
+            StopCoroutine(delayRoutine);
+        }
+        delayRoutine = StartCoroutine(HideDelay());
     }
     
+    Coroutine delayRoutine;
     IEnumerator HideDelay()
     {
         yield return new WaitForSeconds(0.1f);
@@ -42,9 +50,18 @@ public class BuildingPanelManager : MonoBehaviour
     {
         if(currentPanel != null && canHide){
             HideIfClickedOutside();
+            HideIfOutsideRange();
         }
     }
-
+    
+    private void HideIfOutsideRange()
+    {
+        if(Vector3.Distance(GameController.p.transform.position, currentPanel.building.transform.position) > currentPanel.building.interactionRange){
+            ClearCurrentPanel();
+            canHide = false;
+        }
+    }
+    
     private void HideIfClickedOutside() {
          if (Input.GetMouseButton(0) && currentPanel.gameObject.activeSelf &&
             !RectTransformUtility.RectangleContainsScreenPoint(

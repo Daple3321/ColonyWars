@@ -19,4 +19,6 @@ public class Colors : ScriptableObject
     public Color playerBuildZone;
     [ColorUsage(true, true)]
     public Color buildingOverlap;
+    [ColorUsage(true, true)]
+    public Color gatherRadius;
 }

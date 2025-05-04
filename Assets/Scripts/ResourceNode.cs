@@ -1,5 +1,6 @@
 using UnityEngine;
 using PrimeTween;
+using System;
 
 public class ResourceNode : MonoBehaviour, IClickable
 {
@@ -24,26 +25,51 @@ public class ResourceNode : MonoBehaviour, IClickable
         clicksLeft = clicksToGather;
     }
     
-    
+    public Action<ResourceNode> OnResourceDeleted;
     public virtual void HandleClick()
     {
         if(!isInfinite)
         {
             if(quantity > 0 && clicksLeft <= 0){
-                Gather();
+                PlayerGather();
                 quantity--;
             }
             else if(quantity <= 0){
+                OnResourceDeleted?.Invoke(this);
                 Destroy(gameObject);
             }
             
         }
         else if(isInfinite && clicksLeft <= 0){
-            Gather();
+            PlayerGather();
         }
         Shake();
     }
-    public virtual void Gather()
+    
+    public virtual Item GeneratorGather()
+    {
+        if(!isInfinite)
+        {
+            if(quantity > 0){
+                quantity--;
+                Shake();
+                return new Item(resource);
+            }
+            else if(quantity <= 0){
+                OnResourceDeleted?.Invoke(this);
+                Destroy(gameObject);
+            }
+            
+        }
+        else{
+            Shake();
+            return new Item(resource);
+        }
+        
+        return null;
+    }
+    
+    public virtual void PlayerGather()
     {
         GameController.p.playerInventory.TryAddItem(new Item(resource), 1);
         clicksLeft = clicksToGather;

@@ -360,7 +360,7 @@ public class Inventory
             Debug.LogWarning("Deleting NON stackable item with quantity arg");
         }
         
-        Debug.Log($"Deleted {amountDeleted} {itemName}");
+        //Debug.Log($"Deleted {amountDeleted} {itemName}");
         InformAboutChange();
         
         return amountDeleted;

@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resource: {fileID: 11400000, guid: dfe06b9807283144fb496089e9fc5643, type: 2}
-  isInfinite: 1
-  quantity: 25
+  isInfinite: 0
+  quantity: 100
   gatherRadius: 2.5
   clicksToGather: 3
   clicksLeft: 3

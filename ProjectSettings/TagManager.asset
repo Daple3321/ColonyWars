@@ -24,7 +24,7 @@ TagManager:
   - PlayerUnit
   - EnemyBuilding
   - PlayerBuilding
-  - OreNode
+  - Resources
   - 
   - 
   - 

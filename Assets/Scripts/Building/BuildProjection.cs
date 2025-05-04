@@ -28,7 +28,7 @@ public class BuildProjection : MonoBehaviour
     
     public void UpdateProjection(Vector3 playerPos) // build rules (distance, slope, obstacles)
     {
-        if(playerBuilding.CheckBuildConditions(buildingData, transform.position)) // EVERY FRAME!!
+        if(playerBuilding.CheckBuildConditions(buildingData, transform.position) && buildingData.CheckBuildConditions(transform.position)) // EVERY FRAME!!
         {
             foreach(MeshRenderer mesh in meshes){
                 mesh.material.SetColor("_BaseColor", Color.green);

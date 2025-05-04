@@ -192,7 +192,8 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  availableColor: {r: 0.30980393, g: 0.8980392, b: 0.48235294, a: 0.5686275}
-  blockedColor: {r: 0.7264151, g: 0.12677999, b: 0.13840441, a: 0.77254903}
+  availableColor: {r: 0.54382926, g: 0.9433962, b: 0.07564971, a: 0.69411767}
+  blockedColor: {r: 0.5849056, g: 0, b: 0.011468842, a: 0.77254903}
   playerBuildZone: {r: 0, g: 4.8671436, b: 0.027364966, a: 1}
-  buildingOverlap: {r: 4.541206, g: 2.6357532, b: 0, a: 1}
+  buildingOverlap: {r: 4.5412054, g: 1.6045756, b: 0, a: 1}
+  gatherRadius: {r: 0, g: 0.81887877, b: 5.278032, a: 1}
