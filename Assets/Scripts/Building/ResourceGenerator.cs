@@ -24,6 +24,7 @@ public class ResourceGenerator : Generator
         meshes = transform.GetComponentsInChildren<MeshRenderer>();
         resourcesNearby = new List<ResourceNode>();
         _gatherRate = gatherRate;
+        this.buildingData = data;
         
         playerInventory = GameController.p.playerInventory;
         
@@ -51,9 +52,9 @@ public class ResourceGenerator : Generator
         this.inventoryUI.OnTransferItemsRequest += playerInventory.HandleTransferRequest;
         inventoryUI.SetLinkedInventory(inventory);
         
-        UpdateUI(inventory.GetCurrentInventoryState());
+        //UpdateUI(inventory.GetCurrentInventoryState());
     }
-    public void ClearUI()
+    public override void ClearUI()
     {
         this.inventoryUI.OnSwapItems -= HandleSwapItems;
         this.inventoryUI.OnStartDragging -= HandleDragging;
@@ -90,10 +91,13 @@ public class ResourceGenerator : Generator
     }
     public void UpdateUI(Dictionary<int, InventoryItem> inventoryState)
     {
-        inventoryUI.ResetAllItems();
-        foreach (var item in inventoryState)
+        if(inventoryUI != null)
         {
-            inventoryUI.UpdateData(item.Key, item.Value.item.icon, item.Value.quantity, item.Value);
+            inventoryUI.ResetAllItems();
+            foreach (var item in inventoryState)
+            {
+                inventoryUI.UpdateData(item.Key, item.Value.item.icon, item.Value.quantity, item.Value);
+            }
         }
     }
     

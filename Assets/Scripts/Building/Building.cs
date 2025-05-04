@@ -83,6 +83,10 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
     {
         
     }
+    public virtual void ClearUI()
+    {
+        
+    }
     
     public virtual BuildingPanel CreatePanel(RectTransform parentContainer)
     {

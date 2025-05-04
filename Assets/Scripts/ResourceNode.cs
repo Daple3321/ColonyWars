@@ -71,7 +71,13 @@ public class ResourceNode : MonoBehaviour, IClickable
     
     public virtual void PlayerGather()
     {
-        GameController.p.playerInventory.TryAddItem(new Item(resource), 1);
+        Item droppedResource = new Item(resource);
+        
+        WorldItem worldItem;
+        worldItem = droppedResource.SpawnItem(transform.position+new Vector3(0, 2, 0),  1);
+        worldItem.Drop(transform.up, 360, 1.5f);
+        
+        //GameController.p.playerInventory.TryAddItem(new Item(resource), 1);
         clicksLeft = clicksToGather;
     }
     

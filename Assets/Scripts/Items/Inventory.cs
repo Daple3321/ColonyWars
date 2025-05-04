@@ -400,7 +400,7 @@ public class Inventory
         
         foreach(InventoryItem item in inventoryItems)
         {
-            if(!item.IsEmpty){
+            if(!item.IsEmpty && item.item.itemData != null){
                 spaceLeft += item.MaxStackSize - item.quantity;
             }
         }

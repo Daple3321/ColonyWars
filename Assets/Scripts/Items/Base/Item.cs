@@ -35,6 +35,24 @@ public class Item
 
         return worldItem;
     }
+    public virtual WorldItem SpawnItem(Vector3 spawnPos, int quantity)
+    {
+        WorldItem worldItem;
+        GameObject obj;
+        if (itemData.customPrefab != null) // если есть кастомный префаб
+        {
+            obj = GameObject.Instantiate(itemData.customPrefab, spawnPos, Quaternion.identity);
+        }
+        else
+        {
+            obj = GameObject.Instantiate(GameAssets.itemPrefab, spawnPos, Quaternion.identity);
+        }
+        worldItem = obj.GetComponent<WorldItem>();
+        worldItem.Initialize(itemData, this, quantity);
+        //worldItem.Drop();
+
+        return worldItem;
+    }
 
     public virtual void LoadStats() { }
 

@@ -8,6 +8,7 @@ public class Mine : ResourceGenerator
             if(Vector3.Distance(transform.position, caller.transform.position) <= interactionRange){
                 //Debug.Log($"Clicked on {buildingData.buildingName}");
                 caller.buildingPanelManager.CreatePanel(this);
+                UpdateUI(inventory.GetCurrentInventoryState());
             }
         }
     }

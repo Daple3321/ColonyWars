@@ -17,6 +17,29 @@ public class LootDrop : MonoBehaviour
 
     public void Awake()
     {
+        // startPos = transform.position;
+        // velocity *= Random.Range(6, 7);
+        // velocity = Quaternion.LookRotation(transform.forward, Vector3.up) * velocity;
+        // //velocity += new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(3, 4f));
+        // velocity += Helper.GetRandPointOnUnitSphereCap(velocity, 25);
+        // //velocity *= 2;
+        
+        // rb = GetComponent<Rigidbody>();
+        // col = GetComponent<Collider>();
+        // if(rb == null){
+        //     rb = gameObject.AddComponent<Rigidbody>();
+        // }
+        // //rb.AddForce(velocity);
+        
+        // col.isTrigger = true;
+        // rb.useGravity = false;
+        // rb.isKinematic = false;
+        
+        enabled = false;
+    }
+    
+    public void StartDrop()
+    {
         startPos = transform.position;
         velocity *= Random.Range(6, 7);
         velocity = Quaternion.LookRotation(transform.forward, Vector3.up) * velocity;
@@ -34,7 +57,33 @@ public class LootDrop : MonoBehaviour
         col.isTrigger = true;
         rb.useGravity = false;
         rb.isKinematic = false;
+        
+        enabled = true;
     }
+    public void StartDrop(Vector3 direction, float angleDisp = 25f, float velocityMultiplier = 1f)
+    {
+        startPos = transform.position;
+        velocity = direction;
+        velocity *= Random.Range(6, 7);
+        velocity = Quaternion.LookRotation(transform.forward, Vector3.up) * velocity;
+        //velocity += new Vector3(Random.Range(-0.5f, 0.5f), 0, Random.Range(3, 4f));
+        velocity += Helper.GetRandPointOnUnitSphereCap(velocity, angleDisp);
+        velocity *= velocityMultiplier;
+        
+        rb = GetComponent<Rigidbody>();
+        col = GetComponent<Collider>();
+        if(rb == null){
+            rb = gameObject.AddComponent<Rigidbody>();
+        }
+        //rb.AddForce(velocity);
+        
+        col.isTrigger = true;
+        rb.useGravity = false;
+        rb.isKinematic = false;
+        
+        enabled = true;
+    }
+
 
     void FixedUpdate()
     {

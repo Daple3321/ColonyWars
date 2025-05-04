@@ -87,7 +87,8 @@ public class BuildingPanelManager : MonoBehaviour
         {
             if(!EventSystem.current.IsPointerOverGameObject())
             {
-                HidePanel();
+                //HidePanel();
+                ClearCurrentPanel();
                 canHide = false;
             }
         }
@@ -102,6 +103,8 @@ public class BuildingPanelManager : MonoBehaviour
     public void ClearCurrentPanel()
     {
         if(currentPanel != null){
+            currentPanel.building.ClearUI();
+            
             currentPanel.Hide(()=>{
                 Destroy(currentPanel.gameObject);
             });

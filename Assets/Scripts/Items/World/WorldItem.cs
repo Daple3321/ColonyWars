@@ -31,7 +31,15 @@ public class WorldItem : MonoBehaviour
     
     public virtual void Drop()
     {
-        gameObject.AddComponent<LootDrop>().onDropped += OnDropped;
+        LootDrop drop = gameObject.AddComponent<LootDrop>();
+        drop.onDropped += OnDropped;
+        drop.StartDrop();
+    }
+    public virtual void Drop(Vector3 direction, float angleDisp = 25f, float velocityMultiplier = 1f)
+    {
+        LootDrop drop = gameObject.AddComponent<LootDrop>();
+        drop.onDropped += OnDropped;
+        drop.StartDrop(direction, angleDisp, velocityMultiplier);
     }
     public virtual void OnDropped()
     {
