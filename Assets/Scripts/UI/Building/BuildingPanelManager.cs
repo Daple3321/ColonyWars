@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BuildingPanelManager : MonoBehaviour
 {
     public BuildingPanel currentPanel;
     public RectTransform panelRectTransform;
     
+    public Canvas buildingCanvas;
     public RectTransform panelParent;
     
     private bool canHide;
@@ -14,6 +16,7 @@ public class BuildingPanelManager : MonoBehaviour
     public void Init()
     {
         ClearCurrentPanel();
+        buildingCanvas = GetComponent<Canvas>();
     }
     
     // Сделать ShowPanel(Building building) с проверками на уже существую панельку
@@ -23,7 +26,7 @@ public class BuildingPanelManager : MonoBehaviour
     {
         ClearCurrentPanel();
         
-        Debug.Log($"Showing panel for {building.buildingData.buildingName}");
+        //Debug.Log($"Showing panel for {building.buildingData.buildingName}");
         currentPanel = building.CreatePanel(panelParent);
         panelRectTransform = currentPanel.GetComponent<RectTransform>();
         
@@ -33,10 +36,14 @@ public class BuildingPanelManager : MonoBehaviour
             canHide = false;
         };
         
+        currentPanel.building.PrepareUI();
+        
         if(delayRoutine != null){
             StopCoroutine(delayRoutine);
         }
         delayRoutine = StartCoroutine(HideDelay());
+        
+        Canvas.ForceUpdateCanvases();
     }
     
     Coroutine delayRoutine;
@@ -62,16 +69,29 @@ public class BuildingPanelManager : MonoBehaviour
         }
     }
     
-    private void HideIfClickedOutside() {
-         if (Input.GetMouseButton(0) && currentPanel.gameObject.activeSelf &&
-            !RectTransformUtility.RectangleContainsScreenPoint(
-                panelRectTransform,
-                Input.mousePosition,
-                null)) {
-                    
-            HidePanel();
-            canHide = false;
+    private void HideIfClickedOutside() 
+    {
+        // if (Input.GetMouseButton(0) && currentPanel.gameObject.activeSelf)
+        // {
+        //     if(!RectTransformUtility.RectangleContainsScreenPoint(panelRectTransform,
+        //         Input.mousePosition,
+        //         null)) 
+        //     {
+        //         HidePanel();
+        //         canHide = false;
+        //     }
+            
+        // }
+        
+        if(Input.GetMouseButtonDown(0))
+        {
+            if(!EventSystem.current.IsPointerOverGameObject())
+            {
+                HidePanel();
+                canHide = false;
+            }
         }
+        
     }
     
     public void HidePanel()

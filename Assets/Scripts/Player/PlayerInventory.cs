@@ -178,7 +178,7 @@ public class PlayerInventory : MonoBehaviour
         HandleSwapInternal(hotbar, itemIndex_1, itemIndex_2, from, to);
     }
 
-    private void HandleSwapInternal(Inventory sourceInv, int itemIndex_1, int itemIndex_2, InventoryItem from, InventoryItem to)
+    public void HandleSwapInternal(Inventory sourceInv, int itemIndex_1, int itemIndex_2, InventoryItem from, InventoryItem to)
     {
         // InventoryItem fromModified = new InventoryItem{
         //     item = from.item,
@@ -187,7 +187,7 @@ public class PlayerInventory : MonoBehaviour
         sourceInv.SwapItems(itemIndex_1, itemIndex_2, from, to, DragDropManager.dragQuantity);
     }
     
-    private void HandleTransferRequest(InventoryUI sourceUI, int sourceIndex, InventoryUI destinationUI, int destinationIndex)
+    public void HandleTransferRequest(InventoryUI sourceUI, int sourceIndex, InventoryUI destinationUI, int destinationIndex)
     {
         Inventory sourceInventory = sourceUI.LinkedInventory;
         Inventory destinationInventory = destinationUI.LinkedInventory;
@@ -473,7 +473,7 @@ public class PlayerInventory : MonoBehaviour
             itemsDeleted += inv.DeleteAmount(index, itemsToDelete);
             itemsToDelete -= itemsDeleted;
             
-            Debug.Log($"[{item.itemName}] left to delete: " + itemsToDelete);
+            //Debug.Log($"[{item.itemName}] left to delete: " + itemsToDelete);
             
             maxIterations--;
         }

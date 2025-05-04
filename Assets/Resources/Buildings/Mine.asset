@@ -23,7 +23,7 @@ MonoBehaviour:
   prefab: {fileID: 3574145983403160273, guid: 0ed3628a882bbd34e860301b2e5079a5, type: 3}
   resourceConditions:
   - {fileID: 11400000, guid: dfe06b9807283144fb496089e9fc5643, type: 2}
-  - {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
+  - {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
   gatherRadius: 5
   resourceQuantityMultiplier: 1
   resourceMask:

@@ -106,7 +106,7 @@ public class Inventory
             }
         }
         
-        Debug.LogWarning("[AddToFirstEmptySlot] Not enough space in inventory!");
+        //Debug.LogWarning("[AddToFirstEmptySlot] Not enough space in inventory!");
         return false;
     }
 
@@ -378,7 +378,36 @@ public class Inventory
         inventoryItems[itemIndex] = InventoryItem.GetEmptyItem();
         InformAboutChange();
     }
-
+    
+    public bool AllSlotsNotEmpty()
+    {
+        foreach(InventoryItem item in inventoryItems){
+            if(item.IsEmpty)
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    public int SpaceLeft()
+    {
+        if(!AllSlotsNotEmpty()){
+            return 1;
+        }
+        
+        int spaceLeft = 0;
+        
+        foreach(InventoryItem item in inventoryItems)
+        {
+            if(!item.IsEmpty){
+                spaceLeft += item.MaxStackSize - item.quantity;
+            }
+        }
+        
+        return spaceLeft;
+    }
+    
     public void PrintInv()
     {
         for (int i = 0; i < inventoryItems.Count; i++)
@@ -520,7 +549,7 @@ public struct InventoryItem
         }
         else
         {
-            Debug.LogWarning("[Subtract Quant] GetEmptyItem");
+            //Debug.LogWarning("[Subtract Quant] GetEmptyItem");
             return GetEmptyItem();
         }
     }

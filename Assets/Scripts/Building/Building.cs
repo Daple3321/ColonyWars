@@ -63,9 +63,12 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
 
     public virtual void OnClick(Player caller)
     {
-        if(Vector3.Distance(transform.position, caller.transform.position) <= interactionRange){
-            //Debug.Log($"Clicked on {buildingData.buildingName}");
-            caller.buildingPanelManager.CreatePanel(this);
+        if(built)
+        {
+            if(Vector3.Distance(transform.position, caller.transform.position) <= interactionRange){
+                //Debug.Log($"Clicked on {buildingData.buildingName}");
+                caller.buildingPanelManager.CreatePanel(this);
+            }
         }
     }
     
@@ -74,6 +77,11 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
         foreach(MeshRenderer mesh in meshes){
             mesh.material.SetColor("_BaseColor", color);
         }
+    }
+    
+    public virtual void PrepareUI()
+    {
+        
     }
     
     public virtual BuildingPanel CreatePanel(RectTransform parentContainer)

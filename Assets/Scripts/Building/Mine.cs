@@ -4,9 +4,11 @@ public class Mine : ResourceGenerator
 {
     public override void OnClick(Player caller)
     {
-        if(Vector3.Distance(transform.position, caller.transform.position) <= interactionRange){
-            //Debug.Log($"Clicked on {buildingData.buildingName}");
-            caller.buildingPanelManager.CreatePanel(this);
+        if(built){
+            if(Vector3.Distance(transform.position, caller.transform.position) <= interactionRange){
+                //Debug.Log($"Clicked on {buildingData.buildingName}");
+                caller.buildingPanelManager.CreatePanel(this);
+            }
         }
     }
     
