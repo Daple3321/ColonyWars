@@ -137,10 +137,10 @@ public class PlayerInventory : MonoBehaviour
     private void HandleVoidDropInternal(Inventory sourceInv, int itemIndex, int quantity)
     {
         if(quantity == -1){
-            sourceInv.DropWholeStack(itemIndex, dropPoint);
+            sourceInv.DropWholeStack(itemIndex, dropPoint.position, dropPoint.forward);
         }
         else{
-            sourceInv.DropItem(itemIndex, dropPoint, quantity);
+            sourceInv.DropItem(itemIndex, dropPoint.position, dropPoint.forward, quantity);
         }
     }
 
@@ -326,7 +326,7 @@ public class PlayerInventory : MonoBehaviour
                 Destroy(selectedWorldItem.gameObject);
             }
 
-            selectedWorldItem = selectedItem.SpawnItem(rightHand, 1);
+            selectedWorldItem = selectedItem.SpawnItem(rightHand.forward, 1);
             selectedWorldItem.Attach(rightHand);
 
             OnItemSelected?.Invoke(this, new OnItemSelectedEventArgs { selectedItem = selectedItem, worldItem = selectedWorldItem, slotId = slotId });
@@ -542,7 +542,7 @@ public class PlayerInventory : MonoBehaviour
 
         if (controls.Player.Drop.WasPressedThisFrame() && selectedItem != null) // тоже доработать под несколько инвентарей
         {
-            Item droppedItem = hotbar.DropItem(selectedSlotId, dropPoint);
+            Item droppedItem = hotbar.DropItem(selectedSlotId, dropPoint.position, dropPoint.forward);
             if (selectedItem == droppedItem && !hotbar.HasItemAt(selectedSlotId))
             {
                 selectedItem = null;

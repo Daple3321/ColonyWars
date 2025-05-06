@@ -83,10 +83,10 @@ public class ResourceGenerator : Generator
     private void HandleVoidDrop(int itemIndex, int quantity)
     {
         if(quantity == -1){
-            inventory.DropWholeStack(itemIndex, transform);
+            inventory.DropWholeStack(itemIndex, transform.position+new Vector3(0, 2f, 0), Vector3.up, 360);
         }
         else{
-            inventory.DropItem(itemIndex, transform, quantity);
+            inventory.DropItem(itemIndex, transform.position+new Vector3(0, 2f, 0), Vector3.up, 360, quantity);
         }
     }
     public void UpdateUI(Dictionary<int, InventoryItem> inventoryState)
@@ -147,7 +147,7 @@ public class ResourceGenerator : Generator
         {
             inventory.AddItem(node.GeneratorGather(), yieldAmount);
             
-            Debug.Log("Space left: " + inventory.SpaceLeft());
+            //Debug.Log("Space left: " + inventory.SpaceLeft());
             // add to inventory
         }
     }

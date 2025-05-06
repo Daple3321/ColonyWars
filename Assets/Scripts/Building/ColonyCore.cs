@@ -6,7 +6,7 @@ public class ColonyCore : Building
     {
         GameObject go = Instantiate(GameAssets.colonyCenterPanel, parentContainer);
         ColonyCenterPanel panel = go.GetComponent<ColonyCenterPanel>();
-        panel.Init(this);
+        //panel.Init(this);
         return panel;
     }
 }

@@ -19,6 +19,8 @@ public class Squad
         units = new List<Unit>();
         stats = SquadStats.GetEmptyStats();
     }
+    
+    public bool IsEmpty(){ return units.Count <= 0; }
 
     public void FollowOrder(Transform followTarget)
     {
@@ -40,7 +42,9 @@ public class Squad
 
         foreach (Unit unit in units)
         {
-            unit.SetHome(orderPos);
+            Vector3 offset = CalculateOffsetForUnit(units.IndexOf(unit), 1.8f);
+            
+            unit.SetHome(orderPos + offset);
             unit.StopFollowing();
             unit.followTarget = null;
             //unit.UnregisterFromSquad();
@@ -134,6 +138,29 @@ public class Squad
         onSquadUpdate?.Invoke(this);
         
         return true;
+    }
+    
+    public Vector3 GetCenterPosition()
+    {
+        Vector3 meanPos = Vector3.zero;
+        foreach(Unit unit in units)
+        {
+            meanPos += unit.transform.position;
+        }
+        meanPos /= units.Count;
+        
+        return meanPos;
+    }
+    
+    public Vector3 CalculateOffsetForUnit(int unitIndex, float separation)
+    {
+        Vector3 offset = Vector3.zero;
+        float row_offset = unitIndex / Mathf.Sqrt(units.Count) * separation;
+        float col_offset = unitIndex % Mathf.RoundToInt(Mathf.Sqrt(units.Count)) * separation;
+        offset.x = col_offset;
+        offset.z = row_offset;
+        
+        return offset;
     }
     
     public void UpdateStats()

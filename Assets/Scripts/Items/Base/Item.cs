@@ -17,17 +17,17 @@ public class Item
         LoadStats();
     }
 
-    public virtual WorldItem SpawnItem(Transform spawnPos, int quantity)
+    public virtual WorldItem SpawnItem(Vector3 spawnPos, Quaternion rotation, int quantity)
     {
         WorldItem worldItem;
         GameObject obj;
         if (itemData.customPrefab != null) // если есть кастомный префаб
         {
-            obj = GameObject.Instantiate(itemData.customPrefab, spawnPos.position, spawnPos.rotation);
+            obj = GameObject.Instantiate(itemData.customPrefab, spawnPos, rotation);
         }
         else
         {
-            obj = GameObject.Instantiate(GameAssets.itemPrefab, spawnPos.position, spawnPos.rotation);
+            obj = GameObject.Instantiate(GameAssets.itemPrefab, spawnPos, rotation);
         }
         worldItem = obj.GetComponent<WorldItem>();
         worldItem.Initialize(itemData, this, quantity);

@@ -10,10 +10,11 @@ public class BuildingPanel : MonoBehaviour
     
     public Building building;
     
-    
-    public virtual void Init(Building building)
+    private BuildingPanelManager manager;
+    public virtual void Init(Building building, BuildingPanelManager manager)
     {
         this.building = building;
+        this.manager = manager;
         
         healthBar.Init(Affiliation.Player);
         building.OnHealthChanged += healthBar.UpdateBar;
@@ -24,6 +25,20 @@ public class BuildingPanel : MonoBehaviour
     void OnDestroy(){
         building.OnHealthChanged -= healthBar.UpdateBar;
     }
+
+    void Update()
+    {
+        HideIfOutsideRange();
+    }
+    
+    private void HideIfOutsideRange()
+    {
+        if(Vector3.Distance(GameController.p.transform.position, building.transform.position) > building.interactionRange){
+            manager.ClearCurrentPanel();
+            //canHide = false;
+        }
+    }
+    
 
     public virtual void Show()
     {

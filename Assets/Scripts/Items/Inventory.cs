@@ -115,7 +115,7 @@ public class Inventory
         AddItem(item.item, item.quantity);
     }
 
-    public Item DropItem(int index, Transform dropPos, int quantity = 1)
+    public Item DropItem(int index, Vector3 dropPos, int quantity = 1)
     {
         // for (int i = 0; i < quantity; i++)
         // {
@@ -145,7 +145,37 @@ public class Inventory
         //InformAboutChange();
         return null;
     }
-    public Item DropWholeStack(int index, Transform dropPos)
+    public Item DropItem(int index, Vector3 dropPos, Vector3 dropDir, float angleDisp = 25f, float velocityMultiplier = 1f, int quantity = 1)
+    {
+        // for (int i = 0; i < quantity; i++)
+        // {
+        // }
+        
+        if (inventoryItems[index].quantity > 0)
+        {
+            WorldItem worldItem;
+            worldItem = inventoryItems[index].item.SpawnItem(dropPos, quantity);
+            worldItem.Drop(dropDir, angleDisp, velocityMultiplier);
+
+            Item droppedItem = inventoryItems[index].item;
+            inventoryItems[index] = inventoryItems[index].ChangeQuantity(inventoryItems[index].quantity - quantity);
+            Debug.Log($"[{index}] Dropped {inventoryItems[index].item.itemName}");
+            if (inventoryItems[index].quantity <= 0)
+            {
+                inventoryItems[index] = InventoryItem.GetEmptyItem();
+            }
+            
+            InformAboutChange();
+            return droppedItem;
+        }
+        else{
+            Debug.Log($"[{index}] No item in slot");
+        }
+        
+        //InformAboutChange();
+        return null;
+    }
+    public Item DropWholeStack(int index, Vector3 dropPos)
     {
         if(inventoryItems[index].quantity > 0)
         {
@@ -154,6 +184,40 @@ public class Inventory
             WorldItem worldItem;
             worldItem = inventoryItems[index].item.SpawnItem(dropPos, startingQuantity);
             worldItem.Drop();
+            
+            
+            Item droppedItem = inventoryItems[index].item;
+            inventoryItems[index] = inventoryItems[index].ChangeQuantity(0);
+            //Debug.Log($"[{index}] Dropped {inventoryItems[index].item.itemName}");
+            if (inventoryItems[index].quantity <= 0)
+            {
+                inventoryItems[index] = InventoryItem.GetEmptyItem();
+            }
+            // здесь вместо itemPrefab спавнить нужный префаб если он есть
+            // GameObject obj = GameObject.Instantiate(GameAssets.itemPrefab, dropPos.position, dropPos.rotation);
+            // WorldItem worldItem = obj.GetComponent<WorldItem>();
+            // worldItem.Initialize(inventoryItems[index].item.itemData, inventoryItems[index].item, startingQuantity);
+            
+            //inventoryItems[index] = inventoryItems[index].ChangeQuantity(inventoryItems[index].quantity - 1);
+
+            InformAboutChange();
+            return droppedItem;
+        }
+        else{
+            //Debug.Log($"[DropWholeStack][{index}] No item in slot");
+        }
+        
+        return null;
+    }
+    public Item DropWholeStack(int index, Vector3 dropPos, Vector3 dropDir, float angleDisp = 25f)
+    {
+        if(inventoryItems[index].quantity > 0)
+        {
+            int startingQuantity = inventoryItems[index].quantity;
+            
+            WorldItem worldItem;
+            worldItem = inventoryItems[index].item.SpawnItem(dropPos, startingQuantity);
+            worldItem.Drop(dropDir, angleDisp);
             
             
             Item droppedItem = inventoryItems[index].item;

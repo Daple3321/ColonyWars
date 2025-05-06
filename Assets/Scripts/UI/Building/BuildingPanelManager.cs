@@ -28,6 +28,7 @@ public class BuildingPanelManager : MonoBehaviour
         
         //Debug.Log($"Showing panel for {building.buildingData.buildingName}");
         currentPanel = building.CreatePanel(panelParent);
+        currentPanel.Init(building, this);
         panelRectTransform = currentPanel.GetComponent<RectTransform>();
         
         currentPanel.building.OnBuildingDestroyed += x => {
@@ -57,7 +58,7 @@ public class BuildingPanelManager : MonoBehaviour
     {
         if(currentPanel != null && canHide){
             HideIfClickedOutside();
-            HideIfOutsideRange();
+            //HideIfOutsideRange();
         }
     }
     
@@ -110,6 +111,7 @@ public class BuildingPanelManager : MonoBehaviour
             });
             
             currentPanel = null;
+            canHide = false;
         }
     }
     

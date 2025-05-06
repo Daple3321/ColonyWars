@@ -92,7 +92,7 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
     {
         GameObject go = Instantiate(GameAssets.buildingPanel, parentContainer);
         BuildingPanel panel = go.GetComponent<BuildingPanel>();
-        panel.Init(this);
+        //panel.Init(this);
         return panel;
     }
 }

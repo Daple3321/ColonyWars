@@ -17,7 +17,7 @@ public class Mine : ResourceGenerator
     {
         GameObject go = Instantiate(GameAssets.minePanel, parentContainer);
         MinePanel panel = go.GetComponent<MinePanel>();
-        panel.Init(this);
+        //panel.Init(this);
         return panel;
     }
 }

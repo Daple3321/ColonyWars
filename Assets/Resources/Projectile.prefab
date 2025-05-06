@@ -208,10 +208,10 @@ MonoBehaviour:
     m_Bits: 0
   playerExcludeMask:
     serializedVersion: 2
-    m_Bits: 5952
+    m_Bits: 22336
   enemyExcludeMask:
     serializedVersion: 2
-    m_Bits: 3840
+    m_Bits: 12032
 --- !u!33 &7316579652343664645
 MeshFilter:
   m_ObjectHideFlags: 0

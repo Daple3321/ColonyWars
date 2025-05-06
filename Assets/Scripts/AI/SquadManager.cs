@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class SquadManager : MonoBehaviour
@@ -128,6 +129,18 @@ public class SquadManager : MonoBehaviour
     public bool HasSquad(){
         return squad.units.Count > 0 ? true : false;
     }
+    
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        Handles.color = Color.blue;
+        
+        if(!squad.IsEmpty()){
+            //Handles.DrawWireDisc(squad.GetCenterPosition(), Vector3.one, 360, 0.35f);
+            Handles.DrawWireCube(squad.GetCenterPosition(), Vector3.one);
+        }
+    }
+#endif
 }
 
 public enum CommandType : byte
