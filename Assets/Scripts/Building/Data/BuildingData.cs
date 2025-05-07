@@ -10,6 +10,7 @@ public class BuildingData : ScriptableObject
     
     // Unlock level or unlock type
     
+    public bool insideColonyOnly = true;
     public float overlapRadius = 2.5f;
     public float maxBuildAngle = 25f;
     public GameObject prefab;
@@ -33,6 +34,23 @@ public class BuildingData : ScriptableObject
     
     public virtual bool CheckBuildConditions(Vector3 projectionPos)
     {
+        if(insideColonyOnly)
+        {
+            bool inColonyZone = false;
+            foreach(Colony colony in ColoniesManager.i.playerColonies)
+            {
+                if(Vector3.Distance(projectionPos, colony.core.transform.position) < colony.colonyRadius)
+                {
+                    Debug.Log($"Inside colony! Dist: {Vector3.Distance(projectionPos, colony.core.transform.position)}", colony.core);
+                    inColonyZone = true;
+                }
+                else{
+                    Debug.Log($"Outside colony! Dist: {Vector3.Distance(projectionPos, colony.core.transform.position)}", colony.core);
+                }
+            }
+            return inColonyZone;
+        }
+        
         return true;
     }
 }

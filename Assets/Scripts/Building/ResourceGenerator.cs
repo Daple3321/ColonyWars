@@ -13,12 +13,13 @@ public class ResourceGenerator : Generator
     
     public List<ResourceNode> resourcesNearby;
     
-    public Inventory inventory;
-    public int inventoryStartingSize = 2;
-    public InventoryUI inventoryUI;
+    //public Inventory inventory;
+    //public int inventoryStartingSize = 2;
+    //public InventoryUI inventoryUI;
     
-    private PlayerInventory playerInventory;
+    //private PlayerInventory playerInventory;
     
+    public BuildingInventory buildingInventory;
     public override void Init(BuildingData data)
     {
         meshes = transform.GetComponentsInChildren<MeshRenderer>();
@@ -26,20 +27,32 @@ public class ResourceGenerator : Generator
         _gatherRate = gatherRate;
         this.buildingData = data;
         
-        playerInventory = GameController.p.playerInventory;
+        buildingInventory = new BuildingInventory(this, 2);
+        //playerInventory = GameController.p.playerInventory;
         
         if(data is ResourceGeneratorData resourceGeneratorData){
             this.generatorData = resourceGeneratorData;
         }
         
-        inventory = new Inventory(inventoryStartingSize);
-        inventory.OnInventoryUpdated += UpdateUI;
+        //inventory = new Inventory(inventoryStartingSize);
+        //inventory.OnInventoryUpdated += UpdateUI;
         
         //PrepareUI();
     }
     
-    // ЭТО ВСЁ МОЖНО ПЕРЕНЕСТИ В BuildingInventory.cs класс какой-нить.
     public override void PrepareUI()
+    {
+        buildingInventory.PrepareUI();
+        buildingInventory.UpdateUI(buildingInventory.inventory.GetCurrentInventoryState());
+    }
+    public override void ClearUI()
+    {
+        buildingInventory.ClearUI();
+    }
+    
+    
+    // ЭТО ВСЁ МОЖНО ПЕРЕНЕСТИ В BuildingInventory.cs класс какой-нить.
+    /*public override void PrepareUI()
     {
         GameObject invObj = Instantiate(GameAssets.hotbarUI_Prefab);
         invObj.transform.SetParent(GameController.i.buildingPanelManager.currentPanel.transform);
@@ -99,7 +112,7 @@ public class ResourceGenerator : Generator
                 inventoryUI.UpdateData(item.Key, item.Value.item.icon, item.Value.quantity, item.Value);
             }
         }
-    }
+    }*/
     
     
     public override IEnumerator Build()
@@ -126,7 +139,7 @@ public class ResourceGenerator : Generator
 
     void Update()
     {
-        if(resourcesNearby != null && inventory.SpaceLeft() > 0){
+        if(resourcesNearby != null && buildingInventory.inventory.SpaceLeft() > 0){
             HandleGathering();
         }
     }
@@ -145,7 +158,7 @@ public class ResourceGenerator : Generator
     {
         foreach(ResourceNode node in resourcesNearby) // ошибка при удалении нода
         {
-            inventory.AddItem(node.GeneratorGather(), yieldAmount);
+            buildingInventory.inventory.AddItem(node.GeneratorGather(), yieldAmount);
             
             //Debug.Log("Space left: " + inventory.SpaceLeft());
             // add to inventory

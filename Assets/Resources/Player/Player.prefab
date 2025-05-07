@@ -487,9 +487,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildMode: 0
   availableBuildings:
-  - {fileID: 11400000, guid: 75b30877b2793c84fa86c56373c9ba93, type: 2}
-  - {fileID: 11400000, guid: c4914aa10d3008741a49a281c5816309, type: 2}
+  - {fileID: 11400000, guid: 0095c38e6294f35429795201457ef26a, type: 2}
   - {fileID: 11400000, guid: ee98459513c33e24c9d13c0863a2423a, type: 2}
+  - {fileID: 11400000, guid: 75b30877b2793c84fa86c56373c9ba93, type: 2}
   - {fileID: 11400000, guid: 919ae6e77d649f346b26174f360a3316, type: 2}
   selectedBuilding: {fileID: 0}
   maxBuildDistance: 10

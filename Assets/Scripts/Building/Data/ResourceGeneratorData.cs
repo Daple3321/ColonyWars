@@ -57,6 +57,10 @@ public class ResourceGeneratorData : BuildingData
         //     }
         // }
         
+        if(!base.CheckBuildConditions(projectionPos)){
+            return false;
+        }
+        
         Collider[] resources = new Collider[8];
         if(Physics.OverlapSphereNonAlloc(projectionPos, gatherRadius, resources, resourceMask) > 0)
         {

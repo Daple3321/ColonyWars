@@ -5451,6 +5451,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1063750242}
   - component: {fileID: 1063750243}
+  - component: {fileID: 1063750244}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -5498,6 +5499,20 @@ MonoBehaviour:
     objectGenSettings: {fileID: 11400000, guid: ec9454641d302b6449d9b8434ddda813, type: 2}
     worldType: 0
     gameDifficulty: 2
+--- !u!114 &1063750244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063750241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3527808555b32de4d820e696932df344, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerColonies: []
+  enemyColonies: []
 --- !u!1 &1091325588
 GameObject:
   m_ObjectHideFlags: 0
@@ -19422,6 +19437,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Iron Ore_1
       objectReference: {fileID: 0}
+    - target: {fileID: 5983225864649344031, guid: 0d3c90b1a7b0a0e4e936d5ac7964dfc2, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6088028581210978075, guid: 0d3c90b1a7b0a0e4e936d5ac7964dfc2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 15.292875
@@ -19462,6 +19481,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7704855678002310787, guid: 0d3c90b1a7b0a0e4e936d5ac7964dfc2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7704855678002310787, guid: 0d3c90b1a7b0a0e4e936d5ac7964dfc2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d321ecaaef7d4c549a97ff1bd1fc22ad, type: 2}
+    - target: {fileID: 7704855678002310787, guid: 0d3c90b1a7b0a0e4e936d5ac7964dfc2, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 89724052ada5ea540a83d7b1e4d279b2, type: 2}
+    - target: {fileID: 7704855678002310787, guid: 0d3c90b1a7b0a0e4e936d5ac7964dfc2, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 38a915297490af94aa6085360a1f4d90, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

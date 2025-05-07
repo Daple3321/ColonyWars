@@ -21,7 +21,8 @@ public class EventBus
     
     
     // ----------------------- GLOBAL ----------------------------
-    
+    public Action<Colony> OnColonyCreated;
+    public Action<Colony> OnColonyDestroyed;
     // -----------------------------------------------------------
     
     

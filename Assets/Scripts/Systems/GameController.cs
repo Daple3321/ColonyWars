@@ -91,6 +91,8 @@ public class GameController : MonoBehaviour
         
         worldCanvas.worldCamera = Camera.main; // after player
         
+        ColoniesManager.i.Init();
+        
         OnGameStarted?.Invoke();
         // World gen
         // Reference assigning
