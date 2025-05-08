@@ -6,6 +6,8 @@ public class Weapon : Equipable
     public float damage;
     public float attackRate = 0.2f;
     protected float _attackCd;
+    public float attackCharge = 0f;
+    public float chargeRate;
     public AttackType attackType;
     public WeaponType weaponType;
 
@@ -30,6 +32,7 @@ public class Weapon : Equipable
             weaponType = data.weaponType;
             damage = data.damage;
             attackRate = data.attackRate;
+            chargeRate = data.chargeRate;
             needsAmmo = data.needsAmmo;
             ammoType = data.ammoType;
             //Debug.Log($"LoadStats in Weapon.cs. WeaponData: {weaponData}");
@@ -37,7 +40,14 @@ public class Weapon : Equipable
     }
 
     public virtual void UpdateWeapon(){}
-
+    
+    public bool IsCharged() { return attackCharge >= 1; }
+    
+    public virtual void Charge()
+    {
+        attackCharge += chargeRate * Time.deltaTime;
+    }
+    
     public virtual bool CanAttack()
     {
         return true;

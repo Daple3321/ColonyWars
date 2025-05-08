@@ -157,6 +157,13 @@ public class PlayerMovement : MonoBehaviour
 
         HandleRunning();
         HandleMovementAndRotation();
+        
+        if(PlayerAiming.isAiming){
+            HandleRotationToMouse();
+        }
+        else{
+            HandleRotationToVelocity();
+        }
     }
 
     private void HandleMovementAndRotation()
@@ -209,6 +216,49 @@ public class PlayerMovement : MonoBehaviour
         Debug.DrawRay(transform.position, crossProd * 2, Color.red);
         Debug.DrawRay(transform.position, moveDir * 5, Color.cyan);
 
+        // Vector3 mousePos = Input.mousePosition;
+        // Ray cameraRay = mainCamera.ScreenPointToRay(mousePos);
+        // // Определяем высоту персонажа (плоскость, на которой он стоит)
+        // float planeY = transform.position.y;
+        // // Вычисляем, где луч пересекает эту высоту
+        // float t = (planeY - cameraRay.origin.y) / cameraRay.direction.y;
+        // Vector3 worldMousePos = cameraRay.origin + t * cameraRay.direction;
+        // // Убираем возможные отклонения по высоте
+        // worldMousePos.y = transform.position.y;
+        // transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(worldMousePos - transform.position, Vector3.up), rotationSpeed * Time.deltaTime);
+        // //transform.LookAt(worldMousePos);
+        // Debug.DrawLine(transform.position, worldMousePos, Color.yellow);
+
+    }
+    
+    Vector2 _moveInput;
+    //Quaternion currentRotation;
+    private void HandleRotationToVelocity()
+    {
+        _moveInput = moveAction.ReadValue<Vector2>();
+        Vector3 moveDir = new Vector3(-_moveInput.x, 0, _moveInput.y);
+        
+        Vector3 forwardVec = mainCamera.transform.rotation * Vector3.forward;
+        forwardVec = Quaternion.AngleAxis(-90, Vector3.up) * forwardVec;
+        Vector3 crossProd = Vector3.Cross(transform.up, forwardVec);
+        Debug.DrawRay(transform.position, forwardVec*5, Color.green);
+
+        Quaternion moveRot = Quaternion.FromToRotation(moveDir, crossProd);
+        moveDir = moveRot * Vector3.forward * currentSpeed * Time.deltaTime;
+        Quaternion rotDir = Quaternion.LookRotation(moveDir, Vector3.up);
+        
+        //Vector3 idleDir = transform.forward;
+        //Quaternion idleRot = Quaternion.FromToRotation(idleDir, crossProd);
+        //idleDir = idleRot * transform.forward;
+        if(_moveInput != Vector2.zero){
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotDir, rotationSpeed * Time.deltaTime);
+        }
+        // else{
+        //     transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(idleDir, Vector3.up), rotationSpeed * Time.deltaTime);
+        // }
+    }
+    private void HandleRotationToMouse()
+    {
         Vector3 mousePos = Input.mousePosition;
         Ray cameraRay = mainCamera.ScreenPointToRay(mousePos);
         // Определяем высоту персонажа (плоскость, на которой он стоит)
@@ -221,7 +271,6 @@ public class PlayerMovement : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(worldMousePos - transform.position, Vector3.up), rotationSpeed * Time.deltaTime);
         //transform.LookAt(worldMousePos);
         Debug.DrawLine(transform.position, worldMousePos, Color.yellow);
-
     }
 
     private void PlayerAiming_OnAim(bool aimStarted)

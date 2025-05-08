@@ -17,8 +17,7 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -58,6 +57,7 @@ Material:
     - _CastShadows: 1
     - _Cull: 2
     - _DstBlend: 0
+    - _FlashAmount: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -73,6 +73,7 @@ Material:
     - _BackgroundColor: {r: 0, g: 1, b: 0.13769054, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Emission: {r: 10.556064, g: 0.4219631, b: 0, a: 1}
+    - _FlashColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &3319641051347905800

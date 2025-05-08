@@ -21,7 +21,7 @@ public class RangedWeapon : Weapon
             _attackCd -= Time.deltaTime;
         }
     }
-
+    
     public override bool CanAttack()
     {
         if (attackType == AttackType.SINGLE && mouseReleased && _attackCd <= 0 && CheckAmmo())
@@ -29,6 +29,10 @@ public class RangedWeapon : Weapon
             return true;
         }
         else if (attackType == AttackType.AUTOMATIC && _attackCd <= 0 && CheckAmmo())
+        {
+            return true;
+        }
+        else if(attackType == AttackType.CHARGE && _attackCd <= 0 && IsCharged() && CheckAmmo())
         {
             return true;
         }
@@ -42,6 +46,7 @@ public class RangedWeapon : Weapon
     public override void Attack()
     {
         _attackCd = attackRate;
+        attackCharge = 0;
         if(needsAmmo)
         {
             SubtractAmmo();

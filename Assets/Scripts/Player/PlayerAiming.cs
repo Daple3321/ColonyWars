@@ -8,7 +8,7 @@ public class PlayerAiming
     //public static event Action OnAimEnd;
     public static event Action<bool> OnAim;
 
-    //private static bool isAiming = false;
+    public static bool isAiming = false;
     public static GameObject worldMouseFollower;
 
     public PlayerAiming()
@@ -57,14 +57,14 @@ public class PlayerAiming
 
     private void StartAiming()
     {
-        //isAiming = true;
+        isAiming = true;
         OnAim?.Invoke(true);
         //OnAimStart?.Invoke();
     }
 
     private void EndAiming()
     {
-        //isAiming = false;
+        isAiming = false;
         OnAim?.Invoke(false);
         //OnAimEnd?.Invoke();
     }

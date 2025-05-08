@@ -23,8 +23,9 @@ MonoBehaviour:
   itemMaterials:
   - {fileID: 2100000, guid: 9b97bf6788871ed46adada024f586dab, type: 2}
   customPrefab: {fileID: 1549962704229280597, guid: 4af3d8938075e88468789c45c259ba60, type: 3}
-  damage: 2
+  damage: 3.5
   attackRate: 0.2
+  chargeRate: 1.5
   needsAmmo: 0
   ammoType: {fileID: 0}
   attackType: 2

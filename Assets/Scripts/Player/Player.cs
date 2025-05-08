@@ -1,4 +1,5 @@
 using System;
+using PrimeTween;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -36,9 +37,12 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     private Controls controls;
     private Mouse mouse;
     private Camera mainCam;
+    [SerializeField] private Material mat;
     [SerializeField] private Animator animator;
     public void InitPlayer()
     {
+        mat = GetComponentInChildren<Renderer>().material;
+        
         cameraController.Init(playerFollow);
         playerAnimation.Init(animator);
         playerAiming = new PlayerAiming();
@@ -96,12 +100,28 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     {
         health -= damage;
         //onPlayerDamaged?.Invoke(health, maxHealth);
+        StartCoroutine(PlayerCameraController.CameraShake(9, 0.35f));
+        Flash(Color.red, 0.1f);
+        
         EventBus.i.PlayerHealthChanged?.Invoke(health, maxHealth);
         EventBus.i.PlayerDamaged?.Invoke(damage);
         if (health <= 0)
         {
             Death();
         }
+    }
+    Sequence colorSeq;
+    public void Flash(Color flashColor, float fadeTime = 0.2f)
+    {
+        mat.SetColor("_FlashColor", flashColor);
+        
+        colorSeq.Complete();
+        // colorSeq = Sequence.Create()
+        //     .Chain(Tween.MaterialProperty(mat, , Color.red, 0.2f))
+        //     .Chain(Tween.MaterialColor(mat, Color.white, 0.2f));
+        colorSeq = Sequence.Create()
+            .Chain(Tween.Custom(0f, 1f, duration: fadeTime, onValueChange: newVal => mat.SetFloat("_FlashAmount", newVal)))
+            .Chain(Tween.Custom(1f, 0f, duration: fadeTime, onValueChange: newVal => mat.SetFloat("_FlashAmount", newVal)));
     }
 
     public void Death()

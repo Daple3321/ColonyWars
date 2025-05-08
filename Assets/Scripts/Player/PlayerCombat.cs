@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -85,7 +86,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void HandleWeapon()
     {
-        if (controls.Player.Attack.IsPressed())
+        if (controls.Player.Attack.IsPressed() && !EventSystem.current.IsPointerOverGameObject())
         {
             switch (currentWeapon.attackType)
             {
@@ -104,6 +105,7 @@ public class PlayerCombat : MonoBehaviour
         if (controls.Player.Attack.WasReleasedThisFrame())
         {
             currentWeapon.mouseReleased = true;
+            currentWeapon.attackCharge = 0f;
         }
 
         currentWeapon.UpdateWeapon();
@@ -115,7 +117,7 @@ public class PlayerCombat : MonoBehaviour
         {
             currentWeapon.Attack();
             weaponWorld.Attack(concentraion);
-            //StartCoroutine(PlayerCameraController.CameraShake(1, 0.15f));
+            StartCoroutine(PlayerCameraController.CameraShake(1, 0.15f));
 
             currentWeapon.mouseReleased = false;
         }
@@ -126,14 +128,25 @@ public class PlayerCombat : MonoBehaviour
         {
             currentWeapon.Attack();
             weaponWorld.Attack(concentraion);
-            //StartCoroutine(PlayerCameraController.CameraShake(1, 0.15f));
+            StartCoroutine(PlayerCameraController.CameraShake(1, 0.15f));
 
             currentWeapon.mouseReleased = false;
         }
     }
     private void HandleChargeAttacks()
     {
+        if(!currentWeapon.IsCharged()){
+            currentWeapon.Charge();
+        }
         
+        if (currentWeapon.CanAttack())
+        {
+            currentWeapon.Attack();
+            weaponWorld.Attack(concentraion);
+            StartCoroutine(PlayerCameraController.CameraShake(2, 0.15f));
+
+            currentWeapon.mouseReleased = false;
+        }
     }
 
     private void HandleAiming()

@@ -5,7 +5,6 @@ using UnityEngine;
 public class MeleeWeapon : Weapon
 {
     public float attackDuration;
-    public float attackCharge;
     public float attackInterval;
 
     public MeleeWeapon(MeleeWeaponData _itemData) : base(_itemData)
@@ -21,7 +20,6 @@ public class MeleeWeapon : Weapon
         if (itemData is MeleeWeaponData weaponData)
         {
             attackDuration = weaponData.attackDuration;
-            attackCharge = weaponData.attackCharge;
             attackInterval = weaponData.attackInterval;
         }
     }

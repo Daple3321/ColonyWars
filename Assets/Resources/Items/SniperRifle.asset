@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: SniperRifle
   m_EditorClassIdentifier: 
   itemName: Sniper Rifle
-  description: Hitscan rifle
+  description: 'Hitscan rifle
+
+    Hold to charge
+
+    Ammo: Iron Ore'
   icon: {fileID: -527503291, guid: 05c986f37d7d2654888b5ebdd0b6f314, type: 3}
   rarity: 2
   IsStackable: 0
@@ -24,9 +28,10 @@ MonoBehaviour:
   customPrefab: {fileID: 1549962704229280597, guid: 4af3d8938075e88468789c45c259ba60, type: 3}
   damage: 7
   attackRate: 0.6
+  chargeRate: 1.8
   needsAmmo: 1
   ammoType: {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
-  attackType: 2
+  attackType: 3
   weaponType: 2
   shootDistance: 30
   projectileSpeed: 0

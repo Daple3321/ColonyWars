@@ -34,6 +34,7 @@ public class PlayerAnimation : MonoBehaviour
             break;
             
             case WeaponType.Rifle:
+                SetLayer(0, 0);
                 SetLayer(1, 0);
                 
                 if(animationRoutine != null){

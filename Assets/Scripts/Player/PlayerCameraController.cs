@@ -46,6 +46,7 @@ public class PlayerCameraController : MonoBehaviour
         mainCamera = transform.Find("Main Camera").GetComponent<Camera>();
         camNoise = cinemachineCamera.GetComponent<CinemachineBasicMultiChannelPerlin>();
         Noise(0, 0);
+        EventBus.i.PlayerDeath += () => {Noise(0,0);};
 
         controls = GameAssets.controls;
         //zoomAction = InputSystem.actions.FindAction("Zoom");
