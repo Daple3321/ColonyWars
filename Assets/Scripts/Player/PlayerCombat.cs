@@ -19,11 +19,13 @@ public class PlayerCombat : MonoBehaviour
 
     private Player player;
     private PlayerInventory playerInventory;
+    private PlayerAnimation playerAnimation;
     private Controls controls;
-    public void Init(Player player)
+    public void Init(Player player, PlayerAnimation playerAnimation)
     {
         this.player = player;
         this.playerInventory = player.playerInventory;
+        this.playerAnimation = playerAnimation;
         controls = GameAssets.controls;
         playerInventory.OnItemSelected += PlayerInventory_OnItemSelected;
         playerInventory.OnItemDropped += PlayerInventory_OnItemDropped;
@@ -37,7 +39,7 @@ public class PlayerCombat : MonoBehaviour
         {
             currentWeapon = wp;
             weaponWorld = e.worldItem as WeaponWorldItem;
-            SetupWeapon();
+            SetupWeapon(wp);
 
             //PlayerAiming.OnAim += PlayerAiming_OnAim;
         }
@@ -64,9 +66,11 @@ public class PlayerCombat : MonoBehaviour
             HandleAiming();
         }
     }
-
-    private void SetupWeapon()
+    
+    private void SetupWeapon(Weapon wp)
     {
+        playerAnimation.OnWeaponSetup(wp);
+        
         //Debug.Log($"Selected weapon: {currentWeapon.itemName}.");
     }
 
@@ -75,6 +79,8 @@ public class PlayerCombat : MonoBehaviour
         currentWeapon = null; // не считается нулевым почему-то
         concentraion = 0f;
         weaponWorld = null;
+        
+        playerAnimation.OnWeaponClear();
     }
 
     private void HandleWeapon()

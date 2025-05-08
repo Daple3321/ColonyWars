@@ -94,6 +94,8 @@ public class PlayerBuilding : MonoBehaviour
         StartCoroutine(newBuilding.Build());
         SwitchBuildingMode();
         
+        EventBus.i.OnPlayerBuild?.Invoke(newBuilding);
+        
         return true;
     }
     

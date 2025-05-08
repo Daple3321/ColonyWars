@@ -45,6 +45,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     protected CharacterController characterController;
     private WorldBar healthBar;
     private Animator animator;
+    private Material mat;
     public Transform attackPoint;
     public Transform attackTarget = null;
     public Transform followTarget = null;
@@ -73,6 +74,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
         squad = null;
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        mat = GetComponentInChildren<Renderer>().material;
         homePos = transform.position;
 
         stateMachine.Init();
@@ -284,10 +286,17 @@ public abstract class Unit : MonoBehaviour, IDamageable
     {
         this.speed = speed;
     }
-
+    
+    Sequence colorSeq;
     public virtual void TakeDamage(float damage, float knockback = 0f)
     {
         health -= damage;
+        
+        colorSeq.Complete();
+        colorSeq = Sequence.Create()
+            .Chain(Tween.MaterialColor(mat, Color.red, 0.2f))
+            .Chain(Tween.MaterialColor(mat, Color.white, 0.2f));
+        
         HealthChanged();
     }
     protected virtual void HealthChanged()

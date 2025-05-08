@@ -407,6 +407,7 @@ GameObject:
   - component: {fileID: 5685056463674500617}
   - component: {fileID: 8311137189873081287}
   - component: {fileID: 8290539460608290715}
+  - component: {fileID: 6761362640697903048}
   - component: {fileID: 7880495096100524603}
   - component: {fileID: 1670130699526852140}
   - component: {fileID: 2345883527334119590}
@@ -456,6 +457,7 @@ MonoBehaviour:
   playerFollow: {fileID: 1251615133458478831}
   playerInventory: {fileID: 26623650528081227}
   playerBuilding: {fileID: 8888628033046219892}
+  playerAnimation: {fileID: 6761362640697903048}
   playerUI: {fileID: 7880495096100524603}
   buildingPanelManager: {fileID: 0}
   squadManager: {fileID: 8311137189873081287}
@@ -473,6 +475,7 @@ MonoBehaviour:
   commandEnergy: 30
   maxCommandEnergy: 30
   commandEnergyRegenSpeed: 0.35
+  animator: {fileID: 2345883527334119590}
 --- !u!114 &8888628033046219892
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -601,7 +604,7 @@ MonoBehaviour:
   staminaRegenSpeed: 1
   maxStamina: 5
   fallSpeed: 10
-  rotationSpeed: 5
+  rotationSpeed: 10
   zoomSpeed: 75
   canRegenStamina: 0
   runningAllowed: 1
@@ -712,6 +715,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 489b2430023f16b4c9f93572cdd04fdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6761362640697903048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2512703263411247531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe83bc24fe562df4db953f3dacd02800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &7880495096100524603

@@ -596,9 +596,9 @@ public class WorldGenerator : MonoBehaviour
                 //Debug.Log("TerrainDetailPos: " + terrainDetailPos);
                 //detailMap = terrain.terrainData.GetDetailLayer(0, 0, terrain.terrainData.detailWidth, terrain.terrainData.detailHeight, 0);
 
-                if (height > 2f && height < 7f)
+                if (height > 1.5f && height < 9f)
                 {
-                    grassMap[(int)terrainDetailPos.z, (int)terrainDetailPos.x] = 550;
+                    grassMap[(int)terrainDetailPos.z, (int)terrainDetailPos.x] = 800;
                 }
                 
                 if(height >= 0 && height < 1.2f)

@@ -13,6 +13,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     public PlayerAiming playerAiming;
     public PlayerInventory playerInventory;
     public PlayerBuilding playerBuilding;
+    public PlayerAnimation playerAnimation;
     public PlayerUI playerUI;
     public BuildingPanelManager buildingPanelManager;
     public SquadManager squadManager;
@@ -35,13 +36,15 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     private Controls controls;
     private Mouse mouse;
     private Camera mainCam;
+    [SerializeField] private Animator animator;
     public void InitPlayer()
     {
         cameraController.Init(playerFollow);
+        playerAnimation.Init(animator);
         playerAiming = new PlayerAiming();
         playerMovement.Init(cameraController, playerAiming);
         playerInventory.Init(this);
-        playerCombat.Init(this);
+        playerCombat.Init(this, playerAnimation);
         playerBuilding.Init(playerInventory);
         squadManager.Init();
         playerUI.Init();

@@ -18,6 +18,7 @@ MonoBehaviour:
   rarity: 1
   IsStackable: 0
   maxStackSize: 1
+  instantPickup: 0
   itemMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   itemMaterials:
   - {fileID: 2100000, guid: 9b97bf6788871ed46adada024f586dab, type: 2}
@@ -27,6 +28,7 @@ MonoBehaviour:
   needsAmmo: 0
   ammoType: {fileID: 0}
   attackType: 2
+  weaponType: 1
   shootDistance: 30
   projectileSpeed: 50
   penetrationAmount: 0

@@ -18,16 +18,21 @@ MonoBehaviour:
   rarity: 2
   IsStackable: 0
   maxStackSize: 1
+  instantPickup: 0
   itemMesh: {fileID: 0}
   itemMaterials: []
   customPrefab: {fileID: 1549962704229280597, guid: 4af3d8938075e88468789c45c259ba60, type: 3}
   damage: 4
   attackRate: 0.2
+  needsAmmo: 0
+  ammoType: {fileID: 0}
   attackType: 1
+  weaponType: 2
   shootDistance: 35
   projectileSpeed: 50
   penetrationAmount: 0
   projectileLifetime: 0.35
+  knockBackForce: 0
   concentrationScatter:
     serializedVersion: 2
     m_Curve:

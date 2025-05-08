@@ -7,6 +7,7 @@ public class Weapon : Equipable
     public float attackRate = 0.2f;
     protected float _attackCd;
     public AttackType attackType;
+    public WeaponType weaponType;
 
     //public bool canAttack;
     public bool needsAmmo;
@@ -26,6 +27,7 @@ public class Weapon : Equipable
         if (itemData is WeaponData data)
         {
             attackType = data.attackType;
+            weaponType = data.weaponType;
             damage = data.damage;
             attackRate = data.attackRate;
             needsAmmo = data.needsAmmo;
@@ -77,6 +79,15 @@ public class Weapon : Equipable
     {
         Debug.Log($"Attacked with {itemName}");
     }
+}
+
+public enum WeaponType : byte
+{
+    None,
+    Pistol,
+    Rifle,
+    Sword,
+    Knife,
 }
 
 public enum AttackType : byte

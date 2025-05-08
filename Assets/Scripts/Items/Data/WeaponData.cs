@@ -8,4 +8,6 @@ public class WeaponData : ItemData
     public ItemData ammoType;
 
     public AttackType attackType;
+    
+    public WeaponType weaponType;
 }

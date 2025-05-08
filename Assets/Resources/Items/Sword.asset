@@ -18,6 +18,7 @@ MonoBehaviour:
   rarity: 1
   IsStackable: 0
   maxStackSize: 1
+  instantPickup: 0
   itemMesh: {fileID: 0}
   itemMaterials: []
   customPrefab: {fileID: 5369362668547743331, guid: e6c309f2c9c736a4ab17a102e3a7eb6b, type: 3}
@@ -26,6 +27,7 @@ MonoBehaviour:
   needsAmmo: 0
   ammoType: {fileID: 0}
   attackType: 3
+  weaponType: 3
   attackDuration: 2
   attackCharge: 2
   attackInterval: 1
