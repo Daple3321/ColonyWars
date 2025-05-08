@@ -14,7 +14,7 @@ public class ColonyCore : Building
             this.colonyData = colonyCenterData;
         }
         
-        colony = new Colony(this, Affiliation.Player);    
+        colony = new Colony(this, colonyData, Affiliation.Player);    
     }
     
     public override void Death(){

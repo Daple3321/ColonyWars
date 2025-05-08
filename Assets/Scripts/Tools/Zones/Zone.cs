@@ -34,6 +34,10 @@ public class Zone : MonoBehaviour
         //mat.SetColor("_GlowColor", glowColor);
         SetScale(radius, height);
     }
+    public void SetNoiseEffect(int state)
+    {
+        mat.SetInt("_Noise", state);
+    }
     
     public virtual void SetScale(float newRadius, float newHeight)
     {

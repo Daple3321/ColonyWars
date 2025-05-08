@@ -37,7 +37,7 @@ public static class ZoneFactory
         return zone;
     }
     
-    public static Zone CreateTriggerZone(Vector3 pos, Color color, ZoneShape shape = ZoneShape.Cylinder, float radius = 1f, float height = 5f)
+    public static TriggerZone CreateTriggerZone(Vector3 pos, Color color, ZoneShape shape = ZoneShape.Cylinder, float radius = 1f, float height = 5f)
     {
         GameObject go = null;
         
@@ -64,8 +64,8 @@ public static class ZoneFactory
         
         go.transform.position = pos;
         
-        Zone zone = go.AddComponent<Zone>();
-        //radius *= 2;
+        TriggerZone zone = go.AddComponent<TriggerZone>();
+        radius *= 2;
         zone.Init(color, radius, shape, height);
         
         return zone;

@@ -56,7 +56,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _EdgeThreshold: 0.5
-    - _FoamDistance: 0.57
+    - _FoamDistance: 0.73
     - _IntersectionPower: 1.7
     - _Noise: 0
     - _NoiseScale: 250
