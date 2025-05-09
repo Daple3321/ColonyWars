@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   perstistance: 0.33
   lacunarity: 2
-  _amplitude: 4
+  _amplitude: 3
   _frequency: 4
   octaves: 15
-  maxNoiseHeight: 25
-  minNoiseHeight: -1
+  maxNoiseHeight: 45
+  minNoiseHeight: 3
   fallOffInner: 35
   fallOffStrength: 9
   desc: "Terrain settings: 150x150 \nHeight: 50\n32\n"

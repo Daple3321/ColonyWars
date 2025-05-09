@@ -317,7 +317,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &46056613
 Animator:
   serializedVersion: 7
@@ -1529,7 +1529,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &252141245
 Animator:
   serializedVersion: 7
@@ -2318,7 +2318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terrain: {fileID: 984281502}
-  worldGenSettings: {fileID: 11400000, guid: 4638ba10e9471554cabf5f625e1c6c02, type: 2}
+  worldGenSettings: {fileID: 11400000, guid: 28cb086a7489e734f9c41b3a76318994, type: 2}
   treeGenSkip: 4
   treeSpawnChance: 0.03
   treeSpawnHeight: 0
@@ -2327,7 +2327,7 @@ MonoBehaviour:
   perstistance: 0.45
   lacunarity: 1.85
   _amplitude: 5.5
-  _frequency: 4
+  _frequency: 5
   octaves: 15
   maxNoiseHeight: 35
   minNoiseHeight: -3
@@ -2564,7 +2564,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &522355501
 Animator:
   serializedVersion: 7
@@ -3288,7 +3288,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &716199424
 Animator:
   serializedVersion: 7
@@ -5400,7 +5400,7 @@ MonoBehaviour:
   mouseFollower: {fileID: 0}
   pSpawnPoint: {fileID: 1091325589}
   defaultGameSettings:
-    worldGenSettings: {fileID: 11400000, guid: 4638ba10e9471554cabf5f625e1c6c02, type: 2}
+    worldGenSettings: {fileID: 11400000, guid: 28cb086a7489e734f9c41b3a76318994, type: 2}
     objectGenSettings: {fileID: 11400000, guid: ec9454641d302b6449d9b8434ddda813, type: 2}
     worldType: 0
     gameDifficulty: 2
@@ -19983,7 +19983,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &3344420030412802000
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   perstistance: 0.45
   lacunarity: 1.85
-  _amplitude: 5.5
+  _amplitude: 3
   _frequency: 4
   octaves: 15
-  maxNoiseHeight: 35
-  minNoiseHeight: -3
+  maxNoiseHeight: 45
+  minNoiseHeight: 5
   fallOffInner: 35
   fallOffStrength: 9
+  desc: 
