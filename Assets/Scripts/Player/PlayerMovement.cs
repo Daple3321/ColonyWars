@@ -210,8 +210,8 @@ public class PlayerMovement : MonoBehaviour
             speedX = Mathf.Clamp(characterController.velocity.x, -1, 1);
             speedZ = Mathf.Clamp(characterController.velocity.z, -1, 1);
         }
-        animator.SetFloat("Speed X", speedX, 0.1f, Time.deltaTime);
-        animator.SetFloat("Speed Z", speedZ, 0.1f, Time.deltaTime);
+        animator.SetFloat("Speed X", Mathf.Abs(speedX), 0.1f, Time.deltaTime);
+        animator.SetFloat("Speed Z", Mathf.Abs(speedZ), 0.1f, Time.deltaTime);
         
         Debug.DrawRay(transform.position, crossProd * 2, Color.red);
         Debug.DrawRay(transform.position, moveDir * 5, Color.cyan);

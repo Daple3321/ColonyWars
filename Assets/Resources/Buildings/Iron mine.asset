@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: Iron mine
   m_EditorClassIdentifier: 
   buildingName: Iron mine
-  buildingIcon: {fileID: 21300000, guid: 69e904d1920750845bb21f56fdfd715d, type: 3}
+  buildingIcon: {fileID: 21300000, guid: 04cd37b424ef0da4c978117f83b32047, type: 3}
   craftPrice:
     requirements:
     - item: {fileID: 11400000, guid: dfe06b9807283144fb496089e9fc5643, type: 2}
       quantity: 15
     - item: {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
       quantity: 5
+  insideColonyOnly: 1
   overlapRadius: 1.2
   maxBuildAngle: 30
   prefab: {fileID: 3574145983403160273, guid: 0ed3628a882bbd34e860301b2e5079a5, type: 3}
