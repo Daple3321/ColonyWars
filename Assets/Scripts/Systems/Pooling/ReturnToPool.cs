@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-[RequireComponent(typeof(ParticleSystem))]
 public class ReturnToPool : MonoBehaviour
 {
     public GameObject Prefab { get; set; }
@@ -10,9 +9,11 @@ public class ReturnToPool : MonoBehaviour
 
     void Start()
     {
-        system = GetComponent<ParticleSystem>();
-        ParticleSystem.MainModule main = system.main;
-        main.stopAction = ParticleSystemStopAction.Callback;
+        //system = GetComponent<ParticleSystem>();
+        if(TryGetComponent<ParticleSystem>(out system)){
+            ParticleSystem.MainModule main = system.main;
+            main.stopAction = ParticleSystemStopAction.Callback;
+        }
     }
 
     void OnParticleSystemStopped()

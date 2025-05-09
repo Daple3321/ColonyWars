@@ -1654,7 +1654,7 @@ Transform:
   m_GameObject: {fileID: 252141244}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.3200002, y: 0.257, z: 12.58}
+  m_LocalPosition: {x: 8.15, y: 0.257, z: 35.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1714,6 +1714,10 @@ PrefabInstance:
     - target: {fileID: 8833364481316749265, guid: ed01fc9d95aecf742a4e723288639cb4, type: 3}
       propertyPath: m_Name
       value: RangedUnit_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8833364481316749265, guid: ed01fc9d95aecf742a4e723288639cb4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2120,6 +2124,10 @@ PrefabInstance:
     - target: {fileID: 2149854553417079418, guid: a4b6347044b78084993e98fe4c4b0af7, type: 3}
       propertyPath: m_Name
       value: MeleeUnit_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2149854553417079418, guid: a4b6347044b78084993e98fe4c4b0af7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2158878422839435738, guid: a4b6347044b78084993e98fe4c4b0af7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3632,6 +3640,10 @@ PrefabInstance:
     - target: {fileID: 8833364481316749265, guid: ed01fc9d95aecf742a4e723288639cb4, type: 3}
       propertyPath: m_Name
       value: RangedUnit_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8833364481316749265, guid: ed01fc9d95aecf742a4e723288639cb4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5344,6 +5356,7 @@ GameObject:
   - component: {fileID: 1063750242}
   - component: {fileID: 1063750243}
   - component: {fileID: 1063750244}
+  - component: {fileID: 1063750245}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -5405,6 +5418,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerColonies: []
   enemyColonies: []
+--- !u!114 &1063750245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063750241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2998a6ba83d09bf4f899044fa966517d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  texts: []
 --- !u!1 &1091325588
 GameObject:
   m_ObjectHideFlags: 0
@@ -11461,6 +11487,10 @@ PrefabInstance:
     - target: {fileID: 2149854553417079418, guid: a4b6347044b78084993e98fe4c4b0af7, type: 3}
       propertyPath: m_Name
       value: MeleeUnit_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2149854553417079418, guid: a4b6347044b78084993e98fe4c4b0af7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2158878422839435738, guid: a4b6347044b78084993e98fe4c4b0af7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19241,7 +19271,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &2119315366
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19769,6 +19799,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MeleeUnit
       objectReference: {fileID: 0}
+    - target: {fileID: 2149854553417079418, guid: a4b6347044b78084993e98fe4c4b0af7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2158878422839435738, guid: a4b6347044b78084993e98fe4c4b0af7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 20
@@ -20259,6 +20293,10 @@ PrefabInstance:
     - target: {fileID: 8833364481316749265, guid: ed01fc9d95aecf742a4e723288639cb4, type: 3}
       propertyPath: m_Name
       value: RangedUnit
+      objectReference: {fileID: 0}
+    - target: {fileID: 8833364481316749265, guid: ed01fc9d95aecf742a4e723288639cb4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

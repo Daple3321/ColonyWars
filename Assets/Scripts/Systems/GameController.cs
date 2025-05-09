@@ -48,12 +48,15 @@ public class GameController : MonoBehaviour
         worldGenerator = null;
         objectGenerator = null;
         timeManager = null;
+        PoolManager.Init();
     }
 
     // С параметрами старта (генерация мира, настройки, персонаж)
     public static event Action OnGameStarted;
     private void StartGame(GameSettings gameSettings = null)
     {
+        Application.targetFrameRate = 120;
+        
         ResetStaticVars();
         
         GameAssets.Init(); // это должно быть при запуске игры (в главном меню)
@@ -61,19 +64,38 @@ public class GameController : MonoBehaviour
             gameSettings = defaultGameSettings;
         }
 
-        worldGenerator = GameObject.Find("WorldGen").GetComponent<WorldGenerator>();
+        FindReferences();
+
         worldGenerator.Init(gameSettings.worldGenSettings);
         currentTerrain = worldGenerator.terrain;
-        
-        objectGenerator = GameObject.Find("WorldGen").GetComponent<ObjectGenerator>();
         objectGenerator.Init(gameSettings.objectGenSettings);
-        
-        timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
         timeManager.Init();
-        
         //Pools.Init();
 
         //inventoryUI = GameObject.Find("PlayerInventory").GetComponent<InventoryUI>();
+
+        GameObject playerObj = Instantiate(GameAssets.playerPrefab, pSpawnPoint.position, Quaternion.identity);
+        p = playerObj.GetComponent<Player>();
+        p.InitPlayer();
+        
+        worldCanvas.worldCamera = Camera.main; // after player
+        
+        ColoniesManager.i.Init();
+        ColoniesManager.i.SpawnEnemyColonies(gameSettings);
+        
+        PopUpManager.i.Init();
+        
+        OnGameStarted?.Invoke();
+    }
+    
+    public void FindReferences()
+    {
+        worldGenerator = GameObject.Find("WorldGen").GetComponent<WorldGenerator>();
+        
+        objectGenerator = GameObject.Find("WorldGen").GetComponent<ObjectGenerator>();
+        
+        timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
+
         mainCanvas = GameObject.Find("MainCanvas").GetComponent<Canvas>();
         worldCanvas = GameObject.Find("WorldCanvas").GetComponent<Canvas>();
         
@@ -84,18 +106,6 @@ public class GameController : MonoBehaviour
         buildingPanelManager = GameObject.Find("BuildingCanvas").GetComponent<BuildingPanelManager>();
         
         mouseFollower = GameObject.Find("MouseFollower").GetComponent<MouseFollower>();
-
-        GameObject playerObj = Instantiate(GameAssets.playerPrefab, pSpawnPoint.position, Quaternion.identity);
-        p = playerObj.GetComponent<Player>();
-        p.InitPlayer();
-        
-        worldCanvas.worldCamera = Camera.main; // after player
-        
-        ColoniesManager.i.Init();
-        
-        OnGameStarted?.Invoke();
-        // World gen
-        // Reference assigning
     }
     
     void Start()

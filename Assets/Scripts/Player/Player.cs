@@ -1,5 +1,6 @@
 using System;
 using PrimeTween;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -102,6 +103,8 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         //onPlayerDamaged?.Invoke(health, maxHealth);
         StartCoroutine(PlayerCameraController.CameraShake(9, 0.35f));
         Flash(Color.red, 0.1f);
+        TextMeshProUGUI popUp = PopUpManager.i.Spawn(transform.position+new Vector3(0, 2f, 0), Color.red);
+        popUp.text = damage.ToString("F1");
         
         EventBus.i.PlayerHealthChanged?.Invoke(health, maxHealth);
         EventBus.i.PlayerDamaged?.Invoke(damage);

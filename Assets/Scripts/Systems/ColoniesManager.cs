@@ -46,4 +46,9 @@ public class ColoniesManager : MonoBehaviour
             enemyColonies.Remove(colony);
         }
     }
+    
+    public void SpawnEnemyColonies(GameSettings gameSettings)
+    {
+        
+    }
 }

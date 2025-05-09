@@ -5,7 +5,12 @@ using UnityEngine.Pool;
 public static class PoolManager
 {
     private static Dictionary<GameObject, ObjectPool<GameObject>> _pools = new();
-
+    
+    public static void Init(){
+        _pools.Clear();
+        _pools = new();
+    }
+    
     public static GameObject Get(GameObject prefab)
     {
         if (!_pools.ContainsKey(prefab))
