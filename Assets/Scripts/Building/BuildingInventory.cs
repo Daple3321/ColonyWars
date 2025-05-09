@@ -81,4 +81,14 @@ public class BuildingInventory
             }
         }
     }
+    
+    public void DropAllItems()
+    {
+        Dictionary<int, InventoryItem> inventoryState = inventory.GetCurrentInventoryState();
+        
+        foreach(var item in inventoryState)
+        {
+            inventory.DropWholeStack(item.Key, buildingOwner.transform.position+new Vector3(0, 2f, 0), Vector3.up, 360);
+        }
+    }
 }

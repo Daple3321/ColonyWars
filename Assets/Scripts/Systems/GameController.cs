@@ -85,6 +85,8 @@ public class GameController : MonoBehaviour
         
         PopUpManager.i.Init();
         
+        EventBus.i.PlayerDeath += OnPlayerDeath;
+        
         OnGameStarted?.Invoke();
     }
     
@@ -128,7 +130,28 @@ public class GameController : MonoBehaviour
             worldGenerator.GenerateTerrain().Forget();
         }
     }
-
+    
+    private void OnPlayerDeath()
+    {
+        if(ColoniesManager.i.playerColonies.Count <= 0){
+            Helper.RestartCurrentScene();
+        }
+        else{
+            StartCoroutine(RespawnPlayer(ColoniesManager.i.playerColonies[0].core.transform.position));
+        }
+    }
+    
+    public IEnumerator RespawnPlayer(Vector3 pos)
+    {
+        yield return new WaitForSeconds(2f);
+        
+        p.TakeDamage(-p.maxHealth);
+        p.transform.position = pos;
+        p.gameObject.SetActive(true);
+        
+        EventBus.i.PlayerRespawn?.Invoke();
+    }
+    
 
     public static Vector3 GetPointOnTerrain(Vector3 point)
     {

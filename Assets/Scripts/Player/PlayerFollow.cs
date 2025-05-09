@@ -8,6 +8,7 @@ public class PlayerFollow : MonoBehaviour
     {
         transform.SetParent(null);
         EventBus.i.PlayerDeath += OnPlayerDeath;
+        EventBus.i.PlayerRespawn += ()=> enabled = true;
     }
 
     void Update()

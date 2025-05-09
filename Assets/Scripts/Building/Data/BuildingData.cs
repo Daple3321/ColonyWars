@@ -41,11 +41,11 @@ public class BuildingData : ScriptableObject
             {
                 if(Vector3.Distance(projectionPos, colony.core.transform.position) < colony.colonyRadius)
                 {
-                    Debug.Log($"Inside colony! Dist: {Vector3.Distance(projectionPos, colony.core.transform.position)}", colony.core);
+                    //Debug.Log($"Inside colony! Dist: {Vector3.Distance(projectionPos, colony.core.transform.position)}", colony.core);
                     inColonyZone = true;
                 }
                 else{
-                    Debug.Log($"Outside colony! Dist: {Vector3.Distance(projectionPos, colony.core.transform.position)}", colony.core);
+                    //Debug.Log($"Outside colony! Dist: {Vector3.Distance(projectionPos, colony.core.transform.position)}", colony.core);
                 }
             }
             return inColonyZone;

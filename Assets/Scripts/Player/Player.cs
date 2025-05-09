@@ -129,8 +129,9 @@ public class Player : MonoBehaviour, IDamageable, ICommander
 
     public void Death()
     {
+        gameObject.SetActive(false);
         EventBus.i.PlayerDeath?.Invoke();
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
     
     public void HandleCommands()

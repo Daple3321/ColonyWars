@@ -1001,6 +1001,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingName: {fileID: 6019089217846862494}
+  destroyButton: {fileID: 5720312927829955758}
+  upgradesButton: {fileID: 9153674454961833233}
   healthBar: {fileID: 2732330493022058455}
   dataContainter: {fileID: 8378461059478157747}
   building: {fileID: 0}

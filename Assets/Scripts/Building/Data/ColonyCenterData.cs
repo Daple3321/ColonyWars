@@ -39,7 +39,7 @@ public class ColonyCenterData : BuildingData
                 float radiusSum = colonyRadius + colony.colonyRadius;
                 if(colonyDistance < radiusSum)
                 {
-                    Debug.Log($"Overlapping player colony! Dist: {Vector3.Distance(projectionPos, colony.core.transform.position)}", colony.core);
+                    //Debug.Log($"Overlapping player colony! Dist: {Vector3.Distance(projectionPos, colony.core.transform.position)}", colony.core);
                     overlappingWithColony = true;
                 }
                 else{
@@ -47,7 +47,7 @@ public class ColonyCenterData : BuildingData
                 }
             }
             if(!overlappingWithColony){
-                Debug.Log($"Outside any player colonies!");
+                //Debug.Log($"Outside any player colonies!");
             }
             
             foreach(Colony colony in ColoniesManager.i.enemyColonies)
@@ -57,7 +57,7 @@ public class ColonyCenterData : BuildingData
                 
                 if(colonyDistance < radiusSum)
                 {
-                    Debug.Log($"Overlapping with enemy colony! Dist: {Vector3.Distance(projectionPos, colony.core.transform.position):1F}", colony.core);
+                    //Debug.Log($"Overlapping with enemy colony! Dist: {Vector3.Distance(projectionPos, colony.core.transform.position):1F}", colony.core);
                     overlappingWithColony = true;
                 }
                 else{
@@ -65,7 +65,7 @@ public class ColonyCenterData : BuildingData
                 }
             }
             if(!overlappingWithColony){
-                Debug.Log($"Outside ANY colonies!");
+                //Debug.Log($"Outside ANY colonies!");
             }
             
             return !overlappingWithColony; // ну это тупость так менять

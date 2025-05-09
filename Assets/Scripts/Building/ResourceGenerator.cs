@@ -191,4 +191,11 @@ public class ResourceGenerator : Generator
     {
         resourcesNearby.Remove(node);
     }
+
+    public override void OnDeath()
+    {
+        base.OnDeath();
+        
+        buildingInventory.DropAllItems();
+    }
 }

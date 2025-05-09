@@ -15,14 +15,14 @@ public class ColoniesManager : MonoBehaviour
         }
     }
 
-    public List<Colony> playerColonies;
+    public List<PlayerColony> playerColonies;
     
-    public List<Colony> enemyColonies;
+    public List<EnemyColony> enemyColonies;
     
     public void Init()
     {
-        playerColonies = new List<Colony>();
-        enemyColonies = new List<Colony>();
+        playerColonies = new List<PlayerColony>();
+        enemyColonies = new List<EnemyColony>();
         
         EventBus.i.OnColonyCreated += OnColonyCreated;
         EventBus.i.OnColonyDestroyed += OnColonyDestroyed;
@@ -30,20 +30,20 @@ public class ColoniesManager : MonoBehaviour
     
     public void OnColonyCreated(Colony newColony)   
     {
-        if (newColony.affiliation == Affiliation.Player){
-            playerColonies.Add(newColony);
+        if (newColony is PlayerColony pColony){
+            playerColonies.Add(pColony);
         }
-        else if (newColony.affiliation == Affiliation.Enemy){
-            enemyColonies.Add(newColony);
+        else if (newColony is EnemyColony eColony){
+            enemyColonies.Add(eColony);
         }
     }
     public void OnColonyDestroyed(Colony colony)   
     {
-        if (colony.affiliation == Affiliation.Player){
-            playerColonies.Remove(colony);
+        if (colony is PlayerColony pColony){
+            playerColonies.Remove(pColony);
         }
-        else if (colony.affiliation == Affiliation.Enemy){
-            enemyColonies.Remove(colony);
+        else if (colony is EnemyColony eColony){
+            enemyColonies.Remove(eColony);
         }
     }
     

@@ -58,7 +58,12 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
     }
     public virtual void Death(){
         OnBuildingDestroyed?.Invoke(this);
+        OnDeath();
         Destroy(gameObject);
+    }
+    public virtual void OnDeath()
+    {
+        
     }
 
     public virtual void OnClick(Player caller)

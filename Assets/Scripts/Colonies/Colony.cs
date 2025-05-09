@@ -12,6 +12,7 @@ public class Colony
     public ColonyCore core;
     public List<Building> buildings;
     public event Action<Building> OnBuildingAdded; // when new building is built in zone
+    public event Action<Building> OnBuildingRemoved;
     
     public Affiliation affiliation;
     public TriggerZone colonyZone;
@@ -22,29 +23,31 @@ public class Colony
         this.colonyRadius = colonyData.colonyRadius;
         buildings = new List<Building>();
         
-        if(affiliation == Affiliation.Player){
-            colonyZone = ZoneFactory.CreateTriggerZone(core.transform.position, Color.cyan, ZoneShape.Cylinder, colonyRadius, 10f);
-            colonyZone.transform.position = core.transform.position;
-            //colonyZone.SetNoiseEffect(1);
-            colonyZone.OnZoneEnter += x =>  {Debug.Log($"{x.gameObject.name} entered colony zone!");};
-            //colonyZone.transform.SetParent(core.transform); // НУ И КАК ЭТО СДЕЛАТЬ ТО???
-        }
-        else{
-            colonyZone = ZoneFactory.CreateTriggerZone(core.transform.position, Color.red, ZoneShape.Cylinder, colonyRadius, 10f);
-            colonyZone.transform.position = core.transform.position;
-            colonyZone.SetNoiseEffect(1);
-            colonyZone.OnZoneEnter += x =>  {Debug.Log($"{x.gameObject.name} entered enemy zone!");};
-        }
+        // if(affiliation == Affiliation.Player){
+        //     colonyZone = ZoneFactory.CreateTriggerZone(core.transform.position, Color.cyan, ZoneShape.Cylinder, colonyRadius, 10f);
+        //     colonyZone.transform.position = core.transform.position;
+        //     //colonyZone.SetNoiseEffect(1);
+        //     colonyZone.OnZoneEnter += x =>  {Debug.Log($"{x.gameObject.name} entered colony zone!");};
+        //     //colonyZone.transform.SetParent(core.transform); // НУ И КАК ЭТО СДЕЛАТЬ ТО???
+        // }
+        // else{
+        //     colonyZone = ZoneFactory.CreateTriggerZone(core.transform.position, Color.red, ZoneShape.Cylinder, colonyRadius, 10f);
+        //     colonyZone.transform.position = core.transform.position;
+        //     colonyZone.SetNoiseEffect(1);
+        //     colonyZone.OnZoneEnter += x =>  {Debug.Log($"{x.gameObject.name} entered enemy zone!");};
+        // }
         
+        core.OnBuildingDestroyed += OnCoreDestroyed;
         EventBus.i.OnColonyCreated?.Invoke(this);
-        EventBus.i.OnPlayerBuild += OnPlayerBuild;
     }
     
-    public virtual void OnPlayerBuild(Building building)
+    protected virtual void OnCoreDestroyed(Building core)
     {
-        if(Vector3.Distance(building.transform.position, core.transform.position) < colonyRadius)
+        GameObject.Destroy(colonyZone.gameObject);
+        foreach (Building building in buildings)
         {
-            AddBuilding(building);
+            building.Death();
+            //GameObject.Destroy(building.gameObject);
         }
     }
     
@@ -56,5 +59,15 @@ public class Colony
         
         buildings.Add(building);
         OnBuildingAdded?.Invoke(building);
+    }
+    
+    public virtual void RemoveBuilding(Building building)
+    {
+        if(building is ColonyCore){
+            return;
+        }
+        
+        buildings.Remove(building);
+        OnBuildingRemoved?.Invoke(building);
     }
 }

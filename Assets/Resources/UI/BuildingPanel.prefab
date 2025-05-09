@@ -823,6 +823,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingName: {fileID: 8622213997207308535}
+  destroyButton: {fileID: 8044267323149231825}
+  upgradesButton: {fileID: 8702920114035845037}
   healthBar: {fileID: 2510241023543403397}
   dataContainter: {fileID: 2281466939339643370}
   building: {fileID: 0}

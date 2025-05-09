@@ -28,6 +28,7 @@ public class EventBus
     
     // ------------------------ PLAYER ---------------------------
     public Action PlayerDeath;
+    public Action PlayerRespawn;
     public Action<float, float> PlayerHealthChanged;
     public Action<float> PlayerDamaged;
     public Action<float, float> PlayerCommandEnergyChanged;

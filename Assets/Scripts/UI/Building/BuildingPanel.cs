@@ -1,10 +1,13 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BuildingPanel : MonoBehaviour
 {
     public TextMeshProUGUI buildingName;
+    public Button destroyButton;
+    public Button upgradesButton;
     public Bar healthBar;
     public RectTransform dataContainter;
     
@@ -21,6 +24,8 @@ public class BuildingPanel : MonoBehaviour
         healthBar.UpdateBar(building.health, building.maxHealth);
         
         buildingName.text = building.buildingData.buildingName;
+        
+        destroyButton.onClick.AddListener(DestroyButton);
     }
     void OnDestroy(){
         building.OnHealthChanged -= healthBar.UpdateBar;
@@ -37,6 +42,11 @@ public class BuildingPanel : MonoBehaviour
             manager.ClearCurrentPanel();
             //canHide = false;
         }
+    }
+    
+    protected void DestroyButton()
+    {
+        building.Death();
     }
     
 
