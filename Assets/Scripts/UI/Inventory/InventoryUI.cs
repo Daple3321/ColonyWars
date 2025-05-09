@@ -180,6 +180,7 @@ public class InventoryUI : MonoBehaviour
 
     public void Show()
     {
+        EventBus.i.OnInteractivePanelOpened?.Invoke();
         gameObject.SetActive(true);
         ResetSelection();
     }
@@ -199,6 +200,7 @@ public class InventoryUI : MonoBehaviour
 
     public void Hide()
     {
+        EventBus.i.OnInteractivePanelClosed?.Invoke();
         gameObject.SetActive(false);
         ResetDraggedItem();
     }

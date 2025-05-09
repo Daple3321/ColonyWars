@@ -43,6 +43,8 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     public void InitPlayer()
     {
         mat = GetComponentInChildren<Renderer>().material;
+        CrosshairManager.i.Init();
+        CrosshairManager.SwitchCrosshair(true);
         
         cameraController.Init(playerFollow);
         playerAnimation.Init(animator);
@@ -61,8 +63,6 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         playerInventory.SelectItem(playerInventory.hotbar, 0);
 
         MouseTooltip.i.Init();
-        CrosshairManager.i.Init();
-        CrosshairManager.SwitchCrosshair(false);
         
         controls = GameAssets.controls;
         mouse = Mouse.current;

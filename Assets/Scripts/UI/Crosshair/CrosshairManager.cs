@@ -20,6 +20,7 @@ public class CrosshairManager : MonoBehaviour
     
     public Texture2D customCursor;
     
+    public static bool customCursorActive = false;
     [SerializeField] private RectTransform crosshairHolder;
     [SerializeField] private Canvas crosshairCanvas;
     
@@ -42,13 +43,17 @@ public class CrosshairManager : MonoBehaviour
     public static void SwitchCrosshair(bool state){
         if(!state){
             Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             HideStatic();
-            i.gameObject.SetActive(false);
+            customCursorActive = false;
+            //i.gameObject.SetActive(false);
         }
         else{
-            i.gameObject.SetActive(true);
+            //i.gameObject.SetActive(true);
             Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
             ShowStatic();
+            customCursorActive = true;
         }
     }
     
@@ -64,17 +69,29 @@ public class CrosshairManager : MonoBehaviour
         Hide();
         
         Cursor.SetCursor(customCursor, new Vector2(36, 36), CursorMode.Auto);
+        
+        EventBus.i.OnInteractivePanelOpened += ()=>{
+            if(customCursorActive){
+                SwitchCrosshair(false);
+            }
+        };
+        
+        EventBus.i.OnInteractivePanelClosed += ()=>{
+            if(!customCursorActive){
+                SwitchCrosshair(true);
+            }
+        };
     }
 
     void Update()
     {
-        Vector2 position;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            (RectTransform)crosshairCanvas.transform,
-            Input.mousePosition,
-            crosshairCanvas.worldCamera,
-            out position
-        );
-        crosshairHolder.position = crosshairCanvas.transform.TransformPoint(position);
+        // Vector2 position;
+        // RectTransformUtility.ScreenPointToLocalPointInRectangle(
+        //     (RectTransform)crosshairCanvas.transform,
+        //     Input.mousePosition,
+        //     crosshairCanvas.worldCamera,
+        //     out position
+        // );
+        // crosshairHolder.position = crosshairCanvas.transform.TransformPoint(position);
     }
 }

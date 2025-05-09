@@ -119,9 +119,11 @@ public class PlayerBuilding : MonoBehaviour
     {
         if(!buildUI.isActiveAndEnabled){
             buildUI.Show();
+            EventBus.i.OnInteractivePanelOpened?.Invoke();
         }
         else if(buildUI.isActiveAndEnabled){
             buildUI.Hide();
+            EventBus.i.OnInteractivePanelClosed?.Invoke();
         }
     }
     

@@ -39,6 +39,9 @@ public class EventBus
     
     public Action PlayerBuildModeEnter;
     public Action<Building> OnPlayerBuild;
+    
+    public Action OnInteractivePanelOpened;
+    public Action OnInteractivePanelClosed;
     // ----------------------------------------------------------
 
     // ------------------------ WORLD ---------------------------

@@ -54,11 +54,13 @@ public class SquadManager : MonoBehaviour
         if(squadAssembleUI.isActiveAndEnabled){
             searchingForUnits = false;
             squadAssembleUI.gameObject.SetActive(false);
+            EventBus.i.OnInteractivePanelClosed?.Invoke();
         }
         else{
             searchingForUnits = true;
             //squadAssembleUI.ClearUI();
             squadAssembleUI.gameObject.SetActive(true);
+            EventBus.i.OnInteractivePanelOpened?.Invoke();
         }
     }
     public bool SearchForUnits()

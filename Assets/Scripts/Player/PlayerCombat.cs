@@ -180,6 +180,7 @@ public class PlayerCombat : MonoBehaviour
                     StopCoroutine(_aimRoutine);
                 }
                 concentraion = 0;
+                EventBus.i.PlayerConcentrationChanged?.Invoke(concentraion);
                 this.isAiming = false;
             }
         }

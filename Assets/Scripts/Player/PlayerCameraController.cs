@@ -8,6 +8,7 @@ public class PlayerCameraController : MonoBehaviour
     public CinemachineOrbitalFollow cmFollow;
     public CinemachineCamera cinemachineCamera;
     public CinemachinePositionComposer positionComposer;
+    public CinemachineInputAxisController cinemachineInputAxisController;
     public static CinemachineBasicMultiChannelPerlin camNoise;
     public Camera mainCamera;
     private Controls controls;
@@ -41,10 +42,11 @@ public class PlayerCameraController : MonoBehaviour
     public void Init(PlayerFollow playerFollow)
     {
         //cmFollow = transform.Find("CinemachineCamera").GetComponent<CinemachineOrbitalFollow>();
-        positionComposer = transform.Find("CinemachineCamera").GetComponent<CinemachinePositionComposer>();
+        //positionComposer = transform.Find("CinemachineCamera").GetComponent<CinemachinePositionComposer>();
         cinemachineCamera = transform.Find("CinemachineCamera").GetComponent<CinemachineCamera>();
         mainCamera = transform.Find("Main Camera").GetComponent<Camera>();
         camNoise = cinemachineCamera.GetComponent<CinemachineBasicMultiChannelPerlin>();
+        cinemachineInputAxisController = cinemachineCamera.GetComponent<CinemachineInputAxisController>();
         Noise(0, 0);
         EventBus.i.PlayerDeath += () => {Noise(0,0);};
 
@@ -62,13 +64,20 @@ public class PlayerCameraController : MonoBehaviour
 
         xRotate = cinemachineCamera.transform.rotation.eulerAngles.x;
         yRotate = cinemachineCamera.transform.rotation.eulerAngles.y;
-
+        
+        EventBus.i.OnInteractivePanelOpened += () => {
+            cinemachineInputAxisController.enabled = false;
+        };
+        EventBus.i.OnInteractivePanelClosed += () => {
+            cinemachineInputAxisController.enabled = true;
+        };
+        
         enabled = true;
     }
 
     void Update()
     {
-        HandleCameraControl();
+        //HandleCameraControl();
     }
 
     public void HandleCameraControl()

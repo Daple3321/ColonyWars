@@ -13,6 +13,7 @@ public class AimCrosshair : Crosshair
     
     public void UpdateCrosshair(float concentraion)
     {
-        rectTransform.sizeDelta = new Vector2(concentraion, concentraion);
+        float sizeDelta = Mathf.Lerp(15f, 60f, concentraion);
+        rectTransform.sizeDelta = new Vector2(sizeDelta, sizeDelta);
     }
 }
