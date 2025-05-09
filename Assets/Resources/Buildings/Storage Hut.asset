@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Storage Hut
   m_EditorClassIdentifier: 
   buildingName: Storage Hut
-  buildingIcon: {fileID: 3625043607559282579, guid: 156d4a9fd6d3df245afed6da4277aac5, type: 3}
+  buildingIcon: {fileID: 21300000, guid: cbe4a635db6d79944855ee321639111a, type: 3}
   craftPrice:
     requirements:
     - item: {fileID: 11400000, guid: dfe06b9807283144fb496089e9fc5643, type: 2}
