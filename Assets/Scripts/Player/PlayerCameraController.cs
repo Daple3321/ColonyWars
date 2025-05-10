@@ -43,8 +43,8 @@ public class PlayerCameraController : MonoBehaviour
     {
         //cmFollow = transform.Find("CinemachineCamera").GetComponent<CinemachineOrbitalFollow>();
         //positionComposer = transform.Find("CinemachineCamera").GetComponent<CinemachinePositionComposer>();
-        cinemachineCamera = transform.Find("CinemachineCamera").GetComponent<CinemachineCamera>();
-        mainCamera = transform.Find("Main Camera").GetComponent<Camera>();
+        cinemachineCamera = GameObject.Find("CinemachineCamera").GetComponent<CinemachineCamera>();
+        mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         camNoise = cinemachineCamera.GetComponent<CinemachineBasicMultiChannelPerlin>();
         cinemachineInputAxisController = cinemachineCamera.GetComponent<CinemachineInputAxisController>();
         Noise(0, 0);
