@@ -15,13 +15,40 @@ public class PlayerMovement : MonoBehaviour
     public float maxStamina;
 
     public float fallSpeed;
-    public float rotationSpeed;
-    public float zoomSpeed;
 
     [Header("State vars")]
     public bool canRegenStamina;
     public static bool isRunning;
     public bool runningAllowed = true;
+    
+    [Header("Movement Parameters")]
+    //[Tooltip("Скорость передвижения игрока")]
+    //public float moveSpeed = 5.0f;
+    [Tooltip("Скорость поворота игрока, чтобы он смотрел в направлении движения")]
+    public float rotationSpeed = 720.0f; // Градусов в секунду
+    [Tooltip("Сила прыжка")]
+    public float jumpForce = 8.0f;
+    [Tooltip("Сила гравитации")]
+    public float gravity = 20.0f;
+    [Tooltip("Коэффициент сглаживания для поворота к направлению движения")]
+    public float turnSmoothTime = 0.1f;
+    
+    [Header("Ground Check")]
+    [Tooltip("Радиус проверки нахождения на земле")]
+    public float groundCheckRadius = 0.3f;
+    [Tooltip("Смещение точки проверки нахождения на земле относительно центра объекта")]
+    public Vector3 groundCheckOffset = new Vector3(0, -0.8f, 0); // Подстройте под вашего персонажа
+    [Tooltip("Маска слоев, которые считаются землей")]
+    public LayerMask groundLayer;
+    
+    [Header("External Forces")]
+    [Tooltip("Коэффициент затухания внешней силы (как быстро игрок остановится после толчка)")]
+    public float externalForceDamping = 5.0f;
+    
+    private Vector3 _playerVelocity; // Скорость игрока, включая гравитацию и прыжок
+    private Vector3 _externalForce;  // Внешние силы, действующие на игрока (например, отталкивание)
+    private bool _isGrounded;
+    private float _turnSmoothVelocity;
     
 
     [Space(10)]
@@ -47,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
     public void Init(PlayerCameraController cameraController, PlayerAiming playerAiming)
     {
         //Cursor.lockState = CursorLockMode.Confined;
-        Cursor.visible = true;
+        //Cursor.visible = true;
 
         this.cameraController = cameraController;
         this.playerAiming = playerAiming;
@@ -84,57 +111,6 @@ public class PlayerMovement : MonoBehaviour
     
     void Update()
     {
-        //Debug.DrawRay(transform.position, moveDir * 5, Color.magenta);
-        // ------------------------------------------------- //
-        // Vector2 moveInput = moveAction.ReadValue<Vector2>();
-        // Vector3 inputDir = new Vector3(moveInput.x, 0, moveInput.y);
-        // Vector3 moveDirFixed = transform.rotation * inputDir;
-        // moveDirFixed = moveDirFixed.normalized * moveSpeed * Time.deltaTime;
-        // if (!characterController.isGrounded)
-        // {
-        //     moveDirFixed.y = -fallSpeed * Time.deltaTime;
-        // }
-        //Debug.DrawRay(transform.position, moveDirFixed * 5, Color.blue);
-
-        //Vector3 rotationVector = Quaternion.AngleAxis(90, Vector3.up) * (cm.transform.position - transform.position);
-        //Vector3 crossProd = Vector3.Cross(transform.up, rotationVector);
-        //Debug.DrawRay(transform.position, crossProd * 5, Color.red);
-
-        // ---------- THIRD PERSON ROTATION ---------- //
-        //Vector3 rotationVector = Quaternion.AngleAxis(90, Vector3.up) * (cm.transform.position - transform.position);
-        //Vector3 crossProd = Vector3.Cross(transform.up, rotationVector);
-        // if (Mathf.Abs(characterController.velocity.magnitude) > 0.5f) // блокировка вращения если velocity маленький
-        // {
-
-        // }
-        //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(crossProd, Vector3.up), rotationSpeed * Time.deltaTime);
-        // ------------------------------------------ //
-
-
-        // float diffZ = cm.transform.position.y - transform.position.y;
-        // Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, diffZ);
-        // Vector3 screenPoint = cm.ScreenToWorldPoint(mousePos);
-        // screenPoint.y = transform.position.y;
-        // transform.LookAt(screenPoint);
-
-
-        //Vector3 dirToMouse = screenPoint - transform.position;
-        //float angle = Mathf.Atan2(dirToMouse.z, dirToMouse.x) * Mathf.Rad2Deg;
-        //Debug.DrawRay(transform.position, Quaternion.AngleAxis(-(angle-90), Vector3.up) * Vector3.forward , Color.yellow);
-        //Debug.DrawRay(cm.transform.position, dirToMouse, Color.green);
-        //transform.rotation = Quaternion.AngleAxis(-(angle - 90), Vector3.up);
-
-        // Ray cameraRay = cm.ScreenPointToRay(Input.mousePosition);
-        // Plane groundPlane = new Plane(transform.up, Vector3.zero);
-        // float rayLength;
-        // if (groundPlane.Raycast(cameraRay, out rayLength))
-        // {
-        //     Vector3 pointToLook = cameraRay.GetPoint(rayLength);
-        //     Debug.DrawLine(cameraRay.origin, pointToLook, Color.yellow);
-
-        //     transform.LookAt(new Vector3(pointToLook.x, transform.position.y, pointToLook.z));
-        // }
-
         if (Input.GetKeyDown(KeyCode.N))
         {
             Debug.Log($"SampleHeight: {terrain.SampleHeight(transform.position)}");
@@ -145,26 +121,156 @@ public class PlayerMovement : MonoBehaviour
             {
                 Debug.Log($"Angle: {Vector3.Angle(Vector3.up, hit.normal)}");
             }
-            //Debug.Log($"GetSteepness: {terrain.terrainData.GetSteepness(transform.position.x, transform.position.z)}");
-            //Debug.Log($"GetInterplNormal: {terrain.terrainData.GetInterpolatedNormal(transform.position.x, transform.position.z)}");
-            // float normX = (float)1 / (float)terrain.terrainData.alphamapWidth;
-            // float normY = (float)1 / (float)terrain.terrainData.alphamapHeight;
-
-            // float height = terrain.terrainData.GetHeight(
-            //     Mathf.RoundToInt(normY * terrain.terrainData.heightmapResolution), Mathf.RoundToInt(normX * terrain.terrainData.heightmapResolution));
-            // Debug.Log($"Height in alphamap (5,5): {height}");
         }
-
-        HandleRunning();
-        HandleMovementAndRotation();
         
+        
+        HandleRunning();
+        HandleMovement();
         if(PlayerAiming.isAiming){
             HandleRotationToMouse();
         }
         else{
             HandleRotationToVelocity();
         }
+        HandleGravityAndJump();
+        ApplyExternalForces();
+        ApplyMovement();
+        HandleAnimation();
+        
+        
+        //HandleMovementAndRotation();
     }
+    void FixedUpdate()
+    {
+        CheckIfGrounded();
+    }
+    private void CheckIfGrounded()
+    {
+        Vector3 spherePosition = transform.position + groundCheckOffset;
+        _isGrounded = Physics.CheckSphere(spherePosition, groundCheckRadius, groundLayer, QueryTriggerInteraction.Ignore);
+    }
+    private void HandleMovement()
+    {
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float verticalInput = Input.GetAxisRaw("Vertical");
+
+        // Направление движения относительно ввода пользователя
+        Vector3 inputDirection = new Vector3(horizontalInput, 0f, verticalInput).normalized;
+
+        if (inputDirection.magnitude >= 0.1f)
+        {
+            // Получаем угол поворота относительно направления камеры
+            float targetAngle = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera.transform.eulerAngles.y;
+            // Сглаживаем поворот персонажа
+            //float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _turnSmoothVelocity, turnSmoothTime);
+            //transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+            // Направление движения с учетом поворота камеры
+            Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            _playerVelocity.x = moveDirection.x * currentSpeed;
+            _playerVelocity.z = moveDirection.z * currentSpeed;
+        }
+        else
+        {
+            // Если нет ввода, постепенно останавливаем горизонтальное движение
+            _playerVelocity.x = Mathf.Lerp(_playerVelocity.x, 0, Time.deltaTime * externalForceDamping); // Используем externalForceDamping для плавности остановки
+            _playerVelocity.z = Mathf.Lerp(_playerVelocity.z, 0, Time.deltaTime * externalForceDamping);
+        }
+    }
+    private void HandleRotationToVelocity()
+    {
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float verticalInput = Input.GetAxisRaw("Vertical");
+        
+        // Направление движения относительно ввода пользователя
+        Vector3 inputDirection = new Vector3(horizontalInput, 0f, verticalInput).normalized;
+        
+        if (inputDirection.magnitude >= 0.1f)
+        {
+            // Получаем угол поворота относительно направления камеры
+            float targetAngle = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + mainCamera.transform.eulerAngles.y;
+            // Сглаживаем поворот персонажа
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _turnSmoothVelocity, turnSmoothTime);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+        }
+    }
+    private void HandleAnimation()
+    {
+        float speedX = Mathf.Clamp(_playerVelocity.x, -2, 2);
+        float speedZ = Mathf.Clamp(_playerVelocity.z, -2, 2);
+        if(!isRunning){
+            speedX = Mathf.Clamp(_playerVelocity.x, -1, 1);
+            speedZ = Mathf.Clamp(_playerVelocity.z, -1, 1);
+        }
+        animator.SetFloat("Speed X", Mathf.Abs(speedX), 0.1f, Time.deltaTime);
+        animator.SetFloat("Speed Z", Mathf.Abs(speedZ), 0.1f, Time.deltaTime);
+    }
+    private void HandleGravityAndJump()
+    {
+        if (_isGrounded)
+        {
+            // Если на земле, сбрасываем вертикальную скорость (чтобы не накапливалась гравитация)
+            // Небольшое отрицательное значение помогает "приклеить" к земле
+            _playerVelocity.y = -2f;
+
+            if (Input.GetKey(KeyCode.Space))
+            {
+                //_playerVelocity.y = jumpForce;
+                AddForce(Vector3.up*jumpForce);
+            }
+        }
+        else
+        {
+            // Применяем гравитацию, если не на земле
+            _playerVelocity.y -= gravity * Time.deltaTime;
+        }
+    }
+    private void ApplyExternalForces()
+    {
+        if (_externalForce.magnitude > 0.01f)
+        {
+            characterController.Move(_externalForce * Time.deltaTime);
+            // Затухание внешней силы
+            _externalForce = Vector3.Lerp(_externalForce, Vector3.zero, externalForceDamping * Time.deltaTime);
+        }
+    }
+
+    private void ApplyMovement()
+    {
+        // Объединяем движение от ввода, гравитацию/прыжок и внешние силы
+        Vector3 finalVelocity = new Vector3(_playerVelocity.x, _playerVelocity.y, _playerVelocity.z);
+        characterController.Move(finalVelocity * Time.deltaTime);
+    }
+    
+    /// <summary>
+    /// Применяет внешнюю силу к игроку (например, отталкивание).
+    /// </summary>
+    /// <param name="force">Вектор силы.</param>
+    public void AddForce(Vector3 force)
+    {
+        // Если сила направлена в основном вверх (например, подбрасывание),
+        // то добавляем ее к вертикальной скорости, чтобы она сочеталась с гравитацией.
+        // Иначе, добавляем как горизонтальную внешнюю силу.
+        if (Mathf.Abs(force.y) > Mathf.Abs(force.x) + Mathf.Abs(force.z)) // Проверяем, доминирует ли Y-компонента
+        {
+            _playerVelocity.y += force.y; // Добавляем к текущей вертикальной скорости (влияет на прыжок/падение)
+             _externalForce += new Vector3(force.x, 0, force.z); // Горизонтальную часть добавляем как обычно
+        }
+        else
+        {
+            _externalForce += force;
+        }
+    }
+
+#if UNITY_EDITOR
+    // Отрисовка сферы для проверки земли в редакторе для удобства настройки
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = _isGrounded ? Color.green : Color.red;
+        Vector3 spherePosition = transform.position + groundCheckOffset;
+        Gizmos.DrawWireSphere(spherePosition, groundCheckRadius);
+    }
+#endif
 
     private void HandleMovementAndRotation()
     {
@@ -198,12 +304,6 @@ public class PlayerMovement : MonoBehaviour
                 
         characterController.Move(moveDir);
         
-        //float speedX = Mathf.Clamp(Mathf.Lerp(animator.GetFloat("Speed X"), characterController.velocity.x, 3*Time.deltaTime), -2, 2);
-        //float speedZ = Mathf.Clamp(Mathf.Lerp(animator.GetFloat("Speed Z"), characterController.velocity.z, 3*Time.deltaTime), -2, 2);
-        
-        //float speedX = Mathf.Lerp(animator.GetFloat("Speed X"), moveInput.x, 4*Time.deltaTime);
-        //float speedZ = Mathf.Lerp(animator.GetFloat("Speed Z"), moveInput.y, 4*Time.deltaTime);
-        
         float speedX = Mathf.Clamp(characterController.velocity.x, -2, 2);
         float speedZ = Mathf.Clamp(characterController.velocity.z, -2, 2);
         if(!isRunning){
@@ -215,25 +315,11 @@ public class PlayerMovement : MonoBehaviour
         
         Debug.DrawRay(transform.position, crossProd * 2, Color.red);
         Debug.DrawRay(transform.position, moveDir * 5, Color.cyan);
-
-        // Vector3 mousePos = Input.mousePosition;
-        // Ray cameraRay = mainCamera.ScreenPointToRay(mousePos);
-        // // Определяем высоту персонажа (плоскость, на которой он стоит)
-        // float planeY = transform.position.y;
-        // // Вычисляем, где луч пересекает эту высоту
-        // float t = (planeY - cameraRay.origin.y) / cameraRay.direction.y;
-        // Vector3 worldMousePos = cameraRay.origin + t * cameraRay.direction;
-        // // Убираем возможные отклонения по высоте
-        // worldMousePos.y = transform.position.y;
-        // transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(worldMousePos - transform.position, Vector3.up), rotationSpeed * Time.deltaTime);
-        // //transform.LookAt(worldMousePos);
-        // Debug.DrawLine(transform.position, worldMousePos, Color.yellow);
-
     }
     
     Vector2 _moveInput;
     //Quaternion currentRotation;
-    private void HandleRotationToVelocity()
+    /*private void HandleRotationToVelocity()
     {
         _moveInput = moveAction.ReadValue<Vector2>();
         Vector3 moveDir = new Vector3(-_moveInput.x, 0, _moveInput.y);
@@ -256,8 +342,8 @@ public class PlayerMovement : MonoBehaviour
         // else{
         //     transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(idleDir, Vector3.up), rotationSpeed * Time.deltaTime);
         // }
-    }
-    private void HandleRotationToMouse()
+    }*/
+    private void HandleRotationToMouse() // хрень полная в этой новой системе
     {
         Vector3 mousePos = Input.mousePosition;
         Ray cameraRay = mainCamera.ScreenPointToRay(mousePos);

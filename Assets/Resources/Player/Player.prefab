@@ -154,8 +154,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1382572311715122356}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.1945178, y: 0.000000029233073, z: 0.0000000057970833, w: 0.980899}
-  m_LocalPosition: {x: 0, y: 1.082541, z: -3.4333801}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.6000004, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -194,7 +194,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 65
+  field of view: 70
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -436,7 +436,7 @@ Transform:
   - {fileID: 1024002299772789609}
   - {fileID: 4384406888478173048}
   - {fileID: 1358582417517567280}
-  - {fileID: 7057018120150601212}
+  - {fileID: 1859638315870968602}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3753277259168110574
@@ -599,16 +599,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentSpeed: 0
-  walkSpeed: 5.5
-  runSpeed: 10
+  walkSpeed: 4.5
+  runSpeed: 8
   currentStamina: 5
   staminaRegenSpeed: 1
   maxStamina: 5
   fallSpeed: 10
-  rotationSpeed: 10
-  zoomSpeed: 75
   canRegenStamina: 0
   runningAllowed: 1
+  rotationSpeed: 10
+  jumpForce: 8
+  gravity: 15
+  turnSmoothTime: 0.1
+  groundCheckRadius: 0.3
+  groundCheckOffset: {x: 0, y: 0.06, z: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  externalForceDamping: 15
   moveAction:
     m_Name: Move
     m_Type: 0
@@ -643,12 +651,14 @@ MonoBehaviour:
   cmFollow: {fileID: 0}
   cinemachineCamera: {fileID: 0}
   positionComposer: {fileID: 0}
+  cinemachineInputAxisController: {fileID: 0}
+  cinemachineThirdPerson: {fileID: 0}
   mainCamera: {fileID: 0}
-  zoomLimits: {x: 2, y: 20}
-  zoomSpeed: 170
-  tiltSensetivity: 35
-  tiltAngleLimits: {x: 18, y: 80}
-  panSensetivity: 35
+  zoomLimits: {x: 2, y: 8}
+  zoomSpeed: 130
+  tiltSensetivity: 30
+  tiltAngleLimits: {x: -85, y: 85}
+  panSensetivity: 30
   currentFov: 0
   fov_default: 70
   fov_running: 80
@@ -676,6 +686,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  rotationEnabled: 1
 --- !u!114 &8311137189873081287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1041,7 +1052,7 @@ Transform:
   m_GameObject: {fileID: 4459813675186006065}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -22.400986, y: 0, z: -34.277775}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1621,7 +1632,7 @@ Transform:
   - {fileID: 7571875027728730591}
   m_Father: {fileID: 8046877350070097361}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &4221440078200585965
+--- !u!1001 &8591921007971812246
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1629,112 +1640,77 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8046877350070097361}
     m_Modifications:
-    - target: {fileID: 3052224899640747262, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
-      propertyPath: TargetOffset.y
-      value: 0
+    - target: {fileID: 1860151655193168611, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
+      propertyPath: Target.TrackingTarget
+      value: 
+      objectReference: {fileID: 1024002299772789609}
+    - target: {fileID: 6725083885683211781, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
+      propertyPath: m_NoiseOffsets.x
+      value: 223.8656
       objectReference: {fileID: 0}
-    - target: {fileID: 3052224899640747262, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
-      propertyPath: RecenteringTarget
-      value: 2
+    - target: {fileID: 6725083885683211781, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
+      propertyPath: m_NoiseOffsets.y
+      value: 884.0935
       objectReference: {fileID: 0}
-    - target: {fileID: 3052224899640747262, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
-      propertyPath: TrackerSettings.PositionDamping.y
-      value: 0
+    - target: {fileID: 6725083885683211781, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
+      propertyPath: m_NoiseOffsets.z
+      value: -855.2716
       objectReference: {fileID: 0}
-    - target: {fileID: 5085909357144951845, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
-      propertyPath: CollideAgainst.m_Bits
-      value: 129
-      objectReference: {fileID: 0}
-    - target: {fileID: 5085909357144951845, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
-      propertyPath: AvoidObstacles.DampingWhenOccluded
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5297343258593647174, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
-      propertyPath: m_Name
-      value: CinemachineCamera
-      objectReference: {fileID: 0}
-    - target: {fileID: 6591583159554175761, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
+    - target: {fileID: 7994559562026948748, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6591583159554175761, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
+    - target: {fileID: 7994559562026948748, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.082541
+      value: 2.6000004
       objectReference: {fileID: 0}
-    - target: {fileID: 6591583159554175761, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
+    - target: {fileID: 7994559562026948748, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -3.4333801
+      value: -3
       objectReference: {fileID: 0}
-    - target: {fileID: 6591583159554175761, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
+    - target: {fileID: 7994559562026948748, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.98089904
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6591583159554175761, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
+    - target: {fileID: 7994559562026948748, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.19451779
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6591583159554175761, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
+    - target: {fileID: 7994559562026948748, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.00000002923307
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6591583159554175761, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
+    - target: {fileID: 7994559562026948748, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000005797082
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6591583159554175761, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
+    - target: {fileID: 7994559562026948748, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6591583159554175761, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
+    - target: {fileID: 7994559562026948748, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6591583159554175761, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
+    - target: {fileID: 7994559562026948748, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7706956202024203815, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
-      propertyPath: Target.TrackingTarget
-      value: 
-      objectReference: {fileID: 8046877350070097361}
+    - target: {fileID: 8096602814340611668, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
+      propertyPath: m_Name
+      value: CinemachineCamera
+      objectReference: {fileID: 0}
+    - target: {fileID: 8128619540074889857, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
+      propertyPath: ShoulderOffset.y
+      value: 2.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5297343258593647174, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1732004962256006397}
-  m_SourcePrefab: {fileID: 100100000, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
---- !u!4 &7057018120150601212 stripped
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
+--- !u!4 &1859638315870968602 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 6591583159554175761, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
-  m_PrefabInstance: {fileID: 4221440078200585965}
+  m_CorrespondingSourceObject: {fileID: 7994559562026948748, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
+  m_PrefabInstance: {fileID: 8591921007971812246}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8292922150197060779 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5297343258593647174, guid: 9101c83771e63d741b8f04022067a1ea, type: 3}
-  m_PrefabInstance: {fileID: 4221440078200585965}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1732004962256006397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8292922150197060779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ApplyAfter: 2
-  ChannelMask: 1
-  Gain: 1
-  Use2DDistance: 0
-  UseCameraSpace: 1
-  ReactionSettings:
-    m_SecondaryNoise: {fileID: 0}
-    AmplitudeGain: 1
-    FrequencyGain: 1
-    Duration: 1
-    m_NoiseOffsets: {x: 0, y: 0, z: 0}

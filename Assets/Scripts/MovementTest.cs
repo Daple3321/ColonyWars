@@ -181,6 +181,7 @@ public class MovementTest : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
     // Отрисовка сферы для проверки земли в редакторе для удобства настройки
     void OnDrawGizmosSelected()
     {
@@ -188,6 +189,7 @@ public class MovementTest : MonoBehaviour
         Vector3 spherePosition = transform.position + groundCheckOffset;
         Gizmos.DrawWireSphere(spherePosition, groundCheckRadius);
     }
+#endif
 
     /*private void HandleMovementAndRotation()
     {
@@ -222,7 +224,7 @@ public class MovementTest : MonoBehaviour
         Debug.DrawRay(transform.position, moveDir * 5, Color.cyan);
     }*/
     
-    Vector2 _moveInput;
+    //Vector2 _moveInput;
     /*private void HandleRotationToVelocity()
     {
         _moveInput = moveAction.ReadValue<Vector2>();

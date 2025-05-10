@@ -9,6 +9,7 @@ public class PlayerCameraController : MonoBehaviour
     public CinemachineCamera cinemachineCamera;
     public CinemachinePositionComposer positionComposer;
     public CinemachineInputAxisController cinemachineInputAxisController;
+    public CinemachineThirdPersonFollow cinemachineThirdPerson; 
     public static CinemachineBasicMultiChannelPerlin camNoise;
     public Camera mainCamera;
     private Controls controls;
@@ -31,8 +32,10 @@ public class PlayerCameraController : MonoBehaviour
     public float fov_default = 65f;
     public float fov_running = 75f; // сделать через multiplier (фов же можно будет настроить)
     public AnimationCurve fovCurve;
+    
+    public bool rotationEnabled = true;
 
-    private PlayerFollow playerFollow;
+    private Transform playerFollow;
 
     void Awake()
     {
@@ -47,6 +50,7 @@ public class PlayerCameraController : MonoBehaviour
         mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         camNoise = cinemachineCamera.GetComponent<CinemachineBasicMultiChannelPerlin>();
         cinemachineInputAxisController = cinemachineCamera.GetComponent<CinemachineInputAxisController>();
+        cinemachineThirdPerson = cinemachineCamera.GetComponent<CinemachineThirdPersonFollow>();
         Noise(0, 0);
         EventBus.i.PlayerDeath += () => {Noise(0,0);};
 
@@ -54,7 +58,7 @@ public class PlayerCameraController : MonoBehaviour
         //zoomAction = InputSystem.actions.FindAction("Zoom");
         //panAction = InputSystem.actions.FindAction("CameraPan_Mouse");
 
-        this.playerFollow = playerFollow;
+        this.playerFollow = playerFollow.transform;
         cinemachineCamera.Target.TrackingTarget = playerFollow.transform;
 
         mainCamera.transform.SetParent(null);
@@ -66,10 +70,12 @@ public class PlayerCameraController : MonoBehaviour
         yRotate = cinemachineCamera.transform.rotation.eulerAngles.y;
         
         EventBus.i.OnInteractivePanelOpened += () => {
-            cinemachineInputAxisController.enabled = false;
+            //cinemachineInputAxisController.enabled = false;
+            rotationEnabled = false;
         };
         EventBus.i.OnInteractivePanelClosed += () => {
-            cinemachineInputAxisController.enabled = true;
+            //cinemachineInputAxisController.enabled = true;
+            rotationEnabled = true;
         };
         
         enabled = true;
@@ -77,33 +83,34 @@ public class PlayerCameraController : MonoBehaviour
 
     void Update()
     {
-        //HandleCameraControl();
+        HandleCameraControl();
     }
 
     public void HandleCameraControl()
     {
-        HandleCameraRotation();
-        //HandleCameraPanning();
-        HandleCameraZoom();
+        if(rotationEnabled){
+            HandleCameraRotation();
+            HandleCameraZoom();
+        }
     }
 
     public void HandleCameraZoom()
     {
         float scrollY = controls.Player.Zoom.ReadValue<float>();
-        if (scrollY > 0 && positionComposer.CameraDistance > zoomLimits.x)
+        if (scrollY > 0 && cinemachineThirdPerson.CameraDistance > zoomLimits.x)
         {
-            positionComposer.CameraDistance -= zoomSpeed * Time.deltaTime;
+            cinemachineThirdPerson.CameraDistance -= zoomSpeed * Time.deltaTime;
         }
-        else if (scrollY < 0 && positionComposer.CameraDistance < zoomLimits.y)
+        else if (scrollY < 0 && cinemachineThirdPerson.CameraDistance < zoomLimits.y)
         {
-            positionComposer.CameraDistance += zoomSpeed * Time.deltaTime;
+            cinemachineThirdPerson.CameraDistance += zoomSpeed * Time.deltaTime;
         }
     }
 
     Vector2 lastMousePos = new Vector2();
     float xRotate = 0;
     float yRotate = 0;
-    public void HandleCameraRotation() // это просто ужас.
+    public void HandleCameraRotation()
     {
         // Vector2 panDir = controls.Player.CameraPan.ReadValue<Vector2>();
         // if (panDir.x > 0)
@@ -123,37 +130,36 @@ public class PlayerCameraController : MonoBehaviour
         Vector2 mousePos = Input.mousePosition;
         float deltaY;
         Vector2 mouseDelta;
-        if (controls.Player.CameraTilt_Mouse.WasPressedThisFrame())
-        {
-            lastMousePos = mousePos;
-            Cursor.lockState = CursorLockMode.Locked;
-        }
-        if(controls.Player.CameraTilt_Mouse.WasReleasedThisFrame()){
-            Cursor.lockState = CursorLockMode.None;
-        }
+        // if (controls.Player.CameraTilt_Mouse.WasPressedThisFrame())
+        // {
+        //     lastMousePos = mousePos;
+        //     Cursor.lockState = CursorLockMode.Locked;
+        // }
+        // if(controls.Player.CameraTilt_Mouse.WasReleasedThisFrame()){
+        //     Cursor.lockState = CursorLockMode.None;
+        // }
         //Vector3 dirToCamera = transform.position - cinemachineCamera.transform.position;
         //float cameraAngle = Vector3.Angle(transform.up, dirToCamera);
         //Debug.Log($"Camera angle: {cameraAngle}");
-        if (controls.Player.CameraTilt_Mouse.IsPressed())
-        {
-            mouseDelta = Input.mousePositionDelta;
-            deltaY = mousePos.y - lastMousePos.y;
-            xRotate += -mouseDelta.y * Time.deltaTime * tiltSensetivity;
-            xRotate = Mathf.Clamp(xRotate, tiltAngleLimits.x, tiltAngleLimits.y);
-            cinemachineCamera.transform.eulerAngles = new Vector3(xRotate, yRotate, 0.0f);
-            
-            float deltaX = mousePos.x - lastMousePos.x;
-            if(deltaX > 0){
-                yRotate += mouseDelta.x * Time.deltaTime * panSensetivity;
-                cinemachineCamera.transform.eulerAngles = new Vector3(xRotate, yRotate, 0.0f);
-            }
-            else if(deltaX < 0){
-                yRotate += mouseDelta.x * Time.deltaTime * panSensetivity;
-                cinemachineCamera.transform.eulerAngles = new Vector3(xRotate, yRotate, 0.0f);
-            }
-            //cinemachineCamera.transform.RotateAround(playerFollow.transform.position, Vector3.right, -delta * Time.deltaTime * tiltSensetivity);
-            //lastMousePos = Input.mousePosition;
+        
+        
+        mouseDelta = Input.mousePositionDelta;
+        deltaY = mousePos.y - lastMousePos.y;
+        xRotate += -mouseDelta.y * Time.deltaTime * tiltSensetivity;
+        xRotate = Mathf.Clamp(xRotate, tiltAngleLimits.x, tiltAngleLimits.y);
+        playerFollow.eulerAngles = new Vector3(xRotate, yRotate, 0.0f);
+        
+        float deltaX = mousePos.x - lastMousePos.x;
+        if(deltaX > 0){
+            yRotate += mouseDelta.x * Time.deltaTime * panSensetivity;
+            playerFollow.eulerAngles = new Vector3(xRotate, yRotate, 0.0f);
         }
+        else if(deltaX < 0){
+            yRotate += mouseDelta.x * Time.deltaTime * panSensetivity;
+            playerFollow.eulerAngles = new Vector3(xRotate, yRotate, 0.0f);
+        }
+        //cinemachineCamera.transform.RotateAround(playerFollow.transform.position, Vector3.right, -delta * Time.deltaTime * tiltSensetivity);
+        //lastMousePos = Input.mousePosition;
     }
 
     public void HandleCameraPanning()

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5085909357144951845}
   - component: {fileID: 2928483897559706745}
   - component: {fileID: 7000805376328782367}
+  - component: {fileID: 1908194045179921137}
   m_Layer: 0
   m_Name: OrbitalCinemachineCamera
   m_TagString: Untagged
@@ -30,13 +31,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5297343258593647174}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.19451772, y: 0.0000000021129403, z: 4.1900775e-10, w: 0.98089904}
+  m_LocalRotation: {x: -0.19451691, y: 0, z: 0, w: 0.9808992}
   m_LocalPosition: {x: 6.670587, y: 1.2680337, z: 16.783443}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -22.433, y: 0, z: 0}
 --- !u!114 &7706956202024203815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,7 +187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CollideAgainst:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 129
   IgnoreTag: 
   TransparentLayers:
     serializedVersion: 2
@@ -204,7 +205,7 @@ MonoBehaviour:
     MaximumEffort: 4
     SmoothingTime: 0
     Damping: 0.4
-    DampingWhenOccluded: 0.2
+    DampingWhenOccluded: 0
   ShotQualityEvaluation:
     Enabled: 0
     OptimalDistance: 10
@@ -286,3 +287,26 @@ MonoBehaviour:
   AmplitudeGain: 1
   FrequencyGain: 1
   m_NoiseOffsets: {x: 0, y: 0, z: 0}
+--- !u!114 &1908194045179921137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5297343258593647174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ApplyAfter: 2
+  ChannelMask: 1
+  Gain: 1
+  Use2DDistance: 0
+  UseCameraSpace: 1
+  ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
