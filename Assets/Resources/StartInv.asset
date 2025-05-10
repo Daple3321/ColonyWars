@@ -10,34 +10,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a941a2c99dab7d4cb212aedef6ee601, type: 3}
-  m_Name: Start inventory
+  m_Name: StartInv
   m_EditorClassIdentifier: 
   inventoryItems:
+  - quantity: 16
+    item:
+      itemName: 
+      description: 
+      icon: {fileID: 0}
+      rarity: 0
+      itemData: {fileID: 11400000, guid: dfe06b9807283144fb496089e9fc5643, type: 2}
+  - quantity: 16
+    item:
+      itemName: 
+      description: 
+      icon: {fileID: 0}
+      rarity: 0
+      itemData: {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
   - quantity: 1
     item:
       itemName: 
       description: 
       icon: {fileID: 0}
       rarity: 0
-      itemData: {fileID: 11400000, guid: 6b5b4916729fbed4abe7fad9b9d5eb3f, type: 2}
+      itemData: {fileID: 11400000, guid: 8beb58358a8d4474cadb3154f9adf1c5, type: 2}
+  - quantity: 16
+    item:
+      itemName: 
+      description: 
+      icon: {fileID: 0}
+      rarity: 0
+      itemData: {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
   - quantity: 1
     item:
       itemName: 
       description: 
       icon: {fileID: 0}
       rarity: 0
-      itemData: {fileID: 11400000, guid: 23313022b98286f42b9ced6461d21457, type: 2}
-  - quantity: 5
-    item:
-      itemName: 
-      description: 
-      icon: {fileID: 0}
-      rarity: 0
-      itemData: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
-  - quantity: 1
-    item:
-      itemName: 
-      description: 
-      icon: {fileID: 0}
-      rarity: 0
-      itemData: {fileID: 11400000, guid: 4605521a04b6af340b388048df7bd6b2, type: 2}
+      itemData: {fileID: 11400000, guid: 22c6422f791fe3d43aed36e95d428522, type: 2}

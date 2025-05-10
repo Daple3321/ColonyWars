@@ -70,4 +70,27 @@ public class PopUpManager : MonoBehaviour
         
         return txt;
     }
+    public TextMeshProUGUI Spawn(Vector3 pos, Color textColor, Vector3 punchScale, float time = 0.35f)
+    {
+        GameObject go = PoolManager.Get(popUpPrefab);
+        go.transform.position = pos;
+        texts.Add(go.GetComponent<RectTransform>());
+        
+        TextMeshProUGUI txt = go.GetComponentInChildren<TextMeshProUGUI>();
+        txt.color = textColor;
+        txt.rectTransform.localPosition = Vector3.zero;
+        
+        Vector3 randPos = txt.rectTransform.position;
+        randPos += new Vector3(Random.Range(-1f, 1f), Random.Range(0.7f, 2f), Random.Range(-1f, 1f));
+        Sequence seq = Sequence.Create().OnComplete(()=> PoolManager.Release(go))
+        .Group(Tween.PunchScale(txt.rectTransform, punchScale, duration: time, 7f, easeBetweenShakes: Ease.OutBack))
+        .Group(Tween.Position(txt.rectTransform, randPos, duration: time, Ease.InOutBack))
+        .Chain(Tween.Position(txt.rectTransform, randPos + new Vector3(0, -4, 0), duration: time, Ease.InOutBack))
+        .Insert(0.7f, Tween.Color(txt, new Color(0,0,0,0), duration: time, Ease.InCirc));
+        
+        //Tween scaleTween = Tween.PunchScale(txt.rectTransform, new Vector3(1.1f, 1.1f, 1.1f), duration: 0.7f, 7f, easeBetweenShakes: Ease.OutBack);
+        //scaleTween.OnComplete(()=> PoolManager.Release(go));
+        
+        return txt;
+    }
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8128619540074889857}
   - component: {fileID: 5678426898711210949}
   - component: {fileID: 6725083885683211781}
+  - component: {fileID: 4412666475909702873}
   m_Layer: 0
   m_Name: ThirdPersonCinemachineCamera
   m_TagString: Untagged
@@ -91,7 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damping: {x: 0.1, y: 0.5, z: 0.3}
-  ShoulderOffset: {x: 0.5, y: 1.8, z: 0}
+  ShoulderOffset: {x: 0.5, y: 2.2, z: 0}
   VerticalArmLength: 0.4
   CameraSide: 0.5
   CameraDistance: 3
@@ -159,4 +160,27 @@ MonoBehaviour:
   PivotOffset: {x: 0, y: 0, z: 0}
   AmplitudeGain: 0
   FrequencyGain: 0
-  m_NoiseOffsets: {x: 0, y: 0, z: 0}
+  m_NoiseOffsets: {x: 223.8656, y: 884.0935, z: -855.2716}
+--- !u!114 &4412666475909702873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8096602814340611668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ApplyAfter: 2
+  ChannelMask: 1
+  Gain: 1
+  Use2DDistance: 0
+  UseCameraSpace: 1
+  ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}

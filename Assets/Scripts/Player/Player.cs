@@ -97,14 +97,16 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         }
     }
     
-    public void TakeDamage(float damage, float knockback = 0f)
+    public void TakeDamage(float damage, Vector3 knockback = new Vector3())
     {
         health -= damage;
         //onPlayerDamaged?.Invoke(health, maxHealth);
+        playerMovement.AddForce(knockback);
+        
         StartCoroutine(PlayerCameraController.CameraShake(9, 0.35f));
         Flash(Color.red, 0.1f);
-        TextMeshProUGUI popUp = PopUpManager.i.Spawn(transform.position+new Vector3(0, 2f, 0), Color.red);
-        popUp.text = damage.ToString("F1");
+        //TextMeshProUGUI popUp = PopUpManager.i.Spawn(transform.position+new Vector3(0, 2f, 0), Color.red);
+        //popUp.text = damage.ToString("F1");
         
         EventBus.i.PlayerHealthChanged?.Invoke(health, maxHealth);
         EventBus.i.PlayerDamaged?.Invoke(damage);
@@ -214,7 +216,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
 
 public interface IDamageable
 {
-    void TakeDamage(float damage, float knockback = 0f);
+    void TakeDamage(float damage, Vector3 knockback = new Vector3());
     void Death();
 }
 

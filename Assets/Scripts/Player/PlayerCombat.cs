@@ -115,6 +115,10 @@ public class PlayerCombat : MonoBehaviour
     {
         if (currentWeapon.CanAttack())
         {
+            if(!isAiming){
+                player.playerMovement.RotateToMouse();
+            }
+            
             currentWeapon.Attack();
             weaponWorld.Attack(concentraion);
             StartCoroutine(PlayerCameraController.CameraShake(1, 0.15f));
@@ -126,6 +130,10 @@ public class PlayerCombat : MonoBehaviour
     {
         if (currentWeapon.CanAttack())
         {
+            if(!isAiming){
+                player.playerMovement.RotateToMouse();
+            }
+            
             currentWeapon.Attack();
             weaponWorld.Attack(concentraion);
             StartCoroutine(PlayerCameraController.CameraShake(1, 0.15f));
@@ -141,9 +149,13 @@ public class PlayerCombat : MonoBehaviour
         
         if (currentWeapon.CanAttack())
         {
+            if(!isAiming){
+                player.playerMovement.RotateToMouse();
+            }
+            
             currentWeapon.Attack();
             weaponWorld.Attack(concentraion);
-            StartCoroutine(PlayerCameraController.CameraShake(2, 0.15f));
+            StartCoroutine(PlayerCameraController.CameraShake(2, 0.25f));
 
             currentWeapon.mouseReleased = false;
         }

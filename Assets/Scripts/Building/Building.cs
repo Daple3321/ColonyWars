@@ -48,7 +48,7 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
         this.buildingData = data;
     }
     
-    public virtual void TakeDamage(float damage, float knockback = 0)
+    public virtual void TakeDamage(float damage, Vector3 knockback = new Vector3())
     {
         health -= damage;
         OnHealthChanged?.Invoke(health, maxHealth);

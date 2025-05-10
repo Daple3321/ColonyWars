@@ -95,13 +95,13 @@ TrailRenderer:
         inWeight: 0.33333334
         outWeight: 0.1305483
       - serializedVersion: 3
-        time: 0.76239014
+        time: 0.6326307
         value: 0
-        inSlope: 0
-        outSlope: 0
+        inSlope: -0.176435
+        outSlope: -0.176435
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0
+        inWeight: 0.1578917
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -162,6 +162,7 @@ GameObject:
   - component: {fileID: 6869475292881352193}
   - component: {fileID: 8856854158574895004}
   - component: {fileID: 7108919652601319140}
+  - component: {fileID: 824572252969133034}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Projectile
@@ -212,6 +213,9 @@ MonoBehaviour:
   enemyExcludeMask:
     serializedVersion: 2
     m_Bits: 12032
+  trail: {fileID: 2953940164481267054}
+  mat: {fileID: 0}
+  impulseSource: {fileID: 824572252969133034}
 --- !u!33 &7316579652343664645
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -313,3 +317,56 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &824572252969133034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1014752688310764929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImpulseDefinition:
+    ImpulseChannel: 1
+    ImpulseShape: 2
+    CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    ImpulseDuration: 0.11
+    ImpulseType: 1
+    DissipationRate: 0.25
+    RawSignal: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    RepeatMode: 0
+    Randomize: 1
+    TimeEnvelope:
+      AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      AttackTime: 0
+      SustainTime: 0.2
+      DecayTime: 0.7
+      ScaleWithImpact: 1
+      HoldForever: 0
+    ImpactRadius: 100
+    DirectionMode: 0
+    DissipationMode: 2
+    DissipationDistance: 100
+    PropagationSpeed: 343
+  DefaultVelocity: {x: 0, y: -0.48, z: 0}

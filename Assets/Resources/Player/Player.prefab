@@ -462,8 +462,8 @@ MonoBehaviour:
   buildingPanelManager: {fileID: 0}
   squadManager: {fileID: 8311137189873081287}
   stateMachine: {fileID: 8290539460608290715}
-  health: 0
-  maxHealth: 45
+  health: 250
+  maxHealth: 250
   rightHand: {fileID: 3315800805882177323}
   leftHand: {fileID: 3810671238129732571}
   groundLayer:
@@ -529,7 +529,8 @@ MonoBehaviour:
   selectedItem:
     rid: -2
   selectedWorldItem: {fileID: 0}
-  starterInventory: {fileID: 11400000, guid: 6cbfda2174ee86842880c747cdcdaee9, type: 2}
+  hotbarStartInventory: {fileID: 11400000, guid: 6cbfda2174ee86842880c747cdcdaee9, type: 2}
+  starterInventory: {fileID: 11400000, guid: 9d4c0ffe26e366e4ab2962453e438312, type: 2}
   dropPoint: {fileID: 1358582417517567280}
   inventoryUI: {fileID: 0}
   hotbarUI: {fileID: 0}
@@ -608,7 +609,10 @@ MonoBehaviour:
   canRegenStamina: 0
   runningAllowed: 1
   rotationSpeed: 10
-  jumpForce: 8
+  jumpForce: 9
+  jumpStaminaDrain: 1.5
+  jumpDelay: 0.3
+  canJump: 1
   gravity: 15
   turnSmoothTime: 0.1
   groundCheckRadius: 0.3
@@ -616,7 +620,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
-  externalForceDamping: 15
+  externalForceDamping: 11
   moveAction:
     m_Name: Move
     m_Type: 0
@@ -1644,18 +1648,6 @@ PrefabInstance:
       propertyPath: Target.TrackingTarget
       value: 
       objectReference: {fileID: 1024002299772789609}
-    - target: {fileID: 6725083885683211781, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
-      propertyPath: m_NoiseOffsets.x
-      value: 223.8656
-      objectReference: {fileID: 0}
-    - target: {fileID: 6725083885683211781, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
-      propertyPath: m_NoiseOffsets.y
-      value: 884.0935
-      objectReference: {fileID: 0}
-    - target: {fileID: 6725083885683211781, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
-      propertyPath: m_NoiseOffsets.z
-      value: -855.2716
-      objectReference: {fileID: 0}
     - target: {fileID: 7994559562026948748, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1699,10 +1691,6 @@ PrefabInstance:
     - target: {fileID: 8096602814340611668, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
       propertyPath: m_Name
       value: CinemachineCamera
-      objectReference: {fileID: 0}
-    - target: {fileID: 8128619540074889857, guid: fb1554cfb57d40444af1a276d8cc588f, type: 3}
-      propertyPath: ShoulderOffset.y
-      value: 2.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

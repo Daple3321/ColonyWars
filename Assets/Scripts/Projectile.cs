@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -13,20 +14,26 @@ public class Projectile : MonoBehaviour
     public LayerMask enemyExcludeMask;
 
     private Rigidbody rb;
-    private TrailRenderer trail;
-
-    public virtual void Init(float damage, float speed, Affiliation affiliation, int penetrationAmount = 0, float lifeTime = 2.5f)
+    [SerializeField] private TrailRenderer trail;
+    [SerializeField] private Material mat;
+    [SerializeField] private CinemachineImpulseSource impulseSource;
+    
+    public virtual void Init(float damage, float speed, Affiliation affiliation, int penetrationAmount = 0, float lifeTime = 2.5f, float knockBackForce = 0f)
     {
         rb = GetComponent<Rigidbody>();
-        trail = GetComponentInChildren<TrailRenderer>();
+        //trail = GetComponentInChildren<TrailRenderer>();
+        mat = GetComponent<Renderer>().material;
         
         this.damage = damage;
         this.speed = speed;
         this.penetrationAmount = penetrationAmount;
+        this.knockBackForce = knockBackForce;
         this.lifeTime = lifeTime;
         
         this.affiliation = affiliation;
         SetupAffiliation();
+        
+        //impulseSource.GenerateImpulse(Camera.main.transform.forward);
 
         Destroy(gameObject, lifeTime);
     }
@@ -36,12 +43,14 @@ public class Projectile : MonoBehaviour
         if(affiliation == Affiliation.Enemy){
             currentExcludeMask = enemyExcludeMask;
             gameObject.layer = 9;
+            mat.color = Color.red;
             
             trail.colorGradient = GameAssets.colors.enemyBulletTrail;
         }
         else if(affiliation == Affiliation.Player){
             currentExcludeMask = playerExcludeMask;
             gameObject.layer = 10;
+            mat.color = Color.yellow;
             
             trail.colorGradient = GameAssets.colors.playerBulletTrail;
         }
@@ -115,7 +124,7 @@ public class Projectile : MonoBehaviour
         IDamageable damageable;
         if (col.gameObject.TryGetComponent<IDamageable>(out damageable))
         {
-            damageable.TakeDamage(damage, knockBackForce);
+            damageable.TakeDamage(damage, transform.up*knockBackForce);
         }
             
         if (col.gameObject.layer == 7) // ground

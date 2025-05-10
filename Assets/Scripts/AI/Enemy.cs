@@ -6,12 +6,16 @@ public class Enemy : Unit
     public UnitState retreatState;
     public UnitState attackState;
     public UnitState followState;
-
+    
     public override void Init()
     {
         base.Init();
         attackData = new RangedAttackData{
             projectilePrefab = GameAssets.projectilePrefab,
+            knockBackForce = 25,
+            penetrationAmount = 0,
+            bulletsPerShot = 4,
+            projectileScatter = new Vector2Int(0, 30),
         };
         currentAttack = new RangedAttack(this, attackData, affiliation);
         

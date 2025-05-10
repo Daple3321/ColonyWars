@@ -14,12 +14,13 @@ public class ResourceNode : MonoBehaviour, IClickable
     public int clicksToGather = 1;
     public int clicksLeft = 1;
     
-    private Collider col;
-    private Material mat;
+    [SerializeField] private Collider col;
+    [SerializeField] private Renderer rend;
+    [SerializeField] private Material mat;
 
     void Awake()
     {
-        mat = GetComponent<MeshRenderer>().material;
+        mat = rend.material;
         col = GetComponent<Collider>();
         
         clicksLeft = clicksToGather;

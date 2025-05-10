@@ -53,6 +53,9 @@ MonoBehaviour:
   gatherRadius: 2.5
   clicksToGather: 5
   clicksLeft: 5
+  col: {fileID: 2100706952052904712}
+  rend: {fileID: 7704855678002310787}
+  mat: {fileID: 0}
 --- !u!135 &2100706952052904712
 SphereCollider:
   m_ObjectHideFlags: 0

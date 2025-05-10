@@ -7,6 +7,7 @@ public class RangedWeapon : Weapon
     public float projectileSpeed;
     public int penetrationAmount;
     public float projectileLifetime;
+    public int projectilesPerShot;
     public ShootStyle shootStyle;
     
     public RangedWeapon(RangedWeaponData _itemData) : base(_itemData)
@@ -64,6 +65,7 @@ public class RangedWeapon : Weapon
             shootStyle = weaponData.shootStyle;
             projectileLifetime = weaponData.projectileLifetime;
             penetrationAmount = weaponData.penetrationAmount;
+            projectilesPerShot = weaponData.projectilesPerShot;
         }
 
         _attackCd = attackRate;

@@ -9,7 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1375819412824295775}
-  m_Layer: 0
+  - component: {fileID: 3426973679225487071}
+  - component: {fileID: 2233209458702113151}
+  m_Layer: 15
   m_Name: PineTree_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33,6 +35,50 @@ Transform:
   - {fileID: 1646657513082511554}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3426973679225487071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303685909710911235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0891fc88283733141a4c83ad6b715834, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resource: {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}
+  isInfinite: 0
+  quantity: 150
+  gatherRadius: 2.5
+  clicksToGather: 3
+  clicksLeft: 3
+  col: {fileID: 0}
+  rend: {fileID: 6422279057868495041}
+  mat: {fileID: 0}
+--- !u!136 &2233209458702113151
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1303685909710911235}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2.71
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.16, z: 0}
 --- !u!1 &6789348832426201121
 GameObject:
   m_ObjectHideFlags: 0
@@ -44,7 +90,7 @@ GameObject:
   - component: {fileID: 604164690128809143}
   - component: {fileID: 3905231311005900496}
   - component: {fileID: 6422279057868495041}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: PineLeaves
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +176,7 @@ GameObject:
   - component: {fileID: 1646657513082511554}
   - component: {fileID: 5825177224543391731}
   - component: {fileID: 5788408869778714890}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: tree.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}

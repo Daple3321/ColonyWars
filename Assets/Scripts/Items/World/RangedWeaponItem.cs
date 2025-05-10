@@ -8,6 +8,7 @@ public class RangedWeaponItem : WeaponWorldItem
 
     public float projectileSpeed;
     public int penetrationAmount;
+    public int projectilesPerShot;
     public float projectileLifetime;
     public float knockBackForce;
     public GameObject projectilePrefab;
@@ -18,6 +19,7 @@ public class RangedWeaponItem : WeaponWorldItem
     public GameObject hitScanLine;
     public ParticleSystem shootEffect;
     public GameObject hitEffect;
+    private Camera cm;
 
     public override void Initialize(ItemData data, Item origin, int quantity=1)
     {
@@ -29,10 +31,13 @@ public class RangedWeaponItem : WeaponWorldItem
             projectileSpeed = weaponData.projectileSpeed;
             projectileLifetime = weaponData.projectileLifetime;
             penetrationAmount = weaponData.penetrationAmount;
+            projectilesPerShot = weaponData.projectilesPerShot;
             knockBackForce = weaponData.knockBackForce;
             shootStyle = weaponData.shootStyle;
             concentrationScatter = weaponData.concentrationScatter;
         }
+        
+        cm = Camera.main;
     }
 
     public override void Attack(float concentraion) // ВЫСТРЕЛЫ ПРОСТО НЕ СПАВНЯТСЯ ЕСЛИ НИЧЕГО НЕ ХИТАНУЛИ.
@@ -76,21 +81,51 @@ public class RangedWeaponItem : WeaponWorldItem
         //     Debug.DrawRay(shootPoint.position, shootRay.direction * 4, Color.cyan, 3);
         // }
         
-        RaycastHit mouseHit;
+        /*RaycastHit mouseHit;
         if(PlayerAiming.Raycast(hitLayers, out mouseHit))
         {
+            Ray mouseRay = cm.ScreenPointToRay(mousePos);
+            RaycastHit mouseHit;
+            
             Vector3 shootDir = mouseHit.point - shootPoint.position;
+            
+            for(int i = 0; i < projectilesPerShot; i++)
+            {
+                float scatterAmount = concentrationScatter.Evaluate(concentraion);
+                Ray shootRay = new Ray(shootPoint.position, Helper.GetRandPointOnUnitSphereCap(shootDir, scatterAmount));
+                Projectile projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity).GetComponent<Projectile>();
+                //projectile.transform.rotation.SetLookRotation(shootRay.direction, projectile.transform.up);
+                projectile.transform.up = shootRay.direction;
+                projectile.Init(damage, projectileSpeed, Affiliation.Player, penetrationAmount, projectileLifetime);
+                
+                Debug.DrawLine(shootPoint.position, mouseHit.point, Color.green, 2);
+                Debug.DrawRay(shootPoint.position, shootRay.direction * 4, Color.cyan, 3);
+
+            }
+            
+            PlayShootEffect();
+        }*/
+        
+        Vector3 mousePos = Input.mousePosition;
+        Ray mouseRay = cm.ScreenPointToRay(mousePos);
+        //RaycastHit mouseHit;
+        //Vector3 shootDir = mouseHit.point - shootPoint.position;
+        
+        for(int i = 0; i < projectilesPerShot; i++)
+        {
             float scatterAmount = concentrationScatter.Evaluate(concentraion);
-            Ray shootRay = new Ray(shootPoint.position, Helper.GetRandPointOnUnitSphereCap(shootDir, scatterAmount));
+            Ray shootRay = new Ray(shootPoint.position, Helper.GetRandPointOnUnitSphereCap(mouseRay.direction, scatterAmount));
+            
             Projectile projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity).GetComponent<Projectile>();
             //projectile.transform.rotation.SetLookRotation(shootRay.direction, projectile.transform.up);
             projectile.transform.up = shootRay.direction;
             projectile.Init(damage, projectileSpeed, Affiliation.Player, penetrationAmount, projectileLifetime);
             
-            PlayShootEffect();
-            Debug.DrawLine(shootPoint.position, mouseHit.point, Color.green, 2);
-            Debug.DrawRay(shootPoint.position, shootRay.direction * 4, Color.cyan, 3);
+            //Debug.DrawLine(shootPoint.position, mouseHit.point, Color.green, 2);
+            Debug.DrawRay(shootPoint.position, mouseRay.direction * 4, Color.cyan, 3);
         }
+        
+        PlayShootEffect();
     }
     
     protected virtual void HitscanShot(float concentraion)
@@ -120,24 +155,29 @@ public class RangedWeaponItem : WeaponWorldItem
         if(PlayerAiming.Raycast(hitLayers, out mouseHit))
         {
             Vector3 shootDir = mouseHit.point - shootPoint.position;
-            float scatterAmount = concentrationScatter.Evaluate(concentraion);
-            Ray shootRay = new Ray(shootPoint.position, Helper.GetRandPointOnUnitSphereCap(shootDir, scatterAmount));
-            RaycastHit hit;
-            if (Physics.Raycast(shootRay, out hit, shootDistance, hitLayers))
+            
+            for(int i = 0; i < projectilesPerShot; i++)
             {
-                IDamageable damageable;
-                if (hit.collider.gameObject.TryGetComponent<IDamageable>(out damageable))
+                float scatterAmount = concentrationScatter.Evaluate(concentraion);
+                Ray shootRay = new Ray(shootPoint.position, Helper.GetRandPointOnUnitSphereCap(shootDir, scatterAmount));
+                RaycastHit hit;
+                if (Physics.Raycast(shootRay, out hit, shootDistance, hitLayers))
                 {
-                    damageable.TakeDamage(damage, knockBackForce);
+                    IDamageable damageable;
+                    if (hit.collider.gameObject.TryGetComponent<IDamageable>(out damageable))
+                    {
+                        damageable.TakeDamage(damage, -hit.normal*knockBackForce);
+                    }
+                    
+                    GameObject lineObj = Instantiate(hitScanLine, shootPoint.position, Quaternion.identity);
+                    lineObj.GetComponent<HitscanLine>().Init(shootPoint.position, hit.point);
+                    Helper.SpawnHitEffect(hit.point, hit.normal, hit.collider.gameObject.layer);
                 }
                 
-                GameObject lineObj = Instantiate(hitScanLine, shootPoint.position, Quaternion.identity);
-                lineObj.GetComponent<HitscanLine>().Init(shootPoint.position, hit.point);
-                Helper.SpawnHitEffect(hit.point, hit.normal, hit.collider.gameObject.layer);
+                Debug.DrawRay(shootPoint.position, shootRay.direction, Color.cyan, 3);
             }
             
             PlayShootEffect();
-            Debug.DrawRay(shootPoint.position, shootRay.direction, Color.cyan, 3);
         }
     }
 }

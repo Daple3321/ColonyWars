@@ -29,7 +29,7 @@ public class HitscanRangedAttack : Attack
             IDamageable damageable;
             if (hit.collider.gameObject.TryGetComponent<IDamageable>(out damageable))
             {
-                damageable.TakeDamage(owner.damage, rangedAttackData.knockBackForce);
+                damageable.TakeDamage(owner.damage, -hit.normal*rangedAttackData.knockBackForce);
             }
             Helper.SpawnHitEffect(hit.point, hit.normal, hit.collider.gameObject.layer);
             

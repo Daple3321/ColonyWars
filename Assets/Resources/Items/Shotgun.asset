@@ -10,57 +10,53 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cdec9a7528f287a4299bcf85893eefe5, type: 3}
-  m_Name: SniperRifle
+  m_Name: Shotgun
   m_EditorClassIdentifier: 
-  itemName: Sniper Rifle
-  description: 'Hitscan rifle
-
-    Hold to charge
-
-    Ammo: Iron Ore'
-  icon: {fileID: -527503291, guid: 05c986f37d7d2654888b5ebdd0b6f314, type: 3}
-  rarity: 2
+  itemName: Shotgun
+  description: S.H.O.T.G.U.N
+  icon: {fileID: 21300000, guid: d215148136a3b0543ac0f0670ed2234f, type: 3}
+  rarity: 3
   IsStackable: 0
   maxStackSize: 1
   instantPickup: 0
   itemMesh: {fileID: 0}
   itemMaterials: []
   customPrefab: {fileID: 1549962704229280597, guid: 4af3d8938075e88468789c45c259ba60, type: 3}
-  damage: 7
-  attackRate: 0.6
-  chargeRate: 1.8
-  needsAmmo: 1
-  ammoType: {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
-  attackType: 3
+  damage: 2.5
+  attackRate: 0.35
+  chargeRate: 0.1
+  needsAmmo: 0
+  ammoType: {fileID: 0}
+  attackType: 2
   weaponType: 2
-  projectilesPerShot: 1
+  projectilesPerShot: 5
   shootDistance: 30
-  projectileSpeed: 0
-  penetrationAmount: 1
-  projectileLifetime: 2
-  knockBackForce: 50
+  projectileSpeed: 50
+  penetrationAmount: 0
+  projectileLifetime: 0.45
+  knockBackForce: 15
   concentrationScatter:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 20
-      inSlope: -18
-      outSlope: -18
+      value: 15
+      inSlope: -10
+      outSlope: -10
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 2
-      inSlope: -18
-      outSlope: -18
-      tangentMode: 34
+      value: 5
+      inSlope: -1.697022
+      outSlope: -1.697022
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.052518845
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  shootStyle: 0
+  shootStyle: 1

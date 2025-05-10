@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
@@ -21,6 +22,7 @@ public class PlayerInventory : MonoBehaviour
 
     private Controls controls;
     
+    public InventoryData hotbarStartInventory;
     public InventoryData starterInventory;
     
     private Player player;
@@ -63,7 +65,8 @@ public class PlayerInventory : MonoBehaviour
         //inventory.AddItem(new RangedWeapon(itemDatas[3]), 1);
         //inventory.AddItem(new RangedWeapon(itemDatas[4]), 1);
         
-        hotbar.LoadFromData(starterInventory);
+        hotbar.LoadFromData(hotbarStartInventory);
+        inventory.LoadFromData(starterInventory);
         //hotbar.LoadFromData(starterInventory);
         
         
@@ -431,9 +434,23 @@ public class PlayerInventory : MonoBehaviour
     public bool TryAddItem(Item itemToAdd, int quantity)
     {
         if(hotbar.AddItem(itemToAdd, quantity)){
+            TextMeshProUGUI popUp = PopUpManager.i.Spawn(
+                transform.position+new Vector3(0, 1f, 0),
+                Color.white, 
+                new Vector3(1.05f, 1.05f, 1.05f),
+                0.5f);
+            popUp.fontSize = 10;
+            popUp.text = $"+{quantity} {itemToAdd.itemName}";
             return true;
         }
         if(inventory.AddItem(itemToAdd, quantity)){
+            TextMeshProUGUI popUp = PopUpManager.i.Spawn(
+                transform.position+new Vector3(0, 1f, 0),
+                Color.white, 
+                new Vector3(1.05f, 1.05f, 1.05f),
+                0.5f);
+            popUp.fontSize = 10;
+            popUp.text = $"+{quantity} {itemToAdd.itemName}";
             return true;
         }
         

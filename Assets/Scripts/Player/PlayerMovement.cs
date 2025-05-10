@@ -28,6 +28,9 @@ public class PlayerMovement : MonoBehaviour
     public float rotationSpeed = 720.0f; // Градусов в секунду
     [Tooltip("Сила прыжка")]
     public float jumpForce = 8.0f;
+    public float jumpStaminaDrain = 0.5f;
+    public float jumpDelay = 0.3f;
+    public bool canJump = true;
     [Tooltip("Сила гравитации")]
     public float gravity = 20.0f;
     [Tooltip("Коэффициент сглаживания для поворота к направлению движения")]
@@ -149,6 +152,9 @@ public class PlayerMovement : MonoBehaviour
         Vector3 spherePosition = transform.position + groundCheckOffset;
         _isGrounded = Physics.CheckSphere(spherePosition, groundCheckRadius, groundLayer, QueryTriggerInteraction.Ignore);
     }
+    public bool CanJump(){
+        return currentStamina >= jumpStaminaDrain;
+    }
     private void HandleMovement()
     {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -213,10 +219,17 @@ public class PlayerMovement : MonoBehaviour
             // Небольшое отрицательное значение помогает "приклеить" к земле
             _playerVelocity.y = -2f;
 
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space) && CanJump())
             {
                 //_playerVelocity.y = jumpForce;
                 AddForce(Vector3.up*jumpForce);
+                
+                if(canJump){
+                    currentStamina -= jumpStaminaDrain;
+                    EventBus.i.PlayerStaminaChanged?.Invoke(currentStamina, maxStamina);
+                    canJump = false;
+                    StartCoroutine(JumpDelay());
+                }
             }
         }
         else
@@ -358,6 +371,28 @@ public class PlayerMovement : MonoBehaviour
         //transform.LookAt(worldMousePos);
         Debug.DrawLine(transform.position, worldMousePos, Color.yellow);
     }
+    
+    public void RotateToMouse()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        Ray cameraRay = mainCamera.ScreenPointToRay(mousePos);
+        // Определяем высоту персонажа (плоскость, на которой он стоит)
+        float planeY = transform.position.y;
+        // Вычисляем, где луч пересекает эту высоту
+        float t = (planeY - cameraRay.origin.y) / cameraRay.direction.y;
+        Vector3 worldMousePos = cameraRay.origin + t * cameraRay.direction;
+        // Убираем возможные отклонения по высоте
+        worldMousePos.y = transform.position.y;
+        transform.rotation = Quaternion.LookRotation(worldMousePos - transform.position, Vector3.up);
+        
+        // Vector3 mousePos = Input.mousePosition;
+        // Ray cameraRay = mainCamera.ScreenPointToRay(mousePos);
+        // Vector3 fixedRay = new Vector3(cameraRay.direction.x, transform.position.y, cameraRay.direction.z);
+        // Debug.DrawRay(transform.position, fixedRay*3, Color.magenta, 5f);
+        
+        // Quaternion rotDir = Quaternion.AngleAxis(Vector3.Angle(transform.forward, cameraRay.direction), Vector3.up);
+        // transform.rotation = Quaternion.LookRotation(fixedRay, Vector3.up);
+    }
 
     private void PlayerAiming_OnAim(bool aimStarted)
     {
@@ -466,6 +501,12 @@ public class PlayerMovement : MonoBehaviour
         canRegenStamina = true;
     }
     
+    
+    private IEnumerator JumpDelay(){
+        
+        yield return new WaitForSeconds(jumpDelay);
+        canJump = true;
+    }
 }
 
 public class ModVar
