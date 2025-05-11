@@ -39,7 +39,7 @@ public class InventoryUI : MonoBehaviour
         for (int i = 0; i < size; i++)
         {
             InventorySlot slot = Instantiate(slotPrefab, Vector3.zero, Quaternion.identity).GetComponent<InventorySlot>();
-            slot.transform.SetParent(contentPanel);
+            slot.transform.SetParent(contentPanel, false);
             slot.Init(this);
             inventorySlots.Add(slot);
 

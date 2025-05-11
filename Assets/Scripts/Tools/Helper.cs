@@ -213,5 +213,26 @@ public static class Helper
         //GameObject.Destroy(hit, 5);
     }
     
-    
+    public static Color GetRarityColor(Rarity rarity)
+    {
+        switch(rarity)
+        {
+            case Rarity.None:
+                return new Color(0,0,0,0);
+            case Rarity.Common:
+                return GameAssets.colors.common;
+            case Rarity.Rare:
+                return GameAssets.colors.rare;
+            case Rarity.VeryRare:
+                return GameAssets.colors.veryRare;
+            case Rarity.Legendary:
+                return GameAssets.colors.legendary;
+            case Rarity.Mythical:
+                return GameAssets.colors.mythical;
+                
+            default:
+                Debug.LogWarning("Wrong rarity argument. Returning transparent color");
+                return new Color(0,0,0,0);
+        }
+    }
 }

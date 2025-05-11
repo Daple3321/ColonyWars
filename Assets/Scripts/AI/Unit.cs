@@ -297,7 +297,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
             .Chain(Tween.MaterialColor(mat, Color.red, 0.2f))
             .Chain(Tween.MaterialColor(mat, Color.white, 0.2f));
             
-        PopUpManager.i.Spawn(transform.position+new Vector3(0, 2f, 0), Color.red)
+        PopUpManager.i.Spawn(transform.position+new Vector3(0, 2f, 0), Color.white)
         .text = damage.ToString("F1");
         
         HealthChanged();

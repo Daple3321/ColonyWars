@@ -21,4 +21,11 @@ public class Colors : ScriptableObject
     public Color buildingOverlap;
     [ColorUsage(true, true)]
     public Color gatherRadius;
+    
+    [Space(5), Header("Items")]
+    public Color common;
+    public Color rare;
+    public Color veryRare;
+    public Color legendary;
+    public Color mythical;
 }

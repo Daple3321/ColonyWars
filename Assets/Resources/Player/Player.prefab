@@ -609,8 +609,8 @@ MonoBehaviour:
   canRegenStamina: 0
   runningAllowed: 1
   rotationSpeed: 10
-  jumpForce: 9
-  jumpStaminaDrain: 1.5
+  jumpForce: 10
+  jumpStaminaDrain: 1
   jumpDelay: 0.3
   canJump: 1
   gravity: 15
@@ -620,7 +620,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
-  externalForceDamping: 11
+  externalForceDamping: 9
   moveAction:
     m_Name: Move
     m_Type: 0

@@ -11,6 +11,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
     [SerializeField] private Image itemImage;
     [SerializeField] private TMP_Text quantityTxt;
     [SerializeField] private Image borderImage;
+    [SerializeField] private Image rarityBg;
     public InventoryItem item;
 
     public event Action<InventorySlot> OnItemClicked, OnRightClick, OnItemEndDrag;
@@ -43,6 +44,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
     {
         this.itemImage.gameObject.SetActive(false);
         quantityTxt.gameObject.SetActive(false);
+        rarityBg.color = new Color(0,0,0,0);
         item = InventoryItem.GetEmptyItem();
         empty = true;
     }
@@ -61,6 +63,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         this.item = item;
         itemImage.sprite = sprite;
         quantityTxt.text = quantity.ToString();
+        rarityBg.color = Helper.GetRarityColor(item.item.rarity);
 
         if (item.item.itemData.IsStackable)
         {

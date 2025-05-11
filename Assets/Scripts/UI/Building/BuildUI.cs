@@ -36,7 +36,7 @@ public class BuildUI : MonoBehaviour
         foreach(BuildingData building in buildings)
         {
             BuildingSlot slot = Instantiate(GameAssets.buildingSlot, Vector3.zero, Quaternion.identity).GetComponent<BuildingSlot>();
-            slot.transform.SetParent(slotGrid);
+            slot.transform.SetParent(slotGrid, false); // можно ещё scale умножить на canvas.scaleFactor
             slot.Init(building);
             slot.OnSlotClicked += HandleSlotClick;
             

@@ -17,6 +17,8 @@ public class BuildingPanelManager : MonoBehaviour
     {
         ClearCurrentPanel();
         buildingCanvas = GetComponent<Canvas>();
+        
+        //Debug.Log($"Scale factor: {buildingCanvas.scaleFactor}");
     }
     
     // Сделать ShowPanel(Building building) с проверками на уже существую панельку
