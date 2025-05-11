@@ -462,8 +462,8 @@ MonoBehaviour:
   buildingPanelManager: {fileID: 0}
   squadManager: {fileID: 8311137189873081287}
   stateMachine: {fileID: 8290539460608290715}
-  health: 250
-  maxHealth: 250
+  health: 45
+  maxHealth: 45
   rightHand: {fileID: 3315800805882177323}
   leftHand: {fileID: 3810671238129732571}
   groundLayer:

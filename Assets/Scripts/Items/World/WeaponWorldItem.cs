@@ -1,9 +1,12 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class WeaponWorldItem : WorldItem
 {
     public float damage;
     public AttackType attackType;
+    
+    public CinemachineImpulseSource impulseSource;
     
     public override void Initialize(ItemData data, Item origin, int quantity=1)
     {
@@ -18,6 +21,8 @@ public class WeaponWorldItem : WorldItem
 
     public virtual void Attack(float concentraion)
     {
-        
+        if(impulseSource != null){
+            impulseSource.GenerateImpulse();
+        }
     }
 }

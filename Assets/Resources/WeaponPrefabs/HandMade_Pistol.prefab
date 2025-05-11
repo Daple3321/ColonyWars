@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8067624442230116329}
   - component: {fileID: 6455580303588317608}
+  - component: {fileID: 4505821177124864678}
   - component: {fileID: 2735916817876254769}
   - component: {fileID: 8075168548466267950}
   - component: {fileID: 9157484488952366039}
@@ -61,6 +62,7 @@ MonoBehaviour:
   dropped: 0
   damage: 0
   attackType: 2
+  impulseSource: {fileID: 4505821177124864678}
   shootDistance: 50
   shootStyle: 1
   concentrationScatter:
@@ -89,6 +91,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   projectileSpeed: 35
   penetrationAmount: 0
+  projectilesPerShot: 0
   projectileLifetime: 0
   knockBackForce: 0
   projectilePrefab: {fileID: 1014752688310764929, guid: d96163116091c5941b0d0e79d4b8396e, type: 3}
@@ -105,6 +108,95 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+--- !u!114 &4505821177124864678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549962704229280597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImpulseDefinition:
+    ImpulseChannel: 1
+    ImpulseShape: 0
+    CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2.0868628
+        outSlope: 2.0868628
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.26587805
+        value: 0.554851
+        inSlope: 1.7643859
+        outSlope: 1.7643859
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.4998433
+        value: 0.8922076
+        inSlope: -0.03693122
+        outSlope: -0.03693122
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.22201659
+        outWeight: 0.105371006
+      - serializedVersion: 3
+        time: 1
+        value: 0.005329132
+        inSlope: -1.7732012
+        outSlope: -1.7732012
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    ImpulseDuration: 0.15
+    ImpulseType: 0
+    DissipationRate: 0.25
+    RawSignal: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    RepeatMode: 0
+    Randomize: 1
+    TimeEnvelope:
+      AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      AttackTime: 0
+      SustainTime: 0.2
+      DecayTime: 0.7
+      ScaleWithImpact: 1
+      HoldForever: 0
+    ImpactRadius: 100
+    DirectionMode: 0
+    DissipationMode: 2
+    DissipationDistance: 100
+    PropagationSpeed: 343
+  DefaultVelocity: {x: 0, y: 0, z: -0.3}
 --- !u!33 &2735916817876254769
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -121,6 +121,8 @@ public class PlayerCombat : MonoBehaviour
             
             currentWeapon.Attack();
             weaponWorld.Attack(concentraion);
+            
+            ApplyRecoil(currentWeapon.weaponData.recoilForce);
             StartCoroutine(PlayerCameraController.CameraShake(1, 0.15f));
 
             currentWeapon.mouseReleased = false;
@@ -136,6 +138,8 @@ public class PlayerCombat : MonoBehaviour
             
             currentWeapon.Attack();
             weaponWorld.Attack(concentraion);
+            
+            ApplyRecoil(currentWeapon.weaponData.recoilForce);
             StartCoroutine(PlayerCameraController.CameraShake(1, 0.15f));
 
             currentWeapon.mouseReleased = false;
@@ -155,10 +159,16 @@ public class PlayerCombat : MonoBehaviour
             
             currentWeapon.Attack();
             weaponWorld.Attack(concentraion);
+            
+            ApplyRecoil(currentWeapon.weaponData.recoilForce);
             StartCoroutine(PlayerCameraController.CameraShake(2, 0.25f));
 
             currentWeapon.mouseReleased = false;
         }
+    }
+    private void ApplyRecoil(float recoilForce)
+    {
+        player.playerMovement.AddForce(-transform.forward.normalized * recoilForce);
     }
 
     private void HandleAiming()

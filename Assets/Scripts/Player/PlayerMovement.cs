@@ -358,40 +358,56 @@ public class PlayerMovement : MonoBehaviour
     }*/
     private void HandleRotationToMouse() // хрень полная в этой новой системе
     {
-        Vector3 mousePos = Input.mousePosition;
-        Ray cameraRay = mainCamera.ScreenPointToRay(mousePos);
+        //Vector3 mousePos = Input.mousePosition;
+        //Ray cameraRay = mainCamera.ScreenPointToRay(mousePos);
         // Определяем высоту персонажа (плоскость, на которой он стоит)
-        float planeY = transform.position.y;
+        //float planeY = transform.position.y;
         // Вычисляем, где луч пересекает эту высоту
-        float t = (planeY - cameraRay.origin.y) / cameraRay.direction.y;
-        Vector3 worldMousePos = cameraRay.origin + t * cameraRay.direction;
+        //float t = (planeY - cameraRay.origin.y) / cameraRay.direction.y;
+        //Vector3 worldMousePos = cameraRay.origin + t * cameraRay.direction;
         // Убираем возможные отклонения по высоте
-        worldMousePos.y = transform.position.y;
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(worldMousePos - transform.position, Vector3.up), rotationSpeed * Time.deltaTime);
-        //transform.LookAt(worldMousePos);
-        Debug.DrawLine(transform.position, worldMousePos, Color.yellow);
+        //worldMousePos.y = transform.position.y;
+        //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(worldMousePos - transform.position, Vector3.up), rotationSpeed * Time.deltaTime);
+        //Debug.DrawLine(transform.position, worldMousePos, Color.yellow);
+        
+        Vector3 mousePosition = Input.mousePosition;
+        // 2. Устанавливаем Z-координату для ScreenToWorldPoint.
+        // Это расстояние от камеры до плоскости, на которую мы "проецируем" мышь.
+        mousePosition.z = 10f; // distanceFromCamera
+        
+        // 3. Преобразуем экранные координаты мыши в мировые координаты
+        Vector3 targetWorldPoint = mainCamera.ScreenToWorldPoint(mousePosition);
+        // 4. Рассчитываем направление от персонажа к этой точке
+        Vector3 directionToLook = targetWorldPoint - transform.position;
+        // 5. Игнорируем разницу по оси Y для вращения только по горизонтали
+        directionToLook.y = 0;
+
+        if (directionToLook.sqrMagnitude > 0.001f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(directionToLook.normalized); // Нормализуем для чистоты
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
     }
     
     public void RotateToMouse()
     {
-        Vector3 mousePos = Input.mousePosition;
-        Ray cameraRay = mainCamera.ScreenPointToRay(mousePos);
-        // Определяем высоту персонажа (плоскость, на которой он стоит)
-        float planeY = transform.position.y;
-        // Вычисляем, где луч пересекает эту высоту
-        float t = (planeY - cameraRay.origin.y) / cameraRay.direction.y;
-        Vector3 worldMousePos = cameraRay.origin + t * cameraRay.direction;
-        // Убираем возможные отклонения по высоте
-        worldMousePos.y = transform.position.y;
-        transform.rotation = Quaternion.LookRotation(worldMousePos - transform.position, Vector3.up);
-        
-        // Vector3 mousePos = Input.mousePosition;
-        // Ray cameraRay = mainCamera.ScreenPointToRay(mousePos);
-        // Vector3 fixedRay = new Vector3(cameraRay.direction.x, transform.position.y, cameraRay.direction.z);
-        // Debug.DrawRay(transform.position, fixedRay*3, Color.magenta, 5f);
-        
-        // Quaternion rotDir = Quaternion.AngleAxis(Vector3.Angle(transform.forward, cameraRay.direction), Vector3.up);
-        // transform.rotation = Quaternion.LookRotation(fixedRay, Vector3.up);
+        Vector3 mousePosition = Input.mousePosition;
+        // 2. Устанавливаем Z-координату для ScreenToWorldPoint.
+        // Это расстояние от камеры до плоскости, на которую мы "проецируем" мышь.
+        mousePosition.z = 10f; // distanceFromCamera
+        // 3. Преобразуем экранные координаты мыши в мировые координаты
+        Vector3 targetWorldPoint = mainCamera.ScreenToWorldPoint(mousePosition);
+        // 4. Рассчитываем направление от персонажа к этой точке
+        Vector3 directionToLook = targetWorldPoint - transform.position;
+        // 5. Игнорируем разницу по оси Y для вращения только по горизонтали
+        directionToLook.y = 0;
+
+        if (directionToLook.sqrMagnitude > 0.001f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(directionToLook.normalized); // Нормализуем для чистоты
+            //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            transform.rotation = targetRotation;
+        }
     }
 
     private void PlayerAiming_OnAim(bool aimStarted)

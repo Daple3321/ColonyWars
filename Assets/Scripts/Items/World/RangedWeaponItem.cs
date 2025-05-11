@@ -42,6 +42,8 @@ public class RangedWeaponItem : WeaponWorldItem
 
     public override void Attack(float concentraion) // ВЫСТРЕЛЫ ПРОСТО НЕ СПАВНЯТСЯ ЕСЛИ НИЧЕГО НЕ ХИТАНУЛИ.
     {
+        base.Attack(concentraion);
+        
         switch (shootStyle)
         {
             case ShootStyle.HITSCAN:
@@ -151,7 +153,7 @@ public class RangedWeaponItem : WeaponWorldItem
         //     Debug.DrawRay(shootPoint.position, shootRay.direction, Color.cyan, 3);
         // }
         
-        RaycastHit mouseHit;
+        /*RaycastHit mouseHit;
         if(PlayerAiming.Raycast(hitLayers, out mouseHit))
         {
             Vector3 shootDir = mouseHit.point - shootPoint.position;
@@ -173,11 +175,49 @@ public class RangedWeaponItem : WeaponWorldItem
                     lineObj.GetComponent<HitscanLine>().Init(shootPoint.position, hit.point);
                     Helper.SpawnHitEffect(hit.point, hit.normal, hit.collider.gameObject.layer);
                 }
+                else{
+                    GameObject lineObj = Instantiate(hitScanLine, shootPoint.position, Quaternion.identity);
+                    lineObj.GetComponent<HitscanLine>().Init(shootPoint.position, hit.point);
+                    //Helper.SpawnHitEffect(mouseHit.point, mouseHit.normal, mouseHit.collider.gameObject.layer);
+                }
+                
                 
                 Debug.DrawRay(shootPoint.position, shootRay.direction, Color.cyan, 3);
             }
             
             PlayShootEffect();
+        }*/
+        
+        
+        //Vector3 shootDir = mouseHit.point - shootPoint.position;
+        Vector3 mousePos = Input.mousePosition;
+        Ray mouseRay = cm.ScreenPointToRay(mousePos);
+        for(int i = 0; i < projectilesPerShot; i++)
+        {
+            float scatterAmount = concentrationScatter.Evaluate(concentraion);
+            Ray shootRay = new Ray(shootPoint.position, Helper.GetRandPointOnUnitSphereCap(mouseRay.direction, scatterAmount));
+            RaycastHit hit;
+            if (Physics.Raycast(shootRay, out hit, shootDistance, hitLayers))
+            {
+                IDamageable damageable;
+                if (hit.collider.gameObject.TryGetComponent<IDamageable>(out damageable))
+                {
+                    damageable.TakeDamage(damage, -hit.normal*knockBackForce);
+                }
+                
+                GameObject lineObj = Instantiate(hitScanLine, shootPoint.position, Quaternion.identity);
+                lineObj.GetComponent<HitscanLine>().Init(shootPoint.position, hit.point);
+                Helper.SpawnHitEffect(hit.point, hit.normal, hit.collider.gameObject.layer);
+            }
+            else{
+                GameObject lineObj = Instantiate(hitScanLine, shootPoint.position, Quaternion.identity);
+                lineObj.GetComponent<HitscanLine>().Init(shootPoint.position, shootRay.GetPoint(6f));
+                //Helper.SpawnHitEffect(mouseHit.point, mouseHit.normal, mouseHit.collider.gameObject.layer);
+            }
+            
+            Debug.DrawRay(shootPoint.position, shootRay.direction, Color.cyan, 3);
         }
+        PlayShootEffect();
+        
     }
 }

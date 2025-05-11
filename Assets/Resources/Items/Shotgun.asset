@@ -26,6 +26,7 @@ MonoBehaviour:
   attackRate: 0.35
   chargeRate: 0.1
   needsAmmo: 0
+  recoilForce: 9
   ammoType: {fileID: 0}
   attackType: 2
   weaponType: 2

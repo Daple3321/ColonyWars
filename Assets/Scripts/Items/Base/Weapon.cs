@@ -16,6 +16,8 @@ public class Weapon : Equipable
     public ItemData ammoType;
     public bool mouseReleased = true;
     
+    public WeaponData weaponData;
+    
     public Weapon(ItemData _itemData) : base(_itemData)
     {
         Init(_itemData);
@@ -36,6 +38,8 @@ public class Weapon : Equipable
             needsAmmo = data.needsAmmo;
             ammoType = data.ammoType;
             //Debug.Log($"LoadStats in Weapon.cs. WeaponData: {weaponData}");
+            
+            weaponData = data;
         }
     }
 

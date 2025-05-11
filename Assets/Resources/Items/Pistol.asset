@@ -27,9 +27,11 @@ MonoBehaviour:
   attackRate: 0.2
   chargeRate: 1.5
   needsAmmo: 0
+  recoilForce: 2
   ammoType: {fileID: 0}
   attackType: 2
   weaponType: 1
+  projectilesPerShot: 1
   shootDistance: 30
   projectileSpeed: 50
   penetrationAmount: 0
