@@ -57,9 +57,17 @@ public class ColoniesManager : MonoBehaviour
         for(int i = 0; i < spawnSettings.colonies; i++)
         {
             ColonyCenterData randColony = spawnSettings.coloniesPool[Random.Range(0, spawnSettings.coloniesPool.Length)];
-            
-            Building b = GameController.objectGenerator.CreateBuilding_Interval(randColony, spawnSettings.minColonyDistance, "EnemyColony", "PlayerColony");
-            b.GetComponent<EnemyColony>().Init(randColony);
+            Building b = null;
+            int maxIterations = 10;
+            while(b == null && maxIterations > 0)
+            {
+                b = GameController.objectGenerator.CreateBuilding_Interval(randColony, spawnSettings.minColonyDistance, "EnemyColony", "PlayerColony");
+                if(b != null){
+                    b.GetComponent<EnemyColony>().Init(randColony);
+                }
+                
+                maxIterations--;
+            }
         }
     }
 }

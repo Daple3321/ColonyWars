@@ -16,7 +16,7 @@ MonoBehaviour:
   buildingIcon: {fileID: 21300000, guid: cbe4a635db6d79944855ee321639111a, type: 3}
   craftPrice:
     requirements: []
-  insideColonyOnly: 1
+  insideColonyOnly: 0
   overlapRadius: 1.5
   maxBuildAngle: 25
   prefab: {fileID: 5296791000703797051, guid: 411d8a44c309f6440a2779263f9d2402, type: 3}

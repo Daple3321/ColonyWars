@@ -171,6 +171,10 @@ public class ObjectGenerator : MonoBehaviour
         RaycastHit[] hit = new RaycastHit[1];
         if(Physics.RaycastNonAlloc(ray, hit, Mathf.Infinity, raycastMask) > 0)
         {
+            if(!building.CheckBuildConditions(hit[0].point)){
+                return null;
+            }
+            
             Collider[] overlap = Physics.OverlapSphere(hit[0].point, buildingInterval, overlapMask);
             if(overlap.Length > 0)
             {

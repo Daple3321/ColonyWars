@@ -28,9 +28,9 @@ public class PlayerColony : Colony
         core.OnBuildingDestroyed -= OnCoreDestroyed;
         
         GameObject.Destroy(colonyZone.gameObject);
-        foreach (Building building in buildings)
+        for(int i = 0; i < buildings.Count; i++)
         {
-            building.Death();
+            buildings[i].Death();
         }
     }
     

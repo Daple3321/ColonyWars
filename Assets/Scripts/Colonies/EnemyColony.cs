@@ -32,7 +32,7 @@ public class EnemyColony : Colony
         for(int i = 0; i < startingBuildings; i++)
         {
             BuildingData randBuilding = buildingPool[Random.Range(0, buildingPool.Length)];
-            Vector3 pointInRadius = GameController.RandomPointInAnnulusTerrain(new Vector2(transform.position.x, transform.position.z), 3, colonyRadius);
+            Vector3 pointInRadius = GameController.RandomPointInCircleTerrain(new Vector2(transform.position.x, transform.position.z), 3, colonyRadius);
             
             Building b = GameController.objectGenerator.CreateBuilding_Rules(randBuilding, pointInRadius);
             if(b != null)

@@ -173,7 +173,7 @@ public class GameController : MonoBehaviour
         
         return angle;
     }
-    public static Vector2 RandomPointInAnnulus(Vector2 origin, float minRadius, float maxRadius)
+    public static Vector2 RandomPointInCircle(Vector2 origin, float minRadius, float maxRadius)
     {
         Vector2 randomDirection = (Random.insideUnitCircle * origin).normalized;
         float randomDistance = Random.Range(minRadius, maxRadius);
@@ -181,7 +181,7 @@ public class GameController : MonoBehaviour
 
         return point;
     }
-    public static Vector3 RandomPointInAnnulusTerrain(Vector2 origin, float minRadius, float maxRadius)
+    public static Vector3 RandomPointInCircleTerrain(Vector2 origin, float minRadius, float maxRadius) // выходит за террейн если origin близко к краю!
     {
         Vector2 randomDirection = (Random.insideUnitCircle.normalized * origin).normalized;
         //Vector2 randomDirection = Random.insideUnitCircle.normalized;
