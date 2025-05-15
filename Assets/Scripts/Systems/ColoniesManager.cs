@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ColoniesManager : MonoBehaviour
@@ -40,6 +41,10 @@ public class ColoniesManager : MonoBehaviour
     public void OnColonyDestroyed(Colony colony)   
     {
         if (colony is PlayerColony pColony){
+            if(playerColonies.Count == 1){
+                // Lose
+            }
+            
             playerColonies.Remove(pColony);
         }
         else if (colony is EnemyColony eColony){
@@ -47,8 +52,14 @@ public class ColoniesManager : MonoBehaviour
         }
     }
     
-    public void SpawnEnemyColonies(GameSettings gameSettings)
+    public void SpawnEnemyColonies(ColoniesSpawnSettings spawnSettings)
     {
-        
+        for(int i = 0; i < spawnSettings.colonies; i++)
+        {
+            ColonyCenterData randColony = spawnSettings.coloniesPool[Random.Range(0, spawnSettings.coloniesPool.Length)];
+            
+            Building b = GameController.objectGenerator.CreateBuilding_Interval(randColony, spawnSettings.minColonyDistance, "EnemyColony", "PlayerColony");
+            b.GetComponent<EnemyColony>().Init(randColony);
+        }
     }
 }

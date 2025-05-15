@@ -81,7 +81,7 @@ public class GameController : MonoBehaviour
         worldCanvas.worldCamera = Camera.main; // after player
         
         ColoniesManager.i.Init();
-        ColoniesManager.i.SpawnEnemyColonies(gameSettings);
+        ColoniesManager.i.SpawnEnemyColonies(gameSettings.coloniesSpawnSettings);
         
         PopUpManager.i.Init();
         
@@ -137,7 +137,7 @@ public class GameController : MonoBehaviour
             Helper.RestartCurrentScene();
         }
         else{
-            StartCoroutine(RespawnPlayer(ColoniesManager.i.playerColonies[0].core.transform.position));
+            StartCoroutine(RespawnPlayer(ColoniesManager.i.playerColonies[0].transform.position));
         }
     }
     
@@ -145,7 +145,9 @@ public class GameController : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         
-        p.TakeDamage(-p.maxHealth);
+        p.health = p.maxHealth;
+        p.TakeDamage(p.maxHealth/2);
+        PlayerAiming.isAiming = false;
         p.transform.position = pos;
         p.gameObject.SetActive(true);
         
@@ -153,7 +155,7 @@ public class GameController : MonoBehaviour
     }
     
 
-    public static Vector3 GetPointOnTerrain(Vector3 point)
+    public static Vector3 TerrainPoint(Vector3 point)
     {
         return new Vector3(point.x, currentTerrain.SampleHeight(point), point.z);
     }
@@ -164,11 +166,65 @@ public class GameController : MonoBehaviour
         Vector3 rayOrigin = new Vector3(point.x, 50, point.z);
         Ray ray = new Ray(rayOrigin, Vector3.down);
         RaycastHit[] hit = new RaycastHit[1];
-        if(Physics.RaycastNonAlloc(ray, hit, Mathf.Infinity, LayerMask.GetMask("Ground")) > 0) // добавить ещё проверку на объекты вокруг? overlapSphere
+        if(Physics.RaycastNonAlloc(ray, hit, Mathf.Infinity, LayerMask.GetMask("Ground")) > 0)
         {
             angle = Vector3.Angle(Vector3.up, hit[0].normal);
         }
         
         return angle;
     }
+    public static Vector2 RandomPointInAnnulus(Vector2 origin, float minRadius, float maxRadius)
+    {
+        Vector2 randomDirection = (Random.insideUnitCircle * origin).normalized;
+        float randomDistance = Random.Range(minRadius, maxRadius);
+        Vector2 point = origin + randomDirection * randomDistance;
+
+        return point;
+    }
+    public static Vector3 RandomPointInAnnulusTerrain(Vector2 origin, float minRadius, float maxRadius)
+    {
+        Vector2 randomDirection = (Random.insideUnitCircle.normalized * origin).normalized;
+        //Vector2 randomDirection = Random.insideUnitCircle.normalized;
+        float randomDistance = Random.Range(minRadius, maxRadius);
+        Vector2 point = origin + randomDirection * randomDistance;
+        
+        Vector3 terrainPoint = new Vector3(point.x, currentTerrain.SampleHeight(new Vector3(point.x, 0, point.y)), point.y);
+
+        return terrainPoint;
+    }
+    
+    /*public static Vector3 RandomPointInAnnulusTerrain(Vector2 origin, float minRadius, float maxRadius)
+    {
+        // 1. Получаем случайное направление
+        Vector2 randomDirection = Random.insideUnitCircle.normalized;
+        
+        // (Опционально) Обработка крайне редкого случая, когда Random.insideUnitCircle вернет (0,0)
+        if (randomDirection == Vector2.zero)
+        {
+            randomDirection = Vector2.right; // Задаем направление по умолчанию
+        }
+
+        // 2. Получаем случайное расстояние в заданном диапазоне
+        float randomDistance = Random.Range(minRadius, maxRadius);
+
+        // 3. Вычисляем 2D точку на плоскости XZ
+        Vector2 pointXZ = origin + randomDirection * randomDistance;
+        
+        // 4. Получаем высоту террейна в этой точке
+        // Убедитесь, что currentTerrain назначен и это нужный террейн!
+        if (currentTerrain == null)
+        {
+            Debug.LogError("currentTerrain не назначен!");
+            // Возвращаем точку на заданной высоте или обрабатываем ошибку иначе
+            return new Vector3(pointXZ.x, 0, pointXZ.y); 
+        }
+
+        // Передаем Vector3 в SampleHeight, где Y обычно игнорируется, но для ясности можно задать 0
+        float terrainHeight = currentTerrain.SampleHeight(new Vector3(pointXZ.x, 0, pointXZ.y));
+        
+        // 5. Создаем итоговую 3D точку с корректной высотой
+        Vector3 terrainPoint = new Vector3(pointXZ.x, terrainHeight, pointXZ.y);
+
+        return terrainPoint;
+    }*/
 }

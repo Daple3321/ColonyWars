@@ -19,13 +19,6 @@ MonoBehaviour:
       description: 
       icon: {fileID: 0}
       rarity: 0
-      itemData: {fileID: 11400000, guid: 6b5b4916729fbed4abe7fad9b9d5eb3f, type: 2}
-  - quantity: 1
-    item:
-      itemName: 
-      description: 
-      icon: {fileID: 0}
-      rarity: 0
       itemData: {fileID: 11400000, guid: 23313022b98286f42b9ced6461d21457, type: 2}
   - quantity: 1
     item:
@@ -41,3 +34,10 @@ MonoBehaviour:
       icon: {fileID: 0}
       rarity: 0
       itemData: {fileID: 11400000, guid: 4605521a04b6af340b388048df7bd6b2, type: 2}
+  - quantity: 1
+    item:
+      itemName: 
+      description: 
+      icon: {fileID: 0}
+      rarity: 0
+      itemData: {fileID: 11400000, guid: 6b5b4916729fbed4abe7fad9b9d5eb3f, type: 2}

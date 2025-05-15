@@ -1,12 +1,15 @@
 using System;
 using System.Diagnostics;
 using Cysharp.Threading.Tasks;
+using UnityEditor.Rendering;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Debug = UnityEngine.Debug;
 
 public class ObjectGenerator : MonoBehaviour
 {
     public LayerMask raycastMask;
+    public LayerMask overlapMask;
     public float raycastHeight = 50f;
     public Terrain terrain;
     [SerializeField] private ObjectGenSettings genSettings;
@@ -157,5 +160,81 @@ public class ObjectGenerator : MonoBehaviour
             //break;
         }
         return false;
+    }
+    
+    
+    public Building CreateBuilding_Interval(BuildingData building, float buildingInterval, params string[] overlapBlacklist)
+    {
+        Vector3 rayOrigin = new Vector3(Random.Range(0, terrain.terrainData.size.x), raycastHeight, Random.Range(0, terrain.terrainData.size.x));
+        
+        Ray ray = new Ray(rayOrigin, Vector3.down);
+        RaycastHit[] hit = new RaycastHit[1];
+        if(Physics.RaycastNonAlloc(ray, hit, Mathf.Infinity, raycastMask) > 0)
+        {
+            Collider[] overlap = Physics.OverlapSphere(hit[0].point, buildingInterval, overlapMask);
+            if(overlap.Length > 0)
+            {
+                foreach(Collider c in overlap)
+                {
+                    if(!c.gameObject.tag.ContainsAny(overlapBlacklist))
+                    {
+                        Quaternion rot = Quaternion.identity;
+                        rot *= Quaternion.AngleAxis(Random.Range(0, 360f), Vector3.up);
+                        GameObject go = Instantiate(building.prefab, hit[0].point, rot);
+                        
+                        return go.GetComponent<Building>();
+                    }
+                    else{
+                        return null;
+                    }
+                }
+            }
+            else
+            {
+                Quaternion rot = Quaternion.identity;
+                rot *= Quaternion.AngleAxis(Random.Range(0, 360f), Vector3.up);
+                GameObject go = Instantiate(building.prefab, hit[0].point, rot);
+                
+                return go.GetComponent<Building>();
+            }
+        }
+        
+        return null;
+    }
+    
+    public Building CreateBuilding_Rules(BuildingData building, Vector3 pos)
+    {
+        bool spawned = false;
+        int maxIterations = 10;
+        while(!spawned && maxIterations > 0) // repeat until suitable place is found
+        {
+            Collider[] hitColliders = Physics.OverlapSphere(pos, building.overlapRadius, LayerMask.GetMask("EnemyBuilding","PlayerBuilding"));
+            if(hitColliders.Length <= 0)
+            {
+                Quaternion rot = Quaternion.identity;
+                rot *= Quaternion.AngleAxis(Random.Range(0, 360f), Vector3.up);
+                GameObject go = Instantiate(building.prefab, pos, rot);
+                
+                spawned = true;
+                
+                return go.GetComponent<Building>();
+            }
+            
+            maxIterations--;
+        }
+        
+        /*Collider[] hitColliders = Physics.OverlapSphere(pos, building.overlapRadius, LayerMask.GetMask("EnemyBuilding","PlayerBuilding"));
+        if(hitColliders.Length <= 0)
+        {
+            Quaternion rot = Quaternion.identity;
+            rot *= Quaternion.AngleAxis(Random.Range(0, 360f), Vector3.up);
+            GameObject go = Instantiate(building.prefab, pos, rot);
+            
+            spawned = true;
+            
+            return go.GetComponent<Building>();
+        }*/
+        
+        return null;
     }
 }

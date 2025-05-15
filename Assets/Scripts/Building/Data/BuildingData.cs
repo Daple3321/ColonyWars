@@ -39,7 +39,7 @@ public class BuildingData : ScriptableObject
             bool inColonyZone = false;
             foreach(Colony colony in ColoniesManager.i.playerColonies)
             {
-                if(Vector3.Distance(projectionPos, colony.core.transform.position) < colony.colonyRadius)
+                if(Vector3.Distance(projectionPos, colony.transform.position) < colony.colonyRadius)
                 {
                     //Debug.Log($"Inside colony! Dist: {Vector3.Distance(projectionPos, colony.core.transform.position)}", colony.core);
                     inColonyZone = true;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using PrimeTween;
 using UnityEngine;
 
 public abstract class Building : MonoBehaviour, IDamageable, IClickable
@@ -23,6 +24,7 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
     public float buildProgress = 0;
     
     protected MeshRenderer[] meshes;
+    protected Material mat;
 
     public virtual IEnumerator Build()
     {
@@ -44,14 +46,24 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
     public virtual void Init(BuildingData data)
     {
         meshes = transform.GetComponentsInChildren<MeshRenderer>();
+        mat = meshes[0].material;
         
         this.buildingData = data;
     }
     
+    Sequence colorSeq;
     public virtual void TakeDamage(float damage, Vector3 knockback = new Vector3())
     {
         health -= damage;
         OnHealthChanged?.Invoke(health, maxHealth);
+        
+        colorSeq.Complete();
+        colorSeq = Sequence.Create()
+            .Chain(Tween.MaterialColor(mat, Color.red, 0.2f))
+            .Chain(Tween.MaterialColor(mat, Color.white, 0.2f));
+        PopUpManager.i.Spawn(transform.position+new Vector3(0, 2f, 0), Color.white)
+        .text = damage.ToString("F0");
+        
         if(health <= 0){
             Death();
         }
@@ -68,7 +80,7 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
 
     public virtual void OnClick(Player caller)
     {
-        if(built)
+        if(built && affiliation == Affiliation.Player)
         {
             if(Vector3.Distance(transform.position, caller.transform.position) <= interactionRange){
                 //Debug.Log($"Clicked on {buildingData.buildingName}");

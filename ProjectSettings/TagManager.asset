@@ -8,6 +8,8 @@ TagManager:
   - Item
   - Projectile
   - Zone
+  - PlayerColony
+  - EnemyColony
   layers:
   - Default
   - TransparentFX

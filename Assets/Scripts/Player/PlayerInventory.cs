@@ -437,9 +437,10 @@ public class PlayerInventory : MonoBehaviour
             TextMeshProUGUI popUp = PopUpManager.i.Spawn(
                 transform.position+new Vector3(0, 1f, 0),
                 Color.white, 
-                new Vector3(1.05f, 1.05f, 1.05f),
-                0.5f);
-            popUp.fontSize = 10;
+                new Vector3(1f, 1f, 1f),
+                0.75f,
+                3f);
+            popUp.fontSize = 8;
             popUp.text = $"+{quantity} {itemToAdd.itemName}";
             return true;
         }
@@ -448,8 +449,9 @@ public class PlayerInventory : MonoBehaviour
                 transform.position+new Vector3(0, 1f, 0),
                 Color.white, 
                 new Vector3(1.05f, 1.05f, 1.05f),
-                0.5f);
-            popUp.fontSize = 10;
+                0.75f,
+                3f);
+            popUp.fontSize = 8;
             popUp.text = $"+{quantity} {itemToAdd.itemName}";
             return true;
         }

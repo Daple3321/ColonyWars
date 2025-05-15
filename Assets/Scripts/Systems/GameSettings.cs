@@ -7,6 +7,8 @@ public class GameSettings
     public ObjectGenSettings objectGenSettings;
     public WorldType worldType;
     
+    public ColoniesSpawnSettings coloniesSpawnSettings;
+    
     public GameDifficulty gameDifficulty;
 }
 

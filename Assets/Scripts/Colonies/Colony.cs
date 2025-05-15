@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Colony
+public abstract class Colony : Building
 {
+    public ColonyCenterData colonyData;
+    
     public int level = 1;
     
     public float colonyRadius = 20f;
     
-    public ColonyCore core;
+    //public ColonyCore core;
     public List<Building> buildings;
     public event Action<Building> OnBuildingAdded; // when new building is built in zone
     public event Action<Building> OnBuildingRemoved;
     
-    public Affiliation affiliation;
+    //public Affiliation affiliation;
     public TriggerZone colonyZone;
-    public Colony(ColonyCore core, ColonyCenterData colonyData, Affiliation affiliation)
+    
+    /*public virtual void Init(ColonyCore core, ColonyCenterData colonyData, Affiliation affiliation)
     {
         this.core = core;
         this.affiliation = affiliation;
@@ -39,31 +42,51 @@ public class Colony
         
         core.OnBuildingDestroyed += OnCoreDestroyed;
         EventBus.i.OnColonyCreated?.Invoke(this);
+    }*/
+
+    public override void Init(BuildingData data)
+    {
+        base.Init(data);
+        
+        if(data is ColonyCenterData colonyCenterData){
+            this.colonyData = colonyCenterData;
+        } 
+        
+        this.colonyRadius = colonyData.colonyRadius;
+        buildings = new List<Building>();
+        OnBuildingDestroyed += OnCoreDestroyed;
+        EventBus.i.OnColonyCreated?.Invoke(this);
+    }
+    
+    public override void Death(){
+        EventBus.i.OnColonyDestroyed?.Invoke(this);
+        base.Death();
     }
     
     protected virtual void OnCoreDestroyed(Building core)
     {
         GameObject.Destroy(colonyZone.gameObject);
-        foreach (Building building in buildings)
+        for(int i = 0; i < buildings.Count; i++)
         {
-            building.Death();
+            buildings[i].Death();
             //GameObject.Destroy(building.gameObject);
         }
     }
     
     public virtual void AddBuilding(Building building)
     {
-        if(building is ColonyCore){
+        if(building is Colony){
             return;
         }
         
+        building.OnBuildingDestroyed += RemoveBuilding;
         buildings.Add(building);
         OnBuildingAdded?.Invoke(building);
     }
     
     public virtual void RemoveBuilding(Building building)
     {
-        if(building is ColonyCore){
+        if(building is Colony){
             return;
         }
         

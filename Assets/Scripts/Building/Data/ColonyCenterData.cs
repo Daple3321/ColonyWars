@@ -35,7 +35,7 @@ public class ColonyCenterData : BuildingData
             bool overlappingWithColony = false;
             foreach(Colony colony in ColoniesManager.i.playerColonies)
             {
-                float colonyDistance = Vector3.Distance(projectionPos, colony.core.transform.position);
+                float colonyDistance = Vector3.Distance(projectionPos, colony.transform.position);
                 float radiusSum = colonyRadius + colony.colonyRadius;
                 if(colonyDistance < radiusSum)
                 {
@@ -52,7 +52,7 @@ public class ColonyCenterData : BuildingData
             
             foreach(Colony colony in ColoniesManager.i.enemyColonies)
             {
-                float colonyDistance = Vector3.Distance(projectionPos, colony.core.transform.position);
+                float colonyDistance = Vector3.Distance(projectionPos, colony.transform.position);
                 float radiusSum = colonyRadius + colony.colonyRadius;
                 
                 if(colonyDistance < radiusSum)

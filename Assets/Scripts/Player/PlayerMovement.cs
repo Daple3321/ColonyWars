@@ -102,12 +102,14 @@ public class PlayerMovement : MonoBehaviour
         //PlayerAiming.OnAimStart += () => runningAllowed = false;
         //PlayerAiming.OnAimEnd += () => runningAllowed = true;
         PlayerAiming.OnAim += PlayerAiming_OnAim;
+        EventBus.i.PlayerRespawn += OnPlayerRespawn;
     }
 
     protected void OnDisable()
     {
         controls.Player.Disable();
         PlayerAiming.OnAim -= PlayerAiming_OnAim;
+        EventBus.i.PlayerRespawn -= OnPlayerRespawn;
         //PlayerAiming.OnAimStart -= () => runningAllowed = false;
         //PlayerAiming.OnAimEnd -= () => runningAllowed = true;
     }
@@ -409,7 +411,14 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = targetRotation;
         }
     }
-
+    
+    private void OnPlayerRespawn()
+    {
+        currentSpeed = walkSpeed;
+        curSpeed = new ModVar(walkSpeed);
+        runningAllowed = true;
+        isRunning = false;
+    }
     private void PlayerAiming_OnAim(bool aimStarted)
     {
         if (aimStarted)
