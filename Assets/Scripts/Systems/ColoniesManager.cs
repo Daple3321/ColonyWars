@@ -19,14 +19,25 @@ public class ColoniesManager : MonoBehaviour
     public List<PlayerColony> playerColonies;
     
     public List<EnemyColony> enemyColonies;
-    
+
+    public GridManager gridManager;
+    public Grid grid;
+
     public void Init()
     {
         playerColonies = new List<PlayerColony>();
         enemyColonies = new List<EnemyColony>();
-        
+
         EventBus.i.OnColonyCreated += OnColonyCreated;
         EventBus.i.OnColonyDestroyed += OnColonyDestroyed;
+
+        // GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        // go.name = "0_0 center";
+        // go.transform.position = grid.GetCellCenterWorld(new Vector3Int(0, 0, 0));
+        // Bounds bd = grid.GetBoundsLocal(new Vector3Int(0, 0, 0), new Vector3(3, 1, 3));
+        // Debug.Log(bd);
+        // go.transform.localScale = bd.size;
+        gridManager = new GridManager(grid, 10);
     }
     
     public void OnColonyCreated(Colony newColony)   

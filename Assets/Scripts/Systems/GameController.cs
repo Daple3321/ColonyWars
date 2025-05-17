@@ -81,7 +81,7 @@ public class GameController : MonoBehaviour
         worldCanvas.worldCamera = Camera.main; // after player
         
         ColoniesManager.i.Init();
-        ColoniesManager.i.SpawnEnemyColonies(gameSettings.coloniesSpawnSettings);
+        //ColoniesManager.i.SpawnEnemyColonies(gameSettings.coloniesSpawnSettings);
         
         PopUpManager.i.Init();
         
