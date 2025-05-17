@@ -22,6 +22,12 @@ public class Colors : ScriptableObject
     [ColorUsage(true, true)]
     public Color gatherRadius;
     
+    [Space(5), Header("Borders")]
+    [ColorUsage(true, true)]
+    public Color playerBorder;
+    [ColorUsage(true, true)]
+    public Color enemyBorder;
+    
     [Space(5), Header("Items")]
     public Color common;
     public Color rare;

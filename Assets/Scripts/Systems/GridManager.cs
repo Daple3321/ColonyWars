@@ -8,14 +8,20 @@ public class GridManager
     public Vector3 cellSize;
     public Cell[,] cells;
     public int mapSize;
-
+    
+    [Space(10), Header("Borders")]
+    public float borderOffset = 0.45f;
+    private BorderPool borderPool;
+    
     private Renderer[,] planes;
-    public GridManager(Grid grid, int mapSize) // mapSize = TerrainSize/CellSize 
+    public GridManager(Grid grid, BorderPool borderPool, int mapSize) // mapSize = TerrainSize/CellSize 
     {
         this.grid = grid;
         this.mapSize = mapSize;
+        this.borderPool = borderPool;
         cellSize = grid.cellSize;
 
+        borders = new List<GameObject>();
         cells = new Cell[mapSize, mapSize];
         planes = new Renderer[mapSize, mapSize];
         for (int i = 0; i < mapSize; i++)
@@ -35,13 +41,12 @@ public class GridManager
                 };
                 cells[i, j] = newCell;
 
-                GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                go.name = $"[{i}, {j}]";
-                go.transform.position = grid.GetCellCenterWorld(new Vector3Int(i, 0, j));
-                Bounds bd = grid.GetBoundsLocal(new Vector3Int(i, 0, j), new Vector3(1, 1, 1));
-                go.transform.localScale = bd.size / 2;
-
-                planes[i, j] = go.GetComponent<Renderer>();
+                // GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                // go.name = $"[{i}, {j}]";
+                // go.transform.position = grid.GetCellCenterWorld(new Vector3Int(i, 0, j));
+                // Bounds bd = grid.GetBoundsLocal(new Vector3Int(i, 0, j), new Vector3(1, 1, 1));
+                // go.transform.localScale = bd.size / 2;
+                //planes[i, j] = go.GetComponent<Renderer>();
 
             }
         }
@@ -68,7 +73,10 @@ public class GridManager
         cells[3, 3].affiliation = Affiliation.Enemy;
         cells[6, 4].affiliation = Affiliation.Enemy;
 
-        ColorGrid();
+        //ColorGrid();
+        UpdateBorders();
+        ClearBorders();
+        UpdateBorders();
 
         Vector2Int closestCell = ClosestDifferentCell(4, 4);
         Debug.Log(closestCell.x + ", " + closestCell.y);
@@ -77,6 +85,90 @@ public class GridManager
         Debug.Log(closestCell2.x + ", " + closestCell2.y);
     }
 
+    private List<GameObject> borders;
+    public void UpdateBorders()
+    {
+        for (int i = 0; i < mapSize; i++)
+        {
+            for (int j = 0; j < mapSize; j++)
+            {
+                Cell origin = GetCell(i, j);
+                Vector2Int[] neighbors = GetDifferentNeighbors(i, j);
+                if (neighbors.Length > 0 && origin.affiliation != Affiliation.None)
+                {
+                    foreach (Vector2Int neighbor in neighbors)
+                    {
+                        GameObject go = borderPool.Pool.Get();
+                        go.transform.localScale = new Vector3(cellSize.x - (borderOffset), 50, 1);
+                        if (!borders.Contains(go))
+                        {
+                            borders.Add(go);
+                        }
+
+                        PositionBorder(go, new Vector2Int(i, j), neighbor);
+                        ColorBorder(go, origin.affiliation);
+                    }
+                }
+            }
+        }
+    }
+    public void ClearBorders()
+    {
+        foreach (GameObject border in borders)
+        {
+            borderPool.Pool.Release(border);
+        }
+    }
+
+    public void PositionBorder(GameObject border, Vector2Int origin, Vector2Int neighbor)
+    {
+        float cellHalf = cellSize.x / 2;
+        Vector3 center = grid.GetCellCenterWorld(new Vector3Int(origin.x, 0, origin.y));
+
+        if (neighbor.x > origin.x) // right
+        {
+            Vector3 pos = center + new Vector3(cellHalf-borderOffset, 0, 0);
+            border.transform.position = pos;
+            border.transform.rotation = Quaternion.AngleAxis(90, Vector3.up);
+        }
+        else if (neighbor.x < origin.x) // left
+        {
+            Vector3 pos = center + new Vector3(-cellHalf+borderOffset, 0, 0);
+            border.transform.position = pos;
+            border.transform.rotation = Quaternion.AngleAxis(90, Vector3.up);
+        }
+        else if (neighbor.y > origin.y) // up
+        {
+            Vector3 pos = center + new Vector3(0, 0, cellHalf-borderOffset);
+            border.transform.position = pos;
+            border.transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
+        }
+        else if (neighbor.y < origin.y) // down
+        {
+            Vector3 pos = center + new Vector3(0, 0, -cellHalf+borderOffset);
+            border.transform.position = pos;
+            border.transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
+        }
+    }
+    public void ColorBorder(GameObject border, Affiliation originAffiliation)
+    {
+        MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
+        switch (originAffiliation)
+        {
+            case Affiliation.Player:
+                propertyBlock.SetColor("_BaseColor", GameAssets.colors.playerBorder);
+                border.GetComponent<Renderer>().SetPropertyBlock(propertyBlock);
+                break;
+            case Affiliation.Enemy:
+                propertyBlock.SetColor("_BaseColor", GameAssets.colors.enemyBorder);
+                border.GetComponent<Renderer>().SetPropertyBlock(propertyBlock);
+                break;
+            case Affiliation.None:
+
+                break;
+        }
+    }
+    
     private void ColorGrid()
     {
         for (int i = 0; i < mapSize; i++)

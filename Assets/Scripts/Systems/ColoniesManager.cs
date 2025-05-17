@@ -20,6 +20,7 @@ public class ColoniesManager : MonoBehaviour
     
     public List<EnemyColony> enemyColonies;
 
+    public BorderPool borderPool;
     public GridManager gridManager;
     public Grid grid;
 
@@ -37,7 +38,7 @@ public class ColoniesManager : MonoBehaviour
         // Bounds bd = grid.GetBoundsLocal(new Vector3Int(0, 0, 0), new Vector3(3, 1, 3));
         // Debug.Log(bd);
         // go.transform.localScale = bd.size;
-        gridManager = new GridManager(grid, 10);
+        gridManager = new GridManager(grid, borderPool, 10);
     }
     
     public void OnColonyCreated(Colony newColony)   
