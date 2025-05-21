@@ -22,10 +22,12 @@ public class ResourceGenerator : Generator
     public BuildingInventory buildingInventory;
     public override void Init(BuildingData data)
     {
-        meshes = transform.GetComponentsInChildren<MeshRenderer>();
+        //meshes = transform.GetComponentsInChildren<MeshRenderer>();
+        //this.buildingData = data;
+        base.Init(data);
+        
         resourcesNearby = new List<ResourceNode>();
         _gatherRate = gatherRate;
-        this.buildingData = data;
         
         buildingInventory = new BuildingInventory(this, 2);
         //playerInventory = GameController.p.playerInventory;

@@ -129,6 +129,13 @@ public class GameController : MonoBehaviour
         {
             worldGenerator.GenerateTerrain().Forget();
         }
+        if (Input.GetKeyDown(KeyCode.Keypad5))
+        {
+            foreach(Collider c in ColoniesManager.i.gridManager.GetCellBuildings(0, 0))
+            {
+                Debug.Log(c.name);
+            }
+        }
     }
     
     private void OnPlayerDeath()

@@ -23,6 +23,9 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
     public bool built = false;
     public float buildProgress = 0;
     
+    public Cell cell;
+    public Vector3Int cellIndex;
+    
     protected MeshRenderer[] meshes;
     protected Material mat;
 
@@ -48,6 +51,9 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
         meshes = transform.GetComponentsInChildren<MeshRenderer>();
         mat = meshes[0].material;
         
+        cellIndex = ColoniesManager.i.grid.WorldToCell(transform.position);
+        cell = ColoniesManager.i.gridManager.GetCell(cellIndex.x, cellIndex.z);
+        
         this.buildingData = data;
     }
     
@@ -70,6 +76,7 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
     }
     public virtual void Death(){
         OnBuildingDestroyed?.Invoke(this);
+        cell.OnCellBuildingsChanged?.Invoke();
         OnDeath();
         Destroy(gameObject);
     }

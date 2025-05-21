@@ -22,21 +22,26 @@ public class Zone : MonoBehaviour
     
     
     public ZoneShape shape;
-    
+    MaterialPropertyBlock sharedPropertyBlock;
     public void Init(Color color, float radius = 1f, ZoneShape shape = ZoneShape.Cylinder, float height = 5f)
     {
+        sharedPropertyBlock = new MaterialPropertyBlock();
         meshFilter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();
         mat = meshRenderer.material;
         
         this.color = color;
-        mat.SetColor("_BaseColor", color);
+        sharedPropertyBlock.SetColor("_BaseColor", color);
+        meshRenderer.SetPropertyBlock(sharedPropertyBlock);
+        //mat.SetColor("_BaseColor", color);
         //mat.SetColor("_GlowColor", glowColor);
         SetScale(radius, height);
     }
     public void SetNoiseEffect(int state)
     {
-        mat.SetInt("_Noise", state);
+        sharedPropertyBlock.SetInt("_Noise", state);
+        meshRenderer.SetPropertyBlock(sharedPropertyBlock);
+        //mat.SetInt("_Noise", state);
     }
     
     public virtual void SetScale(float newRadius, float newHeight)

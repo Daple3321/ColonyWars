@@ -1,18 +1,23 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [System.Serializable]
 public class GridManager
 {
+    public List<Cell> playerCells;
+    public List<Cell> enemyCells;
+    
     public Grid grid;
     public Vector3 cellSize;
     public Cell[,] cells;
     public int mapSize;
-    
+
     [Space(10), Header("Borders")]
     public float borderOffset = 0.45f;
     private BorderPool borderPool;
-    
+
     private Renderer[,] planes;
     public GridManager(Grid grid, BorderPool borderPool, int mapSize) // mapSize = TerrainSize/CellSize 
     {
@@ -20,7 +25,11 @@ public class GridManager
         this.mapSize = mapSize;
         this.borderPool = borderPool;
         cellSize = grid.cellSize;
-
+        sharedPropertyBlock = new MaterialPropertyBlock();
+        
+        playerCells = new List<Cell>();
+        enemyCells = new List<Cell>();
+        
         borders = new List<GameObject>();
         cells = new Cell[mapSize, mapSize];
         planes = new Renderer[mapSize, mapSize];
@@ -41,13 +50,15 @@ public class GridManager
                 };
                 cells[i, j] = newCell;
 
+                newCell.OnCaptured += OnCellCaptured;
+                newCell.OnCaptureStarted += OnCaptureStarted;
+                
                 // GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 // go.name = $"[{i}, {j}]";
                 // go.transform.position = grid.GetCellCenterWorld(new Vector3Int(i, 0, j));
                 // Bounds bd = grid.GetBoundsLocal(new Vector3Int(i, 0, j), new Vector3(1, 1, 1));
                 // go.transform.localScale = bd.size / 2;
                 //planes[i, j] = go.GetComponent<Renderer>();
-
             }
         }
 
@@ -60,6 +71,8 @@ public class GridManager
 
         cells[4, 0].affiliation = Affiliation.Enemy;
         cells[0, 2].affiliation = Affiliation.Enemy;
+        cells[0,2].captureProgress = 1;
+        cells[4,0].captureProgress = 1;
 
 
         cells[4, 4].affiliation = Affiliation.Enemy;
@@ -75,8 +88,6 @@ public class GridManager
 
         //ColorGrid();
         UpdateBorders();
-        ClearBorders();
-        UpdateBorders();
 
         Vector2Int closestCell = ClosestDifferentCell(4, 4);
         Debug.Log(closestCell.x + ", " + closestCell.y);
@@ -84,7 +95,52 @@ public class GridManager
         Vector2Int closestCell2 = _ClosestDifferentCell(4, 4);
         Debug.Log(closestCell2.x + ", " + closestCell2.y);
     }
-
+    
+    private void OnCellCaptured(Cell cell, Affiliation capturer)
+    {
+        HandleCellCapture(cell, capturer);
+        
+        Debug.Log($"Cell {cell.worldPosition} captured by {capturer}.");
+        ClearBorders();
+        UpdateBorders();
+    }
+    private void OnCaptureStarted(Cell cell, Affiliation capturer)
+    {
+        switch(capturer)
+        {
+            case Affiliation.Player:
+                if(enemyCells.Contains(cell)){
+                    enemyCells.Remove(cell);
+                }
+            break;
+            case Affiliation.Enemy:
+                if(playerCells.Contains(cell)){
+                    playerCells.Remove(cell);
+                }
+            break;
+        }
+        
+        Debug.Log($"Capture started of {cell.worldPosition} by {capturer}.");
+    }
+    private void HandleCellCapture(Cell cell, Affiliation capturer)
+    {
+        switch(capturer)
+        {
+            case Affiliation.Player:
+                if(enemyCells.Contains(cell)){
+                    enemyCells.Remove(cell);
+                }
+                playerCells.Add(cell);
+            break;
+            case Affiliation.Enemy:
+                if(playerCells.Contains(cell)){
+                    playerCells.Remove(cell);
+                }
+                enemyCells.Add(cell);
+            break;
+        }
+    }
+    
     private List<GameObject> borders;
     public void UpdateBorders()
     {
@@ -114,9 +170,11 @@ public class GridManager
     }
     public void ClearBorders()
     {
-        foreach (GameObject border in borders)
+        for(int i = 0; i < borders.Count; i++)
         {
-            borderPool.Pool.Release(border);
+            if(borders[i].activeInHierarchy){
+                borderPool.Pool.Release(borders[i]);
+            }
         }
     }
 
@@ -127,49 +185,50 @@ public class GridManager
 
         if (neighbor.x > origin.x) // right
         {
-            Vector3 pos = center + new Vector3(cellHalf-borderOffset, 0, 0);
+            Vector3 pos = center + new Vector3(cellHalf - borderOffset, 0, 0);
             border.transform.position = pos;
             border.transform.rotation = Quaternion.AngleAxis(90, Vector3.up);
         }
         else if (neighbor.x < origin.x) // left
         {
-            Vector3 pos = center + new Vector3(-cellHalf+borderOffset, 0, 0);
+            Vector3 pos = center + new Vector3(-cellHalf + borderOffset, 0, 0);
             border.transform.position = pos;
             border.transform.rotation = Quaternion.AngleAxis(90, Vector3.up);
         }
         else if (neighbor.y > origin.y) // up
         {
-            Vector3 pos = center + new Vector3(0, 0, cellHalf-borderOffset);
+            Vector3 pos = center + new Vector3(0, 0, cellHalf - borderOffset);
             border.transform.position = pos;
             border.transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
         }
         else if (neighbor.y < origin.y) // down
         {
-            Vector3 pos = center + new Vector3(0, 0, -cellHalf+borderOffset);
+            Vector3 pos = center + new Vector3(0, 0, -cellHalf + borderOffset);
             border.transform.position = pos;
             border.transform.rotation = Quaternion.AngleAxis(0, Vector3.up);
         }
     }
+
+    MaterialPropertyBlock sharedPropertyBlock;
     public void ColorBorder(GameObject border, Affiliation originAffiliation)
     {
-        MaterialPropertyBlock propertyBlock = new MaterialPropertyBlock();
         switch (originAffiliation)
         {
             case Affiliation.Player:
-                propertyBlock.SetColor("_BaseColor", GameAssets.colors.playerBorder);
-                border.GetComponent<Renderer>().SetPropertyBlock(propertyBlock);
+                sharedPropertyBlock.SetColor("_BaseColor", GameAssets.colors.playerBorder);
+                border.GetComponent<Renderer>().SetPropertyBlock(sharedPropertyBlock);
                 break;
             case Affiliation.Enemy:
-                propertyBlock.SetColor("_BaseColor", GameAssets.colors.enemyBorder);
-                border.GetComponent<Renderer>().SetPropertyBlock(propertyBlock);
+                sharedPropertyBlock.SetColor("_BaseColor", GameAssets.colors.enemyBorder);
+                border.GetComponent<Renderer>().SetPropertyBlock(sharedPropertyBlock);
                 break;
             case Affiliation.None:
 
                 break;
         }
     }
-    
-    private void ColorGrid()
+
+    /*private void ColorGrid()
     {
         for (int i = 0; i < mapSize; i++)
         {
@@ -189,14 +248,14 @@ public class GridManager
                 }
             }
         }
-    }
+    }*/
 
     public Cell GetCell(int x, int y) // можно и без проверки
     {
         if (!WithinBounds(x, y))
         {
             Debug.LogWarning("Trying to get cell out of bounds.");
-            return Cell.GetEmptyCell();
+            return null;
         }
 
         return cells[x, y];
@@ -321,11 +380,11 @@ public class GridManager
         Debug.LogError("Different cell not found");
         return new Vector2Int(-1, -1);
     }
-    
+
     public Vector2Int _ClosestDifferentCell(int x, int y)
     {
         Cell origin = GetCell(x, y);
-        
+
         Queue<Vector2Int> frontier = new Queue<Vector2Int>();
         frontier.Enqueue(new Vector2Int(x, y));
 
@@ -350,10 +409,23 @@ public class GridManager
         Debug.LogError("Different cell not found");
         return new Vector2Int(-1, -1);
     }
+
+    public Collider[] GetCellBuildings(int x, int y)
+    {
+        Vector3Int cell = new Vector3Int(x, 0, y);
+        
+        return Physics.OverlapBox(
+            grid.GetCellCenterWorld(new Vector3Int(x, 0, y)), 
+            grid.GetBoundsLocal(cell).extents, 
+            Quaternion.identity, 
+            LayerMask.GetMask("PlayerBuilding","EnemyBuilding")
+        );
+    }
+    
 }
 
 [System.Serializable]
-public struct Cell
+public class Cell
 {
     public Vector3 worldPosition;
     public float captureProgress;
@@ -362,7 +434,29 @@ public struct Cell
 
     public Affiliation affiliation;
     
+    public Action OnCellBuildingsChanged;
+    public Action<Cell, Affiliation> OnCaptured;
+    public Action<Cell, Affiliation> OnCaptureStarted;
     
+    public void StartCapture(Affiliation capturer)
+    {
+        whoIsCapturing = capturer;
+        
+        OnCaptureStarted?.Invoke(this, capturer);
+    }
+    
+    public void Capture(Affiliation capturer)
+    {
+        affiliation = capturer;
+        captureProgress = 1;
+        OnCaptured?.Invoke(this, capturer);
+    }
+    
+    public void ResetCapture()
+    {
+        captureProgress = 0f;
+        whoIsCapturing = Affiliation.None;
+    }
     
     public static Cell GetEmptyCell()
     {
