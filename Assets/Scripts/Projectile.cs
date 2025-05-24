@@ -13,16 +13,20 @@ public class Projectile : MonoBehaviour
     public LayerMask playerExcludeMask;
     public LayerMask enemyExcludeMask;
 
-    private Rigidbody rb;
+    [SerializeField] private Rigidbody rb;
     [SerializeField] private TrailRenderer trail;
-    [SerializeField] private Material mat;
+    //[SerializeField] private Material mat;
+    [SerializeField] private Renderer rend;
+    private MaterialPropertyBlock propertyBlock;
     [SerializeField] private CinemachineImpulseSource impulseSource;
     
     public virtual void Init(float damage, float speed, Affiliation affiliation, int penetrationAmount = 0, float lifeTime = 2.5f, float knockBackForce = 0f)
     {
-        rb = GetComponent<Rigidbody>();
+        propertyBlock = new MaterialPropertyBlock();
+        //rb = GetComponent<Rigidbody>();
+        //rend = GetComponent<Renderer>();
         //trail = GetComponentInChildren<TrailRenderer>();
-        mat = GetComponent<Renderer>().material;
+        //mat = GetComponent<Renderer>().material;
         
         this.damage = damage;
         this.speed = speed;
@@ -43,14 +47,18 @@ public class Projectile : MonoBehaviour
         if(affiliation == Affiliation.Enemy){
             currentExcludeMask = enemyExcludeMask;
             gameObject.layer = 9;
-            mat.color = Color.red;
+            propertyBlock.SetColor("_Color", Color.red);
+            rend.SetPropertyBlock(propertyBlock);
+            //mat.color = Color.red;
             
             trail.colorGradient = GameAssets.colors.enemyBulletTrail;
         }
         else if(affiliation == Affiliation.Player){
             currentExcludeMask = playerExcludeMask;
             gameObject.layer = 10;
-            mat.color = Color.yellow;
+            propertyBlock.SetColor("_Color", Color.yellow);
+            rend.SetPropertyBlock(propertyBlock);
+            //mat.color = Color.yellow;
             
             trail.colorGradient = GameAssets.colors.playerBulletTrail;
         }

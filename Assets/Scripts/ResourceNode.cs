@@ -16,11 +16,13 @@ public class ResourceNode : MonoBehaviour, IClickable
     
     [SerializeField] private Collider col;
     [SerializeField] private Renderer rend;
-    [SerializeField] private Material mat;
+    //[SerializeField] private Material mat;
+    private MaterialPropertyBlock propertyBlock;
 
     void Awake()
     {
-        mat = rend.material;
+        //mat = rend.material;
+        propertyBlock = new MaterialPropertyBlock();
         col = GetComponent<Collider>();
         
         clicksLeft = clicksToGather;
@@ -88,8 +90,27 @@ public class ResourceNode : MonoBehaviour, IClickable
         Tween.ShakeScale(transform, strength: new Vector3(1.1f, 1.1f, 1.1f), duration: 0.25f, frequency: 2);
         colorSeq.Complete();
         colorSeq = Sequence.Create()
-            .Chain(Tween.MaterialColor(mat, Color.blue, 0.15f))
-            .Chain(Tween.MaterialColor(mat, Color.white, 0.15f));
+            // .Chain(Tween.Custom(0f, 1f, duration: 0.15f, onValueChange: newVal => colorProgress = newVal))
+            // .InsertCallback(0, ()=>{propertyBlock.SetColor("_Color", Color.Lerp(Color.white, Color.blue, colorProgress));})
+            // .Chain(Tween.Custom(1f, 0f, duration: 0.15f, onValueChange: newVal => colorProgress = newVal))
+            // .InsertCallback(0, ()=>{propertyBlock.SetColor("_Color", Color.Lerp(Color.white, Color.blue, colorProgress));})
+            
+            //.InsertCallback(0, ()=> rend.SetPropertyBlock(propertyBlock))
+            .Chain(Tween.Custom(0f, 1f, duration: 0.15f, onValueChange: newVal => {
+                    propertyBlock.SetColor("_BaseColor", Color.Lerp(Color.white, Color.blue, newVal));
+                    rend.SetPropertyBlock(propertyBlock);
+                }))
+            .Chain(Tween.Custom(1f, 0f, duration: 0.15f, onValueChange: newVal => {
+                    propertyBlock.SetColor("_BaseColor", Color.Lerp(Color.white, Color.blue, newVal));
+                    rend.SetPropertyBlock(propertyBlock);
+                }));
+            // .ChainCallback(()=>{
+            //     propertyBlock.SetColor("_BaseColor", Color.white);
+            //     rend.SetPropertyBlock(propertyBlock);
+            // });
+            
+            //.Chain(Tween.MaterialColor(mat, Color.blue, 0.15f))
+            //.Chain(Tween.MaterialColor(mat, Color.white, 0.15f));
     }
 
     public void OnClick(Player caller)

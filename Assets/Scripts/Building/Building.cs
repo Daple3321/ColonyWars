@@ -26,8 +26,9 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
     public Cell cell;
     public Vector3Int cellIndex;
     
-    protected MeshRenderer[] meshes;
+    protected Renderer[] meshes;
     protected Material mat;
+    protected MaterialPropertyBlock propertyBlock;
 
     public virtual IEnumerator Build()
     {
@@ -49,7 +50,8 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
     public virtual void Init(BuildingData data)
     {
         meshes = transform.GetComponentsInChildren<MeshRenderer>();
-        mat = meshes[0].material;
+        //mat = meshes[0].material;
+        propertyBlock = new MaterialPropertyBlock();
         
         cellIndex = ColoniesManager.i.grid.WorldToCell(transform.position);
         cell = ColoniesManager.i.gridManager.GetCell(cellIndex.x, cellIndex.z);
@@ -65,8 +67,17 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
         
         colorSeq.Complete();
         colorSeq = Sequence.Create()
-            .Chain(Tween.MaterialColor(mat, Color.red, 0.2f))
-            .Chain(Tween.MaterialColor(mat, Color.white, 0.2f));
+            .Chain(Tween.Custom(0f, 1f, duration: 0.2f, onValueChange: newVal => {
+                        propertyBlock.SetColor("_BaseColor", Color.Lerp(Color.white, Color.red, newVal));
+                        meshes[0].SetPropertyBlock(propertyBlock);
+                    }))
+            .Chain(Tween.Custom(1f, 0f, duration: 0.2f, onValueChange: newVal => {
+                    propertyBlock.SetColor("_BaseColor", Color.Lerp(Color.white, Color.red, newVal));
+                    meshes[0].SetPropertyBlock(propertyBlock);
+                }));
+        
+            //.Chain(Tween.MaterialColor(mat, Color.red, 0.2f))
+            //.Chain(Tween.MaterialColor(mat, Color.white, 0.2f));
         PopUpManager.i.Spawn(transform.position+new Vector3(0, 2f, 0), Color.white)
         .text = damage.ToString("F0");
         
@@ -99,7 +110,9 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
     public virtual void ChangeColor(Color color)
     {
         foreach(MeshRenderer mesh in meshes){
-            mesh.material.SetColor("_BaseColor", color);
+            propertyBlock.SetColor("_BaseColor", color);
+            //mesh.material.SetColor("_BaseColor", color);
+            mesh.SetPropertyBlock(propertyBlock);
         }
     }
     
