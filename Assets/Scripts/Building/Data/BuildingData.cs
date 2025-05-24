@@ -34,20 +34,33 @@ public class BuildingData : ScriptableObject
     
     public virtual bool CheckBuildConditions(Vector3 projectionPos)
     {
+        // if(insideColonyOnly)
+        // {
+        //     bool inColonyZone = false;
+        //     foreach(Colony colony in ColoniesManager.i.playerColonies)
+        //     {
+        //         if(Vector3.Distance(projectionPos, colony.transform.position) < colony.colonyRadius)
+        //         {
+        //             //Debug.Log($"Inside colony! Dist: {Vector3.Distance(projectionPos, colony.core.transform.position)}", colony.core);
+        //             inColonyZone = true;
+        //         }
+        //         else{
+        //             //Debug.Log($"Outside colony! Dist: {Vector3.Distance(projectionPos, colony.core.transform.position)}", colony.core);
+        //         }
+        //     }
+        //     return inColonyZone;
+        // }
+        
         if(insideColonyOnly)
         {
             bool inColonyZone = false;
-            foreach(Colony colony in ColoniesManager.i.playerColonies)
-            {
-                if(Vector3.Distance(projectionPos, colony.transform.position) < colony.colonyRadius)
-                {
-                    //Debug.Log($"Inside colony! Dist: {Vector3.Distance(projectionPos, colony.core.transform.position)}", colony.core);
-                    inColonyZone = true;
-                }
-                else{
-                    //Debug.Log($"Outside colony! Dist: {Vector3.Distance(projectionPos, colony.core.transform.position)}", colony.core);
-                }
+            
+            Vector3Int cellIndex = ColoniesManager.i.grid.WorldToCell(projectionPos);
+            Cell hoveredCell = ColoniesManager.i.gridManager.GetCell(cellIndex.x, cellIndex.z);
+            if(hoveredCell.affiliation == Affiliation.Player){
+                inColonyZone = true;
             }
+            
             return inColonyZone;
         }
         

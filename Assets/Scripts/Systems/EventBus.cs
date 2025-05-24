@@ -40,6 +40,9 @@ public class EventBus
     public Action PlayerBuildModeEnter;
     public Action<Building> OnPlayerBuild;
     
+    public Action<float, float> OnPlayerPointsChanged;
+    public Action<float, float> OnEnemyPointsChanged;
+    
     public Action OnInteractivePanelOpened;
     public Action OnInteractivePanelClosed;
     // ----------------------------------------------------------
@@ -48,7 +51,7 @@ public class EventBus
     
     public Action OnSunrise = delegate {};
     public Action OnSunset = delegate {};
-    public Action<int> OnHourChange = delegate { };
+    public Action OnMinuteChange = delegate { };
     
     
     // ----------------------------------------------------------

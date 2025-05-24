@@ -131,7 +131,12 @@ public class ObjectGenerator : MonoBehaviour
                 }
                 rot *= Quaternion.AngleAxis(Random.Range(0, 360f), Vector3.up);
                 
-                Instantiate(obj.prefab, hit[0].point, rot);
+                Transform t = Instantiate(obj.prefab, hit[0].point, rot).transform;
+                
+                if(obj.randomizeScale){
+                    float randScale = Random.Range(obj.scaleRange.x, obj.scaleRange.y);
+                    t.localScale = new Vector3(randScale, randScale, randScale);
+                }
                 return true;
             }
         }

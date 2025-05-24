@@ -7,6 +7,9 @@ public class PlayerUI : MonoBehaviour
     public Bar staminaBar;
     
     public TextMeshProUGUI commandEnergy;
+    
+    public Bar playerPointsBar;
+    public Bar enemyPointsBar;
 
     public void Init()
     {
@@ -20,6 +23,14 @@ public class PlayerUI : MonoBehaviour
         
         commandEnergy = GameObject.Find("commandEnergy_text").GetComponent<TextMeshProUGUI>();
         EventBus.i.PlayerCommandEnergyChanged += UpdateCommandEnergy;
+        
+        playerPointsBar = GameObject.Find("PlayerPoints_Bar").GetComponent<Bar>();
+        EventBus.i.OnPlayerPointsChanged += playerPointsBar.UpdateBar;
+        playerPointsBar.Init();
+        
+        enemyPointsBar = GameObject.Find("EnemyPoints_Bar").GetComponent<Bar>();
+        EventBus.i.OnEnemyPointsChanged += enemyPointsBar.UpdateBar;
+        enemyPointsBar.Init();
     }
     
     public void UpdateCommandEnergy(float energy, float maxEnergy)

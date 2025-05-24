@@ -17,8 +17,19 @@ public class Outpost : Building
         
         TryStartCapture();
         
-        cell.OnCellBuildingsChanged += TryStartCapture;
+        cell.OnCellBuildingsChanged += ()=>{ // bullshit delay hack
+            if(captureDelay != null)
+                StopCoroutine(captureDelay);
+            captureDelay = StartCoroutine(CaptureDelay());
+        };
         //colony = new PlayerColony(this, colonyData, Affiliation.Player);    
+    }
+    
+    Coroutine captureDelay;
+    private IEnumerator CaptureDelay()
+    {
+        yield return new WaitForSeconds(0.3f);
+        TryStartCapture();
     }
     
     public virtual void TryStartCapture()
@@ -29,7 +40,7 @@ public class Outpost : Building
         }
         
         List<Building> cellBuildings = new List<Building>();
-        foreach(Collider c in ColoniesManager.i.gridManager.GetCellBuildings(cellIndex.x, cellIndex.y)){
+        foreach(Collider c in ColoniesManager.i.gridManager.GetCellBuildings(cellIndex.x, cellIndex.z)){
             cellBuildings.Add(c.GetComponent<Building>());
         }
         
@@ -52,6 +63,7 @@ public class Outpost : Building
     public IEnumerator CaptureNeutralCell()
     {
         cell.StartCapture(affiliation);
+        captureInProgress = true;
         
         float progress = cell.captureProgress;
         while(progress < 1)
@@ -63,10 +75,12 @@ public class Outpost : Building
         }
         
         cell.Capture(affiliation);
+        captureInProgress = false;
     }
     public IEnumerator CaptureEnemyCell()
     {
         cell.StartCapture(affiliation);
+        captureInProgress = true;
         
         // uncapture
         float progress = cell.captureProgress;
@@ -89,10 +103,14 @@ public class Outpost : Building
         }
         
         cell.Capture(affiliation);
+        captureInProgress = false;
     }
     
     public override void Death(){
-        StopCoroutine(captureRoutine);
+        if(captureRoutine != null){
+            StopCoroutine(captureRoutine);
+        }
+        
         cell.ResetCapture();
         base.Death();
     }

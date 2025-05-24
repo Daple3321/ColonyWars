@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -14,6 +15,11 @@ public class GameController : MonoBehaviour
     public static TimeManager timeManager;
 
     //public InventoryUI inventoryUI;
+    
+    public PointStats playerPoints;
+    public PointStats enemyPoints;
+    public int pointsToWin;
+    public float pointsMultiplier;
 
     public Canvas mainCanvas;
     public Canvas worldCanvas;
@@ -53,16 +59,23 @@ public class GameController : MonoBehaviour
 
     // С параметрами старта (генерация мира, настройки, персонаж)
     public static event Action OnGameStarted;
+    public static event Action<Affiliation> OnGameEnded; // arg - who won
+    public bool gameEnded = false;
     private void StartGame(GameSettings gameSettings = null)
     {
         Application.targetFrameRate = 120;
         
+        gameEnded = false;
         ResetStaticVars();
         
         GameAssets.Init(); // это должно быть при запуске игры (в главном меню)
         if (gameSettings == null){
             gameSettings = defaultGameSettings;
         }
+        playerPoints = new PointStats();
+        enemyPoints = new PointStats();
+        pointsToWin = gameSettings.pointsToWin;
+        pointsMultiplier = gameSettings.pointsMultiplier;
 
         FindReferences();
 
@@ -81,11 +94,12 @@ public class GameController : MonoBehaviour
         worldCanvas.worldCamera = Camera.main; // after player
         
         ColoniesManager.i.Init();
-        //ColoniesManager.i.SpawnEnemyColonies(gameSettings.coloniesSpawnSettings);
+        ColoniesManager.i.SpawnEnemyColonies(gameSettings.coloniesSpawnSettings);
         
         PopUpManager.i.Init();
         
         EventBus.i.PlayerDeath += OnPlayerDeath;
+        EventBus.i.OnMinuteChange += AddPoints;
         
         OnGameStarted?.Invoke();
     }
@@ -117,24 +131,58 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Keypad0))
+        HandleCheats();
+    }
+    
+    private void AddPoints()
+    {
+        if(gameEnded)
+            return;
+        
+        playerPoints.AddPoints();
+        enemyPoints.AddPoints();
+        EventBus.i.OnPlayerPointsChanged?.Invoke(playerPoints.points, pointsToWin);
+        EventBus.i.OnEnemyPointsChanged?.Invoke(enemyPoints.points, pointsToWin);
+        
+        CheckWin();
+    }
+    private void CheckWin()
+    {
+        if(playerPoints.points >= pointsToWin && enemyPoints.points < pointsToWin)
         {
-            Helper.RestartCurrentScene();
+            Debug.Log("Player WON!");
+            OnGameEnded?.Invoke(Affiliation.Player);
+            
+            gameEnded = true;
         }
-        if(Input.GetKeyDown(KeyCode.Keypad3))
+        else if(playerPoints.points < pointsToWin && enemyPoints.points >= pointsToWin)
         {
-            objectGenerator.GenerateObjects().Forget();
+            Debug.Log("Enemy WON!");
+            OnGameEnded?.Invoke(Affiliation.Enemy);
+            
+            gameEnded = true;
         }
-        if (Input.GetKeyDown(KeyCode.Keypad4))
+        else if(playerPoints.points >= pointsToWin && enemyPoints.points >= pointsToWin)
         {
-            worldGenerator.GenerateTerrain().Forget();
+            Debug.Log("DRAW");
+            OnGameEnded?.Invoke(Affiliation.None);
+            
+            gameEnded = true;
         }
-        if (Input.GetKeyDown(KeyCode.Keypad5))
+    }
+    public void UpdatePointStats(List<Cell> playerCells, List<Cell> enemyCells)
+    {
+        playerPoints.yield = 0;
+        enemyPoints.yield = 0;
+        
+        foreach(Cell cell in playerCells)
         {
-            foreach(Collider c in ColoniesManager.i.gridManager.GetCellBuildings(0, 0))
-            {
-                Debug.Log(c.name);
-            }
+            playerPoints.yield += cell.yieldAmount;       
+        }
+        
+        foreach(Cell cell in enemyCells)
+        {
+            enemyPoints.yield += cell.yieldAmount;       
         }
     }
     
@@ -161,7 +209,29 @@ public class GameController : MonoBehaviour
         EventBus.i.PlayerRespawn?.Invoke();
     }
     
-
+    private void HandleCheats()
+    {
+        if(Input.GetKeyDown(KeyCode.Keypad0))
+        {
+            Helper.RestartCurrentScene();
+        }
+        if(Input.GetKeyDown(KeyCode.Keypad3))
+        {
+            objectGenerator.GenerateObjects().Forget();
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad4))
+        {
+            worldGenerator.GenerateTerrain().Forget();
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad5))
+        {
+            foreach(Collider c in ColoniesManager.i.gridManager.GetCellBuildings(0, 0))
+            {
+                Debug.Log(c.name);
+            }
+        }
+    }
+    
     public static Vector3 TerrainPoint(Vector3 point)
     {
         return new Vector3(point.x, currentTerrain.SampleHeight(point), point.z);
@@ -234,4 +304,18 @@ public class GameController : MonoBehaviour
 
         return terrainPoint;
     }*/
+}
+
+[System.Serializable]
+public class PointStats
+{
+    public float points = 0;
+    public float yield;
+    
+    public float personalMultiplier = 1f;
+    
+    public void AddPoints()
+    {
+        points += yield * personalMultiplier;
+    }
 }

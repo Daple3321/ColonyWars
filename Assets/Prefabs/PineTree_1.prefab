@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 48.3, y: 1.85, z: 66.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 604164690128809143}
@@ -55,7 +55,6 @@ MonoBehaviour:
   clicksLeft: 3
   col: {fileID: 0}
   rend: {fileID: 6422279057868495041}
-  mat: {fileID: 0}
 --- !u!136 &2233209458702113151
 CapsuleCollider:
   m_ObjectHideFlags: 0

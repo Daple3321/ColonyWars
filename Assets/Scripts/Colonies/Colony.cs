@@ -65,7 +65,7 @@ public abstract class Colony : Building
     
     protected virtual void OnCoreDestroyed(Building core)
     {
-        GameObject.Destroy(colonyZone.gameObject);
+        //GameObject.Destroy(colonyZone.gameObject);
         for(int i = 0; i < buildings.Count; i++)
         {
             buildings[i].Death();

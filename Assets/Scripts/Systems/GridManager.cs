@@ -11,6 +11,7 @@ public class GridManager
     
     public Grid grid;
     public Vector3 cellSize;
+    public float cellHalf;
     public Cell[,] cells;
     public int mapSize;
 
@@ -25,6 +26,7 @@ public class GridManager
         this.mapSize = mapSize;
         this.borderPool = borderPool;
         cellSize = grid.cellSize;
+        cellHalf = cellSize.x / 2;
         sharedPropertyBlock = new MaterialPropertyBlock();
         
         playerCells = new List<Cell>();
@@ -45,7 +47,7 @@ public class GridManager
                         grid.CellToWorld(new Vector3Int(i, j)).y),
                     captureProgress = 0,
                     whoIsCapturing = Affiliation.None,
-                    yieldAmount = 1,
+                    yieldAmount = 0.1f,
                     affiliation = Affiliation.None
                 };
                 cells[i, j] = newCell;
@@ -62,43 +64,48 @@ public class GridManager
             }
         }
 
-        cells[0, 0].affiliation = Affiliation.Player;
-        cells[1, 0].affiliation = Affiliation.Player;
-        cells[0, 1].affiliation = Affiliation.Player;
-        cells[1, 1].affiliation = Affiliation.Player;
-        cells[2, 0].affiliation = Affiliation.Player;
-        cells[3, 0].affiliation = Affiliation.Player;
+        // cells[0, 0].affiliation = Affiliation.Player;
+        // cells[1, 0].affiliation = Affiliation.Player;
+        // cells[0, 1].affiliation = Affiliation.Player;
+        // cells[1, 1].affiliation = Affiliation.Player;
+        // cells[2, 0].affiliation = Affiliation.Player;
+        // cells[3, 0].affiliation = Affiliation.Player;
 
-        cells[4, 0].affiliation = Affiliation.Enemy;
-        cells[0, 2].affiliation = Affiliation.Enemy;
-        cells[0,2].captureProgress = 1;
-        cells[4,0].captureProgress = 1;
+        // cells[4, 0].affiliation = Affiliation.Enemy;
+        // cells[0, 2].affiliation = Affiliation.Enemy;
+        // cells[0,2].captureProgress = 1;
+        // cells[4,0].captureProgress = 1;
 
 
-        cells[4, 4].affiliation = Affiliation.Enemy;
-        cells[3, 4].affiliation = Affiliation.Enemy;
-        cells[4, 3].affiliation = Affiliation.Enemy;
-        cells[5, 4].affiliation = Affiliation.Enemy;
-        cells[4, 5].affiliation = Affiliation.Enemy;
-        cells[5, 3].affiliation = Affiliation.Enemy;
-        cells[3, 5].affiliation = Affiliation.Enemy;
-        cells[5, 5].affiliation = Affiliation.Enemy;
-        cells[3, 3].affiliation = Affiliation.Enemy;
-        cells[6, 4].affiliation = Affiliation.Enemy;
+        // cells[4, 4].affiliation = Affiliation.Enemy;
+        // cells[3, 4].affiliation = Affiliation.Enemy;
+        // cells[4, 3].affiliation = Affiliation.Enemy;
+        // cells[5, 4].affiliation = Affiliation.Enemy;
+        // cells[4, 5].affiliation = Affiliation.Enemy;
+        // cells[5, 3].affiliation = Affiliation.Enemy;
+        // cells[3, 5].affiliation = Affiliation.Enemy;
+        // cells[5, 5].affiliation = Affiliation.Enemy;
+        // cells[3, 3].affiliation = Affiliation.Enemy;
+        // cells[6, 4].affiliation = Affiliation.Enemy;
 
         //ColorGrid();
         UpdateBorders();
 
-        Vector2Int closestCell = ClosestDifferentCell(4, 4);
-        Debug.Log(closestCell.x + ", " + closestCell.y);
+        // Vector2Int closestCell = ClosestDifferentCell(4, 4);
+        // Debug.Log(closestCell.x + ", " + closestCell.y);
 
-        Vector2Int closestCell2 = _ClosestDifferentCell(4, 4);
-        Debug.Log(closestCell2.x + ", " + closestCell2.y);
+        // Vector2Int closestCell2 = _ClosestDifferentCell(4, 4);
+        // Debug.Log(closestCell2.x + ", " + closestCell2.y);
+        
+        Debug.Log(RandomPointInCell(7,4));
+        
+        GameController.i.UpdatePointStats(playerCells, enemyCells);
     }
     
     private void OnCellCaptured(Cell cell, Affiliation capturer)
     {
         HandleCellCapture(cell, capturer);
+        GameController.i.UpdatePointStats(playerCells, enemyCells);
         
         Debug.Log($"Cell {cell.worldPosition} captured by {capturer}.");
         ClearBorders();
@@ -119,6 +126,7 @@ public class GridManager
                 }
             break;
         }
+        GameController.i.UpdatePointStats(playerCells, enemyCells);
         
         Debug.Log($"Capture started of {cell.worldPosition} by {capturer}.");
     }
@@ -180,7 +188,6 @@ public class GridManager
 
     public void PositionBorder(GameObject border, Vector2Int origin, Vector2Int neighbor)
     {
-        float cellHalf = cellSize.x / 2;
         Vector3 center = grid.GetCellCenterWorld(new Vector3Int(origin.x, 0, origin.y));
 
         if (neighbor.x > origin.x) // right
@@ -421,7 +428,40 @@ public class GridManager
             LayerMask.GetMask("PlayerBuilding","EnemyBuilding")
         );
     }
+    public bool CheckCellForBuildings(int x, int y, Affiliation ofAffiliation)
+    {
+        Collider[] b = GetCellBuildings(x, y);
+        foreach (Collider c in b){
+            if(c.GetComponent<Building>().affiliation == ofAffiliation){
+                return true;
+            }
+        }
+        
+        return false;
+    }
     
+    public Vector3 RandomPointInCell(int x, int y)
+    {
+        Vector3 finalPoint;
+        Vector3 cellCenter = grid.GetCellCenterWorld(new Vector3Int(x, 0, y));
+        
+        float randX = Random.Range(-cellHalf, cellHalf);
+        float randY = Random.Range(-cellHalf, cellHalf);
+        finalPoint = new Vector3(cellCenter.x+randX, 0, cellCenter.z+randY);
+        finalPoint = GameController.TerrainPoint(finalPoint); // ground height correction
+        
+        return finalPoint;
+    }
+    
+    public Vector3Int RandomCellIndex()
+    {
+        return new Vector3Int(Random.Range(0, mapSize), 0, Random.Range(0, mapSize));
+    }
+    
+    public void CaptureCell(int x, int y, Affiliation affiliation)
+    {
+        cells[x, y].Capture(affiliation);
+    }
 }
 
 [System.Serializable]

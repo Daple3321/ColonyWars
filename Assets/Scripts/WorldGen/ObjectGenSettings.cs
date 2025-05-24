@@ -21,6 +21,9 @@ public struct GenSettings
     //[Range(0f, 1f)]
     public bool alignToGround;
     
+    public bool randomizeScale;
+    public Vector2 scaleRange;
+    
     public GameObject prefab;
 }
 

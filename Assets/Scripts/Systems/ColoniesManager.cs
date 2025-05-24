@@ -64,6 +64,25 @@ public class ColoniesManager : MonoBehaviour
         }
     }
     
+    // public void SpawnEnemyColonies(ColoniesSpawnSettings spawnSettings)
+    // {
+    //     for(int i = 0; i < spawnSettings.colonies; i++)
+    //     {
+    //         ColonyCenterData randColony = spawnSettings.coloniesPool[Random.Range(0, spawnSettings.coloniesPool.Length)];
+    //         Building b = null;
+    //         int maxIterations = 10;
+    //         while(b == null && maxIterations > 0)
+    //         {
+    //             b = GameController.objectGenerator.CreateBuilding_Interval(randColony, spawnSettings.minColonyDistance, "EnemyColony", "PlayerColony");
+    //             if(b != null){
+    //                 b.GetComponent<EnemyColony>().Init(randColony);
+    //             }
+                
+    //             maxIterations--;
+    //         }
+    //     }
+    // }
+    
     public void SpawnEnemyColonies(ColoniesSpawnSettings spawnSettings)
     {
         for(int i = 0; i < spawnSettings.colonies; i++)
@@ -73,13 +92,29 @@ public class ColoniesManager : MonoBehaviour
             int maxIterations = 10;
             while(b == null && maxIterations > 0)
             {
-                b = GameController.objectGenerator.CreateBuilding_Interval(randColony, spawnSettings.minColonyDistance, "EnemyColony", "PlayerColony");
-                if(b != null){
-                    b.GetComponent<EnemyColony>().Init(randColony);
+                Vector3Int randCell = gridManager.RandomCellIndex();
+                if(!gridManager.CheckCellForBuildings(randCell.x, randCell.z, Affiliation.Enemy))
+                {
+                    Vector3 spawnPos = gridManager.RandomPointInCell(randCell.x, randCell.z);
+                    
+                    Quaternion rot = Quaternion.identity;
+                    rot *= Quaternion.AngleAxis(Random.Range(0, 360f), Vector3.up);
+                    GameObject go = Instantiate(randColony.prefab, spawnPos, rot);
+                    b = go.GetComponent<Building>();
+                    b.Init(randColony);
+                    
+                    gridManager.cells[randCell.x, randCell.z].Capture(Affiliation.Enemy);
                 }
+
+                // if(b != null){
+                //     b.GetComponent<EnemyColony>().Init(randColony);
+                // }
                 
                 maxIterations--;
             }
         }
+        
+        gridManager.ClearBorders();
+        gridManager.UpdateBorders();
     }
 }

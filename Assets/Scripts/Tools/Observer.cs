@@ -69,14 +69,15 @@ public class Observer<T>
 public class ObserverTest<T>
 {
     [SerializeField] T value;
-    public Action<T> ValueChanged;
+    public Action ValueChanged;
+    //public Action<T> ValueChanged; // OLD VERSION WITH ARG IN ACTION. DISABLED IT.
 
     public T Value {
         get => value;
         set => Set(value);
     }
 
-    public ObserverTest(T value, Action<T> callback = null)
+    public ObserverTest(T value, Action callback = null)
     {
         this.value = value;
         //ValueChanged = new EventHandler<T>(null, );
@@ -94,7 +95,7 @@ public class ObserverTest<T>
     public void Invoke()
     {
         //Debug.Log($"Invoking {ValueChanged.GetInvocationList()} listeners");
-        ValueChanged?.Invoke(value);
+        ValueChanged?.Invoke();
     }
 
     // public void AddListener(Action<T> callback)
