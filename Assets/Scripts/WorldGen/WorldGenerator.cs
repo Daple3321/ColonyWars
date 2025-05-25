@@ -19,23 +19,26 @@ public class WorldGenerator : MonoBehaviour
     // public float freq_2 = 10;
     // public float divideVal_2 = 180;
 
-    public int treeGenSkip;
-    public float treeSpawnChance;
-    public float treeSpawnHeight;
-    public int spawnAmount;
-    public GameObject treePrefab;
+    // public int treeGenSkip;
+    // public float treeSpawnChance;
+    // public float treeSpawnHeight;
+    // public int spawnAmount;
+    // public GameObject treePrefab;
 
     public float perstistance = 0.5f;
     public float lacunarity = 1.2f;
     public float _amplitude = 1f;
     public float _frequency = 3f;
     public int octaves = 1;
+    public float fudgeFactor = 1.2f;
+    public float power = 1f;
+    public float mix = 1f;
 
     public float maxNoiseHeight = 35f;
     public float minNoiseHeight = -3f;
 
     public int fallOffInner = 35;
-    public int fallOffStrength = 10;
+    public float fallOffStrength = 10;
 
     public bool randomizeSeed;
     public int seed;
@@ -121,9 +124,9 @@ public class WorldGenerator : MonoBehaviour
         UniTask genTask = UniTask.RunOnThreadPool(() =>
         {
             heights = GenerateHeights(res);
-            UnityEngine.Debug.Log("Height gen complete");
+            Debug.Log("Height gen complete");
 
-            //holes = GenerateFalloff(res);
+            holes = GenerateFalloff(res);
             //UnityEngine.Debug.Log("Hole gen complete");
         });
         await genTask;
@@ -140,7 +143,7 @@ public class WorldGenerator : MonoBehaviour
         terrain.Flush();
 
         watch.Stop();
-        UnityEngine.Debug.Log($"Terrain generation took: {watch.ElapsedMilliseconds}ms");
+        Debug.Log($"Terrain generation took: {watch.ElapsedMilliseconds}ms");
     }
 
     public void LoadGenSettings(WorldGenSettings settings = null)
@@ -159,7 +162,7 @@ public class WorldGenerator : MonoBehaviour
         }
         else
         {
-            UnityEngine.Debug.Log("No worldGen settings to load.");
+            Debug.LogWarning("No worldGen settings to load.");
         }
     }
 
@@ -183,6 +186,9 @@ public class WorldGenerator : MonoBehaviour
                 float amplitude = _amplitude;
                 float frequency = _frequency;
                 float noiseHeight = 0;
+                //float d = 0;
+                //float nx;
+                //float ny;
 
                 for (int i = 0; i < octaves; i++)
                 {
@@ -191,7 +197,10 @@ public class WorldGenerator : MonoBehaviour
 
                     //float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
                     float perlinValue = NoiseGen.GetVoronoiNoiseValue(sampleX, sampleY);
+
                     noiseHeight += perlinValue * amplitude;
+                    //noiseHeight = Mathf.Lerp(noiseHeight, 1-d, mix);
+                    //noiseHeight = Mathf.Pow(noiseHeight*fudgeFactor, power);        
 
                     amplitude *= perstistance;
                     frequency *= lacunarity;
@@ -204,7 +213,12 @@ public class WorldGenerator : MonoBehaviour
                 // else if (noiseHeight < minNoiseHeight) {
                 //     minNoiseHeight = noiseHeight;
                 // }
-
+                
+                //nx = 2*x/heightmapResolution - 1;
+                //ny = 2*y/heightmapResolution - 1;
+                //d = 1 - (1-Mathf.Pow(nx,2)*(1-Mathf.Pow(ny,2))); // square bump
+                //noiseHeight = Mathf.Lerp(noiseHeight, 1-d, mix);
+                //heights[x, y] = Mathf.Pow(noiseHeight*fudgeFactor, power);                
                 heights[x, y] = noiseHeight;
 
                 // heights[x, y] = Mathf.PerlinNoise(
@@ -220,75 +234,6 @@ public class WorldGenerator : MonoBehaviour
             }
         }
 
-
-        // bool[,] holes = new bool[heightmapResolution - 1,heightmapResolution - 1];
-        // for (int i = 0; i < heightmapResolution - 1; i++) // LEFT/RIGHT falloff
-        // {
-        //     float subtractVal = fallOffStrength;
-        //     float calcVal = subtractVal / fallOffInner;
-
-        //     for (int innerId = 0; innerId < fallOffInner; innerId++)
-        //     {
-        //         heights[i, innerId] -= subtractVal;
-        //         subtractVal -= calcVal;
-
-        //         if (heights[i, innerId] <= -3f) // Учитываем, действительно ли точка стала дыркой
-        //         {
-        //             holes[i, innerId] = true;
-        //         }
-        //     }
-
-        //     subtractVal = calcVal;
-        //     for (int innerId = heightmapResolution - 1 - fallOffInner; innerId < heightmapResolution - 1; innerId++)
-        //     {
-        //         heights[i, innerId] -= subtractVal;
-        //         subtractVal += calcVal;
-
-        //         if (heights[i, innerId] <= -3f)
-        //         {
-        //             holes[i, innerId] = true;
-        //         }
-        //     }
-        // }
-
-        // for (int i = 0; i < heightmapResolution - 1; i++) // UP/BOTTOM falloff
-        // {
-        //     float subtractVal = fallOffStrength;
-        //     float calcVal = subtractVal / fallOffInner;
-        //     for (int innerId = 0; innerId < fallOffInner; innerId++)
-        //     {
-        //         heights[innerId, i] -= subtractVal;
-        //         subtractVal -= calcVal;
-
-        //         if (heights[innerId, i] <= -3f)
-        //         {
-        //             holes[innerId, i] = true;
-        //         }
-        //     }
-
-        //     subtractVal = calcVal;
-        //     for (int innerId = heightmapResolution - fallOffInner - 1; innerId < heightmapResolution - 1; innerId++)
-        //     {
-        //         heights[innerId, i] -= subtractVal;
-        //         subtractVal += calcVal;
-
-        //         if (heights[innerId, i] <= -3f)
-        //         {
-        //             holes[innerId, i] = true;
-        //         }
-        //     }
-        // }
-
-        // for (int y = 0; y < heightmapResolution - 1; y++)
-        // {
-        //     for (int x = 0; x < heightmapResolution - 1; x++)
-        //     {
-        //         holes[x, y] = !holes[x, y];
-        //     }
-        // }
-        //t.terrainData.SetHoles(0, 0, holes);
-
-
         for (int y = 0; y < heightmapResolution; y++) // NORMALIZING HEIGHTS TO 0.0 - 1.0
         { // HEIGHT
             for (int x = 0; x < heightmapResolution; x++)
@@ -297,15 +242,13 @@ public class WorldGenerator : MonoBehaviour
             }
         }
 
-        //t.terrainData.SetHeights(0, 0, heights);
-        //Profiler.EndSample();
         return heights;
     }
 
     private bool[,] GenerateFalloff(int heightmapResolution)
     {
         bool[,] holes = new bool[heightmapResolution - 1, heightmapResolution - 1];
-        for (int i = 0; i < heightmapResolution - 1; i++) // LEFT/RIGHT falloff
+        for (int i = 0; i < heightmapResolution; i++) // LEFT/RIGHT falloff
         {
             float subtractVal = fallOffStrength;
             float calcVal = subtractVal / fallOffInner;
@@ -322,7 +265,7 @@ public class WorldGenerator : MonoBehaviour
             }
 
             subtractVal = calcVal;
-            for (int innerId = heightmapResolution - 1 - fallOffInner; innerId < heightmapResolution - 1; innerId++)
+            for (int innerId = heightmapResolution - fallOffInner; innerId < heightmapResolution; innerId++)
             {
                 heights[i, innerId] -= subtractVal;
                 subtractVal += calcVal;
@@ -334,7 +277,7 @@ public class WorldGenerator : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < heightmapResolution - 1; i++) // UP/BOTTOM falloff
+        for (int i = 0; i < heightmapResolution; i++) // UP/BOTTOM falloff
         {
             float subtractVal = fallOffStrength;
             float calcVal = subtractVal / fallOffInner;
@@ -350,7 +293,7 @@ public class WorldGenerator : MonoBehaviour
             }
 
             subtractVal = calcVal;
-            for (int innerId = heightmapResolution - fallOffInner - 1; innerId < heightmapResolution - 1; innerId++)
+            for (int innerId = heightmapResolution - fallOffInner; innerId < heightmapResolution; innerId++)
             {
                 heights[innerId, i] -= subtractVal;
                 subtractVal += calcVal;
@@ -486,15 +429,15 @@ public class WorldGenerator : MonoBehaviour
                 splatWeights[1] = 1.0f; // Начнем с травы
 
                 // Камень на крутых склонах
-                float rockBlend = Mathf.Clamp01(((steepness - 15.0f) / 5.0f) + height - 10f); // Плавный переход к камню при наклоне > 25 градусов
+                float rockBlend = Mathf.Clamp01(((steepness - 20.0f) / 5.0f) + height - 20f); // Плавный переход к камню при наклоне > 25 градусов
                 splatWeights[2] = rockBlend;
                 splatWeights[1] *= (1.0f - rockBlend); // Уменьшаем вес травы
 
                 // Песок на низких высотах (например, < 0.1)
-                float sandBlend = Mathf.Clamp01((2 - height) / 2f);
+                float sandBlend = Mathf.Clamp01((3.5f - height) / 0.35f);
                 if (numLayers > 2)
                 {
-                    splatWeights[0] = sandBlend;
+                    splatWeights[3] = sandBlend;
                     splatWeights[1] *= (1.0f - sandBlend); // Уменьшаем вес предыдущих слоев
                     splatWeights[2] *= (1.0f - sandBlend);
                 }
@@ -533,27 +476,27 @@ public class WorldGenerator : MonoBehaviour
         t.terrainData.SetAlphamaps(0, 0, map);
     }
 
-    public void GenerateTrees()
-    {
-        float terrainHeight = terrain.terrainData.size.x;
-        float terrainWidth = terrain.terrainData.size.z;
-        for (int y = 0; y < terrainHeight; y++)
-        {
-            for (int x = 0; x < terrainWidth; x++)
-            {
-                //float height = terrain.terrainData.GetHeight(x, y);
-                float height = terrain.SampleHeight(new Vector3(x, 0, y));
-                float randRoll = UnityEngine.Random.value;
+    // public void GenerateTrees()
+    // {
+    //     float terrainHeight = terrain.terrainData.size.x;
+    //     float terrainWidth = terrain.terrainData.size.z;
+    //     for (int y = 0; y < terrainHeight; y++)
+    //     {
+    //         for (int x = 0; x < terrainWidth; x++)
+    //         {
+    //             //float height = terrain.terrainData.GetHeight(x, y);
+    //             float height = terrain.SampleHeight(new Vector3(x, 0, y));
+    //             float randRoll = UnityEngine.Random.value;
 
-                if (height < 1.5f && randRoll < treeSpawnChance && spawnAmount > 0)
-                {
-                    Vector3 spawnPos = new Vector3(x, height, y);
-                    Instantiate(treePrefab, spawnPos, Quaternion.AngleAxis(UnityEngine.Random.Range(0, 360f), Vector3.up));
-                    spawnAmount--;
-                }
-            }
-        }
-    }
+    //             if (height < 1.5f && randRoll < treeSpawnChance && spawnAmount > 0)
+    //             {
+    //                 Vector3 spawnPos = new Vector3(x, height, y);
+    //                 Instantiate(treePrefab, spawnPos, Quaternion.AngleAxis(UnityEngine.Random.Range(0, 360f), Vector3.up));
+    //                 spawnAmount--;
+    //             }
+    //         }
+    //     }
+    // }
     
     private void RemoveDetail()
     {
@@ -596,18 +539,18 @@ public class WorldGenerator : MonoBehaviour
                 //Debug.Log("TerrainDetailPos: " + terrainDetailPos);
                 //detailMap = terrain.terrainData.GetDetailLayer(0, 0, terrain.terrainData.detailWidth, terrain.terrainData.detailHeight, 0);
 
-                if (height > 1.5f && height < 9f)
+                if (height > 5f && height < 17f)
                 {
                     grassMap[(int)terrainDetailPos.z, (int)terrainDetailPos.x] = 800;
                 }
                 
-                if(height >= 0 && height < 1.2f)
+                if(height >= 1f && height < 4f)
                 {
                     pebbleMap[(int)terrainDetailPos.z, (int)terrainDetailPos.x] = 25;
-                    stickMap[(int)terrainDetailPos.z, (int)terrainDetailPos.x] = 45;
-                    logMap[(int)terrainDetailPos.z, (int)terrainDetailPos.x] = 30;
+                    //stickMap[(int)terrainDetailPos.z, (int)terrainDetailPos.x] = 45;
+                    //logMap[(int)terrainDetailPos.z, (int)terrainDetailPos.x] = 30;
                 }
-                if(height > 11f)
+                if(height > 20f)
                 {
                     pebbleMap[(int)terrainDetailPos.z, (int)terrainDetailPos.x] = 25;
                 }

@@ -72,10 +72,16 @@ public class GameController : MonoBehaviour
         if (gameSettings == null){
             gameSettings = defaultGameSettings;
         }
-        playerPoints = new PointStats();
-        enemyPoints = new PointStats();
         pointsToWin = gameSettings.pointsToWin;
         pointsMultiplier = gameSettings.pointsMultiplier;
+        
+        playerPoints = new PointStats(pointsToWin);
+        playerPoints.onPointsChanged += (x, y)=>{EventBus.i.OnPlayerPointsChanged?.Invoke(x, y);};
+        playerPoints.onYieldChanged += x => {EventBus.i.OnPlayerYieldChanged?.Invoke(x);};
+        
+        enemyPoints = new PointStats(pointsToWin);
+        enemyPoints.onPointsChanged += (x, y)=>{EventBus.i.OnEnemyPointsChanged?.Invoke(x, y);};
+        enemyPoints.onYieldChanged += x => {EventBus.i.OnEnemyYieldChanged?.Invoke(x);};
 
         FindReferences();
 
@@ -99,7 +105,7 @@ public class GameController : MonoBehaviour
         PopUpManager.i.Init();
         
         EventBus.i.PlayerDeath += OnPlayerDeath;
-        EventBus.i.OnMinuteChange += AddPoints;
+        EventBus.i.OnMinuteChange += IncrementPoints;
         
         OnGameStarted?.Invoke();
     }
@@ -134,15 +140,17 @@ public class GameController : MonoBehaviour
         HandleCheats();
     }
     
-    private void AddPoints()
+    public void AddPoints(float amount)
+    {
+        
+    }
+    private void IncrementPoints()
     {
         if(gameEnded)
             return;
         
-        playerPoints.AddPoints();
-        enemyPoints.AddPoints();
-        EventBus.i.OnPlayerPointsChanged?.Invoke(playerPoints.points, pointsToWin);
-        EventBus.i.OnEnemyPointsChanged?.Invoke(enemyPoints.points, pointsToWin);
+        playerPoints.IncrementPoints();
+        enemyPoints.IncrementPoints();
         
         CheckWin();
     }
@@ -172,18 +180,19 @@ public class GameController : MonoBehaviour
     }
     public void UpdatePointStats(List<Cell> playerCells, List<Cell> enemyCells)
     {
-        playerPoints.yield = 0;
-        enemyPoints.yield = 0;
-        
+        float playerYield = 0;
         foreach(Cell cell in playerCells)
         {
-            playerPoints.yield += cell.yieldAmount;       
+            playerYield += cell.yieldAmount;       
         }
+        playerPoints.SetYield(playerYield);
         
+        float enemyYield = 0;
         foreach(Cell cell in enemyCells)
         {
-            enemyPoints.yield += cell.yieldAmount;       
+            enemyYield += cell.yieldAmount;       
         }
+        enemyPoints.SetYield(enemyYield);
     }
     
     private void OnPlayerDeath()
@@ -309,13 +318,36 @@ public class GameController : MonoBehaviour
 [System.Serializable]
 public class PointStats
 {
+    public int pointsToWin;
+    public PointStats(int pointsToWin){
+        this.pointsToWin = pointsToWin;
+    }
+    
     public float points = 0;
     public float yield;
     
     public float personalMultiplier = 1f;
     
-    public void AddPoints()
+    public event Action<float, float> onPointsChanged;
+    public event Action<float> onYieldChanged;
+    
+    public void SetYield(float amount)
+    {
+        yield = amount;
+        
+        onYieldChanged?.Invoke(amount);
+    }
+    
+    public void AddPoints(float amount)
+    {
+        points += amount;
+        
+        onPointsChanged?.Invoke(points, pointsToWin);
+    }
+    public void IncrementPoints()
     {
         points += yield * personalMultiplier;
+        
+        onPointsChanged?.Invoke(points, pointsToWin);
     }
 }

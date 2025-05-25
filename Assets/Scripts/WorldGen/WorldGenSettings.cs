@@ -13,7 +13,7 @@ public class WorldGenSettings : ScriptableObject
     public float minNoiseHeight = -3f;
 
     public int fallOffInner = 35;
-    public int fallOffStrength = 10;
+    public float fallOffStrength = 10;
     
     [Multiline]
     public string desc;

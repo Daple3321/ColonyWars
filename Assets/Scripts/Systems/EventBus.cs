@@ -40,8 +40,12 @@ public class EventBus
     public Action PlayerBuildModeEnter;
     public Action<Building> OnPlayerBuild;
     
+    // ----------- POINTS -------------------------
     public Action<float, float> OnPlayerPointsChanged;
     public Action<float, float> OnEnemyPointsChanged;
+    public Action<float> OnPlayerYieldChanged;
+    public Action<float> OnEnemyYieldChanged;
+    // -----------------------------------------------
     
     public Action OnInteractivePanelOpened;
     public Action OnInteractivePanelClosed;

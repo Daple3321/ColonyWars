@@ -30,6 +30,7 @@ public class BorderPool : MonoBehaviour
     {
         GameObject go = GameObject.CreatePrimitive(PrimitiveType.Quad);
         go.name = "Pooled border";
+        go.isStatic = true;
         Destroy(go.GetComponent<Collider>());
         go.GetComponent<Renderer>().material = GameAssets.intersectionMaterial;
         

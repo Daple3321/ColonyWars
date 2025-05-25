@@ -14,11 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   perstistance: 0.33
   lacunarity: 2
-  _amplitude: 3
-  _frequency: 4
+  _amplitude: 4
+  _frequency: 4.5
   octaves: 15
   maxNoiseHeight: 45
-  minNoiseHeight: 3
-  fallOffInner: 35
-  fallOffStrength: 9
-  desc: "Terrain settings: 150x150 \nHeight: 50\n32\n"
+  minNoiseHeight: -6.5
+  fallOffInner: 100
+  fallOffStrength: 0.18
+  desc: 'Terrain settings: 440x440
+
+    Mountainy island
+
+
+'

@@ -16,7 +16,7 @@ MonoBehaviour:
   - spawnType: 1
     spawnRules:
     - spawnRuleType: 0
-      valueRange: {x: 0, y: 1.5}
+      valueRange: {x: 4, y: 12}
     spawnAmount: 550
     spawnChance: 0.03
     alignToGround: 0
@@ -26,7 +26,7 @@ MonoBehaviour:
   - spawnType: 1
     spawnRules:
     - spawnRuleType: 0
-      valueRange: {x: 12, y: 15}
+      valueRange: {x: 21, y: 30}
     spawnAmount: 25
     spawnChance: 0.03
     alignToGround: 1
@@ -36,7 +36,7 @@ MonoBehaviour:
   - spawnType: 1
     spawnRules:
     - spawnRuleType: 0
-      valueRange: {x: 11, y: 15}
+      valueRange: {x: 21, y: 30}
     - spawnRuleType: 1
       valueRange: {x: 15, y: 30}
     spawnAmount: 35
@@ -48,7 +48,7 @@ MonoBehaviour:
   - spawnType: 1
     spawnRules:
     - spawnRuleType: 0
-      valueRange: {x: 11, y: 15}
+      valueRange: {x: 20, y: 30}
     spawnAmount: 15
     spawnChance: 0.03
     alignToGround: 1
