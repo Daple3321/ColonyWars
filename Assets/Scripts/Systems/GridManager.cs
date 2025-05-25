@@ -14,6 +14,7 @@ public class GridManager
     public float cellHalf;
     public Cell[,] cells;
     public int mapSize;
+    public int outerCellOffset = 1;
 
     [Space(10), Header("Borders")]
     public float borderOffset = 0.45f;
@@ -23,7 +24,7 @@ public class GridManager
     public GridManager(Grid grid, BorderPool borderPool, int mapSize) // mapSize = TerrainSize/CellSize 
     {
         this.grid = grid;
-        this.mapSize = mapSize;
+        this.mapSize = mapSize-outerCellOffset;
         this.borderPool = borderPool;
         cellSize = grid.cellSize;
         cellHalf = cellSize.x / 2;
@@ -35,9 +36,9 @@ public class GridManager
         borders = new List<GameObject>();
         cells = new Cell[mapSize, mapSize];
         planes = new Renderer[mapSize, mapSize];
-        for (int i = 0; i < mapSize; i++)
+        for (int i = outerCellOffset; i < mapSize; i++)
         {
-            for (int j = 0; j < mapSize; j++)
+            for (int j = outerCellOffset; j < mapSize; j++)
             {
                 Cell newCell = new Cell
                 {
@@ -60,33 +61,17 @@ public class GridManager
                 // go.transform.position = grid.GetCellCenterWorld(new Vector3Int(i, 0, j));
                 // Bounds bd = grid.GetBoundsLocal(new Vector3Int(i, 0, j), new Vector3(1, 1, 1));
                 // go.transform.localScale = bd.size / 2;
-                //planes[i, j] = go.GetComponent<Renderer>();
+                // planes[i, j] = go.GetComponent<Renderer>();
             }
         }
 
-        // cells[0, 0].affiliation = Affiliation.Player;
-        // cells[1, 0].affiliation = Affiliation.Player;
-        // cells[0, 1].affiliation = Affiliation.Player;
-        // cells[1, 1].affiliation = Affiliation.Player;
-        // cells[2, 0].affiliation = Affiliation.Player;
-        // cells[3, 0].affiliation = Affiliation.Player;
+        //cells[0, 0].affiliation = Affiliation.Player;
+        //cells[1, 0].affiliation = Affiliation.Player;
 
         // cells[4, 0].affiliation = Affiliation.Enemy;
         // cells[0, 2].affiliation = Affiliation.Enemy;
         // cells[0,2].captureProgress = 1;
         // cells[4,0].captureProgress = 1;
-
-
-        // cells[4, 4].affiliation = Affiliation.Enemy;
-        // cells[3, 4].affiliation = Affiliation.Enemy;
-        // cells[4, 3].affiliation = Affiliation.Enemy;
-        // cells[5, 4].affiliation = Affiliation.Enemy;
-        // cells[4, 5].affiliation = Affiliation.Enemy;
-        // cells[5, 3].affiliation = Affiliation.Enemy;
-        // cells[3, 5].affiliation = Affiliation.Enemy;
-        // cells[5, 5].affiliation = Affiliation.Enemy;
-        // cells[3, 3].affiliation = Affiliation.Enemy;
-        // cells[6, 4].affiliation = Affiliation.Enemy;
 
         //ColorGrid();
         UpdateBorders();
@@ -97,7 +82,7 @@ public class GridManager
         // Vector2Int closestCell2 = _ClosestDifferentCell(4, 4);
         // Debug.Log(closestCell2.x + ", " + closestCell2.y);
         
-        Debug.Log(RandomPointInCell(7,4));
+        //Debug.Log(RandomPointInCell(7,4));
         
         GameController.i.UpdatePointStats(playerCells, enemyCells);
     }
@@ -152,9 +137,9 @@ public class GridManager
     private List<GameObject> borders;
     public void UpdateBorders()
     {
-        for (int i = 0; i < mapSize; i++)
+        for (int i = outerCellOffset; i < mapSize; i++)
         {
-            for (int j = 0; j < mapSize; j++)
+            for (int j = outerCellOffset; j < mapSize; j++)
             {
                 Cell origin = GetCell(i, j);
                 Vector2Int[] neighbors = GetDifferentNeighbors(i, j);
@@ -270,8 +255,8 @@ public class GridManager
 
     public bool WithinBounds(int x, int y)
     {
-        if (x >= 0 && x < mapSize &&
-            y >= 0 && y < mapSize)
+        if (x >= outerCellOffset && x < mapSize &&
+            y >= outerCellOffset && y < mapSize)
         {
             //Debug.Log(cell + " within bounds");
             return true;
@@ -283,8 +268,8 @@ public class GridManager
     }
     public bool WithinBounds(Vector2Int cell)
     {
-        if (cell.x >= 0 && cell.x < mapSize &&
-            cell.y >= 0 && cell.y < mapSize)
+        if (cell.x >= outerCellOffset && cell.x < mapSize &&
+            cell.y >= outerCellOffset && cell.y < mapSize)
         {
             //Debug.Log(cell + " within bounds");
             return true;
@@ -455,7 +440,7 @@ public class GridManager
     
     public Vector3Int RandomCellIndex()
     {
-        return new Vector3Int(Random.Range(0, mapSize), 0, Random.Range(0, mapSize));
+        return new Vector3Int(Random.Range(outerCellOffset, mapSize), 0, Random.Range(outerCellOffset, mapSize));
     }
     
     public void CaptureCell(int x, int y, Affiliation affiliation)
@@ -488,6 +473,7 @@ public class Cell
     public void Capture(Affiliation capturer)
     {
         affiliation = capturer;
+        whoIsCapturing = Affiliation.None;
         captureProgress = 1;
         OnCaptured?.Invoke(this, capturer);
     }

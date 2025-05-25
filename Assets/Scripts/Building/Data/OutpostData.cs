@@ -15,6 +15,9 @@ public class OutpostData : BuildingData
         
         Vector3Int cellIndex = ColoniesManager.i.grid.WorldToCell(projectionPos);
         Cell hoveredCell = ColoniesManager.i.gridManager.GetCell(cellIndex.x, cellIndex.z);
+        if(hoveredCell == null){
+            return false;
+        }
         if(hoveredCell.whoIsCapturing != Affiliation.None){
             return false;
         }

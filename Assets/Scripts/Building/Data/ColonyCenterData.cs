@@ -32,10 +32,13 @@ public class ColonyCenterData : BuildingData
         
         Vector3Int cellIndex = ColoniesManager.i.grid.WorldToCell(projectionPos);
         Cell hoveredCell = ColoniesManager.i.gridManager.GetCell(cellIndex.x, cellIndex.z);
-        if(hoveredCell.whoIsCapturing != Affiliation.None){
+        if(hoveredCell == null){
             return false;
         }
-        if(hoveredCell.affiliation != Affiliation.None){
+        if(hoveredCell.whoIsCapturing == Affiliation.Enemy){
+            return false;
+        }
+        if(hoveredCell.affiliation == Affiliation.Enemy){
             return false;
         }
         

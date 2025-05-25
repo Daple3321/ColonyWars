@@ -29,7 +29,9 @@ public class PlayerColony : Colony
         built = true;
         buildProgress = 1f;
         
-        ColoniesManager.i.gridManager.CaptureCell(cellIndex.x, cellIndex.z, Affiliation.Player);
+        if(cell.affiliation != Affiliation.Player && cell.affiliation != Affiliation.Enemy){
+            ColoniesManager.i.gridManager.CaptureCell(cellIndex.x, cellIndex.z, Affiliation.Player);
+        }
         ChangeColor(Color.white);
     }
     
