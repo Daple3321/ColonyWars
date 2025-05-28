@@ -1855,7 +1855,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6981132, g: 0.6981132, b: 0.6981132, a: 1}
+  m_Color: {r: 0.16037738, g: 0.16037738, b: 0.16037738, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1895,7 +1895,9 @@ MonoBehaviour:
   uiCamera: {fileID: 0}
   tooltipHeader: {fileID: 838359095}
   canvasGroup: {fileID: 664405757}
-  offset: {x: 5, y: 4}
+  backgroundTransform: {fileID: 664405756}
+  canvasTransform: {fileID: 1834750538}
+  offset: {x: 10, y: 5}
   textPaddingSize: 0
 --- !u!1 &696123353
 GameObject:
@@ -2779,7 +2781,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_TextWrappingMode: 1
+  m_TextWrappingMode: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -9366,7 +9368,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Some text123123
+  m_text: Some text123123dasd
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f794e6a47d7a37e4ab145e5d3d42f1e0, type: 2}
   m_sharedMaterial: {fileID: 4139368065130269032, guid: f794e6a47d7a37e4ab145e5d3d42f1e0, type: 2}

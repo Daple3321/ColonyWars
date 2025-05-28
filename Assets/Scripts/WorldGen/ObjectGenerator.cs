@@ -211,7 +211,7 @@ public class ObjectGenerator : MonoBehaviour
         return null;
     }
     
-    public Building CreateBuilding_Rules(BuildingData building, Vector3 pos)
+    public Building CreateBuilding_Rules(BuildingData building, Vector3 pos) // вообще чёт не понял зачем это так сделано
     {
         bool spawned = false;
         int maxIterations = 10;

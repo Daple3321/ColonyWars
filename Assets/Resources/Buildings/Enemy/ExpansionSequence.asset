@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cea82e9e444860d48b56bd4043577e55, type: 3}
+  m_Name: ExpansionSequence
+  m_EditorClassIdentifier: 
+  daySeq:
+  - actionType: 0
+    interval: 60
+  - actionType: 2
+    interval: 30
+  - actionType: 3
+    interval: 30
+  - actionType: 4
+    interval: 30
+  - actionType: 1
+    interval: 30
+  dayActionIndex: 0
+  nightSeq:
+  - actionType: 5
+    interval: 120
+  - actionType: 6
+    interval: 120
+  nightActionIndex: 0
+  currentAction:
+    actionType: 0
+    interval: 60
+  timeToNextAction: 0
+  actionSpeedMultiplier: 0

@@ -13,8 +13,8 @@ public class MouseTooltip : MonoBehaviour
     public TextMeshProUGUI tooltipHeader;
     private TextMeshProUGUI tooltipText;
     public CanvasGroup canvasGroup;
-    private RectTransform backgroundTransform;
-    private RectTransform parentTransform;
+    [SerializeField] private RectTransform backgroundTransform;
+    [SerializeField] private RectTransform canvasTransform;
 
     public Vector2 offset;
     public float textPaddingSize;
@@ -46,21 +46,30 @@ public class MouseTooltip : MonoBehaviour
         uiCamera = Camera.main;
         tooltipHeader = transform.Find("tooltip_header").GetComponent<TextMeshProUGUI>();
         tooltipText = transform.Find("tooltip_desc").GetComponent<TextMeshProUGUI>();
-        parentTransform = transform.parent.GetComponent<RectTransform>();
         HideTooltip();
 
         transform.SetAsLastSibling();
+        
+        EventBus.i.OnInteractivePanelClosed += HideTooltip;
 
         enabled = true;
     }
     
-    private void Update()
+    void Update()
     {
         //Vector2 localPoint;
         //RectTransformUtility.ScreenPointToLocalPointInRectangle(parentTransform, Input.mousePosition, uiCamera, out localPoint);
         //transform.localPosition = localPoint + offset;
+        
+        Vector3 pos = new Vector3(Input.mousePosition.x + offset.x, Input.mousePosition.y + offset.y, 0);
+        if(pos.x + backgroundTransform.rect.width > canvasTransform.rect.width){
+            pos.x = canvasTransform.rect.width - backgroundTransform.rect.width;
+        }
+        if(pos.y + backgroundTransform.rect.height > canvasTransform.rect.height){
+            pos.y = canvasTransform.rect.height - backgroundTransform.rect.height;
+        }
 
-        transform.position = new Vector3(Input.mousePosition.x + offset.x, Input.mousePosition.y + offset.y, 0);
+        transform.position = pos;
     }
 
     //Sequence seq;

@@ -611,8 +611,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 138}
-  m_SizeDelta: {x: 438.1728, y: 287.0515}
+  m_AnchoredPosition: {x: 0, y: 140}
+  m_SizeDelta: {x: 721.4251, y: 337.6706}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &6646057488951241833
 CanvasRenderer:
@@ -725,10 +725,10 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 80, y: 80}
-  m_Spacing: {x: 5, y: 5}
+  m_CellSize: {x: 82, y: 82}
+  m_Spacing: {x: 7, y: 7}
   m_Constraint: 1
-  m_ConstraintCount: 5
+  m_ConstraintCount: 8
 --- !u!114 &5489941027652409144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -816,8 +816,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -14.987}
-  m_SizeDelta: {x: 0, y: -29.973}
+  m_AnchoredPosition: {x: 0, y: -17.632019}
+  m_SizeDelta: {x: -0.0001, y: -35.263}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &618508002940251692
 CanvasRenderer:

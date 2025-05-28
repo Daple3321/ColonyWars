@@ -92,15 +92,16 @@ public class GameController : MonoBehaviour
         //Pools.Init();
 
         //inventoryUI = GameObject.Find("PlayerInventory").GetComponent<InventoryUI>();
-
+        
+        ColoniesManager.i.Init();
+        ColoniesManager.i.SpawnEnemyColonies(gameSettings.coloniesSpawnSettings);
+        
+        pSpawnPoint.transform.position = RandomPointOnMap();
         GameObject playerObj = Instantiate(GameAssets.playerPrefab, pSpawnPoint.position, Quaternion.identity);
         p = playerObj.GetComponent<Player>();
         p.InitPlayer();
         
         worldCanvas.worldCamera = Camera.main; // after player
-        
-        ColoniesManager.i.Init();
-        ColoniesManager.i.SpawnEnemyColonies(gameSettings.coloniesSpawnSettings);
         
         PopUpManager.i.Init();
         
@@ -138,6 +139,12 @@ public class GameController : MonoBehaviour
     void Update()
     {
         HandleCheats();
+    }
+    
+    public Vector3 RandomPointOnMap()
+    {
+        Vector3Int cell = ColoniesManager.i.gridManager.RandomCellIndex();
+        return ColoniesManager.i.gridManager.RandomPointInCell(cell.x, cell.z);
     }
     
     public void AddPoints(float amount)

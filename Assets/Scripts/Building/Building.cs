@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using PrimeTween;
 using UnityEngine;
 
@@ -25,6 +26,7 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
     
     public Cell cell;
     public Vector3Int cellIndex;
+    public List<Cell> capturedCells;
     
     protected Renderer[] meshes;
     protected Material mat;
@@ -55,6 +57,7 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
         
         cellIndex = ColoniesManager.i.grid.WorldToCell(transform.position);
         cell = ColoniesManager.i.gridManager.GetCell(cellIndex.x, cellIndex.z);
+        capturedCells = new List<Cell>();
         
         this.buildingData = data;
     }
@@ -94,6 +97,16 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
     public virtual void OnDeath()
     {
         
+    }
+    
+    public virtual void CaptureCellInstant(int x, int y){
+        Cell capturedCell = ColoniesManager.i.gridManager.GetCell(x, y);
+        capturedCell.Capture(affiliation);
+        capturedCells.Add(capturedCell);
+        
+        capturedCell.OnCaptured += (c, aff) => {if(aff != affiliation){ // callback hell
+            capturedCells.Remove(c);
+        }};
     }
 
     public virtual void OnClick(Player caller)

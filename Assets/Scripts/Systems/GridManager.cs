@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using Random = UnityEngine.Random;
 
 [System.Serializable]
@@ -373,15 +374,16 @@ public class GridManager
         return new Vector2Int(-1, -1);
     }
 
-    public Vector2Int _ClosestDifferentCell(int x, int y)
+    public Vector2Int _ClosestDifferentCell(int x, int y) // БЕСКОНЕЧНЫЙ ЛУП КОГДА ВСЕ ЯЧЕЙКИ НА КАРТЕ ОДНОЙ AFFILIATION!
     {
         Cell origin = GetCell(x, y);
 
         Queue<Vector2Int> frontier = new Queue<Vector2Int>();
         frontier.Enqueue(new Vector2Int(x, y));
 
+        // когда вся карта одинаковая, ячейки будут бесконечно добавлятся во frontier
         bool isFound = false;
-        while (!isFound || frontier.Count > 0)
+        while (!isFound || frontier.Count > 0) 
         {
             Vector2Int current = frontier.Dequeue();
             foreach (Vector2Int next in GetNeighbors(current.x, current.y))
@@ -393,7 +395,7 @@ public class GridManager
                 }
                 else
                 {
-                    frontier.Enqueue(next);
+                    frontier.Enqueue(next); // Вот это скорее всего вызывает баг
                 }
             }
         }
@@ -437,13 +439,43 @@ public class GridManager
         
         return finalPoint;
     }
-    
-    public Vector3Int RandomCellIndex()
+    public Vector3 RandomPointInCell(Cell cell)
     {
-        return new Vector3Int(Random.Range(outerCellOffset, mapSize), 0, Random.Range(outerCellOffset, mapSize));
+        Vector3 finalPoint;
+        Vector3Int cellIndex = grid.WorldToCell(cell.worldPosition);
+        Vector3 cellCenter = grid.GetCellCenterWorld(new Vector3Int(cellIndex.x, 0, cellIndex.z));
+        
+        float randX = Random.Range(-cellHalf, cellHalf);
+        float randY = Random.Range(-cellHalf, cellHalf);
+        finalPoint = new Vector3(cellCenter.x+randX, 0, cellCenter.z+randY);
+        finalPoint = GameController.TerrainPoint(finalPoint); // ground height correction
+        
+        return finalPoint;
     }
     
-    public void CaptureCell(int x, int y, Affiliation affiliation)
+    public Vector3Int RandomCellIndex(){
+        return new Vector3Int(Random.Range(outerCellOffset, mapSize), 0, Random.Range(outerCellOffset, mapSize));
+    }
+    public Cell RandomCell(){
+        Vector3Int randIndex = new Vector3Int(Random.Range(outerCellOffset, mapSize), 0, Random.Range(outerCellOffset, mapSize));
+        return cells[randIndex.x,randIndex.z];
+    }
+    // public Cell[] FindCells(Predicate<Cell> match)
+    // {
+    //     List<List<Cell>> cellsList = new List<List<Cell>>(); // wat da fuuuu
+    //     for(int i = 0; i < cells.Length; i++)
+    //     {
+    //         for(int j = 0; j < cells.Length; i++)
+    //         {
+    //             cellsList[i][j] = cells[i, j];
+    //         }
+    //     }
+    //     Dictionary<Vector2Int, Cell> testDict = new Dictionary<Vector2Int, Cell>();
+    //     testDict.First(x=>x.Value.affiliation == Affiliation.Player);
+    //     //return cellsList.Find(x => x.Find(match).).ToArray();
+    // }
+    
+    public void CaptureCell(int x, int y, Affiliation affiliation) // delete that shi?
     {
         cells[x, y].Capture(affiliation);
     }

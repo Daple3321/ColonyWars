@@ -51,7 +51,7 @@ public abstract class Colony : Building
         if(data is ColonyCenterData colonyCenterData){
             this.colonyData = colonyCenterData;
         } 
-        
+         
         this.colonyRadius = colonyData.colonyRadius;
         buildings = new List<Building>();
         OnBuildingDestroyed += OnCoreDestroyed;

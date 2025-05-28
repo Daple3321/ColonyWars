@@ -140,18 +140,31 @@ MonoBehaviour:
   buildTime: 0
   built: 0
   buildProgress: 0
+  cell:
+    worldPosition: {x: 0, y: 0, z: 0}
+    captureProgress: 0
+    whoIsCapturing: 0
+    yieldAmount: 0
+    affiliation: 0
+  cellIndex: {x: 0, y: 0, z: 0}
+  capturedCells: []
   colonyData: {fileID: 0}
   level: 1
   colonyRadius: 10
   buildings: []
   colonyZone: {fileID: 0}
-  startingBuildings: 4
-  maxBuildings: 8
-  buildingPool:
-  - {fileID: 11400000, guid: 511e7f41a07ea464f86fc6e26506c7f2, type: 2}
+  startingBuildings: 1
+  maxBuildings: 16
   maxDefenses: 3
+  resourcePool:
+  - {fileID: 11400000, guid: 511e7f41a07ea464f86fc6e26506c7f2, type: 2}
+  barracksPool:
+  - {fileID: 11400000, guid: 511e7f41a07ea464f86fc6e26506c7f2, type: 2}
+  storagePool:
+  - {fileID: 11400000, guid: 511e7f41a07ea464f86fc6e26506c7f2, type: 2}
   defensePool:
   - {fileID: 11400000, guid: 75b30877b2793c84fa86c56373c9ba93, type: 2}
+  expansionSequence: {fileID: 11400000, guid: 9f6a0fbae5f79bc4eab411828feeb5c5, type: 2}
 --- !u!65 &5698036891128024495
 BoxCollider:
   m_ObjectHideFlags: 0

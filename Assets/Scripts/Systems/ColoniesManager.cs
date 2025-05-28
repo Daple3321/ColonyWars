@@ -103,7 +103,8 @@ public class ColoniesManager : MonoBehaviour
                     b = go.GetComponent<Building>();
                     b.Init(randColony);
                     
-                    gridManager.cells[randCell.x, randCell.z].Capture(Affiliation.Enemy);
+                    b.CaptureCellInstant(randCell.x, randCell.z);
+                    //gridManager.cells[randCell.x, randCell.z].Capture(Affiliation.Enemy);
                 }
 
                 // if(b != null){
@@ -114,7 +115,7 @@ public class ColoniesManager : MonoBehaviour
             }
         }
         
-        gridManager.ClearBorders();
-        gridManager.UpdateBorders();
+        //gridManager.ClearBorders();
+        //gridManager.UpdateBorders();
     }
 }
