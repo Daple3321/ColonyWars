@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6d8a1e42e4efff4ca2e80f29ce0d19a, type: 3}
-  m_Name: EnemyHut_1
+  m_Name: EnemyStorage
   m_EditorClassIdentifier: 
-  buildingName: Enemy hut
+  buildingName: Enemy Storage
   buildingIcon: {fileID: 21300000, guid: cbe4a635db6d79944855ee321639111a, type: 3}
   craftPrice:
     requirements: []

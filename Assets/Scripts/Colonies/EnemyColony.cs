@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static ColonyStatType;
+using AYellowpaper.SerializedCollections;
 
 [System.Serializable]
 public class EnemyColony : Colony
@@ -13,11 +15,19 @@ public class EnemyColony : Colony
         
         EventBus.i.OnSunrise += OnSunrise;
     }*/
+    [Space(10), Header("Stats")]
+    // public ColonyStat maxBuildings;
+    // public ColonyStat maxDefenses;
+    // public ColonyStat maxUnits;
+    // public ColonyStat maxUnitsLevel;
+    // public ColonyStat unitsSpawnSpeed;
+    public int startingBuildings = 5;
+    
+    [SerializedDictionary("ColonyStatType", "ColonyStat")]
+    public SerializedDictionary<ColonyStatType, Stat> stats;
+    
     
     [Space(10), Header("Building pools")]
-    public int startingBuildings = 5;
-    public int maxBuildings = 8;
-    public int maxDefenses = 3;
     public List<BuildingData> resourcePool; // make them all weighted collections?
     public List<BuildingData> barracksPool; // make them all weighted collections?
     public List<BuildingData> storagePool; // make them all weighted collections?
@@ -30,6 +40,18 @@ public class EnemyColony : Colony
     public override void Init(BuildingData data)
     {
         base.Init(data);
+        
+        stats = new SerializedDictionary<ColonyStatType, Stat>();
+        stats[maxBuildings] = new(10);
+        stats[maxDefenses] = new(5);
+        stats[maxUnits] = new(10);
+        stats[maxUnitsLevel] = new(1);
+        stats[unitsSpawnSpeed] = new(10);
+        // maxBuildings = new(10);
+        // maxDefenses = new(5);
+        // maxUnits = new(10);
+        // maxUnitsLevel = new(1);
+        // unitsSpawnSpeed = new(10);
         
         expansionSequence = ScriptableObject.Instantiate<ExpansionSequence>(expansionSequence);
         expansionSequence.Init(GameController.timeManager, this);
@@ -46,17 +68,16 @@ public class EnemyColony : Colony
         // for(int i = 0; i < startingBuildings; i++)
         // {
         //     BuildingData randBuilding = buildingPool[Random.Range(0, buildingPool.Length)];
-        //     Vector3 pointInRadius = GameController.RandomPointInCircleTerrain(new Vector2(transform.position.x, transform.position.z), 3, colonyRadius);
-            
+        //     Vector3 pointInRadius = GameController.RandomPointInCircleTerrain(new Vector2(transform.position.x, transform.position.z), 3, colonyRadius);   
         //     Building b = GameController.objectGenerator.CreateBuilding_Rules(randBuilding, pointInRadius);
         //     if(b != null)
         //     {
         //         b.Init(randBuilding);
-        //         StartCoroutine(b.Build());
-                
+        //         StartCoroutine(b.Build());    
         //         AddBuilding(b);
         //     }
         // }
+        
         for(int i = 0; i < startingBuildings; i++)
         {
             BuildingData randBuilding = resourcePool[Random.Range(0, resourcePool.Count)];
@@ -69,6 +90,8 @@ public class EnemyColony : Colony
                 StartCoroutine(b.Build());
                 
                 AddBuilding(b);
+                
+                ApplyModifiersToStats(b.GetComponent<EnemyBuilding>().GetModifiers());
             }
         }
         
@@ -136,6 +159,7 @@ public class EnemyColony : Colony
         break;
         
         case ColonyActionType.Barracks:
+            //if(maxDefenses.Value)
             Build(barracksPool[Random.Range(0, barracksPool.Count)], pos);
         break;
         
@@ -146,7 +170,7 @@ public class EnemyColony : Colony
     }
     protected void Build(BuildingData building, Vector3 pos)
     {
-        if(buildings.Count < maxBuildings)
+        if(buildings.Count < stats[maxBuildings].Value)
         {
             Building b = GameController.objectGenerator.CreateBuilding_Rules(building, pos);
             if(b != null)
@@ -155,11 +179,44 @@ public class EnemyColony : Colony
                 StartCoroutine(b.Build());
                 
                 AddBuilding(b);
+                
+                ApplyModifiersToStats(b.GetComponent<EnemyBuilding>().GetModifiers());
+                
+                foreach(var stat in stats)
+                {
+                    Debug.Log($"{stat.Key} = {stat.Value.Value}");
+                }
             }
         }
         else{
             // level up
         }
+    }
+    
+    public void ApplyModifiersToStats(Dictionary<ColonyStatType, StatModifier> modifiers)
+    {
+        foreach(var mod in modifiers)
+        {
+            stats[mod.Key].AddModifier(mod.Value);
+            Debug.Log($"Applied mod {mod.Key}:{mod.Value.Value}");
+        }
+        
+    }
+    public override void ClearAllModifiersFromSource(object source)
+    {
+        foreach(var stat in stats)
+        {
+            stat.Value.RemoveAllModifiersFromSource(source);
+            //Debug.Log($"Cleared mods from {stat.Key} = {stat.Value.Value}");
+        }
+    }
+    
+    public override void RemoveBuilding(Building building)
+    {
+        // Remove modifiers of that building
+        ClearAllModifiersFromSource(building);
+        
+        base.RemoveBuilding(building);
     }
 
     public override void Death(){

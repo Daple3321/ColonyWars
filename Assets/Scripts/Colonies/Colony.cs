@@ -84,11 +84,16 @@ public abstract class Colony : Building
         OnBuildingAdded?.Invoke(building);
     }
     
+    
+    public virtual void ClearAllModifiersFromSource(object source){}
     public virtual void RemoveBuilding(Building building)
     {
         if(building is Colony){
             return;
         }
+        
+        // Remove modifiers of that building
+        //ClearAllModifiersFromSource(this);
         
         buildings.Remove(building);
         OnBuildingRemoved?.Invoke(building);
