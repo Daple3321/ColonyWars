@@ -77,7 +77,7 @@ public class Stat
             {
                 isDirty = true;
                 didRemove = true;
-                Debug.Log($"Removing mod {statModifiers[i].Value} of source: {statModifiers[i].Source}");
+                //Debug.Log($"Removing mod {statModifiers[i].Value} of source: {statModifiers[i].Source}");
                 statModifiers.RemoveAt(i);
             }
         }

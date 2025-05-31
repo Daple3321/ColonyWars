@@ -30,6 +30,9 @@ public abstract class Unit : MonoBehaviour, IDamageable
     protected float _attackSpeed;
     public float concentration;
     public bool isAttacking;
+    
+    [Space(10), Header("Leveling")]
+    public LevelSystem levelSystem;
 
 
     [Space(10), Header("Home Point")]
@@ -76,6 +79,8 @@ public abstract class Unit : MonoBehaviour, IDamageable
         animator = GetComponent<Animator>();
         mat = GetComponentInChildren<Renderer>().material;
         homePos = transform.position;
+        
+        levelSystem = new LevelSystem();
 
         stateMachine.Init();
         

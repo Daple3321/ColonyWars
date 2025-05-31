@@ -20,7 +20,9 @@ MonoBehaviour:
   - actionType: 4
     interval: 30
   - actionType: 1
-    interval: 70
+    interval: 120
+  - actionType: 0
+    interval: 90
   dayActionIndex: 0
   nightSeq:
   - actionType: 5

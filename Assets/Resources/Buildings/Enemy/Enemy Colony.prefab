@@ -156,6 +156,9 @@ MonoBehaviour:
   startingBuildings: 1
   stats:
     _serializedList: []
+  unitsAmount: 0
+  unitPool:
+  - {fileID: 7294893471746113059, guid: 09254e9e152c73441b12d831c3b8072b, type: 3}
   resourcePool:
   - {fileID: 11400000, guid: 0be8c435e11d2e441886f5bb9d17dfc0, type: 2}
   barracksPool:

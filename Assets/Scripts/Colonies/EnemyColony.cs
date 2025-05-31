@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using static ColonyStatType;
 using AYellowpaper.SerializedCollections;
+using System;
+using Random = UnityEngine.Random;
 
 [System.Serializable]
 public class EnemyColony : Colony
@@ -16,22 +18,22 @@ public class EnemyColony : Colony
         EventBus.i.OnSunrise += OnSunrise;
     }*/
     [Space(10), Header("Stats")]
-    // public ColonyStat maxBuildings;
-    // public ColonyStat maxDefenses;
-    // public ColonyStat maxUnits;
-    // public ColonyStat maxUnitsLevel;
-    // public ColonyStat unitsSpawnSpeed;
     public int startingBuildings = 5;
     
     [SerializedDictionary("ColonyStatType", "ColonyStat")]
     public SerializedDictionary<ColonyStatType, Stat> stats;
     
+    [Space(10), Header("Unit Settings")]
+    public int unitsAmount;
+    public List<GameObject> unitPool;
+    [Tooltip("Delay in seconds")] private float spawnDelay;
+    
     
     [Space(10), Header("Building pools")]
     public List<BuildingData> resourcePool; // make them all weighted collections?
-    public List<BuildingData> barracksPool; // make them all weighted collections?
-    public List<BuildingData> storagePool; // make them all weighted collections?
-    public List<BuildingData> defensePool; // make them all weighted collections?
+    public List<BuildingData> barracksPool;
+    public List<BuildingData> storagePool;
+    public List<BuildingData> defensePool;
     
     [Space(5), Header("Expansion")]
     public ExpansionSequence expansionSequence;
@@ -41,17 +43,17 @@ public class EnemyColony : Colony
     {
         base.Init(data);
         
+        // foreach(ColonyStatType stat in (ColonyStatType[]) Enum.GetValues(typeof(ColonyStatType))){
+        //     stats[stat] = new Stat(stats[stat].Value);
+        // }
         stats = new SerializedDictionary<ColonyStatType, Stat>();
-        stats[maxBuildings] = new(10);
-        stats[maxDefenses] = new(5);
-        stats[maxUnits] = new(10);
+        stats[maxBuildings] = new(8);
+        stats[maxDefenses] = new(3);
+        stats[maxUnits] = new(8);
         stats[maxUnitsLevel] = new(1);
-        stats[unitsSpawnSpeed] = new(10);
-        // maxBuildings = new(10);
-        // maxDefenses = new(5);
-        // maxUnits = new(10);
-        // maxUnitsLevel = new(1);
-        // unitsSpawnSpeed = new(10);
+        stats[unitsSpawnSpeed] = new(18);
+        
+        spawnDelay = stats[unitsSpawnSpeed].Value;
         
         expansionSequence = ScriptableObject.Instantiate<ExpansionSequence>(expansionSequence);
         expansionSequence.Init(GameController.timeManager, this);
@@ -59,24 +61,6 @@ public class EnemyColony : Colony
         EventBus.i.OnSunrise += ()=>{isDay = true;};
         EventBus.i.OnSunset += ()=>{isDay = false;};
         EventBus.i.OnMinuteChange += ()=> {expansionSequence.UpdateSequence(isDay);};
-        
-        // colonyZone = ZoneFactory.CreateTriggerZone(transform.position, Color.red, ZoneShape.Cylinder, colonyRadius, 10f);
-        // colonyZone.transform.position = transform.position;
-        // colonyZone.SetNoiseEffect(1);
-        // colonyZone.OnZoneEnter += x =>  {Debug.Log($"{x.gameObject.name} entered enemy zone!");};
-        
-        // for(int i = 0; i < startingBuildings; i++)
-        // {
-        //     BuildingData randBuilding = buildingPool[Random.Range(0, buildingPool.Length)];
-        //     Vector3 pointInRadius = GameController.RandomPointInCircleTerrain(new Vector2(transform.position.x, transform.position.z), 3, colonyRadius);   
-        //     Building b = GameController.objectGenerator.CreateBuilding_Rules(randBuilding, pointInRadius);
-        //     if(b != null)
-        //     {
-        //         b.Init(randBuilding);
-        //         StartCoroutine(b.Build());    
-        //         AddBuilding(b);
-        //     }
-        // }
         
         for(int i = 0; i < startingBuildings; i++)
         {
@@ -100,7 +84,57 @@ public class EnemyColony : Colony
 
     void Update()
     {
-        //expansionSequence.UpdateSequence(isDay);
+        if(CanSpawnUnit()){
+            HandleUnitSpawn();
+        }
+    }
+    
+    protected void HandleUnitSpawn()
+    {
+        if(spawnDelay > 0){
+            spawnDelay -= Time.deltaTime;
+        }
+        else if(spawnDelay <= 0){
+            SpawnRandomUnit();
+            
+            spawnDelay = stats[unitsSpawnSpeed].Value;
+        }
+    }
+    protected void SpawnRandomUnit()
+    {
+        if(!CanSpawnUnit()){
+            Debug.Log("Max units reached.", gameObject);
+            return;
+        }
+        
+        GameObject randUnit = unitPool[Random.Range(0, unitPool.Count)];
+        Building randBuilding = buildings[Random.Range(0, buildings.Count)];
+        
+        Unit u = SpawnUnit(randUnit, randBuilding);
+        u.Init();
+    }
+    protected bool CanSpawnUnit(){
+        return unitsAmount < stats[maxUnits].Value;
+    }
+    protected Unit SpawnUnit(GameObject prefab, Building building = null)
+    {
+        Vector2 spawnPos = new Vector2(transform.position.x, transform.position.z);
+        if(building != null){
+            spawnPos = new Vector2(building.transform.position.x, building.transform.position.z);
+        }
+        
+        Vector3 pointInCircle = GameController.RandomPointInCircleTerrain(spawnPos, 2, 5);
+        GameObject go = Instantiate(prefab, pointInCircle, Quaternion.identity);
+        Unit u = go.GetComponent<Unit>();
+        u.onUnitDeath += OnColonyUnitDeath;
+        
+        unitsAmount++;
+        return u;
+    }
+    protected void OnColonyUnitDeath(Unit unit)
+    {
+        unitsAmount--;
+        unit.onUnitDeath -= OnColonyUnitDeath;
     }
     
     public void PerformAction(ColonyAction action)
@@ -182,10 +216,10 @@ public class EnemyColony : Colony
                 
                 ApplyModifiersToStats(b.GetComponent<EnemyBuilding>().GetModifiers());
                 
-                foreach(var stat in stats)
-                {
-                    Debug.Log($"{stat.Key} = {stat.Value.Value}");
-                }
+                // foreach(var stat in stats)
+                // {
+                //     Debug.Log($"{stat.Key} = {stat.Value.Value}");
+                // }
             }
         }
         else{
@@ -198,7 +232,7 @@ public class EnemyColony : Colony
         foreach(var mod in modifiers)
         {
             stats[mod.Key].AddModifier(mod.Value);
-            Debug.Log($"Applied mod {mod.Key}:{mod.Value.Value}");
+            //Debug.Log($"Applied mod {mod.Key}:{mod.Value.Value}");
         }
         
     }
@@ -235,7 +269,7 @@ public class EnemyColony : Colony
     
     protected void OnSunrise()
     {
-        Expand();
+        //Expand();
     }
     
     protected void Expand()

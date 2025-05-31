@@ -89,6 +89,7 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
         }
     }
     public virtual void Death(){
+        colorSeq.Stop();
         OnBuildingDestroyed?.Invoke(this);
         cell.OnCellBuildingsChanged?.Invoke();
         OnDeath();
