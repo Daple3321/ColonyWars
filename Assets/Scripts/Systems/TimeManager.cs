@@ -1,3 +1,4 @@
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -100,7 +101,7 @@ public class TimeManager : MonoBehaviour
         if (timeText != null)
         {
             //timeText.text = service.CurrentTime.ToString("hh:mm");
-            timeText.text = service.CurrentTime.ToShortTimeString(); // allocates gc
+            timeText.SetText(service.CurrentTime.ToShortTimeString()); // allocates gc
         }
     }
 }

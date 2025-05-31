@@ -96,14 +96,14 @@ public class GameController : MonoBehaviour
         ColoniesManager.i.Init();
         ColoniesManager.i.SpawnEnemyColonies(gameSettings.coloniesSpawnSettings);
         
-        pSpawnPoint.transform.position = RandomPointOnMap();
+        //pSpawnPoint.transform.position = RandomPointOnMap();
         GameObject playerObj = Instantiate(GameAssets.playerPrefab, pSpawnPoint.position, Quaternion.identity);
         p = playerObj.GetComponent<Player>();
         p.InitPlayer();
         
         worldCanvas.worldCamera = Camera.main; // after player
         
-        PopUpManager.i.Init();
+        WorldUI.i.Init();
         
         EventBus.i.PlayerDeath += OnPlayerDeath;
         EventBus.i.OnMinuteChange += IncrementPoints;

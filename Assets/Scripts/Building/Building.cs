@@ -81,15 +81,19 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
         
             //.Chain(Tween.MaterialColor(mat, Color.red, 0.2f))
             //.Chain(Tween.MaterialColor(mat, Color.white, 0.2f));
-        PopUpManager.i.Spawn(transform.position+new Vector3(0, 2f, 0), Color.white)
+        WorldUI.i.DamagePopup(transform.position+new Vector3(0, 2f, 0), Color.white)
         .text = damage.ToString("F0");
         
         if(health <= 0){
             Death();
         }
     }
+    public (float health, float maxHealth) GetHealth(){
+        return (health, maxHealth);
+    }
     public virtual void Death(){
         colorSeq.Stop();
+        WorldUI.i.buildingHover.Hide(this);
         OnBuildingDestroyed?.Invoke(this);
         cell.OnCellBuildingsChanged?.Invoke();
         OnDeath();
@@ -119,6 +123,16 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
                 caller.buildingPanelManager.CreatePanel(this);
             }
         }
+    }
+    
+    protected virtual void OnMouseEnter()
+    {
+        WorldUI.i.buildingHover.Init(this);
+        WorldUI.i.buildingHover.ShowForBuilding(this);
+    }
+    protected virtual void OnMouseExit()
+    {
+        WorldUI.i.buildingHover.Hide(this);
     }
     
     public virtual void ChangeColor(Color color)

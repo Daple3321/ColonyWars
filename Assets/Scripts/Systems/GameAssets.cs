@@ -13,6 +13,7 @@ public class GameAssets
     public static GameObject inventoryUI_Prefab;
     public static GameObject hotbarUI_Prefab;
     public static GameObject worldBar;
+    public static GameObject worldSpaceBar;
     public static GameObject unitSlot_Prefab;
     public static GameObject nearbyUnitSlot_Prefab;
     
@@ -21,6 +22,7 @@ public class GameAssets
     public static GameObject buildingSlot;
     
     public static GameObject buildingPanel;
+    public static GameObject buildingHoverPanel;
     public static GameObject minePanel;
     public static GameObject colonyCenterPanel;
     // --------------------
@@ -63,6 +65,7 @@ public class GameAssets
             inventoryUI_Prefab = Resources.Load<GameObject>("UI/Inventory");
             hotbarUI_Prefab = Resources.Load<GameObject>("UI/Hotbar");
             worldBar = Resources.Load<GameObject>("UI/WorldBar");
+            worldSpaceBar = Resources.Load<GameObject>("UI/WorldSpaceBar");
             unitSlot_Prefab = Resources.Load<GameObject>("UI/UnitSlot");
             nearbyUnitSlot_Prefab = Resources.Load<GameObject>("UI/NearbyUnitSlot");
             //UnityEngine.Debug.Log(unitSlot_Prefab + "Loaded");
@@ -70,6 +73,7 @@ public class GameAssets
             buildCanvas = Resources.Load<GameObject>("UI/BuildCanvas");
             buildingSlot = Resources.Load<GameObject>("UI/BuildingSlot");
             buildingPanel = Resources.Load<GameObject>("UI/BuildingPanel");
+            buildingHoverPanel = Resources.Load<GameObject>("UI/BuildingHoverCanvas");
             minePanel = Resources.Load<GameObject>("UI/MinePanel");
             colonyCenterPanel = Resources.Load<GameObject>("UI/ColonyCenterPanel");
             

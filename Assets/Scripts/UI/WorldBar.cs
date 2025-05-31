@@ -1,9 +1,13 @@
+using TMPro;
 using UnityEngine;
 
 public class WorldBar : Bar
 {
+    public TextMeshProUGUI barDesc;
+    
     public float maxDrawDistance;
     public Transform followTarget;
+    public Transform parentTransform;
     public Vector3 offset;
     
     public override void Init(Affiliation affiliation = Affiliation.None, Gradient color = null)
@@ -11,25 +15,37 @@ public class WorldBar : Bar
         base.Init(affiliation, color);
     }
     
-    public void InitWorldBar(Transform target, Canvas parentCanvas)
+    public void InitWorldBar(Transform target, Canvas parentCanvas, string barDescription = "")
     {
         followTarget = target;
         this.parentCanvas = parentCanvas;
+        barDesc.text = barDescription;
     }
     
-    void Update()
-    {
-        if(followTarget != null)
-           transform.position = mainCam.WorldToScreenPoint(followTarget.position + offset);
-        
-        if(Vector3.SqrMagnitude(followTarget.position- mainCam.transform.position)> maxDrawDistance*maxDrawDistance){
-            barImg.enabled = false;
-            bg.enabled = false;
+    public bool CheckDisctance(){
+        if(Vector3.SqrMagnitude(followTarget.position - mainCam.transform.position) > maxDrawDistance*maxDrawDistance){
+            return false;
         }
         else{
-            barImg.enabled = true;
-            bg.enabled = true;
+            return true;
         }
+    }
+    
+    /*void Update()
+    {
+        //if(followTarget != null)
+           //parentTransform.position = mainCam.WorldToScreenPoint(followTarget.position + offset);
+        
+        // if(Vector3.SqrMagnitude(followTarget.position - mainCam.transform.position) > maxDrawDistance*maxDrawDistance){
+        //     barDesc.gameObject.SetActive(false);
+        //     barImg.enabled = false;
+        //     bg.enabled = false;
+        // }
+        // else{
+        //     barDesc.gameObject.SetActive(true);
+        //     barImg.enabled = true;
+        //     bg.enabled = true;
+        // }
         
         // if(followTarget != null){
         //     Vector3 output = Vector2.zero;
@@ -55,5 +71,5 @@ public class WorldBar : Bar
         // Vector3 uiElementPosition = mainCam.WorldToScreenPoint(rectTransform.position);
         // Vector3 newWorldPosition = mainCam.ScreenToWorldPoint(uiElementPosition);
         // rectTransform.position = newWorldPosition;
-    }
+    }*/
 }

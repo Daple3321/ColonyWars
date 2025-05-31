@@ -91,13 +91,31 @@ public abstract class Unit : MonoBehaviour, IDamageable
     
     protected virtual void InitUI()
     {
-        healthBar = Instantiate(GameAssets.worldBar, GameController.i.worldCanvas.transform).GetComponent<WorldBar>();
+        //healthBar = Instantiate(GameAssets.worldBar, GameController.i.worldCanvas.transform).GetComponent<WorldBar>();
+        healthBar = WorldUI.i.CreateWorldBar();
         healthBar.Init(affiliation);
-        healthBar.InitWorldBar(transform, GameController.i.worldCanvas);
+        healthBar.InitWorldBar(transform, GameController.i.worldCanvas, unitName);
         healthBar.offset.y = transform.localScale.y + 1.4f;
+        healthBar.parentTransform.position = transform.position + healthBar.offset;
+        healthBar.parentTransform.SetParent(transform);
         healthBar.UpdateBar(health, maxHealth);
     }
     
+    protected virtual void UpdateUI()
+    {
+        if(healthBar.CheckDisctance() && !healthBar.gameObject.activeInHierarchy){
+            healthBar.gameObject.SetActive(true);
+        }
+        else if(!healthBar.CheckDisctance() && healthBar.gameObject.activeInHierarchy){
+            healthBar.gameObject.SetActive(false);
+        }
+    }
+    
+    void Update()
+    {
+        UpdateUI();
+    }
+
     protected Coroutine attackRoutine;
     public virtual void HandleAttacking() 
     {
@@ -302,10 +320,19 @@ public abstract class Unit : MonoBehaviour, IDamageable
             .Chain(Tween.MaterialColor(mat, Color.red, 0.2f))
             .Chain(Tween.MaterialColor(mat, Color.white, 0.2f));
             
-        PopUpManager.i.Spawn(transform.position+new Vector3(0, 2f, 0), Color.white)
-        .text = damage.ToString("F1");
+        if(affiliation == Affiliation.Player){
+            WorldUI.i.DamagePopup(transform.position+new Vector3(0, 1.65f, 0), Color.red)
+            .text = damage.ToString("F1");
+        }
+        else{
+            WorldUI.i.DamagePopup(transform.position+new Vector3(0, 1.65f, 0), Color.white)
+            .text = damage.ToString("F1");
+        }
         
         HealthChanged();
+    }
+    public (float health, float maxHealth) GetHealth(){
+        return (health, maxHealth);
     }
     protected virtual void HealthChanged()
     {
@@ -341,5 +368,6 @@ public abstract class Unit : MonoBehaviour, IDamageable
         Vector3 labelPos3 = new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z);
         Handles.Label(labelPos3, $"Current state: {stateMachine.currentState}\n");
     }
+
 #endif
 }

@@ -4,6 +4,7 @@ using static ColonyStatType;
 using AYellowpaper.SerializedCollections;
 using System;
 using Random = UnityEngine.Random;
+using System.Text;
 
 [System.Serializable]
 public class EnemyColony : Colony
@@ -60,7 +61,7 @@ public class EnemyColony : Colony
         
         EventBus.i.OnSunrise += ()=>{isDay = true;};
         EventBus.i.OnSunset += ()=>{isDay = false;};
-        EventBus.i.OnMinuteChange += ()=> {expansionSequence.UpdateSequence(isDay);};
+        EventBus.i.OnMinuteChange += OnMinuteChange;
         
         for(int i = 0; i < startingBuildings; i++)
         {
@@ -80,6 +81,11 @@ public class EnemyColony : Colony
         }
         
         EventBus.i.OnSunrise += OnSunrise;
+    }
+    
+    protected virtual void OnMinuteChange()
+    {
+        expansionSequence.UpdateSequence(isDay);
     }
 
     void Update()
@@ -107,10 +113,15 @@ public class EnemyColony : Colony
             return;
         }
         
+        Unit u = null;
         GameObject randUnit = unitPool[Random.Range(0, unitPool.Count)];
-        Building randBuilding = buildings[Random.Range(0, buildings.Count)];
-        
-        Unit u = SpawnUnit(randUnit, randBuilding);
+        if(buildings.Count > 0){
+            Building randBuilding = buildings[Random.Range(0, buildings.Count)];
+            u = SpawnUnit(randUnit, randBuilding);
+        }
+        else{
+            u = SpawnUnit(randUnit);
+        }
         u.Init();
     }
     protected bool CanSpawnUnit(){
@@ -258,13 +269,27 @@ public class EnemyColony : Colony
         EventBus.i.OnSunrise -= OnSunrise;
         EventBus.i.OnSunrise -= ()=>{isDay = true;};
         EventBus.i.OnSunset -= ()=>{isDay = false;};
-        EventBus.i.OnMinuteChange -= ()=> {expansionSequence.UpdateSequence(isDay);};
+        EventBus.i.OnMinuteChange -= OnMinuteChange;
         base.Death();
     }
     
     public override BuildingPanel CreatePanel(RectTransform parentContainer)
     {
         return null;
+    }
+    
+    protected override void OnMouseEnter()
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        foreach(var stat in stats){
+            stringBuilder.Append($"{stat.Key}: {stat.Value.Value} +{stat.Value.Value-stat.Value.baseValue}\n");
+        }
+        WorldUI.i.buildingHover.Init(this);
+        WorldUI.i.buildingHover.ShowForBuilding(this, stringBuilder.ToString());
+    }
+    protected override void OnMouseExit()
+    {
+        WorldUI.i.buildingHover.Hide(this);
     }
     
     protected void OnSunrise()

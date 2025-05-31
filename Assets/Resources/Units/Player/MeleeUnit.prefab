@@ -326,7 +326,7 @@ MonoBehaviour:
   enemyCheckDelay: 0.5
   enemiesMask:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 10240
   attackHitMask:
     serializedVersion: 2
     m_Bits: 2176

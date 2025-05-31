@@ -211,12 +211,18 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         
         EventBus.i.PlayerCommandEnergyChanged?.Invoke(commandEnergy, maxCommandEnergy);
     }
+
+    public (float health, float maxHealth) GetHealth()
+    {
+        return (health, maxHealth);
+    }
 }
 
 
 public interface IDamageable
 {
     void TakeDamage(float damage, Vector3 knockback = new Vector3());
+    (float health, float maxHealth) GetHealth();
     void Death();
 }
 

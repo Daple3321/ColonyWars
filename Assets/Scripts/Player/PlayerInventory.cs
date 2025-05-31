@@ -434,7 +434,7 @@ public class PlayerInventory : MonoBehaviour
     public bool TryAddItem(Item itemToAdd, int quantity)
     {
         if(hotbar.AddItem(itemToAdd, quantity)){
-            TextMeshProUGUI popUp = PopUpManager.i.Spawn(
+            TextMeshProUGUI popUp = WorldUI.i.SpawnPopup(
                 transform.position+new Vector3(0, 1f, 0),
                 Color.white, 
                 new Vector3(1f, 1f, 1f),
@@ -445,7 +445,7 @@ public class PlayerInventory : MonoBehaviour
             return true;
         }
         if(inventory.AddItem(itemToAdd, quantity)){
-            TextMeshProUGUI popUp = PopUpManager.i.Spawn(
+            TextMeshProUGUI popUp = WorldUI.i.SpawnPopup(
                 transform.position+new Vector3(0, 1f, 0),
                 Color.white, 
                 new Vector3(1.05f, 1.05f, 1.05f),

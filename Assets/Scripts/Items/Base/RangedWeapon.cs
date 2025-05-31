@@ -51,7 +51,7 @@ public class RangedWeapon : Weapon
         if(needsAmmo)
         {
             SubtractAmmo();
-            Debug.Log($"Ammo count: {GetAmmoInfo()}");
+            //Debug.Log($"Ammo count: {GetAmmoInfo()}");
         }
     }
 
