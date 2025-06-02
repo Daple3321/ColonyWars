@@ -4,6 +4,8 @@ using UnityEngine;
 public class BuildingData : ScriptableObject
 {
     public string buildingName;
+    [TextArea]
+    public string description;
     public Sprite buildingIcon;
     
     public ItemRequirements craftPrice;

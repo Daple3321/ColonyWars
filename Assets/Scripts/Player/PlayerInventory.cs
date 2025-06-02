@@ -430,6 +430,16 @@ public class PlayerInventory : MonoBehaviour
             //inv.DeleteItem(index, req.quantity);
         }
     }
+    public int[] GetItemAmounts(ItemRequirement[] items)
+    {
+        List<int> finalList = new List<int>();
+        foreach (ItemRequirement item in items)
+        {
+            finalList.Add(ItemAmount(item.item));
+        }
+        
+        return finalList.ToArray();
+    }
     
     public bool TryAddItem(Item itemToAdd, int quantity)
     {

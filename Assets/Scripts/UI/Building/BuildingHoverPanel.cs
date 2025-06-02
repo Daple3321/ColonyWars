@@ -21,7 +21,7 @@ public class BuildingHoverPanel : MonoBehaviour
     }
     
     public void ShowForBuilding(Building building, string info = ""){
-        transform.position = building.transform.position + new Vector3(0,3.2f,0);
+        transform.position = building.transform.position + new Vector3(0,4.2f,0);
         gameObject.SetActive(true);
         infoText.text = info;
         UpdateInfo(building);

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Storage Hut
   m_EditorClassIdentifier: 
   buildingName: Storage Hut
+  description: Can store any item
   buildingIcon: {fileID: 21300000, guid: cbe4a635db6d79944855ee321639111a, type: 3}
   craftPrice:
     requirements:
@@ -20,6 +21,7 @@ MonoBehaviour:
       quantity: 5
     - item: {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
       quantity: 2
+  insideColonyOnly: 1
   overlapRadius: 2
   maxBuildAngle: 25
   prefab: {fileID: 2534605460234014678, guid: ee32103f9f6f0bd41a740071afa85d2d, type: 3}

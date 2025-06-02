@@ -52,9 +52,24 @@ public class BuildingSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         }
     }
     
+    private void ShowTooltip()
+    {
+        string finalString = "";
+        
+        finalString += buildingData.description + "\n";
+        
+        finalString += buildingData.craftPrice.GetRequirementsCompare(
+            playerInventory.GetItemAmounts(buildingData.craftPrice.requirements.ToArray()));
+            
+        
+        MouseTooltip.ShowTooltip_Static(buildingData.buildingName, finalString);
+    }
+    
     Tween scaleTween;
     public void OnPointerEnter(PointerEventData eventData)
     {
+        ShowTooltip();
+        
         if(state != UIState.Blocked){
             scaleTween.Stop();
             scaleTween = Tween.Scale(rectTransform, 1.15f, 0.15f, Ease.OutCubic);
@@ -63,6 +78,8 @@ public class BuildingSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        MouseTooltip.HideTooltip_Static();
+        
         if(state != UIState.Blocked){
             scaleTween = Tween.Scale(rectTransform, 1, 0.15f, Ease.InCubic);
         }

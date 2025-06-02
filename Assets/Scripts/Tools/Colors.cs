@@ -34,4 +34,20 @@ public class Colors : ScriptableObject
     public Color veryRare;
     public Color legendary;
     public Color mythical;
+    
+    public Color craftReq;
+    
+    // public string GetHex(Color color)
+    // {
+    //     int r = (int)color.r, g = (int)color.g, b = (int)color.b;
+    //     string _color = r.ToString("X2") + g.ToString("X2") + b.ToString("X2");
+    //     return _color;
+    // }
+    
+    public string GetHex(Color color)
+    {
+        string hex = ColorUtility.ToHtmlStringRGBA(color);
+        string finalString = "#"+hex;
+        return finalString;
+    }
 }
