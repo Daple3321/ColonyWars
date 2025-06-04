@@ -477,7 +477,7 @@
     },
     "m_PreviewData": {
         "serializedMesh": {
-            "m_SerializedMesh": "{\"mesh\":{\"instanceID\":0}}",
+            "m_SerializedMesh": "{\"mesh\":{\"fileID\":10210,\"guid\":\"0000000000000000e000000000000000\",\"type\":0}}",
             "m_Guid": ""
         },
         "preventRotation": false
@@ -558,8 +558,8 @@
     "m_ObjectId": "0786aae3ff8d4cfd8b8c132d9c6c4f2c",
     "m_Title": "Noise Scroll",
     "m_Position": {
-        "x": -2406.000244140625,
-        "y": -126.99996185302735
+        "x": -2406.0,
+        "y": -126.99998474121094
     }
 }
 
@@ -1421,8 +1421,8 @@
     "m_ObjectId": "4907246012874ca99723eafedcc03341",
     "m_Title": "Texture sample",
     "m_Position": {
-        "x": -849.0000610351563,
-        "y": 739.0000610351563
+        "x": -848.9999389648438,
+        "y": 738.9999389648438
     }
 }
 
@@ -2748,7 +2748,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Occlusion",
     "m_StageCapability": 2,
-    "m_Value": 1.0,
+    "m_Value": 2.0,
     "m_DefaultValue": 1.0,
     "m_Labels": []
 }
@@ -3433,9 +3433,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -551.0000610351563,
-            "y": 798.0,
-            "width": 130.99996948242188,
+            "x": -551.0,
+            "y": 798.0000610351563,
+            "width": 131.0,
             "height": 34.0
         }
     },

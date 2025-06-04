@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   daySeq:
   - actionType: 2
-    interval: 120
+    interval: 160
   - actionType: 3
-    interval: 60
+    interval: 120
   - actionType: 4
-    interval: 30
+    interval: 60
   - actionType: 1
     interval: 120
   - actionType: 0
-    interval: 90
+    interval: 160
   dayActionIndex: 0
   nightSeq:
   - actionType: 5

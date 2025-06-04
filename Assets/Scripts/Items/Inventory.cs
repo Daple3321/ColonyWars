@@ -350,7 +350,43 @@ public class Inventory
         return !inventoryItems[index].IsEmpty;
     }
 
-
+    public void ConsumeItemRequirements(ItemRequirements requirements)
+    {
+        foreach(ItemRequirement req in requirements.requirements)
+        {
+            //DeleteAmount(req.item, req.quantity);
+            //int index = HasItem(req.item);
+            DeleteAmount(req.item, req.quantity);
+        }
+    }
+    public bool DeleteAmount(ItemData item, int quantity)
+    {
+        if(ItemAmount(item) < quantity){
+            Debug.LogWarning("Not enough items to delete.");
+            return false;
+        }
+        
+        int maxIterations = 15; // защита
+        //int itemsDeleted = 0;
+        int quantityTarget = ItemAmount(item) - quantity;
+        
+        int itemsToDelete = quantity;
+        
+        while(ItemAmount(item) != quantityTarget && maxIterations > 0)
+        {
+            int itemsDeleted = 0;
+            
+            int index = HasItem(item);
+            itemsDeleted += DeleteAmount(index, itemsToDelete);
+            itemsToDelete -= itemsDeleted;
+            
+            //Debug.Log($"[{item.itemName}] left to delete: " + itemsToDelete);
+            
+            maxIterations--;
+        }
+        
+        return true;
+    }
     public void DeleteItem(int index)
     {
         if(inventoryItems[index].IsEmpty){

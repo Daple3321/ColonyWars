@@ -18,6 +18,7 @@ public class BuildingPanelManager : MonoBehaviour
         ClearCurrentPanel();
         buildingCanvas = GetComponent<Canvas>();
         
+        EventBus.i.OnInteractionStop = HideIfInteractionPressed;
         //Debug.Log($"Scale factor: {buildingCanvas.scaleFactor}");
     }
     
@@ -78,17 +79,19 @@ public class BuildingPanelManager : MonoBehaviour
     {
         if(currentPanel != null && canHide){
             HideIfClickedOutside();
-            HideIfInteractionPressed();
+            //HideIfInteractionPressed();
             //HideIfOutsideRange();
         }
     }
     
     private void HideIfInteractionPressed()
     {
-        if(GameAssets.controls.Player.Interact.WasPressedThisFrame()){
-            ClearCurrentPanel();
+        ClearCurrentPanel();
             canHide = false;
-        }
+        // if(GameAssets.controls.Player.Interact.WasPressedThisFrame()){
+        //     ClearCurrentPanel();
+        //     canHide = false;
+        // }
     }
     
     private void HideIfOutsideRange()

@@ -16,7 +16,13 @@ MonoBehaviour:
   description: Smelts ore into ingots
   buildingIcon: {fileID: 21300000, guid: c3d7ba9028d232747a723a3b0dfce1fe, type: 3}
   craftPrice:
-    requirements: []
+    requirements:
+    - item: {fileID: 11400000, guid: dfe06b9807283144fb496089e9fc5643, type: 2}
+      quantity: 20
+    - item: {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}
+      quantity: 25
+    - item: {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
+      quantity: 15
   insideColonyOnly: 1
   overlapRadius: 2.5
   maxBuildAngle: 25
@@ -35,5 +41,14 @@ MonoBehaviour:
         quantity: 5
     craftTime: 2
     finalItem: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
+    finalAmount: 1
+  - itemRequirements:
+      requirements:
+      - item: {fileID: 11400000, guid: dfe06b9807283144fb496089e9fc5643, type: 2}
+        quantity: 5
+      - item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
+        quantity: 1
+    craftTime: 2
+    finalItem: {fileID: 11400000, guid: 22c6422f791fe3d43aed36e95d428522, type: 2}
     finalAmount: 1
   refineSpeed: 4

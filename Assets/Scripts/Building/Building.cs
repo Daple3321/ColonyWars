@@ -145,7 +145,7 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
     {
         return built && canInteract;
     }
-    public virtual void Interact() // не закрывается на 'E' если смотреть на здание
+    public virtual bool Interact() // не закрывается на 'E' если смотреть на здание
     {
         if(CanInteract() && affiliation == Affiliation.Player)
         {
@@ -153,8 +153,11 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
             {
                 //Debug.Log($"Clicked on {buildingData.buildingName}");
                 GameController.p.buildingPanelManager.CreatePanel(this);
+                return true;
             }
         }
+        
+        return false;
     }
     
     protected virtual void OnMouseEnter()

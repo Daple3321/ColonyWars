@@ -35,6 +35,8 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     public float maxCommandEnergy;
     public float commandEnergyRegenSpeed;
     
+    public bool isInteracting = false;
+    
     private Controls controls;
     private Mouse mouse;
     private Camera mainCam;
@@ -97,16 +99,21 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         }
         
         // проверка на уже активный interaction должна быть и сброс его перед новым
-        if(controls.Player.Interact.WasPressedThisFrame()) // вообще по другому должно всё работать
+        if(controls.Player.Interact.WasPressedThisFrame() && !isInteracting) // вообще по другому должно всё работать
         {
             Vector3 mousePosition = mouse.position.ReadValue();
             Ray ray = mainCam.ScreenPointToRay(mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, mouseClickLayers))
             {
                 if(hit.collider.TryGetComponent(out IInteractable interactable)){
-                    interactable.Interact();
+                    isInteracting = interactable.Interact();
                 }
             }
+        }
+        else if(controls.Player.Interact.WasPressedThisFrame() && isInteracting)
+        {
+            isInteracting = false;
+            EventBus.i.OnInteractionStop?.Invoke();
         }
     }
     

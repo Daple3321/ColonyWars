@@ -71,11 +71,11 @@ public class ResourceRefiner : Building
             if(recipe.finalItem != null)
             {
                 refinedInv.inventory.AddItem(new Item(recipe.finalItem), recipe.finalAmount);
-
-                foreach(var req in recipe.itemRequirements.requirements)
-                {
-                    originInv.inventory.DeleteAmount(originInv.inventory.HasItem(req.item), req.quantity);
-                }
+                originInv.inventory.ConsumeItemRequirements(recipe.itemRequirements);
+                // foreach(var req in recipe.itemRequirements.requirements)
+                // {
+                //     originInv.inventory.DeleteAmount(originInv.inventory.HasItem(req.item), req.quantity);
+                // }
             }
         }
     }

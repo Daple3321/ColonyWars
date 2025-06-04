@@ -251,6 +251,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     }
     public float DistanceToHome()
     {
+        //eturn Vector3.SqrMagnitude(homePos - transform.position);
         return Vector3.Distance(homePos, transform.position);
     }
     public float DistanceToTarget() // когда target уничтожается всё ломается.

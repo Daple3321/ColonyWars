@@ -50,9 +50,9 @@ public class EnemyColony : Colony
         stats = new SerializedDictionary<ColonyStatType, Stat>();
         stats[maxBuildings] = new(8);
         stats[maxDefenses] = new(3);
-        stats[maxUnits] = new(8);
+        stats[maxUnits] = new(5);
         stats[maxUnitsLevel] = new(1);
-        stats[unitsSpawnSpeed] = new(18);
+        stats[unitsSpawnSpeed] = new(30);
         
         spawnDelay = stats[unitsSpawnSpeed].Value;
         
@@ -155,6 +155,7 @@ public class EnemyColony : Colony
         {
             buildings[i].OnAttacked += b => unit.SetHome(b.transform.position);
         }
+        OnAttacked += b => unit.SetHome(b.transform.position);
     }
     
     public void PerformAction(ColonyAction action)

@@ -24,7 +24,7 @@ public class BuildingInventory
     public void PrepareUI()
     {
         GameObject invObj = GameObject.Instantiate(GameAssets.hotbarUI_Prefab);
-        invObj.transform.SetParent(GameController.i.buildingPanelManager.currentPanel.transform);
+        invObj.transform.SetParent(GameController.i.buildingPanelManager.currentPanel.dataContainter);
         
         inventoryUI = invObj.GetComponent<InventoryUI>();
         inventoryUI.InitializeInventoryUI(inventoryStartingSize);

@@ -46,7 +46,7 @@ public class EventBus
     public Action<float> OnPlayerYieldChanged;
     public Action<float> OnEnemyYieldChanged;
     // -----------------------------------------------
-    
+    public Action OnInteractionStop;
     public Action OnInteractivePanelOpened;
     public Action OnInteractivePanelClosed;
     // ----------------------------------------------------------
