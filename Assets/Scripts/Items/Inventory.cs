@@ -303,6 +303,16 @@ public class Inventory
         return foundIndex;
     }
     
+    public int HasItemWithSpaceLeft(ItemData itemData, int spaceLeft)
+    {
+        int foundIndex = inventoryItems.FindIndex(x => !x.IsEmpty 
+            && x.item.itemData == itemData 
+            && x.CanStack
+            && (x.MaxStackSize-x.quantity) >= spaceLeft);
+        
+        return foundIndex;
+    }
+    
     public int HasItem(ItemData itemData)
     {
         int foundIndex = inventoryItems.FindIndex(x => !x.IsEmpty && x.item.itemData == itemData);

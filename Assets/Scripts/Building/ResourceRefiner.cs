@@ -82,7 +82,9 @@ public class ResourceRefiner : Building
     protected bool CanRefine()
     {
         // has empty slot or can stack to existing item
-        if(refinedInv.inventory.EmptySlots() >= 1 || refinedInv.inventory.HasItem(GetCurrentRecipe().finalItem) != -1)
+        // BUG: Когда есть нужный но полностью забитый стак, всё равно рефайнится
+        if(refinedInv.inventory.EmptySlots() >= 1
+        || refinedInv.inventory.HasItemWithSpaceLeft(GetCurrentRecipe().finalItem, GetCurrentRecipe().finalAmount) != -1) // сломано
         {
             return true;
         }

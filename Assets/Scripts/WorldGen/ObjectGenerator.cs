@@ -1,7 +1,6 @@
 using System;
 using System.Diagnostics;
 using Cysharp.Threading.Tasks;
-using UnityEditor.Rendering;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Debug = UnityEngine.Debug;
@@ -168,7 +167,7 @@ public class ObjectGenerator : MonoBehaviour
     }
     
     
-    public Building CreateBuilding_Interval(BuildingData building, float buildingInterval, params string[] overlapBlacklist)
+    /*public Building CreateBuilding_Interval(BuildingData building, float buildingInterval, params string[] overlapBlacklist)
     {
         Vector3 rayOrigin = new Vector3(Random.Range(0, terrain.terrainData.size.x), raycastHeight, Random.Range(0, terrain.terrainData.size.x));
         
@@ -209,7 +208,7 @@ public class ObjectGenerator : MonoBehaviour
         }
         
         return null;
-    }
+    }*/
     
     public Building CreateBuilding_Rules(BuildingData building, Vector3 pos) // вообще чёт не понял зачем это так сделано
     {
