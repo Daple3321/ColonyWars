@@ -311,7 +311,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     }
     
     Sequence colorSeq;
-    public virtual void TakeDamage(float damage, Vector3 knockback = new Vector3())
+    public virtual void TakeDamage(float damage, GameObject source = null, Vector3 knockback = new Vector3())
     {
         health -= damage;
         

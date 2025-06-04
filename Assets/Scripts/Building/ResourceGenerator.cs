@@ -158,12 +158,17 @@ public class ResourceGenerator : Generator
 
     public virtual void Gather()
     {
-        foreach(ResourceNode node in resourcesNearby) // ошибка при удалении нода
-        {
-            buildingInventory.inventory.AddItem(node.GeneratorGather(), yieldAmount);
+        // foreach(ResourceNode node in resourcesNearby) // ошибка при удалении нода
+        // {
+        //     buildingInventory.inventory.AddItem(node.GeneratorGather(), yieldAmount);
             
-            //Debug.Log("Space left: " + inventory.SpaceLeft());
-            // add to inventory
+        //     //Debug.Log("Space left: " + inventory.SpaceLeft());
+        //     // add to inventory
+        // }
+        
+        for(int i = 0; i < resourcesNearby.Count; i++)
+        {
+            buildingInventory.inventory.AddItem(resourcesNearby[i].GeneratorGather(), yieldAmount);
         }
     }
     

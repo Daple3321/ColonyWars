@@ -17,9 +17,11 @@ MonoBehaviour:
   icon: {fileID: -1536799493, guid: 05c986f37d7d2654888b5ebdd0b6f314, type: 3}
   rarity: 0
   IsStackable: 1
-  maxStackSize: 15
+  maxStackSize: 16
   instantPickup: 1
-  itemMesh: {fileID: 4711208715938537054, guid: 0c681abcbc8956743a25ed9b3b533675, type: 3}
+  itemMesh: {fileID: 70948873267775455, guid: 70abec6f38c9572448527f1a1852db81, type: 3}
   itemMaterials:
-  - {fileID: -7315951235433553244, guid: 0c681abcbc8956743a25ed9b3b533675, type: 3}
+  - {fileID: 2100000, guid: d321ecaaef7d4c549a97ff1bd1fc22ad, type: 2}
+  hasCustomScale: 1
+  customScale: {x: 0.5, y: 0.5, z: 0.5}
   customPrefab: {fileID: 0}

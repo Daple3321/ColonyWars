@@ -13,38 +13,17 @@ MonoBehaviour:
   m_Name: StartInv
   m_EditorClassIdentifier: 
   inventoryItems:
-  - quantity: 16
+  - quantity: 5
+    item:
+      itemName: 
+      description: 
+      icon: {fileID: 0}
+      rarity: 0
+      itemData: {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
+  - quantity: 10
     item:
       itemName: 
       description: 
       icon: {fileID: 0}
       rarity: 0
       itemData: {fileID: 11400000, guid: dfe06b9807283144fb496089e9fc5643, type: 2}
-  - quantity: 16
-    item:
-      itemName: 
-      description: 
-      icon: {fileID: 0}
-      rarity: 0
-      itemData: {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
-  - quantity: 1
-    item:
-      itemName: 
-      description: 
-      icon: {fileID: 0}
-      rarity: 0
-      itemData: {fileID: 11400000, guid: 8beb58358a8d4474cadb3154f9adf1c5, type: 2}
-  - quantity: 16
-    item:
-      itemName: 
-      description: 
-      icon: {fileID: 0}
-      rarity: 0
-      itemData: {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
-  - quantity: 1
-    item:
-      itemName: 
-      description: 
-      icon: {fileID: 0}
-      rarity: 0
-      itemData: {fileID: 11400000, guid: 22c6422f791fe3d43aed36e95d428522, type: 2}

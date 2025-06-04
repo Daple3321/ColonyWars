@@ -4,17 +4,19 @@ using System.Collections.Generic;
 using PrimeTween;
 using UnityEngine;
 
-public abstract class Building : MonoBehaviour, IDamageable, IClickable
+public abstract class Building : MonoBehaviour, IDamageable, IInteractable
 {
     public BuildingData buildingData;
     
     public float health;
     public float maxHealth;
     
+    public Action<Building> OnAttacked;
     public Action<float, float> OnHealthChanged;
     public Action<Building> OnBuildingDestroyed;
     
     public float interactionRange = 8;
+    public bool canInteract = true; 
     
     
     public Affiliation affiliation;
@@ -62,11 +64,26 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
         this.buildingData = data;
     }
     
+    //Coroutine attackAlarm;
+    protected bool canAlarm = true;
+    protected virtual IEnumerator AttackAlarm()
+    {
+        canAlarm = false;
+        OnAttacked?.Invoke(this);
+        yield return new WaitForSeconds(10);
+        
+        canAlarm = true;
+    }
+    
     Sequence colorSeq;
-    public virtual void TakeDamage(float damage, Vector3 knockback = new Vector3())
+    public virtual void TakeDamage(float damage, GameObject source = null, Vector3 knockback = new Vector3())
     {
         health -= damage;
         OnHealthChanged?.Invoke(health, maxHealth);
+        
+        if(canAlarm){
+            StartCoroutine(AttackAlarm());
+        }
         
         colorSeq.Complete();
         colorSeq = Sequence.Create()
@@ -124,6 +141,21 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
             }
         }
     }
+    public bool CanInteract()
+    {
+        return built && canInteract;
+    }
+    public virtual void Interact() // не закрывается на 'E' если смотреть на здание
+    {
+        if(CanInteract() && affiliation == Affiliation.Player)
+        {
+            if(Vector3.Distance(transform.position, GameController.p.transform.position) <= interactionRange)
+            {
+                //Debug.Log($"Clicked on {buildingData.buildingName}");
+                GameController.p.buildingPanelManager.CreatePanel(this);
+            }
+        }
+    }
     
     protected virtual void OnMouseEnter()
     {
@@ -160,4 +192,5 @@ public abstract class Building : MonoBehaviour, IDamageable, IClickable
         //panel.Init(this);
         return panel;
     }
+
 }

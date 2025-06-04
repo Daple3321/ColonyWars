@@ -19,6 +19,8 @@ public class ItemData : ScriptableObject
 
     public Mesh itemMesh;
     public Material[] itemMaterials;
+    public bool hasCustomScale = false;
+    public Vector3 customScale = new Vector3(1,1,1);
     public GameObject customPrefab;
     
     public virtual Item CreateItemInstance(){

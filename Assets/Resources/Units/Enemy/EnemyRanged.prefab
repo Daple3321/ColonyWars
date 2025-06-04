@@ -896,8 +896,8 @@ MonoBehaviour:
   unitName: Enemy
   health: 35
   maxHealth: 35
-  speed: 6
-  maxSpeed: 6
+  speed: 6.7
+  maxSpeed: 6.7
   rotationSpeed: 7
   fallSpeed: 10
   currentAttack:
@@ -932,6 +932,9 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   affiliation: 1
   stateMachine: {fileID: 8312038044701153765}
+  aggrTime: 25
+  aggrActive: 0
+  aggrTarget: {fileID: 0}
   references:
     version: 2
     RefIds:

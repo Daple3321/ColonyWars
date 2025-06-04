@@ -1,4 +1,3 @@
-using Unity.Cinemachine;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -12,15 +11,16 @@ public class Projectile : MonoBehaviour
     public LayerMask currentExcludeMask;
     public LayerMask playerExcludeMask;
     public LayerMask enemyExcludeMask;
+    [SerializeField] private GameObject owner; // if = null -> player's projectile
 
     [SerializeField] private Rigidbody rb;
     [SerializeField] private TrailRenderer trail;
     //[SerializeField] private Material mat;
     [SerializeField] private Renderer rend;
     private MaterialPropertyBlock propertyBlock;
-    [SerializeField] private CinemachineImpulseSource impulseSource;
+    //[SerializeField] private CinemachineImpulseSource impulseSource;
     
-    public virtual void Init(float damage, float speed, Affiliation affiliation, int penetrationAmount = 0, float lifeTime = 2.5f, float knockBackForce = 0f)
+    public virtual void Init(float damage, float speed, Affiliation affiliation, GameObject owner = null, int penetrationAmount = 0, float lifeTime = 2.5f, float knockBackForce = 0f)
     {
         propertyBlock = new MaterialPropertyBlock();
         //rb = GetComponent<Rigidbody>();
@@ -33,6 +33,7 @@ public class Projectile : MonoBehaviour
         this.penetrationAmount = penetrationAmount;
         this.knockBackForce = knockBackForce;
         this.lifeTime = lifeTime;
+        this.owner = owner;
         
         this.affiliation = affiliation;
         SetupAffiliation();
@@ -132,7 +133,7 @@ public class Projectile : MonoBehaviour
         IDamageable damageable;
         if (col.gameObject.TryGetComponent<IDamageable>(out damageable))
         {
-            damageable.TakeDamage(damage, transform.up.normalized*knockBackForce);
+            damageable.TakeDamage(damage, owner.gameObject, transform.up.normalized*knockBackForce);
         }
             
         if (col.gameObject.layer == 7) // ground

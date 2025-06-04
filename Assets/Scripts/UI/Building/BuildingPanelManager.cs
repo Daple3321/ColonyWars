@@ -11,7 +11,7 @@ public class BuildingPanelManager : MonoBehaviour
     public Canvas buildingCanvas;
     public RectTransform panelParent;
     
-    private bool canHide;
+    public bool canHide;
     
     public void Init()
     {
@@ -23,6 +23,22 @@ public class BuildingPanelManager : MonoBehaviour
     
     // Сделать ShowPanel(Building building) с проверками на уже существую панельку
     // HidePanel() при нажатии вне панели
+    
+    public bool HasActivePanel()
+    {
+        if(currentPanel != null){
+            if(currentPanel.gameObject.activeInHierarchy)
+            {
+                return true;
+            }   
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
     
     public void CreatePanel(Building building)
     {
@@ -46,6 +62,8 @@ public class BuildingPanelManager : MonoBehaviour
         }
         delayRoutine = StartCoroutine(HideDelay());
         
+        EventBus.i.OnInteractivePanelOpened?.Invoke();
+        
         Canvas.ForceUpdateCanvases();
     }
     
@@ -60,7 +78,16 @@ public class BuildingPanelManager : MonoBehaviour
     {
         if(currentPanel != null && canHide){
             HideIfClickedOutside();
+            HideIfInteractionPressed();
             //HideIfOutsideRange();
+        }
+    }
+    
+    private void HideIfInteractionPressed()
+    {
+        if(GameAssets.controls.Player.Interact.WasPressedThisFrame()){
+            ClearCurrentPanel();
+            canHide = false;
         }
     }
     
@@ -114,6 +141,8 @@ public class BuildingPanelManager : MonoBehaviour
             
             currentPanel = null;
             canHide = false;
+            
+            EventBus.i.OnInteractivePanelClosed?.Invoke();
         }
     }
     

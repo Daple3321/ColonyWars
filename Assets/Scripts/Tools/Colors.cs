@@ -46,8 +46,6 @@ public class Colors : ScriptableObject
     
     public string GetHex(Color color)
     {
-        string hex = ColorUtility.ToHtmlStringRGBA(color);
-        string finalString = "#"+hex;
-        return finalString;
+        return "#"+ColorUtility.ToHtmlStringRGBA(color);
     }
 }

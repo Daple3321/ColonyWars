@@ -454,6 +454,17 @@ public class Inventory
         
         return true;
     }
+    public int EmptySlots()
+    {
+        int sum = 0;
+        foreach(InventoryItem item in inventoryItems){
+            if(item.IsEmpty)
+            {
+                sum++;
+            }
+        }
+        return sum;
+    }
     public int SpaceLeft()
     {
         if(!AllSlotsNotEmpty()){

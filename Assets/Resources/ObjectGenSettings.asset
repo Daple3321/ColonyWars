@@ -21,7 +21,7 @@ MonoBehaviour:
     spawnChance: 0.03
     alignToGround: 0
     randomizeScale: 1
-    scaleRange: {x: 0.8, y: 2}
+    scaleRange: {x: 1, y: 2.1}
     prefab: {fileID: 1303685909710911235, guid: 966bd39565e77c544b3581351e01a124, type: 3}
   - spawnType: 1
     spawnRules:
@@ -49,9 +49,19 @@ MonoBehaviour:
     spawnRules:
     - spawnRuleType: 0
       valueRange: {x: 20, y: 30}
-    spawnAmount: 15
+    spawnAmount: 10
     spawnChance: 0.03
     alignToGround: 1
     randomizeScale: 1
     scaleRange: {x: 1, y: 3}
+    prefab: {fileID: 3828678855010385858, guid: 1f75e4494ac87584d836f8c3d612ab2c, type: 3}
+  - spawnType: 1
+    spawnRules:
+    - spawnRuleType: 0
+      valueRange: {x: 10, y: 18}
+    spawnAmount: 20
+    spawnChance: 0.03
+    alignToGround: 1
+    randomizeScale: 1
+    scaleRange: {x: 0.7, y: 1}
     prefab: {fileID: 3828678855010385858, guid: 1f75e4494ac87584d836f8c3d612ab2c, type: 3}

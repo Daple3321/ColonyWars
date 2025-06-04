@@ -95,9 +95,22 @@ public class Player : MonoBehaviour, IDamageable, ICommander
                 }
             }
         }
+        
+        // проверка на уже активный interaction должна быть и сброс его перед новым
+        if(controls.Player.Interact.WasPressedThisFrame()) // вообще по другому должно всё работать
+        {
+            Vector3 mousePosition = mouse.position.ReadValue();
+            Ray ray = mainCam.ScreenPointToRay(mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, mouseClickLayers))
+            {
+                if(hit.collider.TryGetComponent(out IInteractable interactable)){
+                    interactable.Interact();
+                }
+            }
+        }
     }
     
-    public void TakeDamage(float damage, Vector3 knockback = new Vector3())
+    public void TakeDamage(float damage, GameObject source = null, Vector3 knockback = new Vector3())
     {
         health -= damage;
         //onPlayerDamaged?.Invoke(health, maxHealth);
@@ -221,7 +234,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
 
 public interface IDamageable
 {
-    void TakeDamage(float damage, Vector3 knockback = new Vector3());
+    void TakeDamage(float damage, GameObject source = null, Vector3 knockback = new Vector3());
     (float health, float maxHealth) GetHealth();
     void Death();
 }

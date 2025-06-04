@@ -432,13 +432,23 @@ public class PlayerInventory : MonoBehaviour
     }
     public int[] GetItemAmounts(ItemRequirement[] items)
     {
-        List<int> finalList = new List<int>();
-        foreach (ItemRequirement item in items)
+        int[] finalList = new int[items.Length];
+        for(int i = 0; i < items.Length; i++)
         {
-            finalList.Add(ItemAmount(item.item));
+            finalList[i] = ItemAmount(items[i].item);
         }
         
-        return finalList.ToArray();
+        return finalList;
+    }
+    public int[] GetItemAmounts(ItemData[] items)
+    {
+        int[] finalList = new int[items.Length];
+        for(int i = 0; i < items.Length; i++)
+        {
+            finalList[i] = ItemAmount(items[i]);
+        }
+        
+        return finalList;
     }
     
     public bool TryAddItem(Item itemToAdd, int quantity)

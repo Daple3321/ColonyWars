@@ -19,15 +19,15 @@ MonoBehaviour:
     requirements:
     - item: {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}
       quantity: 10
-    - item: {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
-      quantity: 5
+    - item: {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
+      quantity: 10
   insideColonyOnly: 1
   overlapRadius: 2.5
   maxBuildAngle: 25
   prefab: {fileID: 7593837842947560309, guid: a8da2c03a74fd374ea8d791d486455e0, type: 3}
   resourceConditions:
   - {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}
-  gatherRadius: 5
+  gatherRadius: 6.5
   resourceQuantityMultiplier: 1
   resourceMask:
     serializedVersion: 2

@@ -17,10 +17,10 @@ MonoBehaviour:
   buildingIcon: {fileID: 21300000, guid: cbe4a635db6d79944855ee321639111a, type: 3}
   craftPrice:
     requirements:
-    - item: {fileID: 11400000, guid: dfe06b9807283144fb496089e9fc5643, type: 2}
-      quantity: 5
-    - item: {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
-      quantity: 2
+    - item: {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}
+      quantity: 32
+    - item: {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
+      quantity: 15
   insideColonyOnly: 1
   overlapRadius: 2
   maxBuildAngle: 25

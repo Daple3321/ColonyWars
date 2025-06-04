@@ -29,6 +29,11 @@ public class Item
         {
             obj = GameObject.Instantiate(GameAssets.itemPrefab, spawnPos, rotation);
         }
+        
+        if(itemData.hasCustomScale){
+            obj.transform.localScale = itemData.customScale;
+        }
+        
         worldItem = obj.GetComponent<WorldItem>();
         worldItem.Initialize(itemData, this, quantity);
         //worldItem.Drop();
@@ -46,6 +51,10 @@ public class Item
         else
         {
             obj = GameObject.Instantiate(GameAssets.itemPrefab, spawnPos, Quaternion.identity);
+        }
+        
+        if(itemData.hasCustomScale){
+            obj.transform.localScale = itemData.customScale;
         }
         worldItem = obj.GetComponent<WorldItem>();
         worldItem.Initialize(itemData, this, quantity);
@@ -100,7 +109,7 @@ public enum Rarity
 
 public interface IInteractable
 {
-    void CanInteract();
+    bool CanInteract();
     void Interact();
 }
 

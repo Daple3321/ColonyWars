@@ -9,10 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4217513356739993158}
+  - component: {fileID: 3829442317017961232}
   - component: {fileID: 6047288361193779817}
   - component: {fileID: 8772656360905395428}
-  m_Layer: 0
-  m_Name: rock_4
+  - component: {fileID: 7068628876372607770}
+  m_Layer: 15
+  m_Name: BigRock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,6 +35,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3829442317017961232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3828678855010385858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0891fc88283733141a4c83ad6b715834, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resource: {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
+  isInfinite: 0
+  quantity: 300
+  gatherRadius: 3.5
+  clicksToGather: 4
+  clicksLeft: 4
+  col: {fileID: 7068628876372607770}
+  rend: {fileID: 8772656360905395428}
 --- !u!33 &6047288361193779817
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -86,3 +108,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!135 &7068628876372607770
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3828678855010385858}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.3287468
+  m_Center: {x: 0.15, y: 0.15, z: -0.22}

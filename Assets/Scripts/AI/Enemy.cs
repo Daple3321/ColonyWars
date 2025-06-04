@@ -1,21 +1,30 @@
+using System.Collections;
 using UnityEngine;
 
 public class Enemy : Unit
 {
+    [Header("States")]
     public UnitState idleState;
     public UnitState retreatState;
     public UnitState attackState;
     public UnitState followState;
+    public UnitState aggroState;
+    
+    [Space(8), Header("Aggro settings")]
+    [Tooltip("In seconds")] public float aggrTime = 25f;
+    public bool aggrActive = false;
+    public GameObject aggrTarget = null; 
+    
     
     public override void Init()
     {
         base.Init();
         attackData = new RangedAttackData{
             projectilePrefab = GameAssets.projectilePrefab,
-            knockBackForce = 25,
+            knockBackForce = 9,
             penetrationAmount = 0,
-            bulletsPerShot = 4,
-            projectileScatter = new Vector2Int(0, 30),
+            bulletsPerShot = 1,
+            projectileScatter = new Vector2Int(0, 5),
         };
         currentAttack = new RangedAttack(this, attackData, affiliation);
         
@@ -46,16 +55,54 @@ public class Enemy : Unit
             stateMachine = stateMachine,
             owner = this,
         };
+        aggroState = new AggroAttackState
+        {
+            enemyOwner = this,
+            stateMachine = stateMachine,
+            owner = this,
+        };
         
         attackState.Init(idleState, retreatState);
         retreatState.Init(idleState, attackState);
         idleState.Init(attackState, retreatState);
         followState.Init(idleState, retreatState);
+        aggroState.Init(idleState, retreatState);
         //stateMachine.ChangeState(idleState);
     }
     private void StartStates()
     {
         stateMachine.ChangeState(idleState);
+    }
+    public override void TakeDamage(float damage, GameObject source = null, Vector3 knockback = new Vector3())
+    {
+        base.TakeDamage(damage, source, knockback);
+        
+        if(!aggrActive){
+            StartCoroutine(StartAggr(source));
+        }
+        // if(source != null) // enemy dealt damage
+        // {
+        // }
+        // else{ // player dealt damage
+            
+        // }
+    }
+    protected virtual IEnumerator StartAggr(GameObject target)
+    {
+        attackTarget = target.transform;
+        aggrTarget = target;
+        stateMachine.ChangeState(aggroState);
+        
+        aggrActive = true;
+        float progress = aggrTime;
+        while(progress > 0)
+        {
+            progress -= Time.deltaTime;
+            yield return null;
+        }
+        
+        aggrTarget = null;
+        aggrActive = false;
     }
 
     public override void StartFollowing()

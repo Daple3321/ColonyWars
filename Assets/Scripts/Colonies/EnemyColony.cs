@@ -139,6 +139,8 @@ public class EnemyColony : Colony
         Unit u = go.GetComponent<Unit>();
         u.onUnitDeath += OnColonyUnitDeath;
         
+        AssignUnitToBuildingAlerts(u); // stupid lambda function, нельзя отписаться никак. кучу памяти жрёт если не задереференсить?
+        
         unitsAmount++;
         return u;
     }
@@ -146,6 +148,13 @@ public class EnemyColony : Colony
     {
         unitsAmount--;
         unit.onUnitDeath -= OnColonyUnitDeath;
+    }
+    protected void AssignUnitToBuildingAlerts(Unit unit) // jesus
+    {
+        for(int i = 0; i < buildings.Count; i++)
+        {
+            buildings[i].OnAttacked += b => unit.SetHome(b.transform.position);
+        }
     }
     
     public void PerformAction(ColonyAction action)

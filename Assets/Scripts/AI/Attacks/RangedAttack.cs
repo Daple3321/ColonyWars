@@ -29,7 +29,8 @@ public class RangedAttack : Attack
             projectile.transform.up = shootRay.direction;
             projectile.Init(owner.damage, 
                 rangedAttackData.projectileSpeed, 
-                affiliation, 
+                affiliation,
+                owner.gameObject, 
                 rangedAttackData.penetrationAmount, 
                 rangedAttackData.projectileLifetime,
                 rangedAttackData.knockBackForce

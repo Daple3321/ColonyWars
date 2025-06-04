@@ -121,7 +121,7 @@ public class RangedWeaponItem : WeaponWorldItem
             Projectile projectile = Instantiate(projectilePrefab, shootPoint.position, Quaternion.identity).GetComponent<Projectile>();
             //projectile.transform.rotation.SetLookRotation(shootRay.direction, projectile.transform.up);
             projectile.transform.up = shootRay.direction;
-            projectile.Init(damage, projectileSpeed, Affiliation.Player, penetrationAmount, projectileLifetime);
+            projectile.Init(damage, projectileSpeed, Affiliation.Player, GameController.p.gameObject, penetrationAmount, projectileLifetime);
             
             //Debug.DrawLine(shootPoint.position, mouseHit.point, Color.green, 2);
             Debug.DrawRay(shootPoint.position, mouseRay.direction * 4, Color.cyan, 3);
@@ -202,7 +202,7 @@ public class RangedWeaponItem : WeaponWorldItem
                 IDamageable damageable;
                 if (hit.collider.gameObject.TryGetComponent<IDamageable>(out damageable))
                 {
-                    damageable.TakeDamage(damage, -hit.normal*knockBackForce);
+                    damageable.TakeDamage(damage, GameController.p.gameObject, -hit.normal*knockBackForce);
                 }
                 
                 GameObject lineObj = Instantiate(hitScanLine, shootPoint.position, Quaternion.identity);
