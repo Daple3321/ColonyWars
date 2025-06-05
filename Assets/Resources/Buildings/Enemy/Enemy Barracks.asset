@@ -13,9 +13,14 @@ MonoBehaviour:
   m_Name: Enemy Barracks
   m_EditorClassIdentifier: 
   buildingName: Enemy Barracks
+  description: 
   buildingIcon: {fileID: 0}
   craftPrice:
-    requirements: []
+    requirements:
+    - item: {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
+      quantity: 10
+    - item: {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
+      quantity: 10
   insideColonyOnly: 1
   overlapRadius: 2.5
   maxBuildAngle: 25

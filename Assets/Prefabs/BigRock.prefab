@@ -50,7 +50,7 @@ MonoBehaviour:
   resource: {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
   isInfinite: 0
   quantity: 300
-  gatherRadius: 3.5
+  gatherRadius: 4
   clicksToGather: 4
   clicksLeft: 4
   col: {fileID: 7068628876372607770}

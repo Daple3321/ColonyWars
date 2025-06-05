@@ -1000,7 +1000,7 @@ MonoBehaviour:
   currentAttack:
     rid: -2
   attackData:
-    rid: -2
+    rid: 80067664640737639
   damage: 3
   attackDistance: 11.64
   attackDuration: 0
@@ -1034,6 +1034,16 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 80067664640737639
+      type: {class: RangedAttackData, ns: , asm: Assembly-CSharp}
+      data:
+        bulletsPerShot: 1
+        projectileSpeed: 40
+        projectileLifetime: 2.5
+        penetrationAmount: 0
+        knockBackForce: 0
+        projectileScatter: {x: 0, y: 10}
+        projectilePrefab: {fileID: 1014752688310764929, guid: d96163116091c5941b0d0e79d4b8396e, type: 3}
 --- !u!114 &5500492143348396084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1046,6 +1056,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 489b2430023f16b4c9f93572cdd04fdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!143 &8428599963028845819
 CharacterController:
   m_ObjectHideFlags: 0

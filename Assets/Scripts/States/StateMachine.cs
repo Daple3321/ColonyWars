@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class StateMachine : MonoBehaviour
 {
-    public UnitState currentState;
+    [SerializeReference] public UnitState currentState;
 
     void Awake()
     {

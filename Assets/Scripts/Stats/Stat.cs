@@ -15,7 +15,7 @@ public enum ColonyStatType
 [System.Serializable]
 public class Stat
 {
-    public float baseValue;
+    [SerializeField] public float baseValue;
     
     public float Value {
         get{ 
@@ -32,7 +32,7 @@ public class Stat
     private float _value;
     private float lastBaseValue = float.MinValue;
     
-    private readonly List<StatModifier> statModifiers;
+    [SerializeField] private List<StatModifier> statModifiers;
     public readonly ReadOnlyCollection<StatModifier> StatModifiers;
     
     public Stat(float baseValue)

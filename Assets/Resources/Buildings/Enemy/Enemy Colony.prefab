@@ -156,7 +156,27 @@ MonoBehaviour:
   colonyZone: {fileID: 0}
   startingBuildings: 1
   stats:
-    _serializedList: []
+    _serializedList:
+    - Key: 0
+      Value:
+        baseValue: 3
+        statModifiers: []
+    - Key: 1
+      Value:
+        baseValue: 2
+        statModifiers: []
+    - Key: 2
+      Value:
+        baseValue: 4
+        statModifiers: []
+    - Key: 3
+      Value:
+        baseValue: 1
+        statModifiers: []
+    - Key: 4
+      Value:
+        baseValue: 25
+        statModifiers: []
   unitsAmount: 0
   unitPool:
   - {fileID: 7294893471746113059, guid: 09254e9e152c73441b12d831c3b8072b, type: 3}

@@ -19,13 +19,13 @@ public class Enemy : Unit
     public override void Init()
     {
         base.Init();
-        attackData = new RangedAttackData{
+        /*attackData = new RangedAttackData{
             projectilePrefab = GameAssets.projectilePrefab,
             knockBackForce = 9,
             penetrationAmount = 0,
             bulletsPerShot = 1,
             projectileScatter = new Vector2Int(0, 5),
-        };
+        };*/
         currentAttack = new RangedAttack(this, attackData, affiliation);
         
         ConfigureStates();

@@ -24,6 +24,7 @@ public class EnemyColony : Colony
     [SerializedDictionary("ColonyStatType", "ColonyStat")]
     public SerializedDictionary<ColonyStatType, Stat> stats;
     
+    
     [Space(10), Header("Unit Settings")]
     public int unitsAmount;
     public List<GameObject> unitPool;
@@ -39,7 +40,17 @@ public class EnemyColony : Colony
     [Space(5), Header("Expansion")]
     public ExpansionSequence expansionSequence;
     private bool isDay = true;
-
+    
+    [ContextMenu("Add stat")]
+    public void AddStatTest()
+    {
+        stats.Add(maxBuildings, new Stat(8));
+        stats.Add(maxDefenses, new Stat(3));
+        stats.Add(maxUnits, new Stat(5));
+        stats.Add(maxUnitsLevel, new Stat(1));
+        stats.Add(unitsSpawnSpeed, new Stat(30));
+    }
+    
     public override void Init(BuildingData data)
     {
         base.Init(data);
@@ -47,12 +58,12 @@ public class EnemyColony : Colony
         // foreach(ColonyStatType stat in (ColonyStatType[]) Enum.GetValues(typeof(ColonyStatType))){
         //     stats[stat] = new Stat(stats[stat].Value);
         // }
-        stats = new SerializedDictionary<ColonyStatType, Stat>();
-        stats[maxBuildings] = new(8);
-        stats[maxDefenses] = new(3);
-        stats[maxUnits] = new(5);
-        stats[maxUnitsLevel] = new(1);
-        stats[unitsSpawnSpeed] = new(30);
+        //stats = new SerializedDictionary<ColonyStatType, Stat>();
+        //stats[maxBuildings] = new(8);
+        //stats[maxDefenses] = new(3);
+        //stats[maxUnits] = new(5);
+        //stats[maxUnitsLevel] = new(1);
+        //stats[unitsSpawnSpeed] = new(30);
         
         spawnDelay = stats[unitsSpawnSpeed].Value;
         
@@ -294,7 +305,7 @@ public class EnemyColony : Colony
         foreach(var stat in stats){
             stringBuilder.Append($"{stat.Key}: {stat.Value.Value} +{stat.Value.Value-stat.Value.baseValue}\n");
         }
-        WorldUI.i.buildingHover.Init(this);
+        WorldUI.i.buildingHover.SetupForBuilding(this);
         WorldUI.i.buildingHover.ShowForBuilding(this, stringBuilder.ToString());
     }
     protected override void OnMouseExit()

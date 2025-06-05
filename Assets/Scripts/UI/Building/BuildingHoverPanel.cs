@@ -7,7 +7,7 @@ public class BuildingHoverPanel : MonoBehaviour
     
     public TextMeshProUGUI infoText;
     
-    public void Init(Building building)
+    public void SetupForBuilding(Building building)
     {
         healthBar.Init(building.affiliation);
         healthBar.barDesc.text = building.buildingData.buildingName;

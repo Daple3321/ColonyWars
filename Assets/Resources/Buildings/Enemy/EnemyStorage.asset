@@ -13,9 +13,14 @@ MonoBehaviour:
   m_Name: EnemyStorage
   m_EditorClassIdentifier: 
   buildingName: Enemy Storage
+  description: 
   buildingIcon: {fileID: 21300000, guid: cbe4a635db6d79944855ee321639111a, type: 3}
   craftPrice:
-    requirements: []
+    requirements:
+    - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
+      quantity: 10
+    - item: {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
+      quantity: 10
   insideColonyOnly: 0
   overlapRadius: 1.5
   maxBuildAngle: 25

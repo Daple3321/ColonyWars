@@ -26,4 +26,27 @@ public class ItemData : ScriptableObject
     public virtual Item CreateItemInstance(){
         return new Item(this);
     }
+    
+    public virtual WorldItem SpawnItem(Vector3 spawnPos, int quantity)
+    {
+        WorldItem worldItem;
+        GameObject obj;
+        if (customPrefab != null) // если есть кастомный префаб
+        {
+            obj = GameObject.Instantiate(customPrefab, spawnPos, Quaternion.identity);
+        }
+        else
+        {
+            obj = GameObject.Instantiate(GameAssets.itemPrefab, spawnPos, Quaternion.identity);
+        }
+        
+        if(hasCustomScale){
+            obj.transform.localScale = customScale;
+        }
+        worldItem = obj.GetComponent<WorldItem>();
+        worldItem.Initialize(this, CreateItemInstance(), quantity);
+        //worldItem.Drop();
+
+        return worldItem;
+    }
 }

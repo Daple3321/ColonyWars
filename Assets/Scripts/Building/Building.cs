@@ -76,6 +76,7 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
     }
     
     Sequence colorSeq;
+    protected bool isDead = false;
     public virtual void TakeDamage(float damage, GameObject source = null, Vector3 knockback = new Vector3())
     {
         health -= damage;
@@ -101,7 +102,7 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
         WorldUI.i.DamagePopup(transform.position+new Vector3(0, 2f, 0), Color.white)
         .text = damage.ToString("F0");
         
-        if(health <= 0){
+        if(health <= 0 && !isDead){
             Death();
         }
     }
@@ -109,8 +110,24 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
         return (health, maxHealth);
     }
     public virtual void Death(){
-        colorSeq.Stop();
+        isDead = true;
+        //Debug.Log($"Building death: {buildingData.buildingName}", gameObject);
+        if(colorSeq.isAlive){
+            colorSeq.Stop();
+        }
         WorldUI.i.buildingHover.Hide(this);
+        
+        Vector3 dropPos = transform.position+new Vector3(0, 2f, 0);
+        foreach(ItemRequirement req in buildingData.craftPrice.requirements)
+        {
+            if(Mathf.RoundToInt(req.quantity/2) > 0)
+            {
+                WorldItem droppedItem;
+                droppedItem = req.item.SpawnItem(dropPos, Mathf.RoundToInt(req.quantity/2));
+                droppedItem.Drop(Vector3.up, 45f, 1.5f);
+            }
+        }
+        
         OnBuildingDestroyed?.Invoke(this);
         cell.OnCellBuildingsChanged?.Invoke();
         OnDeath();
@@ -162,8 +179,10 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
     
     protected virtual void OnMouseEnter()
     {
-        WorldUI.i.buildingHover.Init(this);
-        WorldUI.i.buildingHover.ShowForBuilding(this);
+        if(Vector3.SqrMagnitude(GameController.p.transform.position - transform.position) < 150f*2){
+            WorldUI.i.buildingHover.SetupForBuilding(this);
+            WorldUI.i.buildingHover.ShowForBuilding(this);
+        }
     }
     protected virtual void OnMouseExit()
     {

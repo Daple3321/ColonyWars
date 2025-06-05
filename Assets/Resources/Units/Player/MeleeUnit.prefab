@@ -313,7 +313,7 @@ MonoBehaviour:
   currentAttack:
     rid: -2
   attackData:
-    rid: -2
+    rid: 80067664640737646
   damage: 5
   attackDistance: 2.3
   attackDuration: 0
@@ -347,6 +347,9 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 80067664640737646
+      type: {class: MeleeAttackData, ns: , asm: Assembly-CSharp}
+      data: 
 --- !u!114 &6832292291311947986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,6 +362,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 489b2430023f16b4c9f93572cdd04fdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!143 &980786773719870623
 CharacterController:
   m_ObjectHideFlags: 0

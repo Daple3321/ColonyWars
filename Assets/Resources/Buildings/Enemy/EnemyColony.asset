@@ -13,9 +13,16 @@ MonoBehaviour:
   m_Name: EnemyColony
   m_EditorClassIdentifier: 
   buildingName: Enemy Colony
+  description: 
   buildingIcon: {fileID: 21300000, guid: 1b5aa62ff23e7dc49bf7f4ba6ee0c86d, type: 3}
   craftPrice:
-    requirements: []
+    requirements:
+    - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
+      quantity: 16
+    - item: {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
+      quantity: 16
+    - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
+      quantity: 16
   insideColonyOnly: 0
   overlapRadius: 2.5
   maxBuildAngle: 50

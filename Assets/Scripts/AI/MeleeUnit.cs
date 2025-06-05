@@ -10,8 +10,8 @@ public class MeleeUnit : Unit
     public override void Init()
     {
         base.Init();
-        attackData = new MeleeAttackData{
-        };
+        //attackData = new MeleeAttackData{
+        //};
         currentAttack = new MeleeAttack(this, attackData, affiliation); // может всё таки ScriptableObject?
         
         ConfigureStates();

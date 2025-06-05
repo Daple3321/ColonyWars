@@ -21,8 +21,9 @@ public abstract class Unit : MonoBehaviour, IDamageable
     
     [Space(10), Header("Attack Settings")]
     [SerializeReference] public Attack currentAttack;
-    [SerializeReference] public AttackData attackData;
-    [Space(10)]
+    [SerializeReference, SubclassSelector] public AttackData attackData;
+    
+    [Space(15)]
     public float damage;
     public float attackDistance = 1f;
     public float attackDuration;

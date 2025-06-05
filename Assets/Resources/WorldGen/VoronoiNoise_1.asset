@@ -20,7 +20,7 @@ MonoBehaviour:
   maxNoiseHeight: 45
   minNoiseHeight: -6.5
   fallOffInner: 100
-  fallOffStrength: 0.18
+  fallOffStrength: 0.2
   desc: 'Terrain settings: 440x440
 
     Mountainy island

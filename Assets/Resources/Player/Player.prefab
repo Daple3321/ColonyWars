@@ -475,6 +475,7 @@ MonoBehaviour:
   commandEnergy: 30
   maxCommandEnergy: 30
   commandEnergyRegenSpeed: 0.35
+  isInteracting: 0
   mat: {fileID: 0}
   animator: {fileID: 2345883527334119590}
 --- !u!114 &8888628033046219892
@@ -519,7 +520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4be6e11c8452bd649ac837fa1047e4c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryStartingSize: 8
+  inventoryStartingSize: 12
   hotbarStartingSize: 4
   itemDatas:
   - {fileID: 11400000, guid: 6b5b4916729fbed4abe7fad9b9d5eb3f, type: 2}
@@ -736,6 +737,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 489b2430023f16b4c9f93572cdd04fdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState:
+    rid: -2
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
 --- !u!114 &6761362640697903048
 MonoBehaviour:
   m_ObjectHideFlags: 0
