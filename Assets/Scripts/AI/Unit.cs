@@ -262,7 +262,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     }
     public bool HasTarget()
     {
-        return attackTarget != null;
+        return attackTarget != null && attackTarget.gameObject.activeInHierarchy;
     }
     
     public bool CheckForEnemies()

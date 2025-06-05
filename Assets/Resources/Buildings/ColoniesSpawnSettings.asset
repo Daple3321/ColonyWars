@@ -14,5 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colonies: 3
   minColonyDistance: 50
-  coloniesPool:
-  - {fileID: 11400000, guid: 0f4de303d24a6894ca5ad8dca45d761f, type: 2}
+  colonyPool:
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 0f4de303d24a6894ca5ad8dca45d761f, type: 2}
+      Value: 1
+  campsRange: {x: 0, y: 0}
+  campPool:
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 0f4de303d24a6894ca5ad8dca45d761f, type: 2}
+      Value: 1

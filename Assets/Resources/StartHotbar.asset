@@ -26,7 +26,7 @@ MonoBehaviour:
       description: 
       icon: {fileID: 0}
       rarity: 0
-      itemData: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
+      itemData: {fileID: 11400000, guid: d0f96db66f961d340aa7ae7bfb0935cc, type: 2}
   - quantity: 1
     item:
       itemName: 

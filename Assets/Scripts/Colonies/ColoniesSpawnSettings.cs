@@ -1,3 +1,4 @@
+using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ColoniesSpawnSettings", menuName = "Scriptable Objects/Colonies Spawn Settings")]
@@ -7,5 +8,12 @@ public class ColoniesSpawnSettings : ScriptableObject
     
     public float minColonyDistance = 80f;
     
-    public ColonyCenterData[] coloniesPool;
+    //public ColonyCenterData[] coloniesPool;
+    
+    [SerializedDictionary("Colony", "Chance to spawn")]
+    public SerializedDictionary<ColonyCenterData, float> colonyPool;
+    
+    public Vector2Int campsRange;
+    [SerializedDictionary("Camp", "Chance to spawn")]
+    public SerializedDictionary<ColonyCenterData, float> campPool;
 }

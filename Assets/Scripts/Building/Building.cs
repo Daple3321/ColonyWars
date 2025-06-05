@@ -40,6 +40,7 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
         while (timeLeft < buildTime)
         {
             buildProgress = timeLeft/buildTime;
+            //health = Mathf.Lerp(health, maxHealth, buildProgress);
             
             ChangeColor(Color.Lerp(Color.black, Color.white, buildProgress));
             timeLeft += Time.deltaTime;
@@ -70,7 +71,7 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
     {
         canAlarm = false;
         OnAttacked?.Invoke(this);
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(5f);
         
         canAlarm = true;
     }

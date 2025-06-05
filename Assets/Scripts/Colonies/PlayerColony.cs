@@ -20,6 +20,7 @@ public class PlayerColony : Colony
         while (timeLeft < buildTime)
         {
             buildProgress = timeLeft/buildTime;
+            //health = Mathf.Lerp(health, maxHealth, buildProgress);
             
             ChangeColor(Color.Lerp(Color.black, Color.white, buildProgress));
             timeLeft += Time.deltaTime;

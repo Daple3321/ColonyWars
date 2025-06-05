@@ -133,6 +133,7 @@ public class EnemyColony : Colony
         else{
             u = SpawnUnit(randUnit);
         }
+        u.GetComponent<Enemy>().InitEnemy(this);
         u.Init();
     }
     protected bool CanSpawnUnit(){

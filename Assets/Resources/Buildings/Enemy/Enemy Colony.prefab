@@ -175,7 +175,7 @@ MonoBehaviour:
         statModifiers: []
     - Key: 4
       Value:
-        baseValue: 25
+        baseValue: 10
         statModifiers: []
   unitsAmount: 0
   unitPool:

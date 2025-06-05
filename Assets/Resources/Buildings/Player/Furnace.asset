@@ -25,7 +25,7 @@ MonoBehaviour:
       quantity: 15
   insideColonyOnly: 1
   overlapRadius: 2.5
-  maxBuildAngle: 25
+  maxBuildAngle: 30
   prefab: {fileID: 4371093770013916882, guid: b38af153c3c8f0546b90eb7cb9db3018, type: 3}
   recipes:
   - itemRequirements:
@@ -41,14 +41,5 @@ MonoBehaviour:
         quantity: 5
     craftTime: 2
     finalItem: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
-    finalAmount: 1
-  - itemRequirements:
-      requirements:
-      - item: {fileID: 11400000, guid: dfe06b9807283144fb496089e9fc5643, type: 2}
-        quantity: 5
-      - item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
-        quantity: 1
-    craftTime: 2
-    finalItem: {fileID: 11400000, guid: 22c6422f791fe3d43aed36e95d428522, type: 2}
     finalAmount: 1
   refineSpeed: 4

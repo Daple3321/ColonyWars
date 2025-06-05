@@ -29,7 +29,7 @@ public class ResourceGenerator : Generator
         resourcesNearby = new List<ResourceNode>();
         _gatherRate = gatherRate;
         
-        buildingInventory = new BuildingInventory(this, 2);
+        buildingInventory = new BuildingInventory(this, 3);
         //playerInventory = GameController.p.playerInventory;
         
         if(data is ResourceGeneratorData resourceGeneratorData){
@@ -123,6 +123,7 @@ public class ResourceGenerator : Generator
         while (timeLeft < buildTime)
         {
             buildProgress = timeLeft/buildTime;
+            //health = Mathf.Lerp(health, maxHealth, buildProgress);
             
             ChangeColor(Color.Lerp(Color.black, Color.white, buildProgress));
             timeLeft += Time.deltaTime;

@@ -462,8 +462,41 @@ MonoBehaviour:
   buildingPanelManager: {fileID: 0}
   squadManager: {fileID: 8311137189873081287}
   stateMachine: {fileID: 8290539460608290715}
+  stats:
+    _serializedList:
+    - Key: 0
+      Value:
+        baseValue: 45
+        statModifiers: []
+    - Key: 1
+      Value:
+        baseValue: 1
+        statModifiers: []
+    - Key: 2
+      Value:
+        baseValue: 8
+        statModifiers: []
+    - Key: 3
+      Value:
+        baseValue: 15
+        statModifiers: []
+    - Key: 4
+      Value:
+        baseValue: 1
+        statModifiers: []
+    - Key: 7
+      Value:
+        baseValue: 0
+        statModifiers: []
+    - Key: 9
+      Value:
+        baseValue: 30
+        statModifiers: []
+    - Key: 10
+      Value:
+        baseValue: 0.35
+        statModifiers: []
   health: 45
-  maxHealth: 45
   rightHand: {fileID: 3315800805882177323}
   leftHand: {fileID: 3810671238129732571}
   groundLayer:
@@ -473,8 +506,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 63648
   commandEnergy: 30
-  maxCommandEnergy: 30
-  commandEnergyRegenSpeed: 0.35
   isInteracting: 0
   mat: {fileID: 0}
   animator: {fileID: 2345883527334119590}
@@ -493,10 +524,10 @@ MonoBehaviour:
   buildMode: 0
   availableBuildings:
   - {fileID: 11400000, guid: 0095c38e6294f35429795201457ef26a, type: 2}
-  - {fileID: 11400000, guid: ee98459513c33e24c9d13c0863a2423a, type: 2}
-  - {fileID: 11400000, guid: 919ae6e77d649f346b26174f360a3316, type: 2}
   - {fileID: 11400000, guid: 66ced8085358f47409a0d7374e536a72, type: 2}
   - {fileID: 11400000, guid: 8c18ed3782dbe1441a7b5ea4be5f5a38, type: 2}
+  - {fileID: 11400000, guid: ee98459513c33e24c9d13c0863a2423a, type: 2}
+  - {fileID: 11400000, guid: 919ae6e77d649f346b26174f360a3316, type: 2}
   - {fileID: 11400000, guid: 75b30877b2793c84fa86c56373c9ba93, type: 2}
   - {fileID: 11400000, guid: 23d712e21bbe2ea42a707f34c205274a, type: 2}
   selectedBuilding: {fileID: 0}
@@ -605,10 +636,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentSpeed: 0
   walkSpeed: 4.5
-  runSpeed: 8
   currentStamina: 15
-  staminaRegenSpeed: 1
-  maxStamina: 15
   fallSpeed: 10
   canRegenStamina: 0
   runningAllowed: 1

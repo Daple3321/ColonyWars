@@ -157,10 +157,19 @@ MonoBehaviour:
   health: 300
   maxHealth: 300
   interactionRange: 8
+  canInteract: 1
   affiliation: 2
   buildTime: 0
   built: 0
   buildProgress: 0
+  cell:
+    worldPosition: {x: 0, y: 0, z: 0}
+    captureProgress: 0
+    whoIsCapturing: 0
+    yieldAmount: 0
+    affiliation: 0
+  cellIndex: {x: 0, y: 0, z: 0}
+  capturedCells: []
   colonyData: {fileID: 0}
   level: 1
   colonyRadius: 20

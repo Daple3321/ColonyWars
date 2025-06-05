@@ -400,7 +400,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &87360199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3216,7 +3216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1091325589}
   m_Layer: 0
-  m_Name: spawnPoint
+  m_Name: SPAWN POINT
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -17438,11 +17438,11 @@ SceneRoots:
   - {fileID: 1174698141}
   - {fileID: 1652374937}
   - {fileID: 717383868}
+  - {fileID: 1694973807}
+  - {fileID: 1111577521}
   - {fileID: 1386194581}
   - {fileID: 87360201}
   - {fileID: 1091325589}
   - {fileID: 2055141620}
   - {fileID: 930154125}
   - {fileID: 1297463123}
-  - {fileID: 1694973807}
-  - {fileID: 1111577521}

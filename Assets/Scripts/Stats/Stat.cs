@@ -12,6 +12,25 @@ public enum ColonyStatType
     unitsSpawnSpeed = 4,
 }
 
+public enum EntityStatType
+{
+    maxHealth = 0,
+    regenSpeed = 1,
+    
+    runSpeed = 2,
+    maxStamina = 3,
+    staminaRegenSpeed = 4,
+    
+    damage = 5,
+    attackSpeed = 6,
+    critChance = 7,
+    attackDistance = 8,
+    
+    maxCommandEnergy = 9,
+    commandEnergyRegenSpeed = 10,
+    
+}
+
 [System.Serializable]
 public class Stat
 {

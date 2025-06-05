@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using static EntityStatType;
 
 public class GameController : MonoBehaviour
 {
@@ -97,6 +98,7 @@ public class GameController : MonoBehaviour
         
         ColoniesManager.i.Init();
         ColoniesManager.i.SpawnEnemyColonies(gameSettings.coloniesSpawnSettings);
+        ColoniesManager.i.SpawnEnemyCamps(gameSettings.coloniesSpawnSettings);
         
         //pSpawnPoint.transform.position = RandomPointOnMap();
         GameObject playerObj = Instantiate(GameAssets.playerPrefab, pSpawnPoint.position, Quaternion.identity);
@@ -218,11 +220,11 @@ public class GameController : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         
-        p.health = p.maxHealth;
-        p.TakeDamage(p.maxHealth/2);
+        p.health = p.stats[maxHealth].Value;
         PlayerAiming.isAiming = false;
         p.transform.position = pos;
         p.gameObject.SetActive(true);
+        p.TakeDamage(p.stats[maxHealth].Value/2);
         
         EventBus.i.PlayerRespawn?.Invoke();
     }

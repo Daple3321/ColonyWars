@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static EntityStatType;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -9,10 +10,10 @@ public class PlayerMovement : MonoBehaviour
     public float currentSpeed;
     public ModVar curSpeed;
     public float walkSpeed;
-    public float runSpeed;
+    //public float runSpeed;
     public float currentStamina;
-    public float staminaRegenSpeed;
-    public float maxStamina;
+    //public float staminaRegenSpeed;
+    //public float maxStamina;
 
     public float fallSpeed;
 
@@ -74,10 +75,12 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private PlayerAiming playerAiming;
-    public void Init(PlayerCameraController cameraController, PlayerAiming playerAiming)
+    private Player p;
+    public void Init(Player p, PlayerCameraController cameraController, PlayerAiming playerAiming)
     {
         //Cursor.lockState = CursorLockMode.Confined;
         //Cursor.visible = true;
+        this.p = p;
 
         this.cameraController = cameraController;
         this.playerAiming = playerAiming;
@@ -228,7 +231,7 @@ public class PlayerMovement : MonoBehaviour
                 
                 if(canJump){
                     currentStamina -= jumpStaminaDrain;
-                    EventBus.i.PlayerStaminaChanged?.Invoke(currentStamina, maxStamina);
+                    EventBus.i.PlayerStaminaChanged?.Invoke(currentStamina, p.stats[maxStamina].Value);
                     canJump = false;
                     StartCoroutine(JumpDelay());
                 }
@@ -464,7 +467,7 @@ public class PlayerMovement : MonoBehaviour
         {
             StopCoroutine(nameof(StaminaRegenDelayed));
             canRegenStamina = false;
-            currentSpeed = runSpeed;
+            currentSpeed = p.stats[runSpeed].Value;
             isRunning = true;
             
             if (_fovRoutine != null) // Просто переделать всё под PrimeTween
@@ -510,13 +513,13 @@ public class PlayerMovement : MonoBehaviour
         if (isRunning)
         {
             currentStamina -= 1 * Time.deltaTime;
-            EventBus.i.PlayerStaminaChanged?.Invoke(currentStamina, maxStamina);
+            EventBus.i.PlayerStaminaChanged?.Invoke(currentStamina, p.stats[maxStamina].Value);
         }
 
-        if (!isRunning && canRegenStamina && currentStamina < maxStamina)
+        if (!isRunning && canRegenStamina && currentStamina < p.stats[maxStamina].Value)
         {
-            currentStamina += staminaRegenSpeed * Time.deltaTime;
-            EventBus.i.PlayerStaminaChanged?.Invoke(currentStamina, maxStamina);
+            currentStamina += p.stats[staminaRegenSpeed].Value * Time.deltaTime;
+            EventBus.i.PlayerStaminaChanged?.Invoke(currentStamina, p.stats[maxStamina].Value);
         }
     }
 

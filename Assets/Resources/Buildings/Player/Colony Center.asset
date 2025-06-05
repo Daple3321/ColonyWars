@@ -22,11 +22,11 @@ MonoBehaviour:
   buildingIcon: {fileID: 21300000, guid: 11b826ec36aec6c40998f78f1428f067, type: 3}
   craftPrice:
     requirements:
-    - item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
+    - item: {fileID: 11400000, guid: d0f96db66f961d340aa7ae7bfb0935cc, type: 2}
       quantity: 1
   insideColonyOnly: 0
   overlapRadius: 2.5
-  maxBuildAngle: 25
+  maxBuildAngle: 35
   prefab: {fileID: 8020434315683561330, guid: d3162385907cb274fa4dc5de3208892b, type: 3}
   canOverlapOtherColonies: 0
   colonyRadius: 20

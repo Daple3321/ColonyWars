@@ -5,6 +5,7 @@ public class Enemy : Unit
 {
     [Header("States")]
     public UnitState idleState;
+    public UnitState patrolState;
     public UnitState retreatState;
     public UnitState attackState;
     public UnitState followState;
@@ -15,10 +16,11 @@ public class Enemy : Unit
     public bool aggrActive = false;
     public GameObject aggrTarget = null; 
     
-    
+    public EnemyColony parentColony;
     public override void Init()
     {
         base.Init();
+
         /*attackData = new RangedAttackData{
             projectilePrefab = GameAssets.projectilePrefab,
             knockBackForce = 9,
@@ -31,6 +33,10 @@ public class Enemy : Unit
         ConfigureStates();
         
         Invoke(nameof(StartStates), Random.Range(0.1f, 3f));
+    }
+    public virtual void InitEnemy(EnemyColony parentColony = null)
+    {
+        this.parentColony = parentColony;
     }
     
     public override void ConfigureStates()
@@ -55,6 +61,13 @@ public class Enemy : Unit
             stateMachine = stateMachine,
             owner = this,
         };
+        patrolState = new PatrolState
+        {
+            stateMachine = stateMachine,
+            owner = this,
+            parentColony = this.parentColony,
+            waitTime = 15f,
+        };
         aggroState = new AggroAttackState
         {
             enemyOwner = this,
@@ -63,15 +76,16 @@ public class Enemy : Unit
         };
         
         attackState.Init(idleState, retreatState);
-        retreatState.Init(idleState, attackState);
+        retreatState.Init(patrolState, attackState);
         idleState.Init(attackState, retreatState);
         followState.Init(idleState, retreatState);
+        patrolState.Init(attackState, retreatState);
         aggroState.Init(idleState, retreatState);
         //stateMachine.ChangeState(idleState);
     }
     private void StartStates()
     {
-        stateMachine.ChangeState(idleState);
+        stateMachine.ChangeState(patrolState);
     }
     public override void TakeDamage(float damage, GameObject source = null, Vector3 knockback = new Vector3())
     {

@@ -15,7 +15,7 @@ MonoBehaviour:
   buildingName: Mine
   description: 'General mine
 
-    Mines all ores but with low efficiency'
+    Mines everything but with low efficiency'
   buildingIcon: {fileID: 21300000, guid: 04cd37b424ef0da4c978117f83b32047, type: 3}
   craftPrice:
     requirements:
@@ -34,7 +34,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
   - {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
   gatherRadius: 5
-  resourceQuantityMultiplier: 2
+  resourceQuantityMultiplier: 1
   resourceMask:
     serializedVersion: 2
     m_Bits: 32768

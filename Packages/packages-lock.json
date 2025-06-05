@@ -13,6 +13,13 @@
       "source": "local-tarball",
       "dependencies": {}
     },
+    "com.mackysoft.choice": {
+      "version": "https://github.com/mackysoft/Choice.git?path=Assets/MackySoft/MackySoft.Choice",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "181d439dae13eb415f88b9b1100466f0196c02af"
+    },
     "com.mackysoft.serializereference-extensions": {
       "version": "https://github.com/mackysoft/Unity-SerializeReferenceExtensions.git?path=Assets/MackySoft/MackySoft.SerializeReferenceExtensions",
       "depth": 0,

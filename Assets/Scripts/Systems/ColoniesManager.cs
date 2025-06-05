@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using MackySoft.Choice;
 
 public class ColoniesManager : MonoBehaviour
 {
@@ -85,9 +86,12 @@ public class ColoniesManager : MonoBehaviour
     
     public void SpawnEnemyColonies(ColoniesSpawnSettings spawnSettings)
     {
+        var selector = spawnSettings.colonyPool.ToWeightedSelector(x => x.Value);
+        
         for(int i = 0; i < spawnSettings.colonies; i++)
         {
-            ColonyCenterData randColony = spawnSettings.coloniesPool[Random.Range(0, spawnSettings.coloniesPool.Length)];
+            //ColonyCenterData randColony = spawnSettings.coloniesPool[Random.Range(0, spawnSettings.coloniesPool.Length)];
+            ColonyCenterData randColony = selector.SelectItemWithUnityRandom().Key;
             Building b = null;
             int maxIterations = 10;
             while(b == null && maxIterations > 0)
@@ -117,5 +121,36 @@ public class ColoniesManager : MonoBehaviour
         
         //gridManager.ClearBorders();
         //gridManager.UpdateBorders();
+    }
+    
+    public void SpawnEnemyCamps(ColoniesSpawnSettings spawnSettings)
+    {
+        var selector = spawnSettings.campPool.ToWeightedSelector(x => x.Value);
+        
+        int campsAmount = Random.Range(spawnSettings.campsRange.x, spawnSettings.campsRange.y);
+        for(int i = 0; i < campsAmount; i++)
+        {
+            ColonyCenterData randColony = selector.SelectItemWithUnityRandom().Key;
+            Building b = null;
+            int maxIterations = 10;
+            while(b == null && maxIterations > 0)
+            {
+                Vector3Int randCell = gridManager.RandomCellIndex();
+                if(!gridManager.CheckCellForBuildings(randCell.x, randCell.z, Affiliation.Enemy))
+                {
+                    Vector3 spawnPos = gridManager.RandomPointInCell(randCell.x, randCell.z);
+                    
+                    Quaternion rot = Quaternion.identity;
+                    rot *= Quaternion.AngleAxis(Random.Range(0, 360f), Vector3.up);
+                    GameObject go = Instantiate(randColony.prefab, spawnPos, rot);
+                    b = go.GetComponent<Building>();
+                    b.Init(randColony);
+                    
+                    //b.CaptureCellInstant(randCell.x, randCell.z);
+                }
+                
+                maxIterations--;
+            }
+        }
     }
 }

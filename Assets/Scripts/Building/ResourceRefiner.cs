@@ -12,7 +12,7 @@ public class ResourceRefiner : Building
         base.Init(data);
         
         originInv = new BuildingInventory(this, 2);
-        refinedInv = new BuildingInventory(this, 1);
+        refinedInv = new BuildingInventory(this, 2);
         
         if(data is ResourceRefinerData resourceRefinerData){
             this.refinerData = resourceRefinerData;

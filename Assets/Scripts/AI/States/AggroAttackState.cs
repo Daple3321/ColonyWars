@@ -17,7 +17,10 @@ public class AggroAttackState : UnitState
         }
         owner.MoveToAttackTarget();
         
-        if(!enemyOwner.aggrActive){
+        if(!enemyOwner.aggrActive){ // если закончился аггр
+            stateMachine.ChangeState(nextState);
+        }
+        if(!owner.HasTarget()){ // если таргета больше нет
             stateMachine.ChangeState(nextState);
         }
     }

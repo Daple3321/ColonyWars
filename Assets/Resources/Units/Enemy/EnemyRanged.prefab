@@ -894,20 +894,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Enemy
-  health: 35
-  maxHealth: 35
-  speed: 6.7
-  maxSpeed: 6.7
+  health: 25
+  maxHealth: 25
+  speed: 7
+  maxSpeed: 7
   rotationSpeed: 7
   fallSpeed: 10
   currentAttack:
     rid: -2
   attackData:
     rid: 80067664640737658
-  damage: 5
+  damage: 4
   attackDistance: 7.47
   attackDuration: 0
-  attackSpeed: 0.5
+  attackSpeed: 0.65
   concentration: 0
   isAttacking: 0
   homePos: {x: 0, y: 0, z: 0}

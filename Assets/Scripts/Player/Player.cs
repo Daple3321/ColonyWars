@@ -1,9 +1,11 @@
 using System;
+using AYellowpaper.SerializedCollections;
 using PrimeTween;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using static EntityStatType;
 
 [RequireComponent(typeof(StateMachine))]
 public class Player : MonoBehaviour, IDamageable, ICommander
@@ -20,9 +22,12 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     public BuildingPanelManager buildingPanelManager;
     public SquadManager squadManager;
     public StateMachine stateMachine;
-
+    
+    [SerializedDictionary("Stat Type", "Stat")]
+    public SerializedDictionary<EntityStatType, Stat> stats;
+    
     public float health;
-    public float maxHealth;
+    //public float maxHealth;
 
 
     public Transform rightHand;
@@ -32,8 +37,8 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     public LayerMask mouseClickLayers;
     
     public float commandEnergy;
-    public float maxCommandEnergy;
-    public float commandEnergyRegenSpeed;
+    //public float maxCommandEnergy;
+    //public float commandEnergyRegenSpeed;
     
     public bool isInteracting = false;
     
@@ -51,7 +56,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         cameraController.Init(playerFollow);
         playerAnimation.Init(animator);
         playerAiming = new PlayerAiming();
-        playerMovement.Init(cameraController, playerAiming);
+        playerMovement.Init(this, cameraController, playerAiming);
         playerInventory.Init(this);
         playerCombat.Init(this, playerAnimation);
         playerBuilding.Init(playerInventory);
@@ -70,10 +75,10 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         mouse = Mouse.current;
         mainCam = Camera.main;
 
-        health = maxHealth;
-        commandEnergy = maxCommandEnergy;
-        EventBus.i.PlayerHealthChanged?.Invoke(health, maxHealth);
-        EventBus.i.PlayerCommandEnergyChanged?.Invoke(commandEnergy, maxCommandEnergy);
+        health = stats[maxHealth].Value;
+        commandEnergy = stats[maxCommandEnergy].Value;
+        EventBus.i.PlayerHealthChanged?.Invoke(health, stats[maxHealth].Value);
+        EventBus.i.PlayerCommandEnergyChanged?.Invoke(commandEnergy, stats[maxCommandEnergy].Value);
 
         //TimeService.OnHourChange += x => Debug.Log($"Hour changed to: {x}. From player.");
         EventBus.i.OnSunrise += () => Debug.Log($"Sunrise!");
@@ -128,7 +133,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         //TextMeshProUGUI popUp = PopUpManager.i.Spawn(transform.position+new Vector3(0, 2f, 0), Color.red);
         //popUp.text = damage.ToString("F1");
         
-        EventBus.i.PlayerHealthChanged?.Invoke(health, maxHealth);
+        EventBus.i.PlayerHealthChanged?.Invoke(health, stats[maxHealth].Value);
         EventBus.i.PlayerDamaged?.Invoke(damage);
         if (health <= 0)
         {
@@ -180,10 +185,10 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     }
     public void HandleCommandEnergy()
     {
-        if(commandEnergy < maxCommandEnergy){
-            commandEnergy += commandEnergyRegenSpeed * Time.deltaTime;
+        if(commandEnergy < stats[maxCommandEnergy].Value){
+            commandEnergy += stats[commandEnergyRegenSpeed].Value * Time.deltaTime;
             
-            EventBus.i.PlayerCommandEnergyChanged?.Invoke(commandEnergy, maxCommandEnergy);
+            EventBus.i.PlayerCommandEnergyChanged?.Invoke(commandEnergy, stats[maxCommandEnergy].Value);
         }
         
     }
@@ -229,12 +234,12 @@ public class Player : MonoBehaviour, IDamageable, ICommander
                 break;
         }
         
-        EventBus.i.PlayerCommandEnergyChanged?.Invoke(commandEnergy, maxCommandEnergy);
+        EventBus.i.PlayerCommandEnergyChanged?.Invoke(commandEnergy, stats[maxCommandEnergy].Value);
     }
 
     public (float health, float maxHealth) GetHealth()
     {
-        return (health, maxHealth);
+        return (health, stats[maxHealth].Value);
     }
 }
 
