@@ -19,7 +19,6 @@ public class MeleeWeapon : Weapon
 
         if (itemData is MeleeWeaponData weaponData)
         {
-            attackDuration = weaponData.attackDuration;
             attackSequence = weaponData.attackSequence;
             attackSequence.Init();
             damage.AddModifier(attackSequence.damageMod);

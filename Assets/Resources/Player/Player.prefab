@@ -510,11 +510,11 @@ MonoBehaviour:
         statModifiers: []
     - Key: 3
       Value:
-        baseValue: 15
+        baseValue: 20
         statModifiers: []
     - Key: 4
       Value:
-        baseValue: 1
+        baseValue: 2
         statModifiers: []
     - Key: 7
       Value:

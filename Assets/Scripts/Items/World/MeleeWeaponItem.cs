@@ -3,10 +3,10 @@ using UnityEngine;
 public class MeleeWeaponItem : WeaponWorldItem
 {
     [Space(7), Header("Melee weapon Settings")]
-    public float attackDuration;
     public float attackDistance;
     public MeleeAttackType meleeAttackType;
     public float knockBackForce;
+    public Vector3 attackBoxExtents;
     
     
     public LayerMask hitLayers;
@@ -19,10 +19,10 @@ public class MeleeWeaponItem : WeaponWorldItem
 
         if (data is MeleeWeaponData weaponData)
         {
-            attackDuration = weaponData.attackDuration;
             attackDistance = weaponData.attackDistance;
             meleeAttackType = weaponData.meleeAttackType;
             knockBackForce = weaponData.knockBackForce;
+            attackBoxExtents = weaponData.attackBoxExtents;
         }
         
         p = GameController.p;
@@ -84,8 +84,8 @@ public class MeleeWeaponItem : WeaponWorldItem
         Ray mouseRay = cm.ScreenPointToRay(mousePos);
         Ray shootRay = new Ray(shootPoint.position, mouseRay.direction);
         
-        Vector3 boxPos = shootPoint.position + (p.shootPoint.forward * attackDistance);
-        Vector3 boxSize = new Vector3(attackDistance, attackDistance, attackDistance);
+        Vector3 boxPos = shootPoint.position + (p.shootPoint.forward * (attackBoxExtents.z/2));
+        Vector3 boxSize = attackBoxExtents;
         Collider[] hits = Physics.OverlapBox(boxPos, boxSize, p.shootPoint.rotation, hitLayers);
         
         // GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -93,7 +93,7 @@ public class MeleeWeaponItem : WeaponWorldItem
         // go.transform.localScale = boxSize;
         // go.transform.rotation = p.shootPoint.rotation;
         // Destroy(go.GetComponent<Collider>());
-        // Destroy(go, 2);
+        // Destroy(go, 1.5f);
         if (hits.Length > 0)
         {
             IDamageable damageable;

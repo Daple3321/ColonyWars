@@ -10,46 +10,38 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 806f468cab612d24d8ff77e741097ed3, type: 3}
-  m_Name: Sword
+  m_Name: Spear
   m_EditorClassIdentifier: 
-  itemName: Sword
+  itemName: Spear
   description: 
   icon: {fileID: 21300000, guid: f51aa60a5ff35d34e9d7682ca648cfe9, type: 3}
-  rarity: 1
+  rarity: 3
   IsStackable: 0
   maxStackSize: 1
-  instantPickup: 0
+  instantPickup: 1
   itemMesh: {fileID: 0}
   itemMaterials: []
   hasCustomScale: 0
   customScale: {x: 1, y: 1, z: 1}
-  customPrefab: {fileID: 5369362668547743331, guid: e6c309f2c9c736a4ab17a102e3a7eb6b, type: 3}
-  damage: 6.7
-  attackRate: 0.45
-  chargeRate: 1
+  customPrefab: {fileID: 2280244590060308478, guid: 18adfd06f3e345b48a71f9fe8e1ef81a, type: 3}
+  damage: 9
+  attackRate: 0.55
+  chargeRate: 1.5
   needsAmmo: 0
-  recoilForce: -3
+  recoilForce: -5
   slowingAmount: 0.5
   ammoType: {fileID: 0}
-  attackType: 2
+  attackType: 3
   weaponType: 3
-  attackDistance: 1.7
-  knockBackForce: 15
-  attackBoxExtents: {x: 1, y: 1, z: 2}
+  attackDistance: 3.5
+  knockBackForce: 0
+  attackBoxExtents: {x: 0.4, y: 1, z: 3}
   attackSequence:
-    sequenceCoolDown: 0.8
+    sequenceCoolDown: 1.5
     attacks:
-    - duration: 0.25
+    - duration: 0.55
       damageMultiplier: 0
       recoilMultiplier: 0
-      staminaDrain: 0.5
-    - duration: 0.35
-      damageMultiplier: 0.5
-      recoilMultiplier: 0.5
-      staminaDrain: 1
-    - duration: 0.55
-      damageMultiplier: 1
-      recoilMultiplier: 2.5
       staminaDrain: 2
     damageMod:
       Value: 0

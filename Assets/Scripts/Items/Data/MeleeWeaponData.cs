@@ -5,8 +5,8 @@ public class MeleeWeaponData : WeaponData
 {
     [Space(7), Header("Melee weapon data")]
     public float attackDistance = 2f;
-    public float attackDuration;
     public float knockBackForce;
+    public Vector3 attackBoxExtents;
     
     public AttackSequence attackSequence;
     

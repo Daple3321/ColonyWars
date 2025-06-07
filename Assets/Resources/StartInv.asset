@@ -48,3 +48,10 @@ MonoBehaviour:
       icon: {fileID: 0}
       rarity: 0
       itemData: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
+  - quantity: 1
+    item:
+      itemName: 
+      description: 
+      icon: {fileID: 0}
+      rarity: 0
+      itemData: {fileID: 11400000, guid: 8fbf8b7ecb1b6df44abfbd934e425db5, type: 2}
