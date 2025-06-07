@@ -307,7 +307,7 @@ public class EnemyColony : Colony
             stringBuilder.Append($"{stat.Key}: {stat.Value.Value} +{stat.Value.Value-stat.Value.baseValue}\n");
         }
         WorldUI.i.buildingHover.SetupForBuilding(this);
-        WorldUI.i.buildingHover.ShowForBuilding(this, stringBuilder.ToString());
+        WorldUI.i.buildingHover.Show(this, stringBuilder.ToString());
     }
     protected override void OnMouseExit()
     {

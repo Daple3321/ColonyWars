@@ -122,7 +122,7 @@ public class PlayerCombat : MonoBehaviour
             currentWeapon.Attack();
             weaponWorld.Attack(concentraion);
             
-            ApplyRecoil(currentWeapon.weaponData.recoilForce);
+            ApplyRecoil(currentWeapon.recoilForce.Value);
             //StartCoroutine(PlayerCameraController.CameraShake(1, 0.15f));
 
             currentWeapon.mouseReleased = false;
@@ -138,8 +138,9 @@ public class PlayerCombat : MonoBehaviour
             
             currentWeapon.Attack();
             weaponWorld.Attack(concentraion);
+            StartCoroutine(AttackRoutine());
             
-            ApplyRecoil(currentWeapon.weaponData.recoilForce);
+            ApplyRecoil(currentWeapon.recoilForce.Value);
             //StartCoroutine(PlayerCameraController.CameraShake(1, 0.15f));
 
             currentWeapon.mouseReleased = false;
@@ -160,11 +161,29 @@ public class PlayerCombat : MonoBehaviour
             currentWeapon.Attack();
             weaponWorld.Attack(concentraion);
             
-            ApplyRecoil(currentWeapon.weaponData.recoilForce);
+            ApplyRecoil(currentWeapon.recoilForce.Value);
             //StartCoroutine(PlayerCameraController.CameraShake(2, 0.25f));
 
             currentWeapon.mouseReleased = false;
         }
+    }
+    private IEnumerator AttackRoutine()
+    {
+        player.playerMovement.runningAllowed = false;
+        player.playerMovement.curSpeed.Add(-currentWeapon.weaponData.slowingAmount*100);
+        player.playerMovement.currentSpeed = player.playerMovement.curSpeed.Get();
+        
+        float timeLeft = currentWeapon.attackRate;
+        while(timeLeft > 0)
+        {
+            player.playerMovement.RotateToMouse();
+            timeLeft -= Time.deltaTime;
+            yield return null;
+        }
+        
+        player.playerMovement.curSpeed.Remove();
+        player.playerMovement.ResetSpeed();
+        player.playerMovement.runningAllowed = true;
     }
     private void ApplyRecoil(float recoilForce)
     {

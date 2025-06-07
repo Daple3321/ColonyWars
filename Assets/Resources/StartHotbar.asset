@@ -34,3 +34,10 @@ MonoBehaviour:
       icon: {fileID: 0}
       rarity: 0
       itemData: {fileID: 11400000, guid: 22c6422f791fe3d43aed36e95d428522, type: 2}
+  - quantity: 1
+    item:
+      itemName: 
+      description: 
+      icon: {fileID: 0}
+      rarity: 0
+      itemData: {fileID: 11400000, guid: 6b5b4916729fbed4abe7fad9b9d5eb3f, type: 2}

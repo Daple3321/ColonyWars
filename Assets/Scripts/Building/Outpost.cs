@@ -106,6 +106,18 @@ public class Outpost : Building
         captureInProgress = false;
     }
     
+    protected override void OnMouseEnter()
+    {
+        if(Vector3.SqrMagnitude(GameController.p.transform.position - transform.position) < 300f){
+            WorldUI.i.buildingHover.SetupForBuilding(this);
+            WorldUI.i.buildingHover.Show(this);
+        }
+    }
+    protected override void OnMouseOver()
+    {
+        WorldUI.i.buildingHover.UpdateInfo($"Capture progress: {cell.captureProgress}\nYield amount: {cell.yieldAmount}");
+    }
+    
     public override void Death(){
         if(captureRoutine != null){
             StopCoroutine(captureRoutine);

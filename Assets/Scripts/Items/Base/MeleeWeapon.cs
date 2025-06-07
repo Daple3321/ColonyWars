@@ -5,7 +5,7 @@ using UnityEngine;
 public class MeleeWeapon : Weapon
 {
     public float attackDuration;
-    public float attackInterval;
+    public AttackSequence attackSequence;
 
     public MeleeWeapon(MeleeWeaponData _itemData) : base(_itemData)
     {
@@ -20,7 +20,60 @@ public class MeleeWeapon : Weapon
         if (itemData is MeleeWeaponData weaponData)
         {
             attackDuration = weaponData.attackDuration;
-            attackInterval = weaponData.attackInterval;
+            attackSequence = weaponData.attackSequence;
+            attackSequence.Init();
+            damage.AddModifier(attackSequence.damageMod);
+            recoilForce.AddModifier(attackSequence.recoilMod);
+        }
+        
+    }
+    
+    public override void UpdateWeapon()
+    {
+        if (_attackCd > 0)
+        {
+            _attackCd -= Time.deltaTime;
+        }
+        
+        attackSequence.UpdateSequence();
+    }
+    
+    public override bool CanAttack()
+    {
+        if (attackType == AttackType.SINGLE && mouseReleased && _attackCd <= 0 && CheckAmmo() 
+            && GameController.p.playerMovement.HasStamina(attackSequence.CurrentAttack().staminaDrain))
+        {
+            return true;
+        }
+        else if (attackType == AttackType.AUTOMATIC && _attackCd <= 0 && CheckAmmo() 
+            && GameController.p.playerMovement.HasStamina(attackSequence.CurrentAttack().staminaDrain))
+        {
+            return true;
+        }
+        else if(attackType == AttackType.CHARGE && _attackCd <= 0 && IsCharged() && CheckAmmo()
+            && GameController.p.playerMovement.HasStamina(attackSequence.CurrentAttack().staminaDrain))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public override void Attack()
+    {
+        _attackCd = attackSequence.CurrentAttack().duration;
+        damage.OnModifierChanged(); // чтоб сделать isDirty = true;
+        recoilForce.OnModifierChanged();
+        GameController.p.playerMovement.AddStamina(-attackSequence.CurrentAttack().staminaDrain);
+        
+        attackSequence.Attack();
+        attackCharge = 0;
+        if(needsAmmo)
+        {
+            SubtractAmmo();
+            //Debug.Log($"Ammo count: {GetAmmoInfo()}");
         }
     }
     
@@ -28,7 +81,7 @@ public class MeleeWeapon : Weapon
     {
         StringBuilder str = new StringBuilder();
         str.AppendLine(description);
-        str.AppendLine("Damage: " + damage.ToString("F0"));
+        str.AppendLine($"Damage: {damage.Value:F0}");
         return str.ToString();
     }
 }

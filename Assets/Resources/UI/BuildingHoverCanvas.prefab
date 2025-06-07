@@ -815,6 +815,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBar: {fileID: 5654461759736542382}
   infoText: {fileID: 8823845004823981511}
+  showDelay: 700
+  rectTransform: {fileID: 7631307108098698495}
 --- !u!222 &5115292594126914835
 CanvasRenderer:
   m_ObjectHideFlags: 0

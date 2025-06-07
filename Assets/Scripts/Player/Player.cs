@@ -32,6 +32,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
 
     public Transform rightHand;
     public Transform leftHand;
+    public Transform shootPoint;
 
     public LayerMask groundLayer;
     public LayerMask mouseClickLayers;

@@ -21,14 +21,46 @@ MonoBehaviour:
   instantPickup: 0
   itemMesh: {fileID: 0}
   itemMaterials: []
+  hasCustomScale: 0
+  customScale: {x: 1, y: 1, z: 1}
   customPrefab: {fileID: 5369362668547743331, guid: e6c309f2c9c736a4ab17a102e3a7eb6b, type: 3}
-  damage: 3
-  attackRate: 0.2
-  chargeRate: 0.1
+  damage: 6.7
+  attackRate: 0.45
+  chargeRate: 1
   needsAmmo: 0
-  recoilForce: 0
+  recoilForce: -3
+  slowingAmount: 0.5
   ammoType: {fileID: 0}
-  attackType: 3
+  attackType: 2
   weaponType: 3
-  attackDuration: 2
-  attackInterval: 1
+  attackDistance: 1.7
+  attackDuration: 0.7
+  knockBackForce: 15
+  attackSequence:
+    sequenceCoolDown: 0.8
+    attacks:
+    - duration: 0.25
+      damageMultiplier: 0
+      recoilMultiplier: 0
+      staminaDrain: 0.5
+    - duration: 0.25
+      damageMultiplier: 0.2
+      recoilMultiplier: 0.5
+      staminaDrain: 1
+    - duration: 0.35
+      damageMultiplier: 0.5
+      recoilMultiplier: 1.5
+      staminaDrain: 2
+    - duration: 0.45
+      damageMultiplier: 1
+      recoilMultiplier: 2.5
+      staminaDrain: 3
+    damageMod:
+      Value: 0
+      Type: 300
+      Order: 0
+    recoilMod:
+      Value: 0
+      Type: 300
+      Order: 0
+  meleeAttackType: 2

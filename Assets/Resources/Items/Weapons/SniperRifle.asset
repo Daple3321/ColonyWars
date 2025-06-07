@@ -25,6 +25,8 @@ MonoBehaviour:
   instantPickup: 0
   itemMesh: {fileID: 0}
   itemMaterials: []
+  hasCustomScale: 0
+  customScale: {x: 1, y: 1, z: 1}
   customPrefab: {fileID: 1549962704229280597, guid: 4af3d8938075e88468789c45c259ba60, type: 3}
   damage: 7
   attackRate: 0.6
@@ -37,7 +39,7 @@ MonoBehaviour:
   projectilesPerShot: 1
   shootDistance: 30
   projectileSpeed: 0
-  penetrationAmount: 1
+  penetrationAmount: 2
   projectileLifetime: 2
   knockBackForce: 50
   concentrationScatter:

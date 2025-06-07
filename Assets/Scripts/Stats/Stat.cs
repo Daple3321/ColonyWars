@@ -61,6 +61,11 @@ public class Stat
         StatModifiers = statModifiers.AsReadOnly();
     }
     
+    public void OnModifierChanged()
+    {
+        isDirty = true;
+    }
+    
     public void AddModifier(StatModifier mod)
     {
         isDirty = true;

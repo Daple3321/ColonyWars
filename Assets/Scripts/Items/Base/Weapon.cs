@@ -3,13 +3,14 @@ using UnityEngine;
 [System.Serializable]
 public class Weapon : Equipable
 {
-    public float damage;
+    public Stat damage;
     public float attackRate = 0.2f;
     protected float _attackCd;
     public float attackCharge = 0f;
+    public Stat recoilForce;
     public float chargeRate;
     public AttackType attackType;
-    public WeaponType weaponType;
+    [Tooltip("For animations")] public WeaponType weaponType;
 
     //public bool canAttack;
     public bool needsAmmo;
@@ -32,7 +33,8 @@ public class Weapon : Equipable
         {
             attackType = data.attackType;
             weaponType = data.weaponType;
-            damage = data.damage;
+            damage = new Stat(data.damage);
+            recoilForce = new Stat(data.recoilForce);
             attackRate = data.attackRate;
             chargeRate = data.chargeRate;
             needsAmmo = data.needsAmmo;

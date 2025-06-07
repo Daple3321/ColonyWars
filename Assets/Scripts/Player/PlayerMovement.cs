@@ -160,6 +160,20 @@ public class PlayerMovement : MonoBehaviour
     public bool CanJump(){
         return currentStamina >= jumpStaminaDrain;
     }
+    public bool HasStamina(float amount){
+        return currentStamina >= amount;
+    }
+    public void AddStamina(float amount){
+        if(amount < 0){
+            canRegenStamina = true;
+        }
+        
+        currentStamina += amount;
+        if(currentStamina > p.stats[maxStamina].Value){
+            currentStamina = p.stats[maxStamina].Value;
+        }
+        EventBus.i.PlayerStaminaChanged?.Invoke(currentStamina, p.stats[maxStamina].Value);
+    }
     private void HandleMovement()
     {
         float horizontalInput = Input.GetAxisRaw("Horizontal");
@@ -420,6 +434,7 @@ public class PlayerMovement : MonoBehaviour
         currentSpeed = walkSpeed;
         curSpeed = new ModVar(walkSpeed);
         runningAllowed = true;
+        canRegenStamina = true;
         isRunning = false;
     }
     private void PlayerAiming_OnAim(bool aimStarted)

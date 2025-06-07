@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Ranged weapon", menuName = "Scriptable Objects/Items/Ranged weapon")]
 public class RangedWeaponData : WeaponData
 {
+    [Space(7), Header("Ranged weapon data")]
     public int projectilesPerShot = 1;
     public float shootDistance;
     public float projectileSpeed;

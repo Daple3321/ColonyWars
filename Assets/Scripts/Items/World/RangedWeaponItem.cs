@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class RangedWeaponItem : WeaponWorldItem
 {
+    [Space(7), Header("Ranged weapon Settings")]
     public float shootDistance; // МОЖНО И НЕ ПЕРЕДАВАТЬ??
     public ShootStyle shootStyle;
     public AnimationCurve concentrationScatter;
@@ -13,13 +14,12 @@ public class RangedWeaponItem : WeaponWorldItem
     public float knockBackForce;
     public GameObject projectilePrefab;
     public LayerMask hitLayers;
-    public Transform shootPoint;
     public Transform cartridgePos;
+    public Transform shootPoint;
 
     public GameObject hitScanLine;
     public ParticleSystem shootEffect;
     public GameObject hitEffect;
-    private Camera cm;
 
     public override void Initialize(ItemData data, Item origin, int quantity=1)
     {
@@ -40,7 +40,7 @@ public class RangedWeaponItem : WeaponWorldItem
         cm = Camera.main;
     }
 
-    public override void Attack(float concentraion) // ВЫСТРЕЛЫ ПРОСТО НЕ СПАВНЯТСЯ ЕСЛИ НИЧЕГО НЕ ХИТАНУЛИ.
+    public override void Attack(float concentraion)
     {
         base.Attack(concentraion);
         

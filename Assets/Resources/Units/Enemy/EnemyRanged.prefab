@@ -904,10 +904,10 @@ MonoBehaviour:
     rid: -2
   attackData:
     rid: 80067664640737658
-  damage: 4
+  damage: 3.5
   attackDistance: 7.47
   attackDuration: 0
-  attackSpeed: 0.65
+  attackSpeed: 0.75
   concentration: 0
   isAttacking: 0
   homePos: {x: 0, y: 0, z: 0}
@@ -935,6 +935,7 @@ MonoBehaviour:
   aggrTime: 25
   aggrActive: 0
   aggrTarget: {fileID: 0}
+  parentColony: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -944,8 +945,8 @@ MonoBehaviour:
       type: {class: RangedAttackData, ns: , asm: Assembly-CSharp}
       data:
         bulletsPerShot: 1
-        projectileSpeed: 40
-        projectileLifetime: 2.5
+        projectileSpeed: 35
+        projectileLifetime: 3
         penetrationAmount: 0
         knockBackForce: 0
         projectileScatter: {x: 0, y: 10}

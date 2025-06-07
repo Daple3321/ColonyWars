@@ -101,7 +101,7 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
             //.Chain(Tween.MaterialColor(mat, Color.red, 0.2f))
             //.Chain(Tween.MaterialColor(mat, Color.white, 0.2f));
         WorldUI.i.DamagePopup(transform.position+new Vector3(0, 2f, 0), Color.white)
-        .text = damage.ToString("F0");
+        .text = damage.ToString("F1");
         
         if(health <= 0 && !isDead){
             Death();
@@ -180,10 +180,14 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
     
     protected virtual void OnMouseEnter()
     {
-        if(Vector3.SqrMagnitude(GameController.p.transform.position - transform.position) < 150f*2){
+        if(Vector3.SqrMagnitude(GameController.p.transform.position - transform.position) < 300f){
             WorldUI.i.buildingHover.SetupForBuilding(this);
-            WorldUI.i.buildingHover.ShowForBuilding(this);
+            WorldUI.i.buildingHover.Show(this);
         }
+    }
+    protected virtual void OnMouseOver()
+    {
+        
     }
     protected virtual void OnMouseExit()
     {
