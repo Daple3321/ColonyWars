@@ -8,6 +8,7 @@ public class CraftingStationPanel : BuildingPanel
     
     public List<CraftSlot> crafts;
     
+    public Bar craftProgressBar;    
     public List<CraftSlot> queueCrafts;
     
     public CraftingStation craftingStation;
@@ -20,13 +21,25 @@ public class CraftingStationPanel : BuildingPanel
             this.craftingStation = cs;
         }
         
-        craftingStation.originInv.inventory.OnInventoryUpdated += OnInventoryUpdated;
+        craftProgressBar.Init();
         
+        craftingStation.originInv.inventory.OnInventoryUpdated += OnInventoryUpdated;
+        craftingStation.OnQueueChanged += InitQueue;
+        
+        craftingStation.OnCraftProgressChanged += craftProgressBar.UpdateBar;
         //OnInventoryUpdated();
     }
     protected override void OnDestroy(){
         base.OnDestroy();
         craftingStation.originInv.inventory.OnInventoryUpdated -= OnInventoryUpdated;
+        craftingStation.OnCraftProgressChanged -= craftProgressBar.UpdateBar;
+        craftingStation.OnQueueChanged -= InitQueue;
+        foreach(CraftSlot slot in crafts){
+            slot.OnCraftClicked -= craftingStation.QueueCraft;
+        }
+        foreach(CraftSlot slot in queueCrafts){
+            slot.OnCraftClicked -= craftingStation.DequeueCraft;
+        }
     }
     
     public void OnInventoryUpdated(Dictionary<int, InventoryItem> invState = null){
@@ -44,7 +57,31 @@ public class CraftingStationPanel : BuildingPanel
             CraftSlot slot = go.GetComponent<CraftSlot>();
             slot.Init(craftingStation.originInv);
             slot.SetData(craft.finalItem.icon, craft.finalAmount, craft);
+            slot.OnCraftClicked += craftingStation.QueueCraft;
             crafts.Add(slot);
         }
+        
+    }
+    
+    public void InitQueue(List<CraftRecipe> queue)
+    {
+        ClearQueue();
+        
+        foreach(CraftRecipe craft in queue)
+        {
+            GameObject go = Instantiate(GameAssets.craftSlot, queueContainer);
+            CraftSlot slot = go.GetComponent<CraftSlot>();
+            slot.Init(craftingStation.originInv);
+            slot.SetData(craft.finalItem.icon, craft.finalAmount, craft);
+            slot.OnCraftClicked += craftingStation.DequeueCraft;
+            queueCrafts.Add(slot);
+        }
+    }
+    public void ClearQueue(){
+        for(int i = 0; i < queueCrafts.Count; i++)
+        {
+            Destroy(queueCrafts[i].gameObject);
+        }
+        queueCrafts.Clear();
     }
 }

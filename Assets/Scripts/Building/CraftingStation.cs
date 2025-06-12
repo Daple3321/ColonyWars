@@ -1,9 +1,17 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CraftingStation : Manufacturer
 {
     public List<CraftRecipe> recipes;
+    
+    public bool craftInProgress;
+    public float craftProgress;
+    public CraftRecipe currentCraft;
+    public List<CraftRecipe> queue;
+    public int queueCapacity = 10;
     
     public BuildingInventory outputInv;
     public CraftingStationData stationData;
@@ -12,6 +20,7 @@ public class CraftingStation : Manufacturer
         base.Init(data);
         
         outputInv = new BuildingInventory(this, 1);
+        queue = new List<CraftRecipe>();
         
         if(data is CraftingStationData csd){
             stationData = csd;
@@ -29,9 +38,9 @@ public class CraftingStation : Manufacturer
         if(GameController.i.buildingPanelManager.currentPanel is CraftingStationPanel csp)
         {
             csp.InitCrafts(recipes.ToArray());
-            foreach(CraftSlot slot in csp.crafts){
-                slot.OnCraftClicked += Craft;
-            }
+            // foreach(CraftSlot slot in csp.crafts){
+            //     slot.OnCraftClicked += QueueCraft;
+            // }
         }
     }
     public override void ClearUI()
@@ -41,9 +50,9 @@ public class CraftingStation : Manufacturer
         
         if(GameController.i.buildingPanelManager.currentPanel is CraftingStationPanel csp)
         {
-            foreach(CraftSlot slot in csp.crafts){
-                slot.OnCraftClicked -= Craft;
-            }
+            // foreach(CraftSlot slot in csp.crafts){
+            //     slot.OnCraftClicked -= QueueCraft;
+            // }
         }
     }
     public override void OnDeath()
@@ -59,6 +68,69 @@ public class CraftingStation : Manufacturer
         CraftingStationPanel panel = go.GetComponent<CraftingStationPanel>();
         //panel.Init(this);
         return panel;
+    }
+
+    void Update()
+    {
+        HandleCraftQueue();
+    }
+
+    public Action<float, float> OnCraftProgressChanged;
+    public Action<List<CraftRecipe>> OnQueueChanged;
+    public void HandleCraftQueue()
+    {
+        if(queue.Count > 0 && !craftInProgress && CanQueue(queue[0])){
+            currentCraft = queue[0];
+            queue.RemoveAt(0);
+            craftInProgress = true;
+            craftProgress = 0;
+            OnCraftProgressChanged?.Invoke(craftProgress, currentCraft.craftTime);
+            OnQueueChanged?.Invoke(queue);
+        }
+        
+        if(craftInProgress && craftProgress < currentCraft.craftTime)
+        {
+            craftProgress += Time.deltaTime;
+            OnCraftProgressChanged?.Invoke(craftProgress, currentCraft.craftTime);
+        }
+        else if(craftInProgress && craftProgress >= currentCraft.craftTime)
+        {
+            Craft(currentCraft);
+            craftInProgress = false;
+            craftProgress = 0;
+            OnCraftProgressChanged?.Invoke(craftProgress, 1);
+        }
+    }
+    
+    public void QueueCraft(CraftRecipe recipe)
+    {
+        //if (!CanCraft(recipe)) return;
+        
+        if(queue.Count < queueCapacity){
+            queue.Add(recipe);
+            OnQueueChanged?.Invoke(queue);
+        }
+    }
+    public void DequeueCraft(CraftRecipe recipe)
+    {
+        queue.Remove(recipe);
+        OnQueueChanged?.Invoke(queue);
+    }
+    
+    public bool CanQueue(CraftRecipe recipe)
+    {
+        if(outputInv.inventory.EmptySlots() < 1
+        && outputInv.inventory.HasItemWithSpaceLeft(recipe.finalItem, recipe.finalAmount) == -1){
+            return false;
+        }
+        
+        if(outputInv.inventory.EmptySlots() >= 1 ||
+            outputInv.inventory.HasItemWithSpaceLeft(recipe.finalItem, recipe.finalAmount) != -1) 
+        {
+            return true;
+        }
+        
+        return true;
     }
     
     public bool CanCraft(CraftRecipe recipe)
