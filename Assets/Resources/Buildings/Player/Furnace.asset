@@ -28,18 +28,6 @@ MonoBehaviour:
   maxBuildAngle: 30
   prefab: {fileID: 4371093770013916882, guid: b38af153c3c8f0546b90eb7cb9db3018, type: 3}
   recipes:
-  - itemRequirements:
-      requirements:
-      - item: {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
-        quantity: 1
-    craftTime: 4
-    finalItem: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
-    finalAmount: 1
-  - itemRequirements:
-      requirements:
-      - item: {fileID: 11400000, guid: dfe06b9807283144fb496089e9fc5643, type: 2}
-        quantity: 5
-    craftTime: 2
-    finalItem: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
-    finalAmount: 1
+  - {fileID: 11400000, guid: c7b7d1f326b8ea0449d562c7d63d0847, type: 2}
+  - {fileID: 11400000, guid: 986410d4653601146bf337ec6348e4df, type: 2}
   refineSpeed: 4

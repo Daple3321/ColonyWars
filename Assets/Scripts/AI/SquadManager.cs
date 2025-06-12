@@ -23,7 +23,8 @@ public class SquadManager : MonoBehaviour
     void Awake(){
         enabled = false;
     }
-
+    
+    private Zone searchZone;
     public void Init(){
         squad = new Squad(maxUnits);
         squadUI = GameController.i.playerSquadPanel;
@@ -33,6 +34,15 @@ public class SquadManager : MonoBehaviour
         SwitchAssemblePanel();
         squad.onSquadUpdate += squadUI.OnSquadUpdate;
         _searchDelay = searchDelay;
+        
+        searchZone = ZoneFactory.CreateZone(
+            transform.position,
+            GameAssets.colors.gatherRadius,
+            ZoneShape.Cylinder,
+            squadCallDistance);
+        searchZone.transform.SetParent(transform, false);
+        searchZone.transform.localPosition = Vector3.zero;
+        searchZone.gameObject.SetActive(false);
         
         enabled = true;
     }
@@ -54,13 +64,19 @@ public class SquadManager : MonoBehaviour
         if(squadAssembleUI.isActiveAndEnabled){
             searchingForUnits = false;
             squadAssembleUI.gameObject.SetActive(false);
+            if(searchZone!=null){
+                searchZone.gameObject.SetActive(false);
+            }
             EventBus.i.OnInteractivePanelClosed?.Invoke();
         }
         else{
             searchingForUnits = true;
             //squadAssembleUI.ClearUI();
+            searchZone.gameObject.SetActive(true);
             squadAssembleUI.gameObject.SetActive(true);
             EventBus.i.OnInteractivePanelOpened?.Invoke();
+            
+            
         }
     }
     public bool SearchForUnits()

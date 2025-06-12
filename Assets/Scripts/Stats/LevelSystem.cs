@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[System.Serializable]
 public class LevelSystem
 {
     private int level;
@@ -39,6 +40,11 @@ public class LevelSystem
         }
         //SaveManager.i.state.experience = experience;
         OnExperienceChanged?.Invoke(this, EventArgs.Empty);
+    }
+    
+    public void ChangeLevel(int lvl){
+        level = lvl;
+        experience = 0;
     }
     
     public int GetLevel(){

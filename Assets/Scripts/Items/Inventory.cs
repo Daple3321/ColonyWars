@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
 [System.Serializable]
@@ -29,9 +30,9 @@ public class Inventory
 
     }
     
-    public void LoadFromData(InventoryData data)
+    public void LoadFromData(List<InventoryItem> inventoryItems) // from List<InvItem>
     {
-        foreach(InventoryItem item in data.inventoryItems)
+        foreach(InventoryItem item in inventoryItems)
         {
             if(item.item.itemData == null){
                 Debug.LogWarning("Inventory item entry with NULL itemData");
@@ -47,6 +48,43 @@ public class Inventory
 
             // Добавляем созданный экземпляр в инвентарь
             AddItem(newItemInstance, item.quantity);
+        }
+    }
+    public void LoadFromData(SerializedDictionary<ItemData, int> items) // from dict
+    {
+        foreach(var item in items)
+        {
+            if(item.Key == null){
+                Debug.LogWarning("Inventory item entry with NULL itemData");
+                continue;
+            }
+            if (item.Value <= 0){
+                Debug.LogWarning($"Item {item.Key.itemName} has quantity {item.Value}. Skipping.");
+                continue;
+            }
+            
+            int stacksToAdd = Mathf.FloorToInt(item.Value/item.Key.maxStackSize);
+            int finalStack = (stacksToAdd*item.Key.maxStackSize)-item.Value;
+            if(item.Value > item.Key.maxStackSize)
+            {
+                while(stacksToAdd > 0)
+                {
+                    Item newStack = item.Key.CreateItemInstance();
+                    AddItem(newStack, item.Key.maxStackSize);
+                    
+                    stacksToAdd--;
+                }
+                
+                if(finalStack > 0){ // если ещё остался остаток
+                    Item newItemInstance = item.Key.CreateItemInstance();
+                    AddItem(newItemInstance, finalStack);
+                }
+            }
+            else{
+                Item newItemInstance = item.Key.CreateItemInstance();
+                // Добавляем созданный экземпляр в инвентарь
+                AddItem(newItemInstance, item.Value);
+            }
         }
     }
 
@@ -330,6 +368,17 @@ public class Inventory
         return count;
     }
     
+    public int[] GetItemAmounts(ItemRequirement[] items)
+    {
+        int[] finalList = new int[items.Length];
+        for(int i = 0; i < items.Length; i++)
+        {
+            finalList[i] = ItemAmount(items[i].item);
+        }
+        
+        return finalList;
+    }
+    
     // public bool CheckItemRequirements(ItemRequirements requirements)
     // {
     //     foreach(ItemRequirement req in requirements.requirements)
@@ -504,7 +553,7 @@ public class Inventory
     {
         int sum = 0;
         foreach(InventoryItem item in inventoryItems){
-            if(item.IsEmpty)
+            if(item.item == null)
             {
                 sum++;
             }

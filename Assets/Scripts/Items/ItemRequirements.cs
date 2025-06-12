@@ -42,7 +42,7 @@ public class ItemRequirements
 }
 
 [System.Serializable]
-public struct ItemRequirement
+public class ItemRequirement
 {
     public ItemData item;
     public int quantity;

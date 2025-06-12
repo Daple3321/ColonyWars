@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 public class Outpost : Building
@@ -32,6 +33,7 @@ public class Outpost : Building
         TryStartCapture();
     }
     
+    private bool canStartCapture = false;
     public virtual void TryStartCapture()
     {
         if(captureInProgress){
@@ -46,15 +48,19 @@ public class Outpost : Building
         
         if(cellBuildings.Find(b => b.affiliation != outpostData.affiliation)){ // если в клетке нашли здание не нашей affiliation
             Debug.LogWarning("Can't start capture. Enemy buildings in cell");
+            canStartCapture = false;
             return;
         }
         
+        
         if(cell.affiliation == Affiliation.None)
         {
+            canStartCapture = true;
             captureRoutine = StartCoroutine(CaptureNeutralCell());
         }
         else if(cell.affiliation != Affiliation.None && cell.affiliation != outpostData.affiliation)
         {
+            canStartCapture = true;
             captureRoutine = StartCoroutine(CaptureEnemyCell());
         }
     }
@@ -106,16 +112,20 @@ public class Outpost : Building
         captureInProgress = false;
     }
     
-    protected override void OnMouseEnter()
-    {
-        if(Vector3.SqrMagnitude(GameController.p.transform.position - transform.position) < 300f){
-            WorldUI.i.buildingHover.SetupForBuilding(this);
-            WorldUI.i.buildingHover.Show(this);
-        }
-    }
+    StringBuilder sb = new StringBuilder();
     protected override void OnMouseOver()
     {
-        WorldUI.i.buildingHover.UpdateInfo($"Capture progress: {cell.captureProgress}\nYield amount: {cell.yieldAmount}");
+        sb.Clear();
+        if(canStartCapture){
+            sb.AppendLine($"<color=green>Can capture</color>");
+        }
+        else{
+            sb.AppendLine($"<color=red>Can't start capture</color>");
+        }
+        sb.AppendLine($"Capture progress: {cell.captureProgress:F1}");
+        sb.AppendLine($"Yield amount: {cell.yieldAmount:F1}");
+        
+        WorldUI.i.buildingHover.UpdateInfo(sb.ToString());
     }
     
     public override void Death(){

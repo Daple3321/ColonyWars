@@ -12,32 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a941a2c99dab7d4cb212aedef6ee601, type: 3}
   m_Name: StartHotbar
   m_EditorClassIdentifier: 
-  inventoryItems:
-  - quantity: 1
-    item:
-      itemName: 
-      description: 
-      icon: {fileID: 0}
-      rarity: 0
-      itemData: {fileID: 11400000, guid: 23313022b98286f42b9ced6461d21457, type: 2}
-  - quantity: 1
-    item:
-      itemName: 
-      description: 
-      icon: {fileID: 0}
-      rarity: 0
-      itemData: {fileID: 11400000, guid: d0f96db66f961d340aa7ae7bfb0935cc, type: 2}
-  - quantity: 1
-    item:
-      itemName: 
-      description: 
-      icon: {fileID: 0}
-      rarity: 0
-      itemData: {fileID: 11400000, guid: 22c6422f791fe3d43aed36e95d428522, type: 2}
-  - quantity: 1
-    item:
-      itemName: 
-      description: 
-      icon: {fileID: 0}
-      rarity: 0
-      itemData: {fileID: 11400000, guid: 6b5b4916729fbed4abe7fad9b9d5eb3f, type: 2}
+  items:
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 23313022b98286f42b9ced6461d21457, type: 2}
+      Value: 1
+    - Key: {fileID: 11400000, guid: 22c6422f791fe3d43aed36e95d428522, type: 2}
+      Value: 1
+    - Key: {fileID: 11400000, guid: 6b5b4916729fbed4abe7fad9b9d5eb3f, type: 2}
+      Value: 1
+    - Key: {fileID: 11400000, guid: d0f96db66f961d340aa7ae7bfb0935cc, type: 2}
+      Value: 1

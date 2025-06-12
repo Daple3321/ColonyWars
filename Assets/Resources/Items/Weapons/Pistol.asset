@@ -22,12 +22,15 @@ MonoBehaviour:
   itemMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   itemMaterials:
   - {fileID: 2100000, guid: 9b97bf6788871ed46adada024f586dab, type: 2}
+  hasCustomScale: 0
+  customScale: {x: 1, y: 1, z: 1}
   customPrefab: {fileID: 1549962704229280597, guid: 4af3d8938075e88468789c45c259ba60, type: 3}
   damage: 3.5
   attackRate: 0.2
   chargeRate: 1.5
   needsAmmo: 0
   recoilForce: 2
+  slowingAmount: 0.5
   ammoType: {fileID: 0}
   attackType: 2
   weaponType: 1
@@ -35,7 +38,7 @@ MonoBehaviour:
   shootDistance: 30
   projectileSpeed: 50
   penetrationAmount: 0
-  projectileLifetime: 0.35
+  projectileLifetime: 0.45
   knockBackForce: 0
   concentrationScatter:
     serializedVersion: 2

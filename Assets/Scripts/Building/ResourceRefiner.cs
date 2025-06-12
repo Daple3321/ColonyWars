@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Text;
 using UnityEngine;
 
 public class ResourceRefiner : Building
@@ -57,7 +58,7 @@ public class ResourceRefiner : Building
         else if(refineDelay <= 0f){
             Refine();
             
-            if(GetCurrentRecipe().finalItem != null)
+            if(GetCurrentRecipe() != null)
             {
                 refineDelay = GetCurrentRecipe().craftTime;
             }
@@ -67,11 +68,11 @@ public class ResourceRefiner : Building
     {
         if(HasRecipe() && CanRefine())
         {
-            ItemRecipe recipe = GetCurrentRecipe();
-            if(recipe.finalItem != null)
+            CraftRecipe recipe = GetCurrentRecipe();
+            if(recipe != null)
             {
                 refinedInv.inventory.AddItem(new Item(recipe.finalItem), recipe.finalAmount);
-                originInv.inventory.ConsumeItemRequirements(recipe.itemRequirements);
+                originInv.inventory.ConsumeItemRequirements(recipe.requirements);
                 // foreach(var req in recipe.itemRequirements.requirements)
                 // {
                 //     originInv.inventory.DeleteAmount(originInv.inventory.HasItem(req.item), req.quantity);
@@ -98,7 +99,7 @@ public class ResourceRefiner : Building
         foreach(var recipe in refinerData.recipes)
         {
             bool hasRequirements = true;
-            foreach(var req in recipe.itemRequirements.requirements)
+            foreach(var req in recipe.requirements.requirements)
             {
                 if(originInv.inventory.ItemAmount(req.item) < req.quantity){
                     hasRequirements = false;
@@ -113,12 +114,12 @@ public class ResourceRefiner : Building
         //    && !refineInProgress;
         return hasAtleastOneRecipe;
     }
-    protected ItemRecipe GetCurrentRecipe()
+    protected CraftRecipe GetCurrentRecipe()
     {
-        foreach(var recipe in refinerData.recipes)
+        foreach(CraftRecipe recipe in refinerData.recipes)
         {
             bool hasRequirements = true;
-            foreach(var req in recipe.itemRequirements.requirements)
+            foreach(var req in recipe.requirements.requirements)
             {
                 if(originInv.inventory.ItemAmount(req.item) < req.quantity){
                     hasRequirements = false;
@@ -132,6 +133,16 @@ public class ResourceRefiner : Building
         }
         
         //Debug.Log($"Current recipe is NULL");
-        return ItemRecipe.GetEmpty();
+        return null;
+    }
+    
+
+    StringBuilder sb = new StringBuilder();
+    protected override void OnMouseOver()
+    {
+        sb.Clear();
+        sb.AppendLine($"Smelting progress: {refineDelay:F1}");
+        
+        WorldUI.i.buildingHover.UpdateInfo(sb.ToString());
     }
 }

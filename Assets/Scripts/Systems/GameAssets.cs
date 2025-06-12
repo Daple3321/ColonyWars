@@ -25,7 +25,10 @@ public class GameAssets
     public static GameObject buildingHoverPanel;
     public static GameObject minePanel;
     public static GameObject colonyCenterPanel;
+    public static GameObject craftingStationPanel;
     // --------------------
+    
+    public static GameObject craftSlot;
     
     public static GameObject crosshairCanvas;
 
@@ -76,6 +79,9 @@ public class GameAssets
             buildingHoverPanel = Resources.Load<GameObject>("UI/BuildingHoverCanvas");
             minePanel = Resources.Load<GameObject>("UI/MinePanel");
             colonyCenterPanel = Resources.Load<GameObject>("UI/ColonyCenterPanel");
+            craftingStationPanel = Resources.Load<GameObject>("UI/Crafting/CraftingStationPanel");
+            
+            craftSlot = Resources.Load<GameObject>("UI/Crafting/CraftSlot");
             
             crosshairCanvas = Resources.Load<GameObject>("UI/CrosshairCanvas");
             

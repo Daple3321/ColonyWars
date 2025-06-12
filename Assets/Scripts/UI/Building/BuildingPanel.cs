@@ -27,7 +27,7 @@ public class BuildingPanel : MonoBehaviour
         
         destroyButton.onClick.AddListener(DestroyButton);
     }
-    void OnDestroy(){
+    protected virtual void OnDestroy(){
         building.OnHealthChanged -= healthBar.UpdateBar;
     }
 

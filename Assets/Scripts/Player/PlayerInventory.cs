@@ -65,8 +65,8 @@ public class PlayerInventory : MonoBehaviour
         //inventory.AddItem(new RangedWeapon(itemDatas[3]), 1);
         //inventory.AddItem(new RangedWeapon(itemDatas[4]), 1);
         
-        hotbar.LoadFromData(hotbarStartInventory);
-        inventory.LoadFromData(starterInventory);
+        hotbar.LoadFromData(hotbarStartInventory.items);
+        inventory.LoadFromData(starterInventory.items);
         //hotbar.LoadFromData(starterInventory);
         
         

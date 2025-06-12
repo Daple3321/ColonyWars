@@ -157,6 +157,7 @@ MonoBehaviour:
   health: 45
   maxHealth: 45
   interactionRange: 8
+  canInteract: 1
   affiliation: 1
   buildTime: 4
   built: 0

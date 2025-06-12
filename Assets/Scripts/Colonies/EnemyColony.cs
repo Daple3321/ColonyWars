@@ -135,6 +135,12 @@ public class EnemyColony : Colony
         }
         u.GetComponent<Enemy>().InitEnemy(this);
         u.Init();
+        
+        int randLevel = 1;
+        if(stats[maxUnitsLevel].Value > 1){
+            randLevel = Random.Range((int)stats[maxUnitsLevel].Value-1, (int)stats[maxUnitsLevel].Value);
+        }
+        u.ChangeLevel(randLevel);
     }
     protected bool CanSpawnUnit(){
         return unitsAmount < stats[maxUnits].Value;

@@ -17,13 +17,13 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public float maxSpeed;
     public float rotationSpeed;
     public float fallSpeed;
-    public IMoveStrategy moveStrategy;
+    //public IMoveStrategy moveStrategy;
     
     [Space(10), Header("Attack Settings")]
     [SerializeReference] public Attack currentAttack;
     [SerializeReference, SubclassSelector] public AttackData attackData;
     
-    [Space(15)]
+    [Space(10)]
     public float damage;
     public float attackDistance = 1f;
     public float attackDuration;
@@ -88,6 +88,11 @@ public abstract class Unit : MonoBehaviour, IDamageable
         InitUI();
         
         enabled = true;
+    }
+    
+    public void ChangeLevel(int level)
+    {
+        levelSystem.ChangeLevel(level);
     }
     
     protected virtual void InitUI()
