@@ -79,7 +79,8 @@ public class CraftingStation : Manufacturer
     public Action<List<CraftRecipe>> OnQueueChanged;
     public void HandleCraftQueue()
     {
-        if(queue.Count > 0 && !craftInProgress && CanQueue(queue[0])){
+        // КРАФТЫ КОТОРЫЕ НЕ МОЖЕТ СДЕЛАТЬ ВСЁ РАВНО ИДУТ И НЕ ТРАТЯТСЯ РЕСЫ
+        if(queue.Count > 0 && !craftInProgress && CanQueue(queue[0])){ // просто ФЗПОФЫЕШОФЫЕ НЕАДЕКВАТНОЕ ГАВНО
             currentCraft = queue[0];
             queue.RemoveAt(0);
             craftInProgress = true;
