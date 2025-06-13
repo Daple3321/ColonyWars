@@ -23,10 +23,10 @@ public class ResourceRefiner : Building
     }
     public override void PrepareUI()
     {
-        originInv.PrepareUI();
+        originInv.PrepareUI(true, GameController.p.playerInventory.inventoryUI);
         originInv.UpdateUI(originInv.inventory.GetCurrentInventoryState());
         
-        refinedInv.PrepareUI();
+        refinedInv.PrepareUI(false, GameController.p.playerInventory.inventoryUI);
         refinedInv.UpdateUI(refinedInv.inventory.GetCurrentInventoryState());
     }
     public override void ClearUI()

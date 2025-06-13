@@ -44,7 +44,7 @@ public class ResourceGenerator : Generator
     
     public override void PrepareUI()
     {
-        buildingInventory.PrepareUI();
+        buildingInventory.PrepareUI(true, GameController.p.playerInventory.inventoryUI);
         buildingInventory.UpdateUI(buildingInventory.inventory.GetCurrentInventoryState());
     }
     public override void ClearUI()
