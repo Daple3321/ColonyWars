@@ -22,7 +22,11 @@ public class EnemyColony : Colony
     public int startingBuildings = 5;
     
     [SerializedDictionary("ColonyStatType", "ColonyStat")]
-    public SerializedDictionary<ColonyStatType, Stat> stats;
+    public SerializedDictionary<ColonyStatType, Stat> stats; // должно быть colonyStats
+    
+    // лучше это встроить в сами статы. Cделать опцию чтоб при инициализации добавлялся baseModifier
+    [SerializedDictionary("ColonyStatType", "ColonyStat")]
+    public SerializedDictionary<ColonyStatType, StatModifier> baseModifiers; // очень странно
     
     
     [Space(10), Header("Unit Settings")]
@@ -41,14 +45,22 @@ public class EnemyColony : Colony
     public ExpansionSequence expansionSequence;
     private bool isDay = true;
     
-    [ContextMenu("Add stat")]
-    public void AddStatTest()
+    // [ContextMenu("Add stat")]
+    // public void AddStatTest()
+    // {
+    //     stats.Add(maxBuildings, new Stat(8));
+    //     stats.Add(maxDefenses, new Stat(3));
+    //     stats.Add(maxUnits, new Stat(5));
+    //     stats.Add(maxUnitsLevel, new Stat(1));
+    //     stats.Add(unitsSpawnSpeed, new Stat(30));
+    // }
+    
+    private void ApplyInitialModifiers()
     {
-        stats.Add(maxBuildings, new Stat(8));
-        stats.Add(maxDefenses, new Stat(3));
-        stats.Add(maxUnits, new Stat(5));
-        stats.Add(maxUnitsLevel, new Stat(1));
-        stats.Add(unitsSpawnSpeed, new Stat(30));
+        foreach(var mod in baseModifiers)
+        {
+            stats[mod.Key].AddModifier(mod.Value);
+        }
     }
     
     public override void Init(BuildingData data)
@@ -64,6 +76,7 @@ public class EnemyColony : Colony
         //stats[maxUnits] = new(5);
         //stats[maxUnitsLevel] = new(1);
         //stats[unitsSpawnSpeed] = new(30);
+        ApplyInitialModifiers();
         
         spawnDelay = stats[unitsSpawnSpeed].Value;
         
@@ -92,6 +105,12 @@ public class EnemyColony : Colony
         }
         
         EventBus.i.OnSunrise += OnSunrise;
+    }
+    
+    protected override void LevelSystem_OnLevelChanged(object sender, EventArgs e)
+    {
+        baseModifiers[maxBuildings].Value += 1;
+        baseModifiers[maxBuildingLevel].Value += 1;
     }
     
     protected virtual void OnMinuteChange()
@@ -262,6 +281,8 @@ public class EnemyColony : Colony
             }
         }
         else{
+            levelSystem.LevelUp();
+            Debug.Log($"{gameObject.name} lvl up! Lv.{levelSystem.GetLevel()}", gameObject);
             // level up
         }
     }
@@ -310,7 +331,7 @@ public class EnemyColony : Colony
     {
         StringBuilder stringBuilder = new StringBuilder();
         foreach(var stat in stats){
-            stringBuilder.Append($"{stat.Key}: {stat.Value.Value} +{stat.Value.Value-stat.Value.baseValue}\n");
+            stringBuilder.Append($"{stat.Key}: {stat.Value.Value}  |  +{stat.Value.Value-stat.Value.baseValue}\n");
         }
         WorldUI.i.buildingHover.SetupForBuilding(this);
         WorldUI.i.buildingHover.Show(this, stringBuilder.ToString());

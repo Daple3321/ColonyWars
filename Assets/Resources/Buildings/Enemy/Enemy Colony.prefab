@@ -150,7 +150,6 @@ MonoBehaviour:
   cellIndex: {x: 0, y: 0, z: 0}
   capturedCells: []
   colonyData: {fileID: 0}
-  level: 1
   colonyRadius: 10
   buildings: []
   colonyZone: {fileID: 0}
@@ -161,9 +160,13 @@ MonoBehaviour:
       Value:
         baseValue: 3
         statModifiers: []
+    - Key: 5
+      Value:
+        baseValue: 1
+        statModifiers: []
     - Key: 1
       Value:
-        baseValue: 2
+        baseValue: 3
         statModifiers: []
     - Key: 2
       Value:
@@ -175,8 +178,40 @@ MonoBehaviour:
         statModifiers: []
     - Key: 4
       Value:
-        baseValue: 10
+        baseValue: 25
         statModifiers: []
+  baseModifiers:
+    _serializedList:
+    - Key: 0
+      Value:
+        Value: 0
+        Type: 100
+        Order: 0
+    - Key: 5
+      Value:
+        Value: 0
+        Type: 100
+        Order: 0
+    - Key: 1
+      Value:
+        Value: 0
+        Type: 100
+        Order: 0
+    - Key: 2
+      Value:
+        Value: 0
+        Type: 100
+        Order: 0
+    - Key: 3
+      Value:
+        Value: 0
+        Type: 100
+        Order: 0
+    - Key: 4
+      Value:
+        Value: 0
+        Type: 300
+        Order: 0
   unitsAmount: 0
   unitPool:
   - {fileID: 7294893471746113059, guid: 09254e9e152c73441b12d831c3b8072b, type: 3}

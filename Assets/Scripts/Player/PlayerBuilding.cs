@@ -31,10 +31,12 @@ public class PlayerBuilding : MonoBehaviour
     }
     
     private PlayerInventory playerInventory;
+    private Transform mainCamera;
     public void Init(PlayerInventory playerInventory)
     {
         //availableBuildings = new List<BuildingData>();
         controls = GameAssets.controls;
+        mainCamera = Camera.main.transform;
         mouse = Mouse.current;
         this.playerInventory = playerInventory;
         
@@ -63,16 +65,20 @@ public class PlayerBuilding : MonoBehaviour
     private void HandleBuilding()
     {
         RaycastHit hit;
+        float buildAngle = 0f;
         if(PlayerAiming.Raycast(buildRaycastMask, out hit))
         {
             PlayerAiming.worldMouseFollower.transform.position = hit.point;
+            buildAngle = Mathf.Atan2(mainCamera.transform.forward.x, mainCamera.transform.forward.z) * Mathf.Rad2Deg;
+            buildingProjection.transform.rotation = Quaternion.AngleAxis(buildAngle, Vector3.up);
+            
             buildingProjection.UpdateProjection(transform.position);
         }
         
         // Rotation (ctrl + scrollwheel?)
         if(mouse.leftButton.IsPressed())
         {
-            TryBuild(selectedBuilding, hit.point);
+            TryBuild(selectedBuilding, hit.point, Quaternion.AngleAxis(buildAngle, Vector3.up));
         }
         if(mouse.rightButton.IsPressed())
         {
@@ -80,7 +86,7 @@ public class PlayerBuilding : MonoBehaviour
         }
     }
     
-    public bool TryBuild(BuildingData building, Vector3 buildPos)
+    public bool TryBuild(BuildingData building, Vector3 buildPos, Quaternion buildRotation)
     {
         if(!CheckBuildConditions(building, buildPos) || !building.CheckBuildConditions(buildPos)){
             Debug.LogWarning("Build conditions not met.");
@@ -90,6 +96,7 @@ public class PlayerBuilding : MonoBehaviour
         playerInventory.ConsumeItemRequirements(building.craftPrice);
         
         Building newBuilding = Instantiate(building.prefab, PlayerAiming.worldMouseFollower.transform.position, Quaternion.identity).GetComponent<Building>();
+        newBuilding.transform.rotation = buildRotation;
         newBuilding.Init(building);
         StartCoroutine(newBuilding.Build());
         SwitchBuildingMode();

@@ -23,7 +23,7 @@ public class BuildingPanel : MonoBehaviour
         building.OnHealthChanged += healthBar.UpdateBar;
         healthBar.UpdateBar(building.health, building.maxHealth);
         
-        buildingName.text = building.buildingData.buildingName;
+        buildingName.text = $"{building.buildingData.buildingName} <color=yellow>Lv.{building.levelSystem.GetLevel()}</color>";
         
         destroyButton.onClick.AddListener(DestroyButton);
     }

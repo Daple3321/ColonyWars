@@ -16,7 +16,7 @@ public class BuildingHoverPanel : MonoBehaviour
     public void SetupForBuilding(Building building)
     {
         healthBar.Init(building.affiliation);
-        healthBar.barDesc.text = building.buildingData.buildingName;
+        healthBar.barDesc.text = $"{building.buildingData.buildingName} <color=yellow>Lv.{building.levelSystem.GetLevel()}</color>";
         building.OnHealthChanged += healthBar.UpdateBar;
         healthBar.UpdateBar(building.health, building.maxHealth);
     }

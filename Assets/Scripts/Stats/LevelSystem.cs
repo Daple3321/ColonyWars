@@ -42,9 +42,19 @@ public class LevelSystem
         OnExperienceChanged?.Invoke(this, EventArgs.Empty);
     }
     
+    public void LevelUp()
+    {
+        level++;
+        experience = 0;
+        OnLevelChanged?.Invoke(this, EventArgs.Empty);
+        OnExperienceChanged?.Invoke(this, EventArgs.Empty);
+    }
+    
     public void ChangeLevel(int lvl){
         level = lvl;
         experience = 0;
+        OnLevelChanged?.Invoke(this, EventArgs.Empty);
+        OnExperienceChanged?.Invoke(this, EventArgs.Empty);
     }
     
     public int GetLevel(){

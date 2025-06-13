@@ -7,8 +7,6 @@ public abstract class Colony : Building
 {
     public ColonyCenterData colonyData;
     
-    public int level = 1;
-    
     public float colonyRadius = 20f;
     
     //public ColonyCore core;

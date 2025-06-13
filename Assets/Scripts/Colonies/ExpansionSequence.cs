@@ -36,46 +36,52 @@ public class ExpansionSequence : ScriptableObject
             SetActionInterval(currentAction);
         }
         
-        if(isDay)
-        {
-            if(timeToNextAction > 0){
-                timeToNextAction -= 1;
-            }
-            else if(timeToNextAction <= 0 && dayActionIndex < daySeq.Count-1){ // ещё не достигли конца
-                PerformAction(daySeq[dayActionIndex]);
-                dayActionIndex++;
-                
-                currentAction = daySeq[dayActionIndex];
-                SetActionInterval(currentAction);
-            }
-            else if(timeToNextAction <= 0 && dayActionIndex < daySeq.Count){ // достигли конца сиквенса
-                PerformAction(daySeq[dayActionIndex]);
-                dayActionIndex = 0; // loop
-                
-                currentAction = daySeq[dayActionIndex];
-                SetActionInterval(currentAction);
-            }
-            
+        if(isDay){
+            HandleDaySequence();
         }
-        else
-        {
-            if(timeToNextAction > 0){
-                timeToNextAction -= 1;
-            }
-            else if(timeToNextAction <= 0 && nightActionIndex < nightSeq.Count-1){
-                PerformAction(nightSeq[nightActionIndex]);
-                nightActionIndex++;
-                
-                currentAction = nightSeq[nightActionIndex];
-                SetActionInterval(currentAction);
-            }
-            else if(timeToNextAction <= 0 && nightActionIndex < nightSeq.Count){
-                PerformAction(nightSeq[nightActionIndex]);
-                nightActionIndex = 0; // loop
-                
-                currentAction = nightSeq[nightActionIndex];
-                SetActionInterval(currentAction);
-            }
+        else{
+            HandleNightSequence();
+        }
+    }
+    
+    private void HandleDaySequence()
+    {
+        if(timeToNextAction > 0){
+            timeToNextAction -= 1;
+        }
+        else if(timeToNextAction <= 0 && dayActionIndex < daySeq.Count-1){ // ещё не достигли конца
+            PerformAction(daySeq[dayActionIndex]);
+            dayActionIndex++;
+            
+            currentAction = daySeq[dayActionIndex];
+            SetActionInterval(currentAction);
+        }
+        else if(timeToNextAction <= 0 && dayActionIndex < daySeq.Count){ // достигли конца сиквенса
+            PerformAction(daySeq[dayActionIndex]);
+            dayActionIndex = 0; // loop
+            
+            currentAction = daySeq[dayActionIndex];
+            SetActionInterval(currentAction);
+        }
+    }
+    private void HandleNightSequence()
+    {
+        if(timeToNextAction > 0){
+            timeToNextAction -= 1;
+        }
+        else if(timeToNextAction <= 0 && nightActionIndex < nightSeq.Count-1){
+            PerformAction(nightSeq[nightActionIndex]);
+            nightActionIndex++;
+            
+            currentAction = nightSeq[nightActionIndex];
+            SetActionInterval(currentAction);
+        }
+        else if(timeToNextAction <= 0 && nightActionIndex < nightSeq.Count){
+            PerformAction(nightSeq[nightActionIndex]);
+            nightActionIndex = 0; // loop
+            
+            currentAction = nightSeq[nightActionIndex];
+            SetActionInterval(currentAction);
         }
     }
     

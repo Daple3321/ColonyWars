@@ -18,6 +18,7 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
     public float interactionRange = 8;
     public bool canInteract = true; 
     
+    public LevelSystem levelSystem;
     
     public Affiliation affiliation;
     
@@ -62,7 +63,15 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
         cell = ColoniesManager.i.gridManager.GetCell(cellIndex.x, cellIndex.z);
         capturedCells = new List<Cell>();
         
+        levelSystem = new LevelSystem();
+        levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
+        
         this.buildingData = data;
+    }
+    
+    protected virtual void LevelSystem_OnLevelChanged(object sender, EventArgs e)
+    {
+        
     }
     
     //Coroutine attackAlarm;

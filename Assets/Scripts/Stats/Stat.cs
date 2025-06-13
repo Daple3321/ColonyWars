@@ -10,6 +10,8 @@ public enum ColonyStatType
     maxUnits = 2,
     maxUnitsLevel = 3,
     unitsSpawnSpeed = 4,
+    maxBuildingLevel = 5,
+    
 }
 
 public enum EntityStatType
