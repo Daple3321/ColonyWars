@@ -21,7 +21,7 @@ public class BuildingInventory
         inventory.OnInventoryUpdated += UpdateUI;
     }
     
-    public void PrepareUI()
+    public void PrepareUI(bool transferPriority = false, InventoryUI transferInventory = null)
     {
         GameObject invObj = GameObject.Instantiate(GameAssets.hotbarUI_Prefab);
         invObj.transform.SetParent(GameController.i.buildingPanelManager.currentPanel.dataContainter);
@@ -32,8 +32,11 @@ public class BuildingInventory
         this.inventoryUI.OnStartDragging += HandleDragging;
         this.inventoryUI.OnItemVoidDrop += HandleVoidDrop;
         this.inventoryUI.OnTransferItemsRequest += playerInventory.HandleTransferRequest;
+        this.inventoryUI.OnFastTransferRequest += playerInventory.HandleFastTranferRequest;
         inventoryUI.SetLinkedInventory(inventory);
+        inventoryUI.SetTransferInventory(transferInventory);
         
+        this.inventoryUI.Show(transferPriority);
         //UpdateUI(inventory.GetCurrentInventoryState());
     }
     public void ClearUI()
@@ -42,6 +45,9 @@ public class BuildingInventory
         this.inventoryUI.OnStartDragging -= HandleDragging;
         this.inventoryUI.OnItemVoidDrop -= HandleVoidDrop;
         this.inventoryUI.OnTransferItemsRequest -= playerInventory.HandleTransferRequest;
+        this.inventoryUI.OnFastTransferRequest -= playerInventory.HandleFastTranferRequest;
+        
+        this.inventoryUI.Hide();
     }
     
     private void HandleSwapItems(int itemIndex_1, int itemIndex_2, InventoryItem from, InventoryItem to)

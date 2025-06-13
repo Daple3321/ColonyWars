@@ -16,6 +16,7 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
 
     public event Action<InventorySlot> OnItemClicked, OnRightClick, OnItemEndDrag;
     
+    public event Action<InventorySlot> OnItemFastTransfer;
     public event Action<InventorySlot, int> OnItemVoidDrop;
     public event Action<InventorySlot, int> OnItemDropped;
     public event Action<InventorySlot, bool> OnItemBeginDrag;
@@ -83,9 +84,14 @@ public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHand
         {
             OnRightClick?.Invoke(this);
         }
-        else
+        else if(pointerData.button == PointerEventData.InputButton.Left)
         {
             OnItemClicked?.Invoke(this);
+        }
+        
+        if(pointerData.button == PointerEventData.InputButton.Left && Input.GetKey(KeyCode.LeftShift))
+        {
+            OnItemFastTransfer?.Invoke(this);
         }
     }
 

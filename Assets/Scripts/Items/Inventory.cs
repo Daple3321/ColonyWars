@@ -147,6 +147,17 @@ public class Inventory
         //Debug.LogWarning("[AddToFirstEmptySlot] Not enough space in inventory!");
         return false;
     }
+    public int FirstEmptySlot()
+    {
+        for (int i = 0; i < inventoryItems.Count; i++)
+        {
+            if (inventoryItems[i].IsEmpty)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
 
     public void AddItem(InventoryItem item)
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -25,11 +26,13 @@ public class PlayerInventory : MonoBehaviour
     public InventoryData hotbarStartInventory;
     public InventoryData starterInventory;
     
+    public List<InventoryUI> activeInventories;
+    
     private Player player;
     [SerializeField] private Transform dropPoint;
     private Transform rightHand;
     private Transform leftHand;
-    [SerializeField] private InventoryUI inventoryUI;
+    [SerializeField] public InventoryUI inventoryUI;
     [SerializeField] private InventoryUI hotbarUI;
     void Awake()
     {
@@ -58,25 +61,33 @@ public class PlayerInventory : MonoBehaviour
         
         PrepareUI();
 
-        //inventory.AddItem(new RangedWeapon(itemDatas[1]), 1);
-        //inventory.AddItem(new Item(itemDatas[2]), 5);
-        //inventory.AddItem(new MeleeWeapon(itemDatas[0]), 1);
-        //inventory.AddItem(new Item(itemDatas[2]), 1);
-        //inventory.AddItem(new RangedWeapon(itemDatas[3]), 1);
-        //inventory.AddItem(new RangedWeapon(itemDatas[4]), 1);
-        
         hotbar.LoadFromData(hotbarStartInventory.items);
         inventory.LoadFromData(starterInventory.items);
-        //hotbar.LoadFromData(starterInventory);
-        
-        
-        //hotbar.AddItem(new RangedWeapon(itemDatas[1]), 1);
-        //hotbar.AddItem(new MeleeWeapon(itemDatas[0]), 1);
-        //hotbar.AddItem(new Item(itemDatas[3]), 5);
-        //hotbar.AddItem(new Item(itemDatas[4]), 3);
         //SelectItem(hotbar, selectedSlotId);
     }
-
+    
+    
+    public void AddActiveInventory(InventoryUI inv, bool transferPriority = false)
+    {
+        if(activeInventories.Contains(inv)){
+            Debug.LogWarning("Active inventories already contain this inventory");
+            return;
+        }
+        
+        if(transferPriority){
+            activeInventories.Insert(0, inv);
+        }
+        else{
+            activeInventories.Add(inv);
+        }
+    }
+    public void RemoveActiveInventory(InventoryUI inv)
+    {
+        if(activeInventories.Contains(inv)){
+            activeInventories.Remove(inv);
+        }
+    }
+    
     private void UpdateUI(Dictionary<int, InventoryItem> inventoryState)
     {
         inventoryUI.ResetAllItems();
@@ -105,6 +116,7 @@ public class PlayerInventory : MonoBehaviour
         this.inventoryUI.OnItemVoidDrop += HandleVoidDrop;
         this.inventoryUI.OnItemActionRequested += HandleItemActionRequest;
         this.inventoryUI.OnTransferItemsRequest += HandleTransferRequest;
+        this.inventoryUI.OnFastTransferRequest += HandleFastTranferRequest;
         inventoryUI.SetLinkedInventory(inventory);
 
         GameObject hotbarObj = Instantiate(GameAssets.hotbarUI_Prefab, GameController.i.mainCanvas.transform);
@@ -115,6 +127,7 @@ public class PlayerInventory : MonoBehaviour
         this.hotbarUI.OnItemVoidDrop += HandleVoidDropHotbar;
         this.hotbarUI.OnItemActionRequested += HandleItemActionRequest;
         this.hotbarUI.OnTransferItemsRequest += HandleTransferRequest;
+        this.hotbarUI.OnFastTransferRequest += HandleFastTranferRequest;
         hotbarUI.SetLinkedInventory(hotbar);
         foreach (var item in hotbar.GetCurrentInventoryState())
         {
@@ -123,7 +136,58 @@ public class PlayerInventory : MonoBehaviour
 
         GameController.i.mouseFollower.transform.SetAsLastSibling();
     }
-
+    
+    public void HandleFastTranferRequest(InventoryUI sourceUI, int sourceIndex)
+    {
+        Inventory sourceInventory = sourceUI.LinkedInventory;
+        InventoryUI destinationUI = null;
+        Inventory destinationInventory = null;
+        int destinationIndex = -1;
+        
+        if(sourceUI.TransferInventory != null) // если у инвентаря есть заданный TransferInventory
+        {
+            destinationUI = sourceUI.TransferInventory;
+            destinationInventory = destinationUI.LinkedInventory;
+            destinationIndex = destinationInventory.FirstEmptySlot();
+            if(destinationIndex != -1){
+                HandleTransferRequest_Fast(sourceUI, sourceIndex, destinationUI, destinationIndex);
+            }
+            else{
+                Debug.LogWarning("Destination inventory is full");
+            }
+        }
+        else
+        {
+            destinationUI = activeInventories[0];
+            destinationInventory = destinationUI.LinkedInventory;
+            destinationIndex = destinationInventory.FirstEmptySlot();
+            if(destinationIndex != -1){
+                HandleTransferRequest_Fast(sourceUI, sourceIndex, destinationUI, destinationIndex);
+            }
+            else{
+                Debug.LogWarning("Destination inventory is full");
+            }
+        }
+        // else{
+        //     foreach(var inv in activeInventories)
+        //     {
+        //         if(inv != sourceUI)
+        //         {
+        //             destinationUI = activeInventories[0];
+        //             destinationInventory = destinationUI.LinkedInventory;
+        //             destinationIndex = destinationInventory.FirstEmptySlot();
+        //             if(destinationIndex != -1){
+        //                 HandleTransferRequest_Fast(sourceUI, sourceIndex, destinationUI, destinationIndex);
+        //                 return;
+        //             }
+        //             else{
+        //                 Debug.Log("Destination inventory is full");
+        //             }
+        //         }
+        //     }
+        // }
+    }
+    
     private void HandleItemActionRequest(int itemIndex)
     {
         
@@ -210,6 +274,97 @@ public class PlayerInventory : MonoBehaviour
 
         InventoryItem itemAtDestination = destinationInventory.GetItemAt(destinationIndex);
         int quantityToMove = DragDropManager.dragQuantity; // Получаем количество для переноса
+
+
+        // --- Логика переноса/обмена между инвентарями ---
+
+        // 1. Простой случай: перемещение в пустой слот назначения
+        if (itemAtDestination.IsEmpty)
+        {
+            //sourceInventory.SetItemAt(sourceIndex, InventoryItem.GetEmptyItem()); // Очищаем источник
+            //destinationInventory.SetItemAt(destinationIndex, itemToMove);       // Помещаем в назначение
+            
+            // Уменьшаем количество в источнике
+            InventoryItem sourceRemaining = itemToMove.ChangeQuantity(itemToMove.quantity - quantityToMove);
+            if (sourceRemaining.quantity <= 0)
+            {
+                sourceInventory.SetItemAt(sourceIndex, InventoryItem.GetEmptyItem());
+            }
+            else
+            {
+                sourceInventory.SetItemAt(sourceIndex, sourceRemaining);
+            }
+
+            // Помещаем в назначение
+            destinationInventory.SetItemAt(destinationIndex, new InventoryItem { item = itemToMove.item, quantity = quantityToMove });
+        }
+        // 2. Предметы одинаковые и можно стакать
+        else if (InventoryItem.CanStackCheck(itemToMove, itemAtDestination))
+        {
+            int maxCanTake = itemAtDestination.MaxStackSize - itemAtDestination.quantity;
+            int actualMoveAmount = Mathf.Min(quantityToMove, maxCanTake); // Сколько реально можем переместить
+
+            if (actualMoveAmount > 0)
+            {
+                // Уменьшаем количество в источнике
+                InventoryItem sourceRemaining = itemToMove.ChangeQuantity(itemToMove.quantity - actualMoveAmount);
+                if (sourceRemaining.quantity <= 0)
+                {
+                    sourceInventory.SetItemAt(sourceIndex, InventoryItem.GetEmptyItem());
+                }
+                else
+                {
+                    sourceInventory.SetItemAt(sourceIndex, sourceRemaining);
+                }
+
+                // Увеличиваем количество в назначении
+                destinationInventory.SetItemAt(destinationIndex, itemAtDestination.ChangeQuantity(itemAtDestination.quantity + actualMoveAmount));
+            }
+            else // Если стакать некуда (dest полный), и это был полный драг ЛКМ - меняем местами
+            {
+                if (quantityToMove == itemToMove.quantity) // Проверяем, был ли это полный драг
+                {
+                    sourceInventory.SetItemAt(sourceIndex, itemAtDestination);
+                    destinationInventory.SetItemAt(destinationIndex, itemToMove);
+                }
+                // Иначе (ПКМ драг на полный слот того же типа) - ничего не делаем
+            }
+        }
+        // 3. Предметы разные ИЛИ одинаковые, но стакать нельзя/некуда (и это был полный драг)
+        else if (quantityToMove == itemToMove.quantity) // Только если перетаскивали весь стак
+        {
+            // Меняем местами
+            sourceInventory.SetItemAt(sourceIndex, itemAtDestination);
+            destinationInventory.SetItemAt(destinationIndex, itemToMove);
+        }
+        // 4. Если предметы разные и это был частичный драг (ПКМ) - не позволяем обмен.
+        // else { Debug.Log("Cannot split stack onto a different item type between inventories."); }
+
+        sourceInventory.InformAboutChange();
+        destinationInventory.InformAboutChange();
+
+        Debug.Log($"Transferred/Swapped item from {sourceInventory} (idx {sourceIndex}) to {destinationInventory} (idx {destinationIndex})");
+    }
+    public void HandleTransferRequest_Fast(InventoryUI sourceUI, int sourceIndex, InventoryUI destinationUI, int destinationIndex)
+    {
+        Inventory sourceInventory = sourceUI.LinkedInventory;
+        Inventory destinationInventory = destinationUI.LinkedInventory;
+
+        if (sourceInventory == null || destinationInventory == null)
+        {
+            Debug.LogError("Transfer failed: Linked inventory not found.");
+            return;
+        }
+
+        InventoryItem itemToMove = sourceInventory.GetItemAt(sourceIndex);
+        if (itemToMove.IsEmpty)
+        {
+            Debug.LogWarning("Transfer failed: Source slot is empty.");
+            return;
+        }
+
+        InventoryItem itemAtDestination = destinationInventory.GetItemAt(destinationIndex);
+        int quantityToMove = itemToMove.quantity; // Получаем количество для переноса
 
 
         // --- Логика переноса/обмена между инвентарями ---

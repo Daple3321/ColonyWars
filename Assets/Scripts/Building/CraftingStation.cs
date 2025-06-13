@@ -30,14 +30,15 @@ public class CraftingStation : Manufacturer
     
     public override void PrepareUI()
     {
-        originInv.PrepareUI();
+        originInv.PrepareUI(true, GameController.p.playerInventory.inventoryUI);
         originInv.UpdateUI(originInv.inventory.GetCurrentInventoryState());
-        outputInv.PrepareUI();
+        outputInv.PrepareUI(false, GameController.p.playerInventory.inventoryUI);
         outputInv.UpdateUI(outputInv.inventory.GetCurrentInventoryState());
         
         if(GameController.i.buildingPanelManager.currentPanel is CraftingStationPanel csp)
         {
             csp.InitCrafts(recipes.ToArray());
+            csp.InitQueue(queue);
             // foreach(CraftSlot slot in csp.crafts){
             //     slot.OnCraftClicked += QueueCraft;
             // }

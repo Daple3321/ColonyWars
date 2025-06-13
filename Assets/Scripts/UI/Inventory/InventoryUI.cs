@@ -25,11 +25,15 @@ public class InventoryUI : MonoBehaviour
     public event Action<InventoryUI, int, InventoryUI, int> OnTransferItemsRequest;
     public event Action<int, int> OnItemVoidDrop;
     public event Action<int, int> OnStartDragging;
+    public event Action<InventoryUI, int> OnFastTransferRequest;
 
     public Inventory LinkedInventory { get; private set; }
-    public void SetLinkedInventory(Inventory linkedInventory)
-    {
+    public InventoryUI TransferInventory;
+    public void SetLinkedInventory(Inventory linkedInventory){
         LinkedInventory = linkedInventory;
+    }
+    public void SetTransferInventory(InventoryUI transferInventory){
+        TransferInventory = transferInventory;
     }
     
     public void InitializeInventoryUI(int size)
@@ -49,8 +53,9 @@ public class InventoryUI : MonoBehaviour
             slot.OnItemVoidDrop += HandleVoidDrop;
             slot.OnItemEndDrag += HandleEndDrag;
             slot.OnRightClick += HandleShowItemActions;
+            slot.OnItemFastTransfer += HandleFastTransfer;
         }
-
+        
         if (hideOnInit)
         {
             Hide();
@@ -65,7 +70,19 @@ public class InventoryUI : MonoBehaviour
             inventorySlots[itemIndex].SetData(itemImage, itemQuantity, item);
         }
     }
-
+    
+    private void HandleFastTransfer(InventorySlot slot)
+    {
+        InventoryUI sourceUI = slot.ParentUI;
+        int sourceIndex = sourceUI.inventorySlots.IndexOf(slot);
+        
+        OnFastTransferRequest?.Invoke(slot.ParentUI, sourceIndex);
+        
+        if(!slot.empty){
+            Debug.Log($"Fast tranfser request of {slot.item.item.itemName} {sourceIndex}");
+        }
+    }
+    
     private void HandleShowItemActions(InventorySlot slot)
     {
         
@@ -178,8 +195,9 @@ public class InventoryUI : MonoBehaviour
         // descriptionRequested
     }
 
-    public void Show()
+    public void Show(bool transferPriority = false)
     {
+        GameController.p.playerInventory.AddActiveInventory(this, transferPriority);
         EventBus.i.OnInteractivePanelOpened?.Invoke();
         gameObject.SetActive(true);
         ResetSelection();
@@ -200,6 +218,8 @@ public class InventoryUI : MonoBehaviour
 
     public void Hide()
     {
+        GameController.p.playerInventory.RemoveActiveInventory(this);
+        
         EventBus.i.OnInteractivePanelClosed?.Invoke();
         gameObject.SetActive(false);
         ResetDraggedItem();
