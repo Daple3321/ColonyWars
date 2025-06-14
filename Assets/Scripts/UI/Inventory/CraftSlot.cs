@@ -23,12 +23,24 @@ public class CraftSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandl
         this.parentInventory = parentInventory;
     }
     
-    public void SetData(Sprite sprite, int quantity, CraftRecipe recipe)
+    public void SetCraftData(Sprite sprite, int quantity, CraftRecipe recipe)
     {
         this.recipe = recipe;
         itemImage.sprite = sprite;
         quantityTxt.text = quantity.ToString();
         //rarityBg.color = Helper.GetRarityColor(recipe.finalItem.rarity);
+
+        quantityTxt.gameObject.SetActive(true);
+        this.itemImage.gameObject.SetActive(true);
+    }
+    
+    public CraftQueueElement craftQueueElement;
+    public void SetQueueData(Sprite sprite, int amountToCraft, CraftQueueElement queueElement) // НЕ НУЖНО
+    {
+        this.craftQueueElement = queueElement;
+        this.recipe = queueElement.recipe;
+        itemImage.sprite = sprite;
+        quantityTxt.text = amountToCraft.ToString();
 
         quantityTxt.gameObject.SetActive(true);
         this.itemImage.gameObject.SetActive(true);

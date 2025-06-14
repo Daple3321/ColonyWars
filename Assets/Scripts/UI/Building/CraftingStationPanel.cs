@@ -51,28 +51,28 @@ public class CraftingStationPanel : BuildingPanel
     
     public void InitCrafts(CraftRecipe[] recipes)
     {
-        foreach (CraftRecipe craft in recipes)
+        foreach (var craft in recipes)
         {
             GameObject go = Instantiate(GameAssets.craftSlot, craftsContainer);
             CraftSlot slot = go.GetComponent<CraftSlot>();
             slot.Init(craftingStation.originInv);
-            slot.SetData(craft.finalItem.icon, craft.finalAmount, craft);
+            slot.SetCraftData(craft.finalItem.icon, craft.finalAmount, craft);
             slot.OnCraftClicked += craftingStation.QueueCraft;
             crafts.Add(slot);
         }
         
     }
     
-    public void InitQueue(List<CraftRecipe> queue)
+    public void InitQueue(List<CraftQueueElement> queue)
     {
         ClearQueue();
         
-        foreach(CraftRecipe craft in queue)
+        foreach(var craft in queue)
         {
             GameObject go = Instantiate(GameAssets.craftSlot, queueContainer);
             CraftSlot slot = go.GetComponent<CraftSlot>();
             slot.Init(craftingStation.originInv);
-            slot.SetData(craft.finalItem.icon, craft.finalAmount, craft);
+            slot.SetQueueData(craft.recipe.finalItem.icon, craft.amountToCraft, craft);
             slot.OnCraftClicked += craftingStation.DequeueCraft;
             queueCrafts.Add(slot);
         }

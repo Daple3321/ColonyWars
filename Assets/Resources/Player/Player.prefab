@@ -560,6 +560,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 66ced8085358f47409a0d7374e536a72, type: 2}
   - {fileID: 11400000, guid: 8c18ed3782dbe1441a7b5ea4be5f5a38, type: 2}
   - {fileID: 11400000, guid: 31e865ad214131146986eb62a9416465, type: 2}
+  - {fileID: 11400000, guid: 7b8e27bd2c853da4090d454b73c768f1, type: 2}
+  - {fileID: 11400000, guid: f5959b8b18a18dc4d8cc39180726e0f3, type: 2}
   - {fileID: 11400000, guid: ee98459513c33e24c9d13c0863a2423a, type: 2}
   - {fileID: 11400000, guid: 919ae6e77d649f346b26174f360a3316, type: 2}
   - {fileID: 11400000, guid: 75b30877b2793c84fa86c56373c9ba93, type: 2}
@@ -600,6 +602,7 @@ MonoBehaviour:
   selectedWorldItem: {fileID: 0}
   hotbarStartInventory: {fileID: 11400000, guid: 6cbfda2174ee86842880c747cdcdaee9, type: 2}
   starterInventory: {fileID: 11400000, guid: 9d4c0ffe26e366e4ab2962453e438312, type: 2}
+  activeInventories: []
   dropPoint: {fileID: 1358582417517567280}
   inventoryUI: {fileID: 0}
   hotbarUI: {fileID: 0}

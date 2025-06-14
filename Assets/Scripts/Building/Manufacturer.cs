@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Manufacturer : Building
+public abstract class Manufacturer : Building
 {
     public BuildingInventory originInv;
     

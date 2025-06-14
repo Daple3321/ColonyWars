@@ -9,8 +9,8 @@ public class CraftingStation : Manufacturer
     
     public bool craftInProgress;
     public float craftProgress;
-    public CraftRecipe currentCraft;
-    public List<CraftRecipe> queue;
+    public CraftQueueElement currentCraft;
+    public List<CraftQueueElement> queue;
     public int queueCapacity = 10;
     
     public BuildingInventory outputInv;
@@ -19,8 +19,8 @@ public class CraftingStation : Manufacturer
     {
         base.Init(data);
         
-        outputInv = new BuildingInventory(this, 1);
-        queue = new List<CraftRecipe>();
+        outputInv = new BuildingInventory(this, 3);
+        queue = new List<CraftQueueElement>();
         
         if(data is CraftingStationData csd){
             stationData = csd;
@@ -49,12 +49,12 @@ public class CraftingStation : Manufacturer
         originInv.ClearUI();
         outputInv.ClearUI();
         
-        if(GameController.i.buildingPanelManager.currentPanel is CraftingStationPanel csp)
-        {
-            // foreach(CraftSlot slot in csp.crafts){
-            //     slot.OnCraftClicked -= QueueCraft;
-            // }
-        }
+        // if(GameController.i.buildingPanelManager.currentPanel is CraftingStationPanel csp)
+        // {
+        //     // foreach(CraftSlot slot in csp.crafts){
+        //     //     slot.OnCraftClicked -= QueueCraft;
+        //     // }
+        // }
     }
     public override void OnDeath()
     {
@@ -63,41 +63,82 @@ public class CraftingStation : Manufacturer
         outputInv.DropAllItems();
     }
     
-    public override BuildingPanel CreatePanel(RectTransform parentContainer)
-    {
+    public override BuildingPanel CreatePanel(RectTransform parentContainer){
         GameObject go = Instantiate(GameAssets.craftingStationPanel, parentContainer);
         CraftingStationPanel panel = go.GetComponent<CraftingStationPanel>();
         //panel.Init(this);
         return panel;
     }
 
-    void Update()
-    {
+    void Update(){
         HandleCraftQueue();
     }
 
     public Action<float, float> OnCraftProgressChanged;
-    public Action<List<CraftRecipe>> OnQueueChanged;
-    public void HandleCraftQueue()
+    public Action<List<CraftQueueElement>> OnQueueChanged;
+    private void HandleCraftQueue()
     {
-        // КРАФТЫ КОТОРЫЕ НЕ МОЖЕТ СДЕЛАТЬ ВСЁ РАВНО ИДУТ И НЕ ТРАТЯТСЯ РЕСЫ
-        if(queue.Count > 0 && !craftInProgress && CanQueue(queue[0])){ // просто ФЗПОФЫЕШОФЫЕ НЕАДЕКВАТНОЕ ГАВНО
-            currentCraft = queue[0];
-            queue.RemoveAt(0);
-            craftInProgress = true;
-            craftProgress = 0;
-            OnCraftProgressChanged?.Invoke(craftProgress, currentCraft.craftTime);
-            OnQueueChanged?.Invoke(queue);
+        if(!craftInProgress)
+        {
+            for (int i = 0; i < queue.Count; i++) // сильно конечно так лупится каждый фрейм
+            {
+                if (CanCraft(queue[i].recipe))
+                {
+                    currentCraft = queue[i];
+
+                    if (currentCraft.IsLastCraft())
+                    {
+                        queue.RemoveAt(i);
+                    }
+                    else
+                    {
+                        currentCraft.Subtract();
+                    }
+
+                    craftInProgress = true;
+                    craftProgress = 0;
+                    OnCraftProgressChanged?.Invoke(craftProgress, currentCraft.recipe.craftTime);
+                    OnQueueChanged?.Invoke(queue);
+                    break; // нашли подходящий крафт — выходим из цикла
+                }
+            }
         }
         
-        if(craftInProgress && craftProgress < currentCraft.craftTime)
+        // КРАФТЫ КОТОРЫЕ НЕ МОЖЕТ СДЕЛАТЬ ВСЁ РАВНО ИДУТ И НЕ ТРАТЯТСЯ РЕСЫ
+        // if(queue.Count > 0 && !craftInProgress && CanCraft(queue[0].recipe))
+        // {
+        //     currentCraft = queue[0];
+        //     if(currentCraft.IsLastCraft()){
+        //         queue.RemoveAt(0);
+        //     }
+        //     else{
+        //         currentCraft.Subtract();
+        //     }
+        //     craftInProgress = true;
+        //     craftProgress = 0;
+        //     OnCraftProgressChanged?.Invoke(craftProgress, currentCraft.recipe.craftTime);
+        //     OnQueueChanged?.Invoke(queue);
+        // }
+        
+        if(craftInProgress){
+            HandleCraftProgress();
+        }
+        // else if(craftInProgress && !CanCraft_Fast(currentCraft.recipe)){
+        //     craftInProgress = false;
+        //     craftProgress = 0;
+        // }
+    }
+    
+    private void HandleCraftProgress()
+    {
+        if(craftProgress < currentCraft.recipe.craftTime)
         {
             craftProgress += Time.deltaTime;
-            OnCraftProgressChanged?.Invoke(craftProgress, currentCraft.craftTime);
+            OnCraftProgressChanged?.Invoke(craftProgress, currentCraft.recipe.craftTime);
         }
-        else if(craftInProgress && craftProgress >= currentCraft.craftTime)
+        else if(craftProgress >= currentCraft.recipe.craftTime)
         {
-            Craft(currentCraft);
+            Craft(currentCraft.recipe);
             craftInProgress = false;
             craftProgress = 0;
             OnCraftProgressChanged?.Invoke(craftProgress, 1);
@@ -106,17 +147,29 @@ public class CraftingStation : Manufacturer
     
     public void QueueCraft(CraftRecipe recipe)
     {
-        //if (!CanCraft(recipe)) return;
+        if(queue.Count >= queueCapacity){return;}
         
-        if(queue.Count < queueCapacity){
-            queue.Add(recipe);
-            OnQueueChanged?.Invoke(queue);
+        CraftQueueElement foundElement =  queue.Find(x => x.recipe == recipe);
+        if(foundElement != null){
+            //Debug.Log("Stacking craft!");
+            foundElement.Add();
         }
+        else{
+            queue.Add(new CraftQueueElement(recipe));
+        }
+        
+        OnQueueChanged?.Invoke(queue);
     }
     public void DequeueCraft(CraftRecipe recipe)
     {
-        queue.Remove(recipe);
-        OnQueueChanged?.Invoke(queue);
+        CraftQueueElement foundElement = queue.Find(x => x.recipe == recipe);
+        if(foundElement != null){
+            queue.Remove(foundElement);
+            OnQueueChanged?.Invoke(queue);
+        }
+        else{
+            Debug.LogError("Can't dequeue. Element with that craft not found!");
+        }
     }
     
     public bool CanQueue(CraftRecipe recipe)
@@ -135,9 +188,9 @@ public class CraftingStation : Manufacturer
         return true;
     }
     
-    public bool CanCraft(CraftRecipe recipe)
+    public bool CanCraft(CraftRecipe recipe) // GC alloc every frame bruh this fucking LINQ
     {
-        foreach (var req in recipe.requirements.requirements)
+        foreach (ItemRequirement req in recipe.requirements.requirements)
         {
             if (originInv.inventory.ItemAmount(req.item) < req.quantity)
                 return false;
@@ -165,5 +218,34 @@ public class CraftingStation : Manufacturer
         outputInv.inventory.AddItem(recipe.finalItem.CreateItemInstance(), recipe.finalAmount);
 
         return;
+    }
+}
+
+[System.Serializable]
+public class CraftQueueElement
+{
+    public CraftRecipe recipe;
+    public int amountToCraft;
+    
+    public CraftQueueElement(CraftRecipe recipe, int amountToCraft = 1)
+    {
+        this.recipe = recipe;
+        this.amountToCraft = amountToCraft;
+    }
+    
+    public bool IsLastCraft(){
+        if(amountToCraft > 1){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+    
+    public void Add(){
+        amountToCraft++;
+    }
+    public void Subtract(){
+        amountToCraft--;
     }
 }
