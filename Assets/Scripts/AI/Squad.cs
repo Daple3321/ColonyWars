@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static EntityStatType;
 
 [System.Serializable]
 public class Squad
@@ -169,7 +170,7 @@ public class Squad
         foreach(Unit unit in units)
         {
             if(unit.combat != null){
-                meanDmg += unit.combat.damage;
+                meanDmg += unit.combat.stats[damage].Value;
             }
         }
         meanDmg /= units.Count;

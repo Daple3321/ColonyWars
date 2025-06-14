@@ -1,8 +1,9 @@
 using System;
-using System.Collections;
+using AYellowpaper.SerializedCollections;
 using PrimeTween;
 using UnityEditor;
 using UnityEngine;
+using static EntityStatType;
 
 [RequireComponent(typeof(StateMachine))]
 public abstract class Unit : MonoBehaviour, IDamageable
@@ -10,28 +11,17 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public string unitName;
     
     public float health;
-    public float maxHealth;
+    //public float maxHealth;
     
     [Space(5), Header("Movement")]
-    public float speed;
-    public float maxSpeed;
+    //public float currentSpeed;
     public float rotationSpeed;
     public float fallSpeed;
-    //public IMoveStrategy moveStrategy;
+    
+    [SerializedDictionary("Stat Type", "Unit Stat")]
+    public SerializedDictionary<EntityStatType, Stat> stats;
     
     public UnitCombat combat;
-    // [Space(10), Header("Attack Settings")]
-    // [SerializeReference] public Attack currentAttack;
-    // [SerializeReference, SubclassSelector] public AttackData attackData;
-    
-    // [Space(10)]
-    // public float damage;
-    // public float attackDistance = 1f;
-    // public float attackDuration;
-    // public float attackSpeed;
-    // protected float _attackSpeed;
-    // public float concentration;
-    // public bool isAttacking;
     
     [Space(10), Header("Leveling")]
     public LevelSystem levelSystem;
@@ -105,7 +95,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
         healthBar.offset.y = transform.localScale.y + 1.4f;
         healthBar.parentTransform.position = transform.position + healthBar.offset;
         healthBar.parentTransform.SetParent(transform);
-        healthBar.UpdateBar(health, maxHealth);
+        healthBar.UpdateBar(health, stats[maxHealth].Value);
     }
     
     protected virtual void UpdateUI()
@@ -117,45 +107,20 @@ public abstract class Unit : MonoBehaviour, IDamageable
             healthBar.gameObject.SetActive(false);
         }
     }
-    
-    void Update()
-    {
-        UpdateUI(); // СДЕЛАТЬ НЕ КАЖДЫЙ КАДР!!!
+    private float _uiUpdateDelay = 1f;
+    protected void HandleUI(){
+        if(_uiUpdateDelay > 0){
+            _uiUpdateDelay -= Time.deltaTime;
+        }
+        else{
+            UpdateUI();
+            _uiUpdateDelay = 1f;
+        }
     }
-
-    // protected Coroutine attackRoutine;
-    // public virtual void HandleAttacking() 
-    // {
-    //     if(CanAttack())
-    //     {
-    //         attackRoutine = StartCoroutine(Attack());
-    //     }
-    // }
-    // public virtual IEnumerator Attack()
-    // {
-    //     isAttacking = true;
-    //     currentAttack.OneShotAttack();
-    //     // Attack effects&animations here
-
-    //     float attackDur = this.attackDuration;
-    //     while(attackDur > 0)
-    //     {
-    //         currentAttack.ConstantAttack();
-    //         attackDur -= Time.deltaTime;
-    //         yield return null;
-    //     }
-        
-    //     _attackSpeed = this.attackSpeed;
-    //     while(_attackSpeed > 0)
-    //     {
-    //         _attackSpeed -= Time.deltaTime;
-    //         yield return null;
-    //     }
-        
-    //     isAttacking = false;
-    // }
-    // public virtual bool CanAttack(){ return isAttacking ? false : true && _attackSpeed <= 0; }
-    // public virtual bool IsAttacking() { return false;}
+    
+    void Update(){
+        HandleUI();
+    }
     
     public virtual void RegisterToSquad(Squad squad)
     {
@@ -192,7 +157,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     }
     public virtual void MoveToAttackTarget()
     {
-        if(HasTarget() && DistanceToTarget() > combat.attackDistance)
+        if(HasTarget() && DistanceToTarget() > combat.stats[attackDistance].Value)
         {
             MoveTo(attackTarget.position);
             RotateTo(attackTarget.position);
@@ -222,7 +187,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
         {
             moveDir.y = -fallSpeed;
         }
-        characterController.Move(moveDir * speed * Time.deltaTime);
+        characterController.Move(moveDir * stats[runSpeed].Value * Time.deltaTime);
         
         //Debug.DrawRay(transform.position, moveDir*10, Color.cyan);
         //float speedX = Mathf.Clamp(characterController.velocity.x, -1, 1);
@@ -274,11 +239,11 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public bool CheckForEnemies()
     {
         Collider[] hitColliders = {};
-        if(homeRadius > combat.attackDistance){
+        if(homeRadius > combat.stats[attackDistance].Value){
            hitColliders = Physics.OverlapSphere(homePos, homeRadius, enemiesMask);
         }
-        else if(homeRadius < combat.attackDistance){
-            hitColliders = Physics.OverlapSphere(transform.position, combat.attackDistance, enemiesMask);
+        else if(homeRadius < combat.stats[attackDistance].Value){
+            hitColliders = Physics.OverlapSphere(transform.position, combat.stats[attackDistance].Value, enemiesMask);
         }
         
         if (hitColliders.Length > 0){
@@ -313,10 +278,9 @@ public abstract class Unit : MonoBehaviour, IDamageable
         return closest;
     }
     
-    public virtual void ChangeSpeed(float speed)
-    {
-        this.speed = speed;
-    }
+    // public virtual void ChangeSpeed(float newSpeed){
+    //     this.currentSpeed = newSpeed;
+    // }
     
     Sequence colorSeq;
     public virtual void TakeDamage(float damage, GameObject source = null, Vector3 knockback = new Vector3())
@@ -340,12 +304,12 @@ public abstract class Unit : MonoBehaviour, IDamageable
         HealthChanged();
     }
     public (float health, float maxHealth) GetHealth(){
-        return (health, maxHealth);
+        return (health, stats[maxHealth].Value);
     }
     protected virtual void HealthChanged()
     {
-        healthBar.UpdateBar(health, maxHealth);
-        onUnitHealthChanged?.Invoke(health, maxHealth);
+        healthBar.UpdateBar(health, stats[maxHealth].Value);
+        onUnitHealthChanged?.Invoke(health, stats[maxHealth].Value);
         if (health <= 0)
         {
             Death();

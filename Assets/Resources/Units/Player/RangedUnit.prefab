@@ -994,10 +994,24 @@ MonoBehaviour:
   unitName: Ranged Unit
   health: 25
   maxHealth: 25
-  speed: 6
-  maxSpeed: 6
-  rotationSpeed: 6
+  currentSpeed: 6.5
+  maxSpeed: 6.5
+  rotationSpeed: 6.5
   fallSpeed: 10
+  stats:
+    _serializedList:
+    - Key: 0
+      Value:
+        baseValue: 25
+        statModifiers: []
+    - Key: 1
+      Value:
+        baseValue: 0
+        statModifiers: []
+    - Key: 2
+      Value:
+        baseValue: 6.5
+        statModifiers: []
   combat: {fileID: 5837768040511435274}
   homePos: {x: 0, y: 0, z: 0}
   homeRadius: 5
@@ -1037,8 +1051,24 @@ MonoBehaviour:
     rid: -2
   attackData:
     rid: 80067863468310682
-  damage: 5
-  attackDistance: 7
+  stats:
+    _serializedList:
+    - Key: 5
+      Value:
+        baseValue: 5
+        statModifiers: []
+    - Key: 8
+      Value:
+        baseValue: 7
+        statModifiers: []
+    - Key: 7
+      Value:
+        baseValue: 0
+        statModifiers: []
+    - Key: 6
+      Value:
+        baseValue: 0
+        statModifiers: []
   attackDuration: 0
   attackSpeed: 0.7
   concentration: 0

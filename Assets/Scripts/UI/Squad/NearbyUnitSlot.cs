@@ -23,7 +23,7 @@ public class NearbyUnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         
         healthBar.Init(Affiliation.Player);
         unit.onUnitHealthChanged += healthBar.UpdateBar;
-        healthBar.UpdateBar(unit.health, unit.maxHealth);
+        healthBar.UpdateBar(unit.GetHealth());
         
         parentPanel = squadPanel;
         

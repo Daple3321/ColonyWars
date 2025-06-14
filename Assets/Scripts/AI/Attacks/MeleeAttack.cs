@@ -1,4 +1,5 @@
 using UnityEngine;
+using static EntityStatType;
 
 public class MeleeAttack : Attack
 {
@@ -7,6 +8,8 @@ public class MeleeAttack : Attack
         if(attackData is MeleeAttackData meleeAttackData){
             this.meleeAttackData = meleeAttackData;
             this.attackSequence = meleeAttackData.attackSequence;
+            attackSequence.Init();
+            owner.combat.stats[damage].AddModifier(attackSequence.damageMod);
         }
     }
     
@@ -29,8 +32,8 @@ public class MeleeAttack : Attack
     public void HandleAttack()
     {
         _attackCd = attackSequence.CurrentAttack().duration;
-        //damage.OnModifierChanged(); // чтоб сделать isDirty = true;
-        //recoilForce.OnModifierChanged();
+        owner.combat.stats[damage].OnModifierChanged();
+        //owner.stats[runSpeed].OnModifierChanged();
         
         switch(meleeAttackData.meleeAttackType){
             case MeleeAttackType.RAYCAST:
@@ -56,19 +59,19 @@ public class MeleeAttack : Attack
         Vector3 boxSize = meleeAttackData.attackBoxExtents;
         Collider[] hits = Physics.OverlapBox(boxPos, boxSize, owner.attackPoint.rotation, owner.attackHitMask);
         
-        GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        go.transform.position = boxPos;
-        go.transform.localScale = boxSize;
-        go.transform.rotation = owner.attackPoint.rotation;
-        GameObject.Destroy(go.GetComponent<Collider>());
-        GameObject.Destroy(go, 1.5f);
+        // GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        // go.transform.position = boxPos;
+        // go.transform.localScale = boxSize;
+        // go.transform.rotation = owner.attackPoint.rotation;
+        // GameObject.Destroy(go.GetComponent<Collider>());
+        // GameObject.Destroy(go, 1.5f);
         if (hits.Length > 0)
         {
             IDamageable damageable;
             foreach(Collider hit in hits)
             {
                 if (hit.gameObject.TryGetComponent<IDamageable>(out damageable)){
-                    damageable.TakeDamage(owner.combat.damage, owner.gameObject, -hit.transform.forward*meleeAttackData.knockBackForce);
+                    damageable.TakeDamage(owner.combat.stats[damage].Value, owner.gameObject, -hit.transform.forward*meleeAttackData.knockBackForce);
                 }
                 
                 Helper.SpawnHitEffect(hit.transform.position, -hit.transform.forward, hit.gameObject.layer);
@@ -84,12 +87,12 @@ public class MeleeAttack : Attack
         Ray shootRay = new Ray(owner.attackPoint.position, shootDir);
         
         RaycastHit hit;
-        if (Physics.Raycast(shootRay, out hit, owner.combat.attackDistance, owner.attackHitMask))
+        if (Physics.Raycast(shootRay, out hit, owner.combat.stats[attackDistance].Value, owner.attackHitMask))
         {
             IDamageable damageable;
             if (hit.collider.gameObject.TryGetComponent<IDamageable>(out damageable))
             {
-                damageable.TakeDamage(owner.combat.damage, owner.gameObject, shootRay.direction);
+                damageable.TakeDamage(owner.combat.stats[damage].Value, owner.gameObject, shootRay.direction);
             }
             Helper.SpawnHitEffect(hit.point, hit.normal, hit.collider.gameObject.layer);
 

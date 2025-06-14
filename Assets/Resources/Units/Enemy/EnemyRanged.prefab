@@ -894,13 +894,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3b205c9b10b56e44a64c268328977bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: Enemy
+  unitName: Ranged Enemy
   health: 25
   maxHealth: 25
-  speed: 7
+  currentSpeed: 7
   maxSpeed: 7
   rotationSpeed: 7
   fallSpeed: 10
+  stats:
+    _serializedList:
+    - Key: 0
+      Value:
+        baseValue: 25
+        statModifiers: []
+    - Key: 1
+      Value:
+        baseValue: 0
+        statModifiers: []
+    - Key: 2
+      Value:
+        baseValue: 7
+        statModifiers: []
   combat: {fileID: 5953411143727860260}
   homePos: {x: 0, y: 0, z: 0}
   homeRadius: 18
@@ -944,8 +958,24 @@ MonoBehaviour:
     rid: -2
   attackData:
     rid: 80067863468310684
-  damage: 4.5
-  attackDistance: 7
+  stats:
+    _serializedList:
+    - Key: 5
+      Value:
+        baseValue: 4.5
+        statModifiers: []
+    - Key: 8
+      Value:
+        baseValue: 7
+        statModifiers: []
+    - Key: 7
+      Value:
+        baseValue: 0
+        statModifiers: []
+    - Key: 6
+      Value:
+        baseValue: 0
+        statModifiers: []
   attackDuration: 0
   attackSpeed: 0.7
   concentration: 0

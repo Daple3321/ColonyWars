@@ -1,4 +1,5 @@
 using UnityEngine;
+using static EntityStatType;
 
 [System.Serializable]
 public class HitscanRangedAttack : Attack
@@ -24,12 +25,12 @@ public class HitscanRangedAttack : Attack
         Ray shootRay = new Ray(owner.attackPoint.position, Helper.GetRandPointOnUnitSphereCap(shootDir, scatterAmount));
         
         RaycastHit hit;
-        if (Physics.Raycast(shootRay, out hit, owner.combat.attackDistance, owner.attackHitMask))
+        if (Physics.Raycast(shootRay, out hit, owner.combat.stats[attackDistance].Value, owner.attackHitMask))
         {
             IDamageable damageable;
             if (hit.collider.gameObject.TryGetComponent<IDamageable>(out damageable))
             {
-                damageable.TakeDamage(owner.combat.damage, owner.gameObject, -hit.normal*rangedAttackData.knockBackForce);
+                damageable.TakeDamage(owner.combat.stats[damage].Value, owner.gameObject, -hit.normal*rangedAttackData.knockBackForce);
             }
             Helper.SpawnHitEffect(hit.point, hit.normal, hit.collider.gameObject.layer);
             

@@ -129,6 +129,7 @@ MonoBehaviour:
   unitsAmount: 0
   unitPool:
   - {fileID: 7294893471746113059, guid: 09254e9e152c73441b12d831c3b8072b, type: 3}
+  - {fileID: 750506295094990067, guid: 8009aeb324289fc448c6bf33ba3d073e, type: 3}
   resourcePool:
   - {fileID: 11400000, guid: 0be8c435e11d2e441886f5bb9d17dfc0, type: 2}
   barracksPool:

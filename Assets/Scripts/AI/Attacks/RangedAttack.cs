@@ -1,4 +1,5 @@
 using UnityEngine;
+using static EntityStatType;
 
 [System.Serializable]
 public class RangedAttack : Attack
@@ -28,7 +29,7 @@ public class RangedAttack : Attack
             
             Projectile projectile = GameObject.Instantiate(rangedAttackData.projectilePrefab, owner.attackPoint.position, Quaternion.identity).GetComponent<Projectile>();
             projectile.transform.up = shootRay.direction;
-            projectile.Init(owner.combat.damage, 
+            projectile.Init(owner.combat.stats[damage].Value, 
                 rangedAttackData.projectileSpeed, 
                 affiliation,
                 owner.gameObject, 

@@ -1,6 +1,8 @@
 using System.Collections;
+using AYellowpaper.SerializedCollections;
 using UnityEditor;
 using UnityEngine;
+using static EntityStatType;
 
 public class UnitCombat : MonoBehaviour
 {
@@ -9,8 +11,10 @@ public class UnitCombat : MonoBehaviour
     [SerializeReference, SubclassSelector] public AttackData attackData;
     
     [Space(10)]
-    public float damage;
-    public float attackDistance = 1f;
+    [SerializedDictionary("Stat Type", "Unit Stat")]
+    public SerializedDictionary<EntityStatType, Stat> stats;
+    //public float damage;
+    //public float attackDistance = 1f;
     public float attackDuration;
     public float attackSpeed;
     protected float _attackSpeed;
@@ -35,6 +39,8 @@ public class UnitCombat : MonoBehaviour
         {
             attackRoutine = StartCoroutine(Attack());
         }
+        
+        // TO-DO: HANDLE STUN AND ATTACK CANCELATION ON DAMAGE?
     }
     public virtual IEnumerator Attack()
     {
@@ -70,9 +76,9 @@ public class UnitCombat : MonoBehaviour
     private void OnDrawGizmos()
     {
         Handles.color = Color.red;
-        Vector3 labelPos2 = new Vector3(transform.position.x + 0.5f, transform.position.y+1, transform.position.z + attackDistance + 0.1f);
+        Vector3 labelPos2 = new Vector3(transform.position.x + 0.5f, transform.position.y+1, transform.position.z + stats[attackDistance].Value+ 0.1f);
         Handles.Label(labelPos2, "Attack distance");
-        Handles.DrawWireDisc(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.up, attackDistance);
+        Handles.DrawWireDisc(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.up, stats[attackDistance].Value);
     }
 
 #endif

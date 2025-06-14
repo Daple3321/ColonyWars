@@ -12,7 +12,7 @@ public class MeleeUnit : Unit
         base.Init();
         
         combat.Init(this);
-        combat.currentAttack = new MeleeAttack(this, combat.attackData, affiliation); // может всё таки ScriptableObject?
+        combat.currentAttack = new MeleeAttack(this, combat.attackData, affiliation);
         
         ConfigureStates();
         Invoke(nameof(StartStates), Random.Range(0.1f, 3f));

@@ -1,4 +1,5 @@
 using UnityEngine;
+using static EntityStatType;
 
 public class AttackState : UnitState
 {
@@ -10,7 +11,7 @@ public class AttackState : UnitState
     }
     public override void Update()
     {
-        if (owner.HasTarget() && owner.DistanceToTarget() <= owner.combat.attackDistance)
+        if (owner.HasTarget() && owner.DistanceToTarget() <= owner.combat.stats[attackDistance].Value)
         {
             owner.combat.HandleAttacking();
             owner.RotateTo(owner.attackTarget.position);

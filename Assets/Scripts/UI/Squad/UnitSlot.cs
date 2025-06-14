@@ -23,7 +23,7 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         
         healthBar.Init(Affiliation.Player);
         unit.onUnitHealthChanged += healthBar.UpdateBar;
-        healthBar.UpdateBar(unit.health, unit.maxHealth);
+        healthBar.UpdateBar(unit.GetHealth());
         
         parentPanel = squadPanel;
         

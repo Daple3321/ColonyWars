@@ -22,7 +22,12 @@ public class Enemy : Unit
         base.Init();
 
         combat.Init(this);
-        combat.currentAttack = new RangedAttack(this, combat.attackData, affiliation);
+        if(combat.attackData is RangedAttackData){
+            combat.currentAttack = new RangedAttack(this, combat.attackData, affiliation);
+        }
+        else if(combat.attackData is MeleeAttackData){
+            combat.currentAttack = new MeleeAttack(this, combat.attackData, affiliation);
+        }
         
         ConfigureStates();
         

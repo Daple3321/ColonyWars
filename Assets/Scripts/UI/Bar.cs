@@ -56,4 +56,18 @@ public class Bar : MonoBehaviour
             barTxt.SetText($"{val:F1}/{maxVal:F0}");
         }
     }
+    public virtual void UpdateBar((float val, float maxHealth) tuple)
+    {
+        float normalizedVal = tuple.val / tuple.maxHealth;
+        barImg.fillAmount = normalizedVal;
+        
+        if(barColor != null){
+            barImg.color = barColor.Evaluate(normalizedVal);
+        }
+
+        if (barTxt != null)
+        {
+            barTxt.SetText($"{tuple.val:F1}/{tuple.maxHealth:F0}");
+        }
+    }
 }
