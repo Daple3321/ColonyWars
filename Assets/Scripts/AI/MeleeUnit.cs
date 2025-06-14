@@ -10,9 +10,9 @@ public class MeleeUnit : Unit
     public override void Init()
     {
         base.Init();
-        //attackData = new MeleeAttackData{
-        //};
-        currentAttack = new MeleeAttack(this, attackData, affiliation); // может всё таки ScriptableObject?
+        
+        combat.Init(this);
+        combat.currentAttack = new MeleeAttack(this, combat.attackData, affiliation); // может всё таки ScriptableObject?
         
         ConfigureStates();
         Invoke(nameof(StartStates), Random.Range(0.1f, 3f));

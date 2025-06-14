@@ -10,9 +10,9 @@ public class AggroAttackState : UnitState
     }
     public override void Update()
     {
-        if (owner.HasTarget() && owner.DistanceToTarget() <= owner.attackDistance)
+        if (owner.HasTarget() && owner.DistanceToTarget() <= owner.combat.attackDistance)
         {
-            owner.HandleAttacking();
+            owner.combat.HandleAttacking();
             owner.RotateTo(owner.attackTarget.position);
         }
         owner.MoveToAttackTarget();

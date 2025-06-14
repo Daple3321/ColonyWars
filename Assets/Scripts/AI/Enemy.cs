@@ -21,14 +21,8 @@ public class Enemy : Unit
     {
         base.Init();
 
-        /*attackData = new RangedAttackData{
-            projectilePrefab = GameAssets.projectilePrefab,
-            knockBackForce = 9,
-            penetrationAmount = 0,
-            bulletsPerShot = 1,
-            projectileScatter = new Vector2Int(0, 5),
-        };*/
-        currentAttack = new RangedAttack(this, attackData, affiliation);
+        combat.Init(this);
+        combat.currentAttack = new RangedAttack(this, combat.attackData, affiliation);
         
         ConfigureStates();
         

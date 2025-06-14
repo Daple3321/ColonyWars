@@ -10,10 +10,9 @@ public class RangedUnit : Unit
     public override void Init()
     {
         base.Init();
-        //attackData = new RangedAttackData{
-        //    projectilePrefab = GameAssets.projectilePrefab,
-        //};
-        currentAttack = new RangedAttack(this, attackData, affiliation); // может всё таки ScriptableObject?
+
+        combat.Init(this);
+        combat.currentAttack = new RangedAttack(this, combat.attackData, affiliation); // может всё таки ScriptableObject?
         
         ConfigureStates();
         Invoke(nameof(StartStates), Random.Range(0.1f, 3f));

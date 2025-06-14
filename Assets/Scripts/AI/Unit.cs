@@ -19,18 +19,19 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public float fallSpeed;
     //public IMoveStrategy moveStrategy;
     
-    [Space(10), Header("Attack Settings")]
-    [SerializeReference] public Attack currentAttack;
-    [SerializeReference, SubclassSelector] public AttackData attackData;
+    public UnitCombat combat;
+    // [Space(10), Header("Attack Settings")]
+    // [SerializeReference] public Attack currentAttack;
+    // [SerializeReference, SubclassSelector] public AttackData attackData;
     
-    [Space(10)]
-    public float damage;
-    public float attackDistance = 1f;
-    public float attackDuration;
-    public float attackSpeed;
-    protected float _attackSpeed;
-    public float concentration;
-    public bool isAttacking;
+    // [Space(10)]
+    // public float damage;
+    // public float attackDistance = 1f;
+    // public float attackDuration;
+    // public float attackSpeed;
+    // protected float _attackSpeed;
+    // public float concentration;
+    // public bool isAttacking;
     
     [Space(10), Header("Leveling")]
     public LevelSystem levelSystem;
@@ -119,42 +120,42 @@ public abstract class Unit : MonoBehaviour, IDamageable
     
     void Update()
     {
-        UpdateUI();
+        UpdateUI(); // СДЕЛАТЬ НЕ КАЖДЫЙ КАДР!!!
     }
 
-    protected Coroutine attackRoutine;
-    public virtual void HandleAttacking() 
-    {
-        if(CanAttack())
-        {
-            attackRoutine = StartCoroutine(Attack());
-        }
-    }
-    public virtual IEnumerator Attack()
-    {
-        isAttacking = true;
-        currentAttack.OneShotAttack();
-        // Attack effects&animations here
+    // protected Coroutine attackRoutine;
+    // public virtual void HandleAttacking() 
+    // {
+    //     if(CanAttack())
+    //     {
+    //         attackRoutine = StartCoroutine(Attack());
+    //     }
+    // }
+    // public virtual IEnumerator Attack()
+    // {
+    //     isAttacking = true;
+    //     currentAttack.OneShotAttack();
+    //     // Attack effects&animations here
 
-        float attackDur = this.attackDuration;
-        while(attackDur > 0)
-        {
-            currentAttack.ConstantAttack();
-            attackDur -= Time.deltaTime;
-            yield return null;
-        }
+    //     float attackDur = this.attackDuration;
+    //     while(attackDur > 0)
+    //     {
+    //         currentAttack.ConstantAttack();
+    //         attackDur -= Time.deltaTime;
+    //         yield return null;
+    //     }
         
-        _attackSpeed = this.attackSpeed;
-        while(_attackSpeed > 0)
-        {
-            _attackSpeed -= Time.deltaTime;
-            yield return null;
-        }
+    //     _attackSpeed = this.attackSpeed;
+    //     while(_attackSpeed > 0)
+    //     {
+    //         _attackSpeed -= Time.deltaTime;
+    //         yield return null;
+    //     }
         
-        isAttacking = false;
-    }
-    public virtual bool CanAttack(){ return isAttacking ? false : true && _attackSpeed <= 0; }
-    public virtual bool IsAttacking() { return false;}
+    //     isAttacking = false;
+    // }
+    // public virtual bool CanAttack(){ return isAttacking ? false : true && _attackSpeed <= 0; }
+    // public virtual bool IsAttacking() { return false;}
     
     public virtual void RegisterToSquad(Squad squad)
     {
@@ -191,7 +192,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     }
     public virtual void MoveToAttackTarget()
     {
-        if(HasTarget() && DistanceToTarget() > attackDistance)
+        if(HasTarget() && DistanceToTarget() > combat.attackDistance)
         {
             MoveTo(attackTarget.position);
             RotateTo(attackTarget.position);
@@ -273,11 +274,11 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public bool CheckForEnemies()
     {
         Collider[] hitColliders = {};
-        if(homeRadius > attackDistance){
+        if(homeRadius > combat.attackDistance){
            hitColliders = Physics.OverlapSphere(homePos, homeRadius, enemiesMask);
         }
-        else if(homeRadius < attackDistance){
-            hitColliders = Physics.OverlapSphere(transform.position, attackDistance, enemiesMask);
+        else if(homeRadius < combat.attackDistance){
+            hitColliders = Physics.OverlapSphere(transform.position, combat.attackDistance, enemiesMask);
         }
         
         if (hitColliders.Length > 0){
@@ -365,12 +366,6 @@ public abstract class Unit : MonoBehaviour, IDamageable
         Vector3 labelPos1 = new Vector3(homePos.x + 0.5f, homePos.y, homePos.z + homeRadius + 0.1f);
         Handles.Label(labelPos1, "Home Radius");
         Handles.DrawWireDisc(new Vector3(homePos.x, homePos.y, homePos.z), Vector3.up, homeRadius);
-        
-        Handles.color = Color.red;
-        Vector3 labelPos2 = new Vector3(transform.position.x + 0.5f, transform.position.y+1, transform.position.z + attackDistance + 0.1f);
-        Handles.Label(labelPos2, "Attack distance");
-        Handles.DrawWireDisc(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.up, attackDistance);
-
 
         Vector3 labelPos3 = new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z);
         Handles.Label(labelPos3, $"Current state: {stateMachine.currentState}\n");

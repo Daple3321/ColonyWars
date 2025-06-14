@@ -853,6 +853,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6914118201565225166}
   - component: {fileID: 3112220755529021482}
+  - component: {fileID: 5953411143727860260}
   - component: {fileID: 8312038044701153765}
   - component: {fileID: 2940524612249062485}
   - component: {fileID: 525175971821388606}
@@ -900,16 +901,7 @@ MonoBehaviour:
   maxSpeed: 7
   rotationSpeed: 7
   fallSpeed: 10
-  currentAttack:
-    rid: -2
-  attackData:
-    rid: 80067664640737658
-  damage: 3.5
-  attackDistance: 7.47
-  attackDuration: 0
-  attackSpeed: 0.75
-  concentration: 0
-  isAttacking: 0
+  combat: {fileID: 5953411143727860260}
   homePos: {x: 0, y: 0, z: 0}
   homeRadius: 18
   targetStopDistance: 2
@@ -936,17 +928,39 @@ MonoBehaviour:
   aggrActive: 0
   aggrTarget: {fileID: 0}
   parentColony: {fileID: 0}
+--- !u!114 &5953411143727860260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7294893471746113059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09fdb7229194eff4295ab1427baca457, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentAttack:
+    rid: -2
+  attackData:
+    rid: 80067863468310684
+  damage: 4.5
+  attackDistance: 7
+  attackDuration: 0
+  attackSpeed: 0.7
+  concentration: 0
+  isAttacking: 0
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 80067664640737658
+    - rid: 80067863468310684
       type: {class: RangedAttackData, ns: , asm: Assembly-CSharp}
       data:
         bulletsPerShot: 1
-        projectileSpeed: 35
-        projectileLifetime: 3
+        projectileSpeed: 40
+        projectileLifetime: 2.5
         penetrationAmount: 0
         knockBackForce: 0
         projectileScatter: {x: 0, y: 10}

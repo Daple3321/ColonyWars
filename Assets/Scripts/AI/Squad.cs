@@ -168,7 +168,9 @@ public class Squad
         float meanDmg = 0;
         foreach(Unit unit in units)
         {
-            meanDmg += unit.damage;
+            if(unit.combat != null){
+                meanDmg += unit.combat.damage;
+            }
         }
         meanDmg /= units.Count;
         

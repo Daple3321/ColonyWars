@@ -10,6 +10,7 @@ public abstract class Attack
         this.affiliation = affiliation;
     }
     
+    public bool attackFinished = false;
     public abstract void OneShotAttack();
     public abstract void ConstantAttack(); // ужасное название
 }

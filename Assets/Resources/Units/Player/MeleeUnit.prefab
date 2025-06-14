@@ -263,6 +263,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2158878422839435738}
   - component: {fileID: 8211662545435870813}
+  - component: {fileID: 8111911276412679491}
   - component: {fileID: 6832292291311947986}
   - component: {fileID: 980786773719870623}
   - component: {fileID: -6965935124265511778}
@@ -310,16 +311,7 @@ MonoBehaviour:
   maxSpeed: 5
   rotationSpeed: 6
   fallSpeed: 10
-  currentAttack:
-    rid: -2
-  attackData:
-    rid: 80067664640737646
-  damage: 5
-  attackDistance: 2.3
-  attackDuration: 0
-  attackSpeed: 0.7
-  concentration: 0
-  isAttacking: 0
+  combat: {fileID: 8111911276412679491}
   homePos: {x: 0, y: 0, z: 0}
   homeRadius: 15
   targetStopDistance: 2
@@ -329,7 +321,7 @@ MonoBehaviour:
     m_Bits: 10240
   attackHitMask:
     serializedVersion: 2
-    m_Bits: 2176
+    m_Bits: 10368
   squad:
     units: []
     maxUnits: 0
@@ -342,14 +334,62 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   affiliation: 2
   stateMachine: {fileID: 6832292291311947986}
+--- !u!114 &8111911276412679491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2149854553417079418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09fdb7229194eff4295ab1427baca457, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentAttack:
+    rid: -2
+  attackData:
+    rid: 80067863468310683
+  damage: 8
+  attackDistance: 1.7
+  attackDuration: 0.7
+  attackSpeed: 0
+  concentration: 0
+  isAttacking: 0
   references:
     version: 2
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 80067664640737646
+    - rid: 80067863468310683
       type: {class: MeleeAttackData, ns: , asm: Assembly-CSharp}
-      data: 
+      data:
+        knockBackForce: 0
+        attackBoxExtents: {x: 1.2, y: 2, z: 1.7}
+        attackSequence:
+          sequenceCoolDown: 1.5
+          attacks:
+          - duration: 0.6
+            damageMultiplier: 0
+            recoilMultiplier: 0
+            staminaDrain: 0
+          - duration: 1
+            damageMultiplier: 50
+            recoilMultiplier: 0
+            staminaDrain: 0
+          - duration: 2
+            damageMultiplier: 100
+            recoilMultiplier: 0
+            staminaDrain: 0
+          damageMod:
+            Value: 0
+            Type: 0
+            Order: 0
+          recoilMod:
+            Value: 0
+            Type: 0
+            Order: 0
+        meleeAttackType: 2
 --- !u!114 &6832292291311947986
 MonoBehaviour:
   m_ObjectHideFlags: 0

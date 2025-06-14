@@ -12,6 +12,7 @@ public class RangedAttack : Attack
 
     public override void ConstantAttack()
     {
+        attackFinished = true;
         //Debug.Log($"Constant attack from: {owner.gameObject.name}");
     }
 
@@ -27,7 +28,7 @@ public class RangedAttack : Attack
             
             Projectile projectile = GameObject.Instantiate(rangedAttackData.projectilePrefab, owner.attackPoint.position, Quaternion.identity).GetComponent<Projectile>();
             projectile.transform.up = shootRay.direction;
-            projectile.Init(owner.damage, 
+            projectile.Init(owner.combat.damage, 
                 rangedAttackData.projectileSpeed, 
                 affiliation,
                 owner.gameObject, 

@@ -79,8 +79,8 @@ public class MeleeWeapon : Weapon
     public override string GetDescription()
     {
         StringBuilder str = new StringBuilder();
-        str.AppendLine(description);
         str.AppendLine($"Damage: {damage.Value:F0}");
+        str.AppendLine(description);
         return str.ToString();
     }
 }

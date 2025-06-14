@@ -6,15 +6,76 @@ public class MeleeAttack : Attack
     public MeleeAttack(Unit owner, AttackData attackData, Affiliation affiliation) : base(owner, attackData, affiliation){
         if(attackData is MeleeAttackData meleeAttackData){
             this.meleeAttackData = meleeAttackData;
+            this.attackSequence = meleeAttackData.attackSequence;
+        }
+    }
+    
+    public AttackSequence attackSequence;
+    private float _attackCd;
+    public override void ConstantAttack()
+    {
+        if (_attackCd > 0){
+            _attackCd -= Time.deltaTime;
+        }
+        else{
+            HandleAttack();
         }
     }
 
-    public override void ConstantAttack()
-    {
+    public override void OneShotAttack(){
         
     }
-
-    public override void OneShotAttack()
+    
+    public void HandleAttack()
+    {
+        _attackCd = attackSequence.CurrentAttack().duration;
+        //damage.OnModifierChanged(); // чтоб сделать isDirty = true;
+        //recoilForce.OnModifierChanged();
+        
+        switch(meleeAttackData.meleeAttackType){
+            case MeleeAttackType.RAYCAST:
+                PerformRaycastAttack();
+            break;
+            
+            case MeleeAttackType.BOX:
+                PerformBoxcastAttack();
+            break;
+            
+            case MeleeAttackType.SPHERE:
+                
+            break;
+        }
+        
+        if(!attackSequence.Attack()){ // если дошли до конца
+            attackFinished = true;   
+        }
+    }
+    public void PerformBoxcastAttack()
+    {
+        Vector3 boxPos = owner.attackPoint.position + (owner.attackPoint.forward * (meleeAttackData.attackBoxExtents.z/2));
+        Vector3 boxSize = meleeAttackData.attackBoxExtents;
+        Collider[] hits = Physics.OverlapBox(boxPos, boxSize, owner.attackPoint.rotation, owner.attackHitMask);
+        
+        GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        go.transform.position = boxPos;
+        go.transform.localScale = boxSize;
+        go.transform.rotation = owner.attackPoint.rotation;
+        GameObject.Destroy(go.GetComponent<Collider>());
+        GameObject.Destroy(go, 1.5f);
+        if (hits.Length > 0)
+        {
+            IDamageable damageable;
+            foreach(Collider hit in hits)
+            {
+                if (hit.gameObject.TryGetComponent<IDamageable>(out damageable)){
+                    damageable.TakeDamage(owner.combat.damage, owner.gameObject, -hit.transform.forward*meleeAttackData.knockBackForce);
+                }
+                
+                Helper.SpawnHitEffect(hit.transform.position, -hit.transform.forward, hit.gameObject.layer);
+            }
+        }
+    }
+    public void PerformRaycastAttack()
     {
         Vector3 shootDir = owner.attackTarget.position - owner.attackPoint.position;
         shootDir.y += 1;
@@ -23,19 +84,15 @@ public class MeleeAttack : Attack
         Ray shootRay = new Ray(owner.attackPoint.position, shootDir);
         
         RaycastHit hit;
-        if (Physics.Raycast(shootRay, out hit, owner.attackDistance, owner.attackHitMask))
+        if (Physics.Raycast(shootRay, out hit, owner.combat.attackDistance, owner.attackHitMask))
         {
             IDamageable damageable;
             if (hit.collider.gameObject.TryGetComponent<IDamageable>(out damageable))
             {
-                damageable.TakeDamage(owner.damage);
+                damageable.TakeDamage(owner.combat.damage, owner.gameObject, shootRay.direction);
             }
             Helper.SpawnHitEffect(hit.point, hit.normal, hit.collider.gameObject.layer);
-            
-            //GameObject lineObj = Instantiate(hitScanLine, shootPoint.position, Quaternion.FromToRotation(Vector3.zero, hit.point - shootPoint.position));
-            //lineObj.GetComponent<LineRenderer>().SetPosition(1, hit.point);
-            
-            //Debug.Log($"Hit {hit.collider.name}");
+
             Debug.DrawLine(owner.attackPoint.position, hit.point, Color.yellow, 3);
         }
     }
