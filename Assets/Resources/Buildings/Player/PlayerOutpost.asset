@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingName: Outpost
   description: "\u0421aptures the cell on which it stands \nAlso a defense tower"
-  buildingIcon: {fileID: 21300000, guid: e489a9520217d604fb19e741bceee64d, type: 3}
+  buildingIcon: {fileID: 21300000, guid: 1c2f6fc6ea7f9de468d6eb8f70185c9c, type: 3}
   craftPrice:
     requirements:
     - item: {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}

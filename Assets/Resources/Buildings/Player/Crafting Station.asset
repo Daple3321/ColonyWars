@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingName: Crafting Station
   description: Can craft items
-  buildingIcon: {fileID: 21300000, guid: 11b826ec36aec6c40998f78f1428f067, type: 3}
+  buildingIcon: {fileID: 21300000, guid: 28cff2dda4accdb438701e59d156019d, type: 3}
   craftPrice:
     requirements:
     - item: {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}

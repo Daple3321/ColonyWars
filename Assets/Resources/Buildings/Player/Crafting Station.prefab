@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 135.4759, y: 6.5169115, z: 65.63781}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3964791810681730991}
@@ -64,6 +64,13 @@ MonoBehaviour:
   cellIndex: {x: 0, y: 0, z: 0}
   capturedCells: []
   recipes: []
+  craftInProgress: 0
+  craftProgress: 0
+  currentCraft:
+    recipe: {fileID: 0}
+    amountToCraft: 0
+  queue: []
+  queueCapacity: 10
   stationData: {fileID: 0}
 --- !u!65 &9211696146608545231
 BoxCollider:
@@ -113,7 +120,7 @@ Transform:
   m_GameObject: {fileID: 3273436101556964928}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.373, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -126,7 +133,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3273436101556964928}
-  m_Mesh: {fileID: 4723010164368009254, guid: fd549ec0e40db95499048ff08658d1a1, type: 3}
+  m_Mesh: {fileID: 9091874763089778162, guid: 54d5544c4eb892641b6df5968ace9226, type: 3}
 --- !u!23 &7525635093268876560
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -150,7 +157,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a46d82fb7d9175c44833bc560cd43f1a, type: 2}
+  - {fileID: 2100000, guid: a4f3c89f9856d6941a02477e7ba6d77c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
