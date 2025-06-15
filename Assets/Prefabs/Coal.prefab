@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1607908798483870603}
   - component: {fileID: 3002998295322360929}
   - component: {fileID: 3482394895297842779}
+  - component: {fileID: 2193896666593367924}
   m_Layer: 15
   m_Name: Coal
   m_TagString: Untagged
@@ -130,3 +131,30 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!205 &2193896666593367924
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8024054669736437981}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.086949825, y: 0.1424545, z: -0.041118383}
+  m_Size: 2.4885519
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.5153142
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 3482394895297842779}
+  - screenRelativeHeight: 0.19192511
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 3482394895297842779}
+  - screenRelativeHeight: 0.03420624
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 3482394895297842779}
+  m_Enabled: 1

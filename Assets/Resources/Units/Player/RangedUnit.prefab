@@ -993,9 +993,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Ranged Unit
   health: 25
-  maxHealth: 25
-  currentSpeed: 6.5
-  maxSpeed: 6.5
   rotationSpeed: 6.5
   fallSpeed: 10
   stats:
@@ -1023,6 +1020,7 @@ MonoBehaviour:
   attackHitMask:
     serializedVersion: 2
     m_Bits: 10368
+  data: {fileID: 11400000, guid: 75a73a9322c446d4080de56ece56aaee, type: 2}
   squad:
     units: []
     maxUnits: 0

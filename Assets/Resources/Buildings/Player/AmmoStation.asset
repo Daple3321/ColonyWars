@@ -17,11 +17,17 @@ MonoBehaviour:
   buildingIcon: {fileID: -399640143, guid: 10a723cc0f4eaa043b70ae94b5cb80bc, type: 3}
   craftPrice:
     requirements:
+    - item: {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}
+      quantity: 20
+    - item: {fileID: 11400000, guid: 82b55b43dc561b049bd2e4eff7737eeb, type: 2}
+      quantity: 32
     - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
-      quantity: 5
+      quantity: 10
   insideColonyOnly: 1
   overlapRadius: 2.5
   maxBuildAngle: 35
   prefab: {fileID: 7164720863985716766, guid: 74afad0c3ec5e8f4fb5f420daeb17be4, type: 3}
   recipes:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 69d1df963edf1044f8ee3d4d281597c8, type: 2}
+  - {fileID: 11400000, guid: fe6623968b53d964fb05acc23ecfe1da, type: 2}
+  - {fileID: 11400000, guid: 6c01510459d620242813f165db1ef2bc, type: 2}

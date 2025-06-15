@@ -27,9 +27,10 @@ MonoBehaviour:
   damage: 2.5
   attackRate: 0.45
   chargeRate: 0.1
-  needsAmmo: 0
+  needsAmmo: 1
   recoilForce: 9
-  ammoType: {fileID: 0}
+  slowingAmount: 0.5
+  ammoType: {fileID: 11400000, guid: f057f1e5bdec1914d9733846d6f5d5c5, type: 2}
   attackType: 2
   weaponType: 2
   projectilesPerShot: 5

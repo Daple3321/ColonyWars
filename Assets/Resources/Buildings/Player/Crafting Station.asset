@@ -18,11 +18,15 @@ MonoBehaviour:
   craftPrice:
     requirements:
     - item: {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}
-      quantity: 1
+      quantity: 32
+    - item: {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
+      quantity: 5
+    - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
+      quantity: 5
   insideColonyOnly: 1
   overlapRadius: 2.5
   maxBuildAngle: 25
   prefab: {fileID: 1477390922703669939, guid: 440705804ab61da4aa2e458e6e6f6084, type: 3}
   recipes:
-  - {fileID: 11400000, guid: c7b7d1f326b8ea0449d562c7d63d0847, type: 2}
-  - {fileID: 11400000, guid: 2eebbca34f940ec4a81901691ced1043, type: 2}
+  - {fileID: 11400000, guid: 285de89219073ac49823229f6310df96, type: 2}
+  - {fileID: 11400000, guid: b551d609964e0844d91ff0564a61453a, type: 2}

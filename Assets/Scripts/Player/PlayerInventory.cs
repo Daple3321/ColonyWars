@@ -60,9 +60,13 @@ public class PlayerInventory : MonoBehaviour
         hotbar.OnInventoryUpdated += OnInventoryUpdated;
         
         PrepareUI();
-
-        hotbar.LoadFromData(hotbarStartInventory.items);
-        inventory.LoadFromData(starterInventory.items);
+        
+        if(hotbarStartInventory != null){
+            hotbar.LoadFromData(hotbarStartInventory.items);
+        }
+        if(starterInventory != null){
+            inventory.LoadFromData(starterInventory.items);
+        }
         //SelectItem(hotbar, selectedSlotId);
     }
     

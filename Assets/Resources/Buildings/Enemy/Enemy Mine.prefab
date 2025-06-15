@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2166060837753958237}
   - component: {fileID: 8419886259395144129}
   - component: {fileID: 2430875245281945605}
+  - component: {fileID: 1718344931702803144}
   m_Layer: 13
   m_Name: Enemy Mine
   m_TagString: Untagged
@@ -71,6 +72,7 @@ MonoBehaviour:
   health: 45
   maxHealth: 45
   interactionRange: 8
+  canInteract: 1
   affiliation: 1
   buildTime: 4
   built: 0
@@ -89,6 +91,33 @@ MonoBehaviour:
     _serializedList:
     - Key: 4
       Value: -0.05
+--- !u!205 &1718344931702803144
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 184440193701801956}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.22553682, y: 1.3684907, z: 0.22765064}
+  m_Size: 4.968961
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.6
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 7473988663172984142}
+  - screenRelativeHeight: 0.3
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 7473988663172984142}
+  - screenRelativeHeight: 0.061233763
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 7473988663172984142}
+  m_Enabled: 1
 --- !u!1 &4592412711287263120
 GameObject:
   m_ObjectHideFlags: 0

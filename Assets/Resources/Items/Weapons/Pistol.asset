@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Pistol
   m_EditorClassIdentifier: 
   itemName: Pistol
-  description: duh
+  description: 
   icon: {fileID: 21300000, guid: 0ad0f1a9e9cca144b983a6a92d10b324, type: 3}
   rarity: 1
   IsStackable: 0
@@ -28,10 +28,10 @@ MonoBehaviour:
   damage: 3.5
   attackRate: 0.2
   chargeRate: 1.5
-  needsAmmo: 0
+  needsAmmo: 1
   recoilForce: 2
   slowingAmount: 0.5
-  ammoType: {fileID: 0}
+  ammoType: {fileID: 11400000, guid: 0ed7a9971a5f3a04d9314a863cb23196, type: 2}
   attackType: 2
   weaponType: 1
   projectilesPerShot: 1

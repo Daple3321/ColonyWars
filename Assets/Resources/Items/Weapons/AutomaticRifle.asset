@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AutomaticRifle
   m_EditorClassIdentifier: 
   itemName: Automatic rifle
-  description: automatic
+  description: 
   icon: {fileID: -2413806693520163455, guid: 41f861843f1567149a96e006195cc530, type: 3}
   rarity: 2
   IsStackable: 0
@@ -27,10 +27,10 @@ MonoBehaviour:
   damage: 4
   attackRate: 0.2
   chargeRate: 0.1
-  needsAmmo: 0
-  recoilForce: 0
+  needsAmmo: 1
+  recoilForce: 5
   slowingAmount: 0.5
-  ammoType: {fileID: 0}
+  ammoType: {fileID: 11400000, guid: 4ffda51a2c4250845877488d241f2467, type: 2}
   attackType: 1
   weaponType: 2
   projectilesPerShot: 1

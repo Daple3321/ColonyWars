@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76fb453e7702fc44aa8a44898ddb2190, type: 3}
+  m_Name: RangedUnit_Enemy
+  m_EditorClassIdentifier: 
+  unitName: Ranged Enemy
+  description: 
+  icon: {fileID: 0}
+  recipe: {fileID: 0}
+  lootTable:
+    table:
+      _serializedList:
+      - Key:
+          item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
+          amountRange: {x: 1, y: 2}
+        Value: 0.5
+      - Key:
+          item: {fileID: 11400000, guid: 82b55b43dc561b049bd2e4eff7737eeb, type: 2}
+          amountRange: {x: 5, y: 8}
+        Value: 0.4
+      - Key:
+          item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
+          amountRange: {x: 1, y: 3}
+        Value: 0.35
+    rollAmountRange: {x: 1, y: 3}
+  prefab: {fileID: 7294893471746113059, guid: 09254e9e152c73441b12d831c3b8072b, type: 3}

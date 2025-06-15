@@ -35,7 +35,8 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public float enemyCheckDelay = 1f;
     public LayerMask enemiesMask;
     public LayerMask attackHitMask;
-
+    
+    public UnitData data;
     public Squad squad;
     protected CharacterController characterController;
     private WorldBar healthBar;
@@ -65,7 +66,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
         //agent.speed = speed;
         //currentTarget = GameController.p.transform;
         //agent.SetDestination(currentTarget.position);
-        gameObject.name = unitName;
+        gameObject.name = data.unitName;
         squad = null;
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
@@ -316,7 +317,13 @@ public abstract class Unit : MonoBehaviour, IDamageable
         }
     }
 
-    public virtual void Death() { Destroy(healthBar.gameObject); }
+    public virtual void Death() { 
+        if(!data.lootTable.IsEmpty()){
+            data.lootTable.DropLoot(transform.position + new Vector3(0, 1.5f, 0));
+        }
+        
+        Destroy(healthBar.gameObject); 
+    }
 
     public Action<Unit> onUnitDeath;
     public Action<Squad> onRegiesterToSquad;

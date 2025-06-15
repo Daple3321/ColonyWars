@@ -26,9 +26,11 @@ public class GameAssets
     public static GameObject minePanel;
     public static GameObject colonyCenterPanel;
     public static GameObject craftingStationPanel;
+    public static GameObject barracksPanel;
     // --------------------
     
     public static GameObject craftSlot;
+    public static GameObject unitCraftSlot;
     
     public static GameObject crosshairCanvas;
 
@@ -80,8 +82,10 @@ public class GameAssets
             minePanel = Resources.Load<GameObject>("UI/MinePanel");
             colonyCenterPanel = Resources.Load<GameObject>("UI/ColonyCenterPanel");
             craftingStationPanel = Resources.Load<GameObject>("UI/Crafting/CraftingStationPanel");
+            barracksPanel = Resources.Load<GameObject>("UI/Crafting/BarracksPanel");
             
             craftSlot = Resources.Load<GameObject>("UI/Crafting/CraftSlot");
+            unitCraftSlot = Resources.Load<GameObject>("UI/Crafting/UnitCraftSlot");
             
             crosshairCanvas = Resources.Load<GameObject>("UI/CrosshairCanvas");
             

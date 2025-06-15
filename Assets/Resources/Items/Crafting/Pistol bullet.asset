@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3c27d93c3f14c848852d4b1f34c386f, type: 3}
-  m_Name: TestRecipe
+  m_Name: Pistol bullet
   m_EditorClassIdentifier: 
   requirements:
     requirements:
-    - item: {fileID: 11400000, guid: dfe06b9807283144fb496089e9fc5643, type: 2}
+    - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
+      quantity: 1
+    - item: {fileID: 11400000, guid: 82b55b43dc561b049bd2e4eff7737eeb, type: 2}
       quantity: 5
   craftTime: 1
-  finalItem: {fileID: 11400000, guid: 6b5b4916729fbed4abe7fad9b9d5eb3f, type: 2}
-  finalAmount: 1
+  finalItem: {fileID: 11400000, guid: 0ed7a9971a5f3a04d9314a863cb23196, type: 2}
+  finalAmount: 5

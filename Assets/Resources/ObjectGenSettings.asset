@@ -65,3 +65,13 @@ MonoBehaviour:
     randomizeScale: 1
     scaleRange: {x: 0.7, y: 1}
     prefab: {fileID: 3828678855010385858, guid: 1f75e4494ac87584d836f8c3d612ab2c, type: 3}
+  - spawnType: 1
+    spawnRules:
+    - spawnRuleType: 0
+      valueRange: {x: 18, y: 31}
+    spawnAmount: 20
+    spawnChance: 0.03
+    alignToGround: 1
+    randomizeScale: 1
+    scaleRange: {x: 0.7, y: 1}
+    prefab: {fileID: 1863249059776997891, guid: c06961985f292674ea7697d227d54127, type: 3}

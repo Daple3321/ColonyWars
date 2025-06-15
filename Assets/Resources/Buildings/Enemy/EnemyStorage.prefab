@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 7213807166696763614}
   - component: {fileID: 1674708560550418707}
   - component: {fileID: 5343371440417074469}
+  - component: {fileID: 3601858077372982152}
   m_Layer: 13
   m_Name: EnemyStorage
   m_TagString: Untagged
@@ -157,6 +158,7 @@ MonoBehaviour:
   health: 45
   maxHealth: 45
   interactionRange: 8
+  canInteract: 1
   affiliation: 1
   buildTime: 4
   built: 0
@@ -175,3 +177,30 @@ MonoBehaviour:
       Value: 2
   percentModifiers:
     _serializedList: []
+--- !u!205 &3601858077372982152
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5296791000703797051}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.058774233, y: 2.3489482, z: 0.09370732}
+  m_Size: 5.7272053
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.6
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 2928171032490729722}
+  - screenRelativeHeight: 0.3
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 2928171032490729722}
+  - screenRelativeHeight: 0.049122527
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 2928171032490729722}
+  m_Enabled: 1

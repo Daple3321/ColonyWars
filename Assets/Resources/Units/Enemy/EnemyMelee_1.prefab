@@ -143,6 +143,7 @@ MonoBehaviour:
   attackHitMask:
     serializedVersion: 2
     m_Bits: 20672
+  data: {fileID: 11400000, guid: 5cf07f7180da4154e9a6eafdb3abed29, type: 2}
   squad:
     units: []
     maxUnits: 0
