@@ -133,13 +133,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingData: {fileID: 11400000, guid: ee98459513c33e24c9d13c0863a2423a, type: 2}
-  health: 25
-  maxHealth: 25
+  health: 70
+  maxHealth: 70
   interactionRange: 8
+  canInteract: 1
   affiliation: 2
   buildTime: 3
   built: 0
   buildProgress: 0
+  cell:
+    worldPosition: {x: 0, y: 0, z: 0}
+    captureProgress: 0
+    whoIsCapturing: 0
+    yieldAmount: 0
+    affiliation: 0
+  cellIndex: {x: 0, y: 0, z: 0}
+  capturedCells: []
   gatherRate: 5
   yieldAmount: 1
   resourcesNearby: []

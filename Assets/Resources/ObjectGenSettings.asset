@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: ObjectGenSettings
   m_EditorClassIdentifier: 
   objects:
-  - spawnType: 1
+  - objName: PineTree_Low
+    spawnType: 1
     spawnRules:
     - spawnRuleType: 0
       valueRange: {x: 4, y: 12}
@@ -23,55 +24,91 @@ MonoBehaviour:
     randomizeScale: 1
     scaleRange: {x: 1, y: 2.1}
     prefab: {fileID: 1303685909710911235, guid: 966bd39565e77c544b3581351e01a124, type: 3}
-  - spawnType: 1
+  - objName: Iron Ore Small
+    spawnType: 1
     spawnRules:
     - spawnRuleType: 0
-      valueRange: {x: 21, y: 30}
+      valueRange: {x: 4, y: 14}
     spawnAmount: 25
     spawnChance: 0.03
     alignToGround: 1
     randomizeScale: 0
     scaleRange: {x: 0, y: 0}
     prefab: {fileID: 5983225864649344031, guid: 0d3c90b1a7b0a0e4e936d5ac7964dfc2, type: 3}
-  - spawnType: 1
+  - objName: Coal small
+    spawnType: 1
     spawnRules:
     - spawnRuleType: 0
-      valueRange: {x: 21, y: 30}
-    - spawnRuleType: 1
-      valueRange: {x: 15, y: 30}
-    spawnAmount: 35
+      valueRange: {x: 4, y: 15}
+    spawnAmount: 20
     spawnChance: 0.03
     alignToGround: 1
     randomizeScale: 0
     scaleRange: {x: 0, y: 0}
     prefab: {fileID: 8024054669736437981, guid: 6139c64865f86b94bb7659212089c394, type: 3}
-  - spawnType: 1
+  - objName: Rock Small Low
+    spawnType: 1
     spawnRules:
     - spawnRuleType: 0
-      valueRange: {x: 20, y: 30}
+      valueRange: {x: 4, y: 15}
+    spawnAmount: 20
+    spawnChance: 0.03
+    alignToGround: 1
+    randomizeScale: 0
+    scaleRange: {x: 1, y: 1}
+    prefab: {fileID: 5673285356555159962, guid: 01a999e0f52d9c84fbd2111da7c421c0, type: 3}
+  - objName: Sulfur small
+    spawnType: 1
+    spawnRules:
+    - spawnRuleType: 0
+      valueRange: {x: 5, y: 15}
+    spawnAmount: 20
+    spawnChance: 0.03
+    alignToGround: 1
+    randomizeScale: 0
+    scaleRange: {x: 0.7, y: 1}
+    prefab: {fileID: 1863249059776997891, guid: c06961985f292674ea7697d227d54127, type: 3}
+  - objName: Rock BIG
+    spawnType: 1
+    spawnRules:
+    - spawnRuleType: 0
+      valueRange: {x: 22, y: 35}
     spawnAmount: 10
     spawnChance: 0.03
     alignToGround: 1
     randomizeScale: 1
     scaleRange: {x: 1, y: 3}
     prefab: {fileID: 3828678855010385858, guid: 1f75e4494ac87584d836f8c3d612ab2c, type: 3}
-  - spawnType: 1
+  - objName: Sulfur BIG
+    spawnType: 1
     spawnRules:
     - spawnRuleType: 0
-      valueRange: {x: 10, y: 18}
-    spawnAmount: 20
+      valueRange: {x: 22, y: 36}
+    spawnAmount: 10
     spawnChance: 0.03
     alignToGround: 1
-    randomizeScale: 1
+    randomizeScale: 0
     scaleRange: {x: 0.7, y: 1}
-    prefab: {fileID: 3828678855010385858, guid: 1f75e4494ac87584d836f8c3d612ab2c, type: 3}
-  - spawnType: 1
+    prefab: {fileID: 4149111470289446785, guid: 0bd563a43c18e0a4f9eede91dd214163, type: 3}
+  - objName: Iron BIG
+    spawnType: 1
     spawnRules:
     - spawnRuleType: 0
-      valueRange: {x: 18, y: 31}
-    spawnAmount: 20
+      valueRange: {x: 22, y: 36}
+    spawnAmount: 15
     spawnChance: 0.03
     alignToGround: 1
-    randomizeScale: 1
+    randomizeScale: 0
     scaleRange: {x: 0.7, y: 1}
-    prefab: {fileID: 1863249059776997891, guid: c06961985f292674ea7697d227d54127, type: 3}
+    prefab: {fileID: 2852551063468256958, guid: 76d33cf53e91a3e46a149e69c61e09e3, type: 3}
+  - objName: Coal BIG
+    spawnType: 1
+    spawnRules:
+    - spawnRuleType: 0
+      valueRange: {x: 22, y: 36}
+    spawnAmount: 15
+    spawnChance: 0.03
+    alignToGround: 1
+    randomizeScale: 0
+    scaleRange: {x: 0.7, y: 1}
+    prefab: {fileID: 4704389754218489228, guid: 973520301b2c2ee44b53ec530cd93f4f, type: 3}

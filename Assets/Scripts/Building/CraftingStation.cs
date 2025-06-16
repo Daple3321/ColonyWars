@@ -30,9 +30,14 @@ public class CraftingStation : Manufacturer
     
     public override void PrepareUI()
     {
+        CraftingStationPanel craftingPanel = null;
+        if(GameController.i.buildingPanelManager.currentPanel is CraftingStationPanel panel){ // неадекватное количество действий
+            craftingPanel = panel;
+        }
+        
         originInv.PrepareUI(true, GameController.p.playerInventory.inventoryUI);
         originInv.UpdateUI(originInv.inventory.GetCurrentInventoryState());
-        outputInv.PrepareUI(false, GameController.p.playerInventory.inventoryUI);
+        outputInv.PrepareUI(false, GameController.p.playerInventory.inventoryUI, craftingPanel.outputContainer);
         outputInv.UpdateUI(outputInv.inventory.GetCurrentInventoryState());
         
         if(GameController.i.buildingPanelManager.currentPanel is CraftingStationPanel csp)

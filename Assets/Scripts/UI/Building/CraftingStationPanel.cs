@@ -5,6 +5,7 @@ public class CraftingStationPanel : BuildingPanel
 {
     [SerializeField] private RectTransform craftsContainer;
     [SerializeField] private RectTransform queueContainer;
+    public RectTransform outputContainer;
     
     public List<CraftSlot> crafts;
     

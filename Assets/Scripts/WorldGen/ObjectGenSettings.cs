@@ -10,6 +10,7 @@ public class ObjectGenSettings : ScriptableObject
 [System.Serializable]
 public struct GenSettings
 {
+    public string objName;
     public SpawnType spawnType;
     public SpawnRule[] spawnRules;
     //public Vector2 spawnRuleValue;

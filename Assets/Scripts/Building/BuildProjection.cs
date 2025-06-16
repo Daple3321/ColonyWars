@@ -8,6 +8,8 @@ public class BuildProjection : MonoBehaviour
     
     public MeshRenderer[] meshes;
     
+    public Zone cellZone;
+    
     public void Init(BuildingData building, PlayerBuilding playerBuilding)
     {
         this.playerBuilding = playerBuilding;
@@ -21,6 +23,15 @@ public class BuildProjection : MonoBehaviour
         foreach(MeshRenderer mesh in meshes){
             mesh.material.SetTexture("_BaseMap", null);
         }
+        
+        cellZone = ZoneFactory.CreateZone(
+            transform.position,
+            GameAssets.colors.playerBorder,
+            ZoneShape.Box,
+            ColoniesManager.i.gridManager.cellHalf,
+            35
+        );
+        //cellZone.transform.SetParent(transform);
         
         Destroy(go.GetComponent<Building>());
         Destroy(go.GetComponent<Collider>());
@@ -39,5 +50,8 @@ public class BuildProjection : MonoBehaviour
                 mesh.material.SetColor("_BaseColor", Color.red);
             }
         }
+        
+        Vector3Int projectionGridPos = ColoniesManager.i.grid.WorldToCell(transform.position);
+        cellZone.transform.position = ColoniesManager.i.grid.GetCellCenterWorld(projectionGridPos);
     }
 }

@@ -564,7 +564,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7b8e27bd2c853da4090d454b73c768f1, type: 2}
   - {fileID: 11400000, guid: f5959b8b18a18dc4d8cc39180726e0f3, type: 2}
   - {fileID: 11400000, guid: ee98459513c33e24c9d13c0863a2423a, type: 2}
-  - {fileID: 11400000, guid: 919ae6e77d649f346b26174f360a3316, type: 2}
   - {fileID: 11400000, guid: eddf1b41078b70945a3fb38484c94f30, type: 2}
   - {fileID: 11400000, guid: 23d712e21bbe2ea42a707f34c205274a, type: 2}
   selectedBuilding: {fileID: 0}

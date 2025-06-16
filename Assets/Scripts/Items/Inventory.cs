@@ -337,7 +337,8 @@ public class Inventory
     /// <returns>Index of item if it is found. -1 is not found</returns>
     public int HasItem(InventoryItem item)
     {
-        return inventoryItems.IndexOf(item);
+        int foundIndex = inventoryItems.FindIndex(x => !x.IsEmpty && x.item.itemData == item.item.itemData);
+        return foundIndex;
     }
     
     public int HasItem(Item item)

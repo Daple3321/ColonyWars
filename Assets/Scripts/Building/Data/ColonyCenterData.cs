@@ -8,18 +8,19 @@ public class ColonyCenterData : BuildingData
     
     public override Zone[] CreateProjectionZones()
     {
-        Zone[] zones = new Zone[1];
+        //Zone[] zones = new Zone[1];
+        Zone[] zones = null;
         
-        Zone coloneZone = ZoneFactory.CreateZone(
-            PlayerAiming.worldMouseFollower.transform.position,
-            Color.cyan,
-            ZoneShape.Cylinder,
-            colonyRadius);
+        // Zone coloneZone = ZoneFactory.CreateZone(
+        //     PlayerAiming.worldMouseFollower.transform.position,
+        //     Color.cyan,
+        //     ZoneShape.Cylinder,
+        //     colonyRadius);
         
-        coloneZone.transform.SetParent(PlayerAiming.worldMouseFollower.transform);
-        coloneZone.transform.localPosition = Vector3.zero;
+        // coloneZone.transform.SetParent(PlayerAiming.worldMouseFollower.transform);
+        // coloneZone.transform.localPosition = Vector3.zero;
         
-        zones[0] = coloneZone;
+        // zones[0] = coloneZone;
         
         return zones;
     }

@@ -21,10 +21,15 @@ public class BuildingInventory
         inventory.OnInventoryUpdated += UpdateUI;
     }
     
-    public void PrepareUI(bool transferPriority = false, InventoryUI transferInventory = null)
+    public void PrepareUI(bool transferPriority = false, InventoryUI transferInventory = null, RectTransform invParent = null)
     {
         GameObject invObj = GameObject.Instantiate(GameAssets.hotbarUI_Prefab);
-        invObj.transform.SetParent(GameController.i.buildingPanelManager.currentPanel.dataContainter);
+        if(invParent == null){
+            invObj.transform.SetParent(GameController.i.buildingPanelManager.currentPanel.dataContainter);
+        }
+        else{
+            invObj.transform.SetParent(invParent);
+        }
         
         inventoryUI = invObj.GetComponent<InventoryUI>();
         inventoryUI.InitializeInventoryUI(inventoryStartingSize);

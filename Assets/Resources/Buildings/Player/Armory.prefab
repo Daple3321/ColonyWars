@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingData: {fileID: 11400000, guid: 7b8e27bd2c853da4090d454b73c768f1, type: 2}
-  health: 70
-  maxHealth: 70
+  health: 120
+  maxHealth: 120
   interactionRange: 8
   canInteract: 1
   affiliation: 2
@@ -66,7 +66,9 @@ MonoBehaviour:
   recipes: []
   craftInProgress: 0
   craftProgress: 0
-  currentCraft: {fileID: 0}
+  currentCraft:
+    recipe: {fileID: 0}
+    amountToCraft: 0
   queue: []
   queueCapacity: 5
   stationData: {fileID: 0}

@@ -144,50 +144,55 @@ public class PlayerInventory : MonoBehaviour
     public void HandleFastTranferRequest(InventoryUI sourceUI, int sourceIndex)
     {
         Inventory sourceInventory = sourceUI.LinkedInventory;
+        InventoryItem sourceItem = sourceInventory.GetItemAt(sourceIndex);
         InventoryUI destinationUI = null;
         Inventory destinationInventory = null;
         int destinationIndex = -1;
+        int sameItemIndex = -1;
         
         if(sourceUI.TransferInventory != null) // если у инвентаря есть заданный TransferInventory
         {
             destinationUI = sourceUI.TransferInventory;
             destinationInventory = destinationUI.LinkedInventory;
-            destinationIndex = destinationInventory.FirstEmptySlot();
-            if(destinationIndex != -1){
-                HandleTransferRequest_Fast(sourceUI, sourceIndex, destinationUI, destinationIndex);
-            }
-            else{
-                Debug.LogWarning("Destination inventory is full");
-            }
         }
-        else
-        {
+        else{
             destinationUI = activeInventories[0];
             destinationInventory = destinationUI.LinkedInventory;
-            destinationIndex = destinationInventory.FirstEmptySlot();
-            if(destinationIndex != -1){
-                HandleTransferRequest_Fast(sourceUI, sourceIndex, destinationUI, destinationIndex);
-            }
-            else{
-                Debug.LogWarning("Destination inventory is full");
-            }
         }
-        // else{
-        //     foreach(var inv in activeInventories)
-        //     {
-        //         if(inv != sourceUI)
-        //         {
-        //             destinationUI = activeInventories[0];
-        //             destinationInventory = destinationUI.LinkedInventory;
-        //             destinationIndex = destinationInventory.FirstEmptySlot();
-        //             if(destinationIndex != -1){
-        //                 HandleTransferRequest_Fast(sourceUI, sourceIndex, destinationUI, destinationIndex);
-        //                 return;
-        //             }
-        //             else{
-        //                 Debug.Log("Destination inventory is full");
-        //             }
-        //         }
+        
+        sameItemIndex = destinationInventory.HasItem(sourceItem); // пытаемся найти похожий предмет
+        if(sameItemIndex != -1){
+            Debug.Log($"Same item found! Trying to stack");
+            HandleTransferRequest_Fast(sourceUI, sourceIndex, destinationUI, sameItemIndex);
+            return;
+        }
+        
+        destinationIndex = destinationInventory.FirstEmptySlot(); // если не нашли похожий предмет в destination'е
+        if(destinationIndex != -1){
+            Debug.Log($"No similar items found! Adding to first empty slot");
+            HandleTransferRequest_Fast(sourceUI, sourceIndex, destinationUI, destinationIndex);
+        }
+        else{
+            Debug.LogWarning("Destination inventory is full");
+        }
+        
+        // else
+        // {
+        //     destinationUI = activeInventories[0];
+        //     destinationInventory = destinationUI.LinkedInventory;
+            
+        //     sameItemIndex = destinationInventory.HasItem(sourceItem); // пытаемся найти похожий предмет
+        //     if(sameItemIndex != -1){
+        //         HandleTransferRequest_Fast(sourceUI, sourceIndex, destinationUI, sameItemIndex);
+        //         return;
+        //     }
+            
+        //     destinationIndex = destinationInventory.FirstEmptySlot();
+        //     if(destinationIndex != -1){
+        //         HandleTransferRequest_Fast(sourceUI, sourceIndex, destinationUI, destinationIndex);
+        //     }
+        //     else{
+        //         Debug.LogWarning("Destination inventory is full");
         //     }
         // }
     }
@@ -378,7 +383,7 @@ public class PlayerInventory : MonoBehaviour
         {
             //sourceInventory.SetItemAt(sourceIndex, InventoryItem.GetEmptyItem()); // Очищаем источник
             //destinationInventory.SetItemAt(destinationIndex, itemToMove);       // Помещаем в назначение
-            
+            Debug.Log("To Empty Slot");
             // Уменьшаем количество в источнике
             InventoryItem sourceRemaining = itemToMove.ChangeQuantity(itemToMove.quantity - quantityToMove);
             if (sourceRemaining.quantity <= 0)
@@ -396,6 +401,7 @@ public class PlayerInventory : MonoBehaviour
         // 2. Предметы одинаковые и можно стакать
         else if (InventoryItem.CanStackCheck(itemToMove, itemAtDestination))
         {
+            Debug.Log("Can stack!");
             int maxCanTake = itemAtDestination.MaxStackSize - itemAtDestination.quantity;
             int actualMoveAmount = Mathf.Min(quantityToMove, maxCanTake); // Сколько реально можем переместить
 

@@ -25,8 +25,8 @@ MonoBehaviour:
   customScale: {x: 1, y: 1, z: 1}
   customPrefab: {fileID: 2280244590060308478, guid: 18adfd06f3e345b48a71f9fe8e1ef81a, type: 3}
   damage: 10
-  attackRate: 0.55
-  chargeRate: 1.5
+  attackRate: 0.35
+  chargeRate: 2
   needsAmmo: 0
   recoilForce: -14
   slowingAmount: 0.5
@@ -35,11 +35,11 @@ MonoBehaviour:
   weaponType: 3
   attackDistance: 3.5
   knockBackForce: 0
-  attackBoxExtents: {x: 0.4, y: 1, z: 3}
+  attackBoxExtents: {x: 0.5, y: 2, z: 3}
   attackSequence:
     sequenceCoolDown: 1.5
     attacks:
-    - duration: 0.45
+    - duration: 0.35
       damageMultiplier: 0
       recoilMultiplier: 0
       staminaDrain: 2

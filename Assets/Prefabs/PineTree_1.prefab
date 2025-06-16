@@ -50,11 +50,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resource: {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}
   isInfinite: 0
-  quantity: 150
+  quantity: 128
   gatherRadius: 2.5
   clicksToGather: 3
   clicksLeft: 3
-  col: {fileID: 0}
+  col: {fileID: 2233209458702113151}
   rend: {fileID: 6422279057868495041}
 --- !u!136 &2233209458702113151
 CapsuleCollider:

@@ -154,8 +154,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingData: {fileID: 0}
-  health: 300
-  maxHealth: 300
+  health: 400
+  maxHealth: 400
   interactionRange: 8
   canInteract: 1
   affiliation: 2
@@ -171,7 +171,6 @@ MonoBehaviour:
   cellIndex: {x: 0, y: 0, z: 0}
   capturedCells: []
   colonyData: {fileID: 0}
-  level: 1
   colonyRadius: 20
   buildings: []
   colonyZone: {fileID: 0}

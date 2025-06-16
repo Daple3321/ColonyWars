@@ -185,6 +185,7 @@ public class PlayerBuilding : MonoBehaviour
     }
     
     public void DestroyBuildingProjection(){
+        Destroy(buildingProjection.cellZone.gameObject);
         Destroy(buildingProjection.gameObject);
         
         if(projectionZones != null){
