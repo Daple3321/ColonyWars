@@ -305,14 +305,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Melee unit
-  health: 45
+  health: 60
   rotationSpeed: 6
   fallSpeed: 10
   stats:
     _serializedList:
     - Key: 0
       Value:
-        baseValue: 45
+        baseValue: 60
         statModifiers: []
     - Key: 1
       Value:

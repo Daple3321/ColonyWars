@@ -119,16 +119,16 @@ public interface IEquipable
     void Unequip();
 }
 
-public interface IPickupable
-{
-    void Pickup();
-    void Drop();
-}
+// public interface IPickupable
+// {
+//     void Pickup();
+//     void Drop();
+// }
 
-public interface IStackable
-{
-    int MaxStackSize { get; }
-}
+// public interface IStackable
+// {
+//     int MaxStackSize { get; }
+// }
 
 public interface IUsable
 {

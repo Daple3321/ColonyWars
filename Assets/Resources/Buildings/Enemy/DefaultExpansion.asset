@@ -18,11 +18,11 @@ MonoBehaviour:
   - actionType: 3
     interval: 120
   - actionType: 4
-    interval: 60
+    interval: 120
   - actionType: 1
     interval: 120
   - actionType: 0
-    interval: 160
+    interval: 180
   dayActionIndex: 0
   nightSeq:
   - actionType: 5

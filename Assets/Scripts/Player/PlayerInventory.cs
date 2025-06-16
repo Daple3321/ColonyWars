@@ -145,6 +145,9 @@ public class PlayerInventory : MonoBehaviour
     {
         Inventory sourceInventory = sourceUI.LinkedInventory;
         InventoryItem sourceItem = sourceInventory.GetItemAt(sourceIndex);
+        if(sourceItem.IsEmpty){
+            return;
+        }
         InventoryUI destinationUI = null;
         Inventory destinationInventory = null;
         int destinationIndex = -1;
@@ -160,7 +163,8 @@ public class PlayerInventory : MonoBehaviour
             destinationInventory = destinationUI.LinkedInventory;
         }
         
-        sameItemIndex = destinationInventory.HasItem(sourceItem); // пытаемся найти похожий предмет
+        //sameItemIndex = destinationInventory.HasItem(sourceItem); // пытаемся найти похожий предмет
+        sameItemIndex = destinationInventory.HasItemWithSpaceLeft(sourceItem.item.itemData, sourceItem.quantity);
         if(sameItemIndex != -1){
             Debug.Log($"Same item found! Trying to stack");
             HandleTransferRequest_Fast(sourceUI, sourceIndex, destinationUI, sameItemIndex);

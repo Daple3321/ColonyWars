@@ -16,7 +16,7 @@ MonoBehaviour:
   - actionType: 4
     interval: 60
   - actionType: 2
-    interval: 60
+    interval: 120
   - actionType: 4
     interval: 300
   - actionType: 0

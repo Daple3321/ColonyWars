@@ -170,7 +170,7 @@ MonoBehaviour:
         statModifiers: []
     - Key: 2
       Value:
-        baseValue: 4
+        baseValue: 3
         statModifiers: []
     - Key: 3
       Value:
@@ -178,7 +178,7 @@ MonoBehaviour:
         statModifiers: []
     - Key: 4
       Value:
-        baseValue: 25
+        baseValue: 35
         statModifiers: []
   baseModifiers:
     _serializedList:
