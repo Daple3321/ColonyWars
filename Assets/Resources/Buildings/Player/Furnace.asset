@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingName: Furnace
   description: Smelts ore into ingots
-  buildingIcon: {fileID: 21300000, guid: c3d7ba9028d232747a723a3b0dfce1fe, type: 3}
+  buildingIcon: {fileID: 21300000, guid: a4c61b52b9a1cf6479ffc4cd540dc793, type: 3}
   craftPrice:
     requirements:
     - item: {fileID: 11400000, guid: dfe06b9807283144fb496089e9fc5643, type: 2}

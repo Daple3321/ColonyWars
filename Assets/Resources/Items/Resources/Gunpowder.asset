@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Gunpowder
   description: 
-  icon: {fileID: 21300000, guid: 43018030a442e2b46b46d8cccaa66b89, type: 3}
+  icon: {fileID: 21300000, guid: 54262a89d14ac4a4fa65880bef40f557, type: 3}
   rarity: 0
   IsStackable: 1
   maxStackSize: 64
   instantPickup: 1
-  itemMesh: {fileID: -5053925668127403250, guid: a1b32849c2aed784e8213307f348eb92, type: 3}
+  itemMesh: {fileID: 855131390749405241, guid: 1a5c065c874884746923078a16c0ff46, type: 3}
   itemMaterials:
-  - {fileID: 2100000, guid: efd3307a9c4f0714d9d31f0d9d295b9d, type: 2}
+  - {fileID: 2100000, guid: fd9e1fdaa81653e4bbe0001765c93a03, type: 2}
   hasCustomScale: 1
   customScale: {x: 1, y: 1, z: 1}
   customPrefab: {fileID: 0}
