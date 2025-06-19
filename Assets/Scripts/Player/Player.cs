@@ -101,6 +101,11 @@ public class Player : MonoBehaviour, IDamageable, ICommander
                 if(hit.collider.TryGetComponent(out IClickable clickable)){
                     clickable.OnClick(this);
                 }
+                
+                if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Resources")
+                && Vector3.Distance(transform.position, hit.collider.transform.position) < 4f){
+                    ResourceManager.i.PlayerHarvest(hit.collider.gameObject, 1);
+                }
             }
         }
         

@@ -62,9 +62,17 @@ public class ObjectGenerator : MonoBehaviour
             case SpawnType.Raycast:
                 while(spawnAmount > 0)
                 {
-                    if(CreateObject_Raycast(obj, terrainHeight, terrainWidth)){
-                        spawnAmount--;
+                    if(obj is ResourceGenSettings resource){
+                        if(CreateResource_Raycast(resource, terrainHeight, terrainWidth)){
+                            spawnAmount--;
+                        }
                     }
+                    else{
+                        if(CreateObject_Raycast(obj, terrainHeight, terrainWidth)){
+                            spawnAmount--;
+                        }
+                    }
+                    
                     //await UniTask.Delay(25);
                 }
             break;
@@ -136,6 +144,48 @@ public class ObjectGenerator : MonoBehaviour
                     float randScale = Random.Range(obj.scaleRange.x, obj.scaleRange.y);
                     t.localScale = new Vector3(randScale, randScale, randScale);
                 }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private bool CreateResource_Raycast(ResourceGenSettings obj, float terrainHeight, float terrainWidth)
+    {
+        Vector3 rayOrigin = new Vector3(Random.Range(0, terrainHeight), raycastHeight, Random.Range(0, terrainWidth));
+            
+        Ray ray = new Ray(rayOrigin, Vector3.down);
+        RaycastHit[] hit = new RaycastHit[1];
+        bool canSpawn = true;
+        if(Physics.RaycastNonAlloc(ray, hit, Mathf.Infinity, raycastMask) > 0) // добавить ещё проверку на объекты вокруг? overlapSphere
+        {
+            foreach(SpawnRule rule in obj.spawnRules)
+            {
+                if(CheckSpawnRule(rule, hit[0])){
+                    continue;
+                }
+                else{
+                    canSpawn = false;
+                }
+            }
+            
+            if(canSpawn)
+            {
+                Quaternion rot = Quaternion.identity;
+                if(obj.alignToGround){
+                    rot *= Quaternion.LookRotation(hit[0].normal, Vector3.up) * Quaternion.AngleAxis(90, Vector3.right);
+                }
+                rot *= Quaternion.AngleAxis(Random.Range(0, 360f), Vector3.up);
+                
+                Transform t = Instantiate(obj.prefab, hit[0].point, rot).transform;
+                
+                if(obj.randomizeScale){
+                    float randScale = Random.Range(obj.scaleRange.x, obj.scaleRange.y);
+                    t.localScale = new Vector3(randScale, randScale, randScale);
+                }
+                
+                ResourceManager.i.RegisterResource(t.gameObject, obj.resource, Random.Range(obj.amountRange.x, obj.amountRange.y), obj.clicksToGather);
+                
                 return true;
             }
         }

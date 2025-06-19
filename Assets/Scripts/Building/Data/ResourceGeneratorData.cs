@@ -61,20 +61,24 @@ public class ResourceGeneratorData : BuildingData
             return false;
         }
         
-        Collider[] resources = new Collider[8];
-        if(Physics.OverlapSphereNonAlloc(projectionPos, gatherRadius, resources, resourceMask) > 0)
-        {
-            // это вообще уже НЕ НОРМАЛЬНО.
-            Collider[] neededNodes = resources.ToList().FindAll(
-                x => x != null && 
-                resourceConditions.Contains(x.GetComponent<ResourceNode>().resource)
-                //x.GetComponent<ResourceNode>().resource == resourceCondition
-            ).ToArray();
+        // Collider[] resources = new Collider[8];
+        // if(Physics.OverlapSphereNonAlloc(projectionPos, gatherRadius, resources, resourceMask) > 0)
+        // {
+        //     // это вообще уже НЕ НОРМАЛЬНО.
+        //     Collider[] neededNodes = resources.ToList().FindAll(
+        //         x => x != null && 
+        //         resourceConditions.Contains(x.GetComponent<ResourceNode>().resource)
+        //         //x.GetComponent<ResourceNode>().resource == resourceCondition
+        //     ).ToArray();
             
-            if(neededNodes.Length > 0){
-                OnOverlapResources?.Invoke(neededNodes);
-                return true;
-            }
+        //     if(neededNodes.Length > 0){
+        //         OnOverlapResources?.Invoke(neededNodes);
+        //         return true;
+        //     }
+        // }
+        
+        if(ResourceManager.i.GetResourcesInRadius_Id(projectionPos, gatherRadius, resourceConditions).Count > 0){
+            return true;
         }
         
         return false;

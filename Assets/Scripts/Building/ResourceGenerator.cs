@@ -11,7 +11,7 @@ public class ResourceGenerator : Generator
     private float _gatherRate = 5f;
     public int yieldAmount = 1;
     
-    public List<ResourceNode> resourcesNearby;
+    public List<int> resourcesNearby; // Айди надо вместо всего класса желательно
     
     //public Inventory inventory;
     //public int inventoryStartingSize = 2;
@@ -26,7 +26,7 @@ public class ResourceGenerator : Generator
         //this.buildingData = data;
         base.Init(data);
         
-        resourcesNearby = new List<ResourceNode>();
+        resourcesNearby = new List<int>();
         _gatherRate = gatherRate;
         
         buildingInventory = new BuildingInventory(this, 3);
@@ -134,10 +134,11 @@ public class ResourceGenerator : Generator
         buildProgress = 1f;
         ChangeColor(Color.white);
         
-        resourcesNearby = CheckForResources().ToList();
-        foreach(ResourceNode node in resourcesNearby){
-            node.OnResourceDeleted += OnResourceDeleted;
-        }
+        resourcesNearby = CheckForResources_Id();
+        ResourceManager.i.OnResourceDeleted += OnResourceDeleted;
+        // foreach(ResourceNode node in resourcesNearby){
+        //     node.OnResourceDeleted += OnResourceDeleted;
+        // }
     }
 
     void Update()
@@ -169,41 +170,58 @@ public class ResourceGenerator : Generator
         
         for(int i = 0; i < resourcesNearby.Count; i++)
         {
-            buildingInventory.inventory.AddItem(resourcesNearby[i].GeneratorGather(), yieldAmount);
+            buildingInventory.inventory.AddItem(ResourceManager.i.GeneratorGather(resourcesNearby[i], yieldAmount), yieldAmount);
+            //buildingInventory.inventory.AddItem(resourcesNearby[i].GeneratorGather(), yieldAmount);
         }
     }
     
-    public ResourceNode[] CheckForResources()
-    {
-        Collider[] resources = Physics.OverlapSphere(transform.position, generatorData.gatherRadius, generatorData.resourceMask);
-        if(resources.Length > 0)
-        {
-            // это вообще уже НЕ НОРМАЛЬНО.
-            Collider[] neededNodes = resources.ToList().FindAll(
-                x => generatorData.resourceConditions.Contains(x.GetComponent<ResourceNode>().resource)
-            ).ToArray();
+    // public ResourceNode[] CheckForResources()
+    // {
+    //     Collider[] resources = Physics.OverlapSphere(transform.position, generatorData.gatherRadius, generatorData.resourceMask);
+    //     if(resources.Length > 0)
+    //     {
+    //         // это вообще уже НЕ НОРМАЛЬНО.
+    //         Collider[] neededNodes = resources.ToList().FindAll(
+    //             x => generatorData.resourceConditions.Contains(x.GetComponent<ResourceNode>().resource)
+    //         ).ToArray();
             
-            if(neededNodes.Length > 0)
-            {
-                ResourceNode[] nodes = new ResourceNode[neededNodes.Length];
-                for(int i = 0; i < neededNodes.Length; i++){
-                    nodes[i] = neededNodes[i].GetComponent<ResourceNode>();
-                }
-                return nodes;
-            }
-        }
-        return null;
+    //         if(neededNodes.Length > 0)
+    //         {
+    //             ResourceNode[] nodes = new ResourceNode[neededNodes.Length];
+    //             for(int i = 0; i < neededNodes.Length; i++){
+    //                 nodes[i] = neededNodes[i].GetComponent<ResourceNode>();
+    //             }
+    //             return nodes;
+    //         }
+    //     }
+    //     return null;
+    // }
+    
+    public ResourceData[] CheckForResources()
+    {
+        return ResourceManager.i.GetResourcesInRadius(
+            transform.position, 
+            generatorData.gatherRadius, 
+            generatorData.resourceConditions)
+            .ToArray();
+    }
+    public List<int> CheckForResources_Id()
+    {
+        return ResourceManager.i.GetResourcesInRadius_Id(
+            transform.position, 
+            generatorData.gatherRadius, 
+            generatorData.resourceConditions);
     }
     
-    public void OnResourceDeleted(ResourceNode node)
+    public void OnResourceDeleted(ResourceData node)
     {
-        resourcesNearby.Remove(node);
+        resourcesNearby.Remove(node.id);
     }
 
     public override void OnDeath()
     {
         base.OnDeath();
-        
+        ResourceManager.i.OnResourceDeleted -= OnResourceDeleted;
         buildingInventory.DropAllItems();
     }
 }

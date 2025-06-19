@@ -12,7 +12,7 @@ public class Storage : Building
     }
     public override void PrepareUI()
     {
-        inv.PrepareUI();
+        inv.PrepareUI(true, GameController.p.playerInventory.inventoryUI);
         inv.UpdateUI(inv.inventory.GetCurrentInventoryState());
     }
     public override void ClearUI()

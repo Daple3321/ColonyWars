@@ -4,11 +4,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ObjectGenSettings", menuName = "Scriptable Objects/ObjectGenSettings")]
 public class ObjectGenSettings : ScriptableObject
 {
-    public List<GenSettings> objects;
+    [SubclassSelector, SerializeReference] public List<GenSettings> objects;
 }
 
 [System.Serializable]
-public struct GenSettings
+public abstract class GenSettings
 {
     public string objName;
     public SpawnType spawnType;
@@ -26,6 +26,21 @@ public struct GenSettings
     public Vector2 scaleRange;
     
     public GameObject prefab;
+}
+
+[System.Serializable]
+public class ObjGenSettings : GenSettings
+{
+    
+}
+
+[System.Serializable]
+public class ResourceGenSettings : GenSettings
+{
+    [Space(7), Header("Resource Settings")]
+    public ItemData resource;
+    public Vector2Int amountRange;
+    public int clicksToGather;
 }
 
 [System.Serializable]
