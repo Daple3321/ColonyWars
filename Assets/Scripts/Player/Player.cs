@@ -12,13 +12,14 @@ public class Player : MonoBehaviour, IDamageable, ICommander
 {
     public PlayerCameraController cameraController;
     public PlayerCombat playerCombat;
-    public PlayerMovement playerMovement;
+    public PlayerMovement movement;
     public PlayerFollow playerFollow;
     public PlayerAiming playerAiming;
     public PlayerInventory playerInventory;
+    public PlayerItemUsing playerUsing;
     public PlayerBuilding playerBuilding;
     public PlayerAnimation playerAnimation;
-    public PlayerUI playerUI;
+    public PlayerUI ui;
     public BuildingPanelManager buildingPanelManager;
     public SquadManager squadManager;
     public StateMachine stateMachine;
@@ -57,12 +58,13 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         cameraController.Init(playerFollow);
         playerAnimation.Init(animator);
         playerAiming = new PlayerAiming();
-        playerMovement.Init(this, cameraController, playerAiming);
+        movement.Init(this, cameraController, playerAiming);
         playerInventory.Init(this);
+        playerUsing.Init(this);
         playerCombat.Init(this, playerAnimation);
         playerBuilding.Init(playerInventory);
         squadManager.Init();
-        playerUI.Init();
+        ui.Init();
         
         buildingPanelManager = GameController.i.buildingPanelManager;
         buildingPanelManager.Init();
@@ -132,7 +134,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     {
         health -= damage;
         //onPlayerDamaged?.Invoke(health, maxHealth);
-        playerMovement.AddForce(knockback);
+        movement.AddForce(knockback);
         
         StartCoroutine(PlayerCameraController.CameraShake(9, 0.35f));
         Flash(Color.red, 0.1f);
@@ -145,6 +147,13 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         {
             Death();
         }
+    }
+    
+    public void AddHealth(float amount)
+    {
+        health += amount;
+        health = Math.Clamp(health, 0, stats[maxHealth].Value);
+        EventBus.i.PlayerHealthChanged?.Invoke(health, stats[maxHealth].Value);
     }
     Sequence colorSeq;
     public void Flash(Color flashColor, float fadeTime = 0.2f)

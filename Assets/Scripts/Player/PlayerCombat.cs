@@ -18,13 +18,13 @@ public class PlayerCombat : MonoBehaviour
         enabled = false;
     }
 
-    private Player player;
+    private Player p;
     private PlayerInventory playerInventory;
     private PlayerAnimation playerAnimation;
     private Controls controls;
     public void Init(Player player, PlayerAnimation playerAnimation)
     {
-        this.player = player;
+        this.p = player;
         this.playerInventory = player.playerInventory;
         this.playerAnimation = playerAnimation;
         controls = GameAssets.controls;
@@ -44,8 +44,9 @@ public class PlayerCombat : MonoBehaviour
 
             //PlayerAiming.OnAim += PlayerAiming_OnAim;
         }
-        else
-        {
+        // Пока что САМАЯ худшая строчка кода за всю карьеру.
+        else if((e.selectedItem == null || e.selectedItem is not Weapon) && weaponWorld != null && e.selectedItem is not Usable) // Просто без слов...
+        { 
             ClearWeapon();
             //PlayerAiming.OnAim -= PlayerAiming_OnAim;
         }
@@ -72,6 +73,12 @@ public class PlayerCombat : MonoBehaviour
     {
         playerAnimation.OnWeaponSetup(wp);
         
+        if(wp.needsAmmo){
+            p.ui.SwitchAmmoCounter(true);
+            p.ui.SetAmmoIcon(wp.ammoType.icon);
+            p.ui.UpdateAmmoCount(wp.GetAmmoInfo());
+        }
+        
         //Debug.Log($"Selected weapon: {currentWeapon.itemName}.");
     }
 
@@ -81,6 +88,7 @@ public class PlayerCombat : MonoBehaviour
         concentraion = 0f;
         weaponWorld = null;
         
+        p.ui.SwitchAmmoCounter(false);
         playerAnimation.OnWeaponClear();
     }
 
@@ -106,6 +114,7 @@ public class PlayerCombat : MonoBehaviour
         {
             currentWeapon.mouseReleased = true;
             currentWeapon.attackCharge = 0f;
+            p.ui.SwitchChargeBar(false);
         }
 
         currentWeapon.UpdateWeapon();
@@ -116,7 +125,7 @@ public class PlayerCombat : MonoBehaviour
         if (currentWeapon.CanAttack())
         {
             if(!isAiming){
-                player.playerMovement.RotateToMouse();
+                p.movement.RotateToMouse();
             }
             
             currentWeapon.Attack();
@@ -133,7 +142,7 @@ public class PlayerCombat : MonoBehaviour
         if (currentWeapon.CanAttack())
         {
             if(!isAiming){
-                player.playerMovement.RotateToMouse();
+                p.movement.RotateToMouse();
             }
             
             currentWeapon.Attack();
@@ -149,13 +158,16 @@ public class PlayerCombat : MonoBehaviour
     private void HandleChargeAttacks()
     {
         if(!currentWeapon.IsCharged()){
+            p.ui.SwitchChargeBar(true);
             currentWeapon.Charge();
+            
+            p.ui.UpdateChargeBar(currentWeapon.attackCharge);
         }
         
         if (currentWeapon.CanAttack())
         {
             if(!isAiming){
-                player.playerMovement.RotateToMouse();
+                p.movement.RotateToMouse();
             }
             
             currentWeapon.Attack();
@@ -169,25 +181,25 @@ public class PlayerCombat : MonoBehaviour
     }
     private IEnumerator AttackRoutine()
     {
-        player.playerMovement.runningAllowed = false;
-        player.playerMovement.curSpeed.Add(-currentWeapon.weaponData.slowingAmount*100);
-        player.playerMovement.currentSpeed = player.playerMovement.curSpeed.Get();
+        p.movement.runningAllowed = false;
+        p.movement.curSpeed.Add(-currentWeapon.weaponData.slowingAmount*100);
+        p.movement.currentSpeed = p.movement.curSpeed.Get();
         
         float timeLeft = currentWeapon.attackRate;
         while(timeLeft > 0)
         {
-            player.playerMovement.RotateToMouse();
+            p.movement.RotateToMouse();
             timeLeft -= Time.deltaTime;
             yield return null;
         }
         
-        player.playerMovement.curSpeed.Remove();
-        player.playerMovement.ResetSpeed();
-        player.playerMovement.runningAllowed = true;
+        p.movement.curSpeed.Remove();
+        p.movement.ResetSpeed();
+        p.movement.runningAllowed = true;
     }
     private void ApplyRecoil(float recoilForce)
     {
-        player.playerMovement.AddForce(-transform.forward.normalized * recoilForce);
+        p.movement.AddForce(-transform.forward.normalized * recoilForce);
     }
 
     private void HandleAiming()

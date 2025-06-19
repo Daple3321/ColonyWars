@@ -37,6 +37,8 @@ public class EventBus
     
     public Action<float> PlayerConcentrationChanged;
     
+    public Action<float> PlayerAttackedWithAmmo; // arg: ammo left
+    
     public Action PlayerBuildModeEnter;
     public Action<Building> OnPlayerBuild;
     

@@ -40,17 +40,17 @@ public class MeleeWeapon : Weapon
     public override bool CanAttack()
     {
         if (attackType == AttackType.SINGLE && mouseReleased && _attackCd <= 0 && CheckAmmo() 
-            && GameController.p.playerMovement.HasStamina(attackSequence.CurrentAttack().staminaDrain))
+            && GameController.p.movement.HasStamina(attackSequence.CurrentAttack().staminaDrain))
         {
             return true;
         }
         else if (attackType == AttackType.AUTOMATIC && _attackCd <= 0 && CheckAmmo() 
-            && GameController.p.playerMovement.HasStamina(attackSequence.CurrentAttack().staminaDrain))
+            && GameController.p.movement.HasStamina(attackSequence.CurrentAttack().staminaDrain))
         {
             return true;
         }
         else if(attackType == AttackType.CHARGE && _attackCd <= 0 && IsCharged() && CheckAmmo()
-            && GameController.p.playerMovement.HasStamina(attackSequence.CurrentAttack().staminaDrain))
+            && GameController.p.movement.HasStamina(attackSequence.CurrentAttack().staminaDrain))
         {
             return true;
         }
@@ -65,7 +65,7 @@ public class MeleeWeapon : Weapon
         _attackCd = attackSequence.CurrentAttack().duration;
         damage.OnModifierChanged(); // чтоб сделать isDirty = true;
         recoilForce.OnModifierChanged();
-        GameController.p.playerMovement.AddStamina(-attackSequence.CurrentAttack().staminaDrain);
+        GameController.p.movement.AddStamina(-attackSequence.CurrentAttack().staminaDrain);
         
         attackSequence.Attack();
         attackCharge = 0;

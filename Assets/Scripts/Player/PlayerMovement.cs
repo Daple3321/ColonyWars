@@ -478,7 +478,7 @@ public class PlayerMovement : MonoBehaviour
     private Coroutine _fovRoutine;
     private void HandleRunning()
     {
-        if (runAction.IsPressed() && !isRunning && CanRun() && runningAllowed)
+        if (runAction.IsPressed() && !isRunning && CanRun() && controls.Player.Move.IsPressed() && runningAllowed)
         {
             StopCoroutine(nameof(StaminaRegenDelayed));
             canRegenStamina = false;

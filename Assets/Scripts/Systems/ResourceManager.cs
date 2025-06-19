@@ -103,11 +103,17 @@ public class ResourceManager : MonoBehaviour
                 if (filter != res.resource){
                     continue;
                 }
+                else
+                {
+                    if (Vector3.Distance(center, res.position) <= radius) {
+                        result.Add(res);
+                    }
+                }
             }
             
-            if (Vector3.Distance(center, res.position) <= radius) {
-                result.Add(res);
-            }
+            // if (Vector3.Distance(center, res.position) <= radius) {
+            //     result.Add(res);
+            // }
         }
         return result;
     }
@@ -121,14 +127,21 @@ public class ResourceManager : MonoBehaviour
             
             foreach(ItemData filter in resourceFilter)
             {
-                if (filter != res.resource){
+                if (filter != res.resource)
+                {
                     continue;
+                }
+                else
+                {
+                    if (Vector3.Distance(center, res.position) <= radius) {
+                        result.Add(res.id);
+                    }
                 }
             }
             
-            if (Vector3.Distance(center, res.position) <= radius) {
-                result.Add(res.id);
-            }
+            // if (Vector3.Distance(center, res.position) <= radius) {
+            //     result.Add(res.id);
+            // }
         }
         return result;
     }

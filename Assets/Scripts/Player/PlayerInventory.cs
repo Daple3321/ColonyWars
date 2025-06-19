@@ -708,17 +708,31 @@ public class PlayerInventory : MonoBehaviour
 
     void Update()
     {
-        // if (controls.Player.Next.WasPressedThisFrame() && selectedSlotId < hotbar.Size - 1)
-        // {
-        //     selectedSlotId++;
-        //     SelectItem(hotbar, selectedSlotId);
-        // }
-        // else if (controls.Player.Previous.WasPressedThisFrame() && selectedSlotId > 0)
-        // {
-        //     selectedSlotId--;
-        //     SelectItem(hotbar, selectedSlotId);
-        // }
+        HandleSelection();
+        HandlePickup();
+        HandleDrop();
         
+        
+
+        if (controls.Player.InventoryOpen.WasPressedThisFrame())
+        {
+            if (!inventoryUI.isActiveAndEnabled)
+            {
+                inventoryUI.Show();
+                foreach (var item in inventory.GetCurrentInventoryState())
+                {
+                    inventoryUI.UpdateData(item.Key, item.Value.item.icon, item.Value.quantity, item.Value);
+                }
+            }
+            else
+            {
+                inventoryUI.Hide();
+            }
+        }
+    }
+    
+    private void HandleSelection()
+    {
         // TO-DO: придумать систему лучше этого бреда + сделать визуализацию выбора
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -745,40 +759,10 @@ public class PlayerInventory : MonoBehaviour
             SelectItem(hotbar, selectedSlotId);
             hotbarUI.HandleItemSelection(selectedSlotId);
         }
-        
-        HandlePickup();
-
-        if (controls.Player.Drop.WasPressedThisFrame() && selectedItem != null) // тоже доработать под несколько инвентарей
-        {
-            Item droppedItem = hotbar.DropItem(selectedSlotId, dropPoint.position, dropPoint.forward);
-            if (selectedItem == droppedItem && !hotbar.HasItemAt(selectedSlotId))
-            {
-                selectedItem = null;
-                Destroy(selectedWorldItem.gameObject);
-            }
-            OnItemDropped?.Invoke(this, new OnItemDroppedEventArgs { droppedItem = droppedItem, slotId = selectedSlotId });
-        }
-
-        if (controls.Player.InventoryOpen.WasPressedThisFrame())
-        {
-            if (!inventoryUI.isActiveAndEnabled)
-            {
-                inventoryUI.Show();
-                foreach (var item in inventory.GetCurrentInventoryState())
-                {
-                    inventoryUI.UpdateData(item.Key, item.Value.item.icon, item.Value.quantity, item.Value);
-                }
-            }
-            else
-            {
-                inventoryUI.Hide();
-            }
-        }
-        
     }
-
+    
     public WorldItem nearbyItem;
-    public void HandlePickup()
+    private void HandlePickup()
     {
         if(nearbyItem == null) return;
         
@@ -803,6 +787,20 @@ public class PlayerInventory : MonoBehaviour
         
         nearbyItem = null;
         return false;
+    }
+    
+    private void HandleDrop()
+    {
+        if (controls.Player.Drop.WasPressedThisFrame() && selectedItem != null) // тоже доработать под несколько инвентарей
+        {
+            Item droppedItem = hotbar.DropItem(selectedSlotId, dropPoint.position, dropPoint.forward);
+            if (selectedItem == droppedItem && !hotbar.HasItemAt(selectedSlotId))
+            {
+                selectedItem = null;
+                Destroy(selectedWorldItem.gameObject);
+            }
+            OnItemDropped?.Invoke(this, new OnItemDroppedEventArgs { droppedItem = droppedItem, slotId = selectedSlotId });
+        }
     }
     
     public void OnTriggerEnter(Collider col)

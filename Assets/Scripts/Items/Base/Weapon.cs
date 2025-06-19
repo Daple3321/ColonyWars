@@ -89,6 +89,8 @@ public class Weapon : Equipable
         
         (Inventory inv, int index) = GameController.p.playerInventory.HasItem(ammoType);
         inv.DeleteItem(index);
+        
+        EventBus.i.PlayerAttackedWithAmmo?.Invoke((int)GetAmmoInfo());
     }
     
     public virtual void Attack()
