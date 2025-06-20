@@ -23,7 +23,7 @@ MonoBehaviour:
       quantity: 10
   insideColonyOnly: 1
   overlapRadius: 2.5
-  maxBuildAngle: 30
+  maxBuildAngle: 35
   prefab: {fileID: 7593837842947560309, guid: a8da2c03a74fd374ea8d791d486455e0, type: 3}
   resourceConditions:
   - {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}

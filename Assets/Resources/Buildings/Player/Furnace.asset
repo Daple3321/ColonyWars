@@ -24,8 +24,8 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
       quantity: 15
   insideColonyOnly: 1
-  overlapRadius: 2.5
-  maxBuildAngle: 30
+  overlapRadius: 1.8
+  maxBuildAngle: 35
   prefab: {fileID: 4371093770013916882, guid: b38af153c3c8f0546b90eb7cb9db3018, type: 3}
   recipes:
   - {fileID: 11400000, guid: c7b7d1f326b8ea0449d562c7d63d0847, type: 2}

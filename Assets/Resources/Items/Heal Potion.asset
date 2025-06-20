@@ -19,8 +19,9 @@ MonoBehaviour:
   IsStackable: 0
   maxStackSize: 1
   instantPickup: 1
-  itemMesh: {fileID: 0}
-  itemMaterials: []
+  itemMesh: {fileID: 212370497460711607, guid: 5a32a3c2ad47e7e4e866ee9b180f0cb1, type: 3}
+  itemMaterials:
+  - {fileID: 2100000, guid: aba512d09b6fc364499a2ecd76c8a9db, type: 2}
   hasCustomScale: 1
   customScale: {x: 0.5, y: 0.5, z: 0.5}
   customPrefab: {fileID: 0}

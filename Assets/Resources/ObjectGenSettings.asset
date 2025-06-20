@@ -22,6 +22,8 @@ MonoBehaviour:
   - rid: 80067978364977240
   - rid: 80067978364977241
   - rid: 80067978364977242
+  persistentObjects:
+  - rid: 80067999182880864
   references:
     version: 2
     RefIds:
@@ -177,4 +179,23 @@ MonoBehaviour:
         prefab: {fileID: 4149111470289446785, guid: 0bd563a43c18e0a4f9eede91dd214163, type: 3}
         resource: {fileID: 11400000, guid: 857b41fb7bd31774cb5df1a783bc1631, type: 2}
         amountRange: {x: 500, y: 600}
+        clicksToGather: 3
+    - rid: 80067999182880864
+      type: {class: PersistentResourceSettings, ns: , asm: Assembly-CSharp}
+      data:
+        objName: Test res
+        spawnType: 1
+        spawnRules:
+        - spawnRuleType: 0
+          valueRange: {x: 5, y: 15}
+        spawnAmount: 5
+        spawnChance: 0
+        alignToGround: 1
+        randomizeScale: 1
+        scaleRange: {x: 1, y: 3}
+        prefab: {fileID: 5673285356555159962, guid: 01a999e0f52d9c84fbd2111da7c421c0, type: 3}
+        maxAmount: 5
+        spawnDelay: 25
+        resource: {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
+        amountRange: {x: 5, y: 5}
         clicksToGather: 3

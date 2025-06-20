@@ -24,7 +24,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
       quantity: 10
   insideColonyOnly: 0
-  overlapRadius: 2.5
+  overlapRadius: 2
   maxBuildAngle: 35
   prefab: {fileID: 1571825405187512838, guid: 92fe46b3a4eb02c48ae20fc66ed5b8cb, type: 3}
   captureSpeed: 0.1

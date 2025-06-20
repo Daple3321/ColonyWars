@@ -19,7 +19,7 @@ MonoBehaviour:
   IsStackable: 1
   maxStackSize: 5
   instantPickup: 1
-  itemMesh: {fileID: 0}
+  itemMesh: {fileID: 212370497460711607, guid: 5a32a3c2ad47e7e4e866ee9b180f0cb1, type: 3}
   itemMaterials: []
   hasCustomScale: 0
   customScale: {x: 1, y: 1, z: 1}

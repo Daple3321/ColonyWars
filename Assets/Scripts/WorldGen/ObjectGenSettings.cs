@@ -5,11 +5,14 @@ using UnityEngine;
 public class ObjectGenSettings : ScriptableObject
 {
     [SubclassSelector, SerializeReference] public List<GenSettings> objects;
+    
+    [SubclassSelector, SerializeReference] public List<GenSettings> persistentObjects;
 }
 
 [System.Serializable]
 public abstract class GenSettings
 {
+    [Header("Base settings")]
     public string objName;
     public SpawnType spawnType;
     public SpawnRule[] spawnRules;
@@ -36,6 +39,23 @@ public class ObjGenSettings : GenSettings
 
 [System.Serializable]
 public class ResourceGenSettings : GenSettings
+{
+    [Space(7), Header("Resource Settings")]
+    public ItemData resource;
+    public Vector2Int amountRange;
+    public int clicksToGather;
+}
+
+[System.Serializable]
+public class PersistentGenSettings : GenSettings
+{
+    [Space(5), Header("Persistent Settings")]
+    public int maxAmount;
+    public float spawnDelay;
+}
+
+[System.Serializable]
+public class PersistentResourceSettings : PersistentGenSettings
 {
     [Space(7), Header("Resource Settings")]
     public ItemData resource;
