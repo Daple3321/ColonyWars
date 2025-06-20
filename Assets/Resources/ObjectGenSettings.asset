@@ -22,8 +22,11 @@ MonoBehaviour:
   - rid: 80067978364977240
   - rid: 80067978364977241
   - rid: 80067978364977242
+  - rid: 80067999182880873
+  - rid: 80067999182880874
   persistentObjects:
   - rid: 80067999182880864
+  - rid: 80067999182880872
   references:
     version: 2
     RefIds:
@@ -183,7 +186,7 @@ MonoBehaviour:
     - rid: 80067999182880864
       type: {class: PersistentResourceSettings, ns: , asm: Assembly-CSharp}
       data:
-        objName: Test res
+        objName: Berries
         spawnType: 1
         spawnRules:
         - spawnRuleType: 0
@@ -191,11 +194,64 @@ MonoBehaviour:
         spawnAmount: 5
         spawnChance: 0
         alignToGround: 1
-        randomizeScale: 1
+        randomizeScale: 0
         scaleRange: {x: 1, y: 3}
-        prefab: {fileID: 5673285356555159962, guid: 01a999e0f52d9c84fbd2111da7c421c0, type: 3}
-        maxAmount: 5
-        spawnDelay: 25
-        resource: {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
+        prefab: {fileID: 2897806524549889391, guid: a5977ebdba56b6642aee3030f2fc7ff7, type: 3}
+        maxAmount: 10
+        spawnDelay: 35
+        resource: {fileID: 11400000, guid: 346abaaa7b2b2884c8d1f15c9d30634d, type: 2}
         amountRange: {x: 5, y: 5}
-        clicksToGather: 3
+        clicksToGather: 2
+    - rid: 80067999182880872
+      type: {class: PersistentResourceSettings, ns: , asm: Assembly-CSharp}
+      data:
+        objName: Cotton Bush
+        spawnType: 1
+        spawnRules:
+        - spawnRuleType: 0
+          valueRange: {x: 5, y: 15}
+        spawnAmount: 0
+        spawnChance: 0
+        alignToGround: 1
+        randomizeScale: 0
+        scaleRange: {x: 0, y: 0}
+        prefab: {fileID: 3015683020160980244, guid: 96e9dbd1c6a4f0342a1e3b3d8f5d35fa, type: 3}
+        maxAmount: 15
+        spawnDelay: 35
+        resource: {fileID: 11400000, guid: 065d5255fd3582e45a5e83f3b880816d, type: 2}
+        amountRange: {x: 10, y: 15}
+        clicksToGather: 2
+    - rid: 80067999182880873
+      type: {class: ResourceGenSettings, ns: , asm: Assembly-CSharp}
+      data:
+        objName: Berries
+        spawnType: 1
+        spawnRules:
+        - spawnRuleType: 0
+          valueRange: {x: 4, y: 15}
+        spawnAmount: 20
+        spawnChance: 0
+        alignToGround: 1
+        randomizeScale: 0
+        scaleRange: {x: 0, y: 0}
+        prefab: {fileID: 2897806524549889391, guid: a5977ebdba56b6642aee3030f2fc7ff7, type: 3}
+        resource: {fileID: 11400000, guid: 346abaaa7b2b2884c8d1f15c9d30634d, type: 2}
+        amountRange: {x: 5, y: 5}
+        clicksToGather: 2
+    - rid: 80067999182880874
+      type: {class: ResourceGenSettings, ns: , asm: Assembly-CSharp}
+      data:
+        objName: Cotton Bush
+        spawnType: 1
+        spawnRules:
+        - spawnRuleType: 0
+          valueRange: {x: 4, y: 15}
+        spawnAmount: 20
+        spawnChance: 0
+        alignToGround: 1
+        randomizeScale: 0
+        scaleRange: {x: 0, y: 0}
+        prefab: {fileID: 3015683020160980244, guid: 96e9dbd1c6a4f0342a1e3b3d8f5d35fa, type: 3}
+        resource: {fileID: 11400000, guid: 065d5255fd3582e45a5e83f3b880816d, type: 2}
+        amountRange: {x: 10, y: 15}
+        clicksToGather: 2

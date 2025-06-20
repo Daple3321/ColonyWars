@@ -19,8 +19,10 @@ MonoBehaviour:
     requirements:
     - item: {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
       quantity: 10
-    - item: {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
+    - item: {fileID: 11400000, guid: 82b55b43dc561b049bd2e4eff7737eeb, type: 2}
       quantity: 10
+    - item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
+      quantity: 5
   insideColonyOnly: 1
   overlapRadius: 2.5
   maxBuildAngle: 25

@@ -498,7 +498,7 @@ Transform:
   m_GameObject: {fileID: 87360198}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32.01, y: 4.87, z: 86.44}
+  m_LocalPosition: {x: 74.73, y: 4.87, z: 97.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1377,6 +1377,7 @@ MonoBehaviour:
   raycastHeight: 50
   terrain: {fileID: 984281502}
   genSettings: {fileID: 11400000, guid: ec9454641d302b6449d9b8434ddda813, type: 2}
+  persistentObjects: []
 --- !u!1 &437549743
 GameObject:
   m_ObjectHideFlags: 0

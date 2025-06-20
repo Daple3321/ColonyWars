@@ -16,7 +16,15 @@ MonoBehaviour:
   description: Endless hordes of enemies!
   buildingIcon: {fileID: -399640143, guid: 10a723cc0f4eaa043b70ae94b5cb80bc, type: 3}
   craftPrice:
-    requirements: []
+    requirements:
+    - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
+      quantity: 16
+    - item: {fileID: 11400000, guid: 4ffda51a2c4250845877488d241f2467, type: 2}
+      quantity: 32
+    - item: {fileID: 11400000, guid: 0ed7a9971a5f3a04d9314a863cb23196, type: 2}
+      quantity: 32
+    - item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
+      quantity: 32
   insideColonyOnly: 1
   overlapRadius: 2.5
   maxBuildAngle: 45

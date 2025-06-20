@@ -19,8 +19,8 @@ MonoBehaviour:
     requirements:
     - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
       quantity: 16
-    - item: {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
-      quantity: 16
+    - item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
+      quantity: 32
     - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
       quantity: 16
   insideColonyOnly: 0

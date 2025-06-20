@@ -17,8 +17,8 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
       quantity: 1
     - item: {fileID: 11400000, guid: 82b55b43dc561b049bd2e4eff7737eeb, type: 2}
-      quantity: 32
-    - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
       quantity: 16
+    - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
+      quantity: 8
   craftTime: 6
   unit: {fileID: 11400000, guid: 75a73a9322c446d4080de56ece56aaee, type: 2}

@@ -170,7 +170,7 @@ MonoBehaviour:
         statModifiers: []
     - Key: 2
       Value:
-        baseValue: 3
+        baseValue: 5
         statModifiers: []
     - Key: 3
       Value:

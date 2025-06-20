@@ -24,9 +24,21 @@ MonoBehaviour:
           amountRange: {x: 1, y: 2}
         Value: 0.5
       - Key:
-          item: {fileID: 11400000, guid: 82b55b43dc561b049bd2e4eff7737eeb, type: 2}
-          amountRange: {x: 5, y: 8}
-        Value: 0.4
+          item: {fileID: 11400000, guid: 0ed7a9971a5f3a04d9314a863cb23196, type: 2}
+          amountRange: {x: 8, y: 16}
+        Value: 0.3
+      - Key:
+          item: {fileID: 11400000, guid: 4ffda51a2c4250845877488d241f2467, type: 2}
+          amountRange: {x: 8, y: 16}
+        Value: 0.25
+      - Key:
+          item: {fileID: 11400000, guid: f057f1e5bdec1914d9733846d6f5d5c5, type: 2}
+          amountRange: {x: 8, y: 16}
+        Value: 0.16
+      - Key:
+          item: {fileID: 11400000, guid: ee22d33a9fbe9794e8869ad073bdca86, type: 2}
+          amountRange: {x: 1, y: 1}
+        Value: 0.16
       - Key:
           item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
           amountRange: {x: 1, y: 3}

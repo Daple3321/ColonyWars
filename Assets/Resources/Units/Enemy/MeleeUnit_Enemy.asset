@@ -24,6 +24,14 @@ MonoBehaviour:
           amountRange: {x: 1, y: 2}
         Value: 0.5
       - Key:
+          item: {fileID: 11400000, guid: ee22d33a9fbe9794e8869ad073bdca86, type: 2}
+          amountRange: {x: 1, y: 1}
+        Value: 0.25
+      - Key:
+          item: {fileID: 11400000, guid: 1426475067439c347bf78c6063196eea, type: 2}
+          amountRange: {x: 1, y: 1}
+        Value: 0.15
+      - Key:
           item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
           amountRange: {x: 1, y: 3}
         Value: 0.45
