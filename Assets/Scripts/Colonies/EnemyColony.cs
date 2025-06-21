@@ -5,34 +5,29 @@ using AYellowpaper.SerializedCollections;
 using System;
 using Random = UnityEngine.Random;
 using System.Text;
+using System.Collections;
+using System.Threading;
 
 [System.Serializable]
 public class EnemyColony : Colony
 {
-    /*public EnemyColony(EnemyColonyCore core, ColonyCenterData colonyData, Affiliation affiliation) : base(core, colonyData, affiliation)
-    {
-        colonyZone = ZoneFactory.CreateTriggerZone(core.transform.position, Color.red, ZoneShape.Cylinder, colonyRadius, 10f);
-        colonyZone.transform.position = core.transform.position;
-        colonyZone.SetNoiseEffect(1);
-        colonyZone.OnZoneEnter += x =>  {Debug.Log($"{x.gameObject.name} entered enemy zone!");};
-        
-        EventBus.i.OnSunrise += OnSunrise;
-    }*/
     [Space(10), Header("Stats")]
     public int startingBuildings = 5;
     
-    [SerializedDictionary("ColonyStatType", "ColonyStat")]
+    [SerializedDictionary("ColonyStatType", "Colony Stat")]
     public SerializedDictionary<ColonyStatType, Stat> stats; // должно быть colonyStats
     
     // лучше это встроить в сами статы. Cделать опцию чтоб при инициализации добавлялся baseModifier
-    [SerializedDictionary("ColonyStatType", "ColonyStat")]
+    [SerializedDictionary("ColonyStatType", "Modifier")]
     public SerializedDictionary<ColonyStatType, StatModifier> baseModifiers; // очень странно
     
     
     [Space(10), Header("Unit Settings")]
     public int unitsAmount;
-    public List<GameObject> unitPool;
+    public List<UnitData> unitPool;
     [Tooltip("Delay in seconds")] private float spawnDelay;
+    
+    public RaidSquad raidSquad;
     
     
     [Space(10), Header("Building pools")]
@@ -40,6 +35,8 @@ public class EnemyColony : Colony
     public List<BuildingData> barracksPool;
     public List<BuildingData> storagePool;
     public List<BuildingData> defensePool;
+    
+    public BuildingData outpost;
     
     [Space(5), Header("Expansion")]
     public ExpansionSequence expansionSequence;
@@ -79,6 +76,8 @@ public class EnemyColony : Colony
         ApplyInitialModifiers();
         
         spawnDelay = stats[unitsSpawnSpeed].Value;
+        //raidSquad = new RaidSquad((int)stats[raidSquadMaxUnits].Value, stats[raidSquadSpawnSpeed].Value, this);
+        raidSquad.Init(this);
         
         expansionSequence = ScriptableObject.Instantiate<ExpansionSequence>(expansionSequence);
         expansionSequence.Init(GameController.timeManager, this);
@@ -123,6 +122,8 @@ public class EnemyColony : Colony
         if(CanSpawnUnit()){
             HandleUnitSpawn();
         }
+        raidSquad.HandleSpawning(stats[raidSquadSpawnSpeed].Value);
+        //raidSquad.HandleRaid();
     }
     
     protected void HandleUnitSpawn()
@@ -144,13 +145,13 @@ public class EnemyColony : Colony
         }
         
         Unit u = null;
-        GameObject randUnit = unitPool[Random.Range(0, unitPool.Count)];
+        GameObject randUnit = unitPool[Random.Range(0, unitPool.Count)].prefab;
         if(buildings.Count > 0){
             Building randBuilding = buildings[Random.Range(0, buildings.Count)];
-            u = SpawnUnit(randUnit, randBuilding);
+            u = SpawnUnit(randUnit, randBuilding, true);
         }
         else{
-            u = SpawnUnit(randUnit);
+            u = SpawnUnit(randUnit, null, true);
         }
         u.GetComponent<Enemy>().InitEnemy(this);
         u.Init();
@@ -164,7 +165,7 @@ public class EnemyColony : Colony
     protected bool CanSpawnUnit(){
         return unitsAmount < stats[maxUnits].Value;
     }
-    protected Unit SpawnUnit(GameObject prefab, Building building = null)
+    protected Unit SpawnUnit(GameObject prefab, Building building = null, bool assignToAlerts = false)
     {
         Vector2 spawnPos = new Vector2(transform.position.x, transform.position.z);
         if(building != null){
@@ -176,9 +177,25 @@ public class EnemyColony : Colony
         Unit u = go.GetComponent<Unit>();
         u.onUnitDeath += OnColonyUnitDeath;
         
-        AssignUnitToBuildingAlerts(u); // stupid lambda function, нельзя отписаться никак. кучу памяти жрёт если не задереференсить?
+        if(assignToAlerts){
+            AssignUnitToBuildingAlerts(u); // stupid lambda function, нельзя отписаться никак. кучу памяти жрёт если не задереференсить?
+        }
         
         unitsAmount++;
+        return u;
+    }
+    public Unit SpawnRaidUnit(UnitData unit, Building building = null)
+    {
+        Vector2 spawnPos = new Vector2(transform.position.x, transform.position.z);
+        if(building != null){
+            spawnPos = new Vector2(building.transform.position.x, building.transform.position.z);
+        }
+        
+        Vector3 pointInCircle = GameController.RandomPointInCircleTerrain(spawnPos, 2, 5);
+        GameObject go = Instantiate(unit.prefab, pointInCircle, Quaternion.identity);
+        Unit u = go.GetComponent<Unit>();
+        //u.onUnitDeath += OnColonyUnitDeath;
+        
         return u;
     }
     protected void OnColonyUnitDeath(Unit unit)
@@ -210,11 +227,11 @@ public class EnemyColony : Colony
         break;
         
         case ColonyActionType.Capture:
-            
+            StartCoroutine(Capture());
         break;
         
         case ColonyActionType.RaidSquad:
-            
+           RaidSquad();
         break;
         
         case ColonyActionType.Resources:
@@ -272,7 +289,9 @@ public class EnemyColony : Colony
                 
                 AddBuilding(b);
                 
-                ApplyModifiersToStats(b.GetComponent<EnemyBuilding>().GetModifiers());
+                if(b is EnemyBuilding eb){
+                    ApplyModifiersToStats(eb.GetModifiers());
+                }
                 
                 // foreach(var stat in stats)
                 // {
@@ -350,6 +369,43 @@ public class EnemyColony : Colony
     {
         Vector2Int newCell = ColoniesManager.i.gridManager._ClosestDifferentCell(cellIndex.x, cellIndex.z);
         CaptureCellInstant(newCell.x, newCell.y);
-        //ColoniesManager.i.gridManager.cells[newCell.x, newCell.y].Capture(Affiliation.Enemy);
+    }
+    
+    protected void RaidSquad(Vector2Int cellTarget = default)
+    {
+        if(cellTarget == default){
+            Vector2Int closestCellIndex = ColoniesManager.i.gridManager.ClosestCell(cellIndex.x, cellIndex.z, Affiliation.Player);
+            
+            if(closestCellIndex.x != -1){
+                Cell closestCell = ColoniesManager.i.gridManager.GetCell(closestCellIndex.x, closestCellIndex.y);
+                raidSquad.StartRaid(closestCell);
+            }
+        }
+        else{
+            Cell closestCell = ColoniesManager.i.gridManager.GetCell(cellTarget.x, cellTarget.y);
+            raidSquad.StartRaid(closestCell);
+        }
+    }
+    
+    
+    protected IEnumerator Capture()
+    {
+        Vector2Int closestCellIndex = ColoniesManager.i.gridManager.ClosestCell(cellIndex.x, cellIndex.z, Affiliation.Player);
+        Cell closestCell = ColoniesManager.i.gridManager.GetCell(closestCellIndex.x, closestCellIndex.y);
+        RaidSquad(closestCellIndex);
+        
+        yield return new WaitUntil(() => !raidSquad.HasUnitsOnMission() || raidSquad.CanCaptureTargetCell());
+        
+        if(raidSquad.IsCaptureSuccesful())
+        {
+            Debug.Log($"Can start capture of the cell", gameObject);
+    
+            Vector3 outpostPos = ColoniesManager.i.gridManager.RandomPointInCell(closestCell);
+            Build(outpost, outpostPos);
+        }
+        else{
+            raidSquad.squad.MoveOrder(GameController.RandomPointInCircleTerrain(new Vector2(transform.position.x, transform.position.z), 2, 5));
+            Debug.Log("Capture failed. Everyone is dead or there are player buildings.");
+        }
     }
 }

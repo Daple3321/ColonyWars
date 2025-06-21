@@ -22,6 +22,7 @@ public class Squad
     }
     
     public bool IsEmpty(){ return units.Count <= 0; }
+    public bool IsFull() { return units.Count >= maxUnits; }
 
     public void FollowOrder(Transform followTarget)
     {

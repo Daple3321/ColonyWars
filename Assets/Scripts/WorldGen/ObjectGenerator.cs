@@ -397,7 +397,7 @@ public class ObjectGenerator : MonoBehaviour
         while(!spawned && maxIterations > 0) // repeat until suitable place is found
         {
             Collider[] hitColliders = Physics.OverlapSphere(pos, building.overlapRadius, LayerMask.GetMask("EnemyBuilding","PlayerBuilding"));
-            if(hitColliders.Length <= 0)
+            if(hitColliders.Length <= 0)    
             {
                 Quaternion rot = Quaternion.identity;
                 rot *= Quaternion.AngleAxis(Random.Range(0, 360f), Vector3.up);

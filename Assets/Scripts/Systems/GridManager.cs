@@ -403,6 +403,51 @@ public class GridManager
         Debug.LogError("Different cell not found");
         return new Vector2Int(-1, -1);
     }
+    public Vector2Int ClosestCell(int x, int y, Affiliation ofAffiliation) // БЕСКОНЕЧНЫЙ ЛУП КОГДА ВСЕ ЯЧЕЙКИ НА КАРТЕ ОДНОЙ AFFILIATION!
+    {
+        if(!HasCellOfAffiliation(ofAffiliation)) return new Vector2Int(-1, -1);
+        
+        Cell origin = GetCell(x, y);
+        Queue<Vector2Int> frontier = new Queue<Vector2Int>();
+        frontier.Enqueue(new Vector2Int(x, y));
+
+        // когда вся карта одинаковая, ячейки будут бесконечно добавлятся во frontier
+        bool isFound = false;
+        while (!isFound || frontier.Count > 0) 
+        {
+            Vector2Int current = frontier.Dequeue();
+            foreach (Vector2Int next in GetNeighbors(current.x, current.y))
+            {
+                if (GetCell(next.x, next.y).affiliation == ofAffiliation)
+                {
+                    isFound = true;
+                    return next;
+                }
+                else
+                {
+                    frontier.Enqueue(next); // Вот это скорее всего вызывает баг
+                }
+            }
+        }
+
+        Debug.LogError("Different cell not found");
+        return new Vector2Int(-1, -1);
+    }
+    
+    public bool HasCellOfAffiliation(Affiliation aff)
+    {
+        for (int i = outerCellOffset; i < mapSize; i++)
+        {
+            for (int j = outerCellOffset; j < mapSize; j++)
+            {
+                if(GetCell(i, j).affiliation == aff){
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
 
     public Collider[] GetCellBuildings(int x, int y)
     {
@@ -413,6 +458,24 @@ public class GridManager
             grid.GetBoundsLocal(cell).extents, 
             Quaternion.identity, 
             LayerMask.GetMask("PlayerBuilding","EnemyBuilding")
+        );
+    }
+    public Collider[] GetCellBuildings(int x, int y, Affiliation ofAffiliation)
+    {
+        Vector3Int cell = new Vector3Int(x, 0, y);
+        LayerMask mask;
+        if(ofAffiliation == Affiliation.Player){
+            mask = LayerMask.GetMask("PlayerBuilding");
+        }
+        else{
+            mask = LayerMask.GetMask("EnemyBuilding");
+        }
+        
+        return Physics.OverlapBox(
+            grid.GetCellCenterWorld(new Vector3Int(x, 0, y)), 
+            grid.GetBoundsLocal(cell).extents, 
+            Quaternion.identity, 
+            mask
         );
     }
     public bool CheckCellForBuildings(int x, int y, Affiliation ofAffiliation)

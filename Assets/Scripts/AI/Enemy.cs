@@ -82,7 +82,7 @@ public class Enemy : Unit
         aggroState.Init(idleState, retreatState);
         //stateMachine.ChangeState(idleState);
     }
-    private void StartStates()
+    protected virtual void StartStates()
     {
         stateMachine.ChangeState(patrolState);
     }

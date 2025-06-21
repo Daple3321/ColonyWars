@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingData: {fileID: 11400000, guid: e7241f3078605de45bb9a7d3fac5ce29, type: 2}
-  health: 250
-  maxHealth: 250
+  health: 600
+  maxHealth: 600
   interactionRange: 8
   canInteract: 1
   affiliation: 1
@@ -95,6 +95,14 @@ MonoBehaviour:
       Value:
         baseValue: 25
         statModifiers: []
+    - Key: 6
+      Value:
+        baseValue: 6
+        statModifiers: []
+    - Key: 7
+      Value:
+        baseValue: 20
+        statModifiers: []
   baseModifiers:
     _serializedList:
     - Key: 0
@@ -127,10 +135,42 @@ MonoBehaviour:
         Value: 0
         Type: 300
         Order: 0
+    - Key: 6
+      Value:
+        Value: 0
+        Type: 100
+        Order: 0
+    - Key: 7
+      Value:
+        Value: 0
+        Type: 300
+        Order: 0
   unitsAmount: 0
   unitPool:
-  - {fileID: 7294893471746113059, guid: 09254e9e152c73441b12d831c3b8072b, type: 3}
-  - {fileID: 750506295094990067, guid: 8009aeb324289fc448c6bf33ba3d073e, type: 3}
+  - {fileID: 11400000, guid: 5cf07f7180da4154e9a6eafdb3abed29, type: 2}
+  - {fileID: 11400000, guid: b18180fa73bc8ef498b3e43b1cd58037, type: 2}
+  raidSquad:
+    squad:
+      units: []
+      maxUnits: 0
+      stats:
+        speedMultiplier: 0
+        meanDamage: 0
+      followTarget: {fileID: 0}
+    targetCell:
+      worldPosition: {x: 0, y: 0, z: 0}
+      captureProgress: 0
+      whoIsCapturing: 0
+      yieldAmount: 0
+      affiliation: 0
+    targetBuildings: []
+    buildingTarget: {fileID: 0}
+    hasTarget: 0
+    isCompleted: 0
+    maxRaidTime: 256
+    unitPool:
+    - {fileID: 11400000, guid: 3bedfa76f028d944fab5eba1adf70655, type: 2}
+    - {fileID: 11400000, guid: dd2e67506ceb0394ea7427f02e62e6e9, type: 2}
   resourcePool:
   - {fileID: 11400000, guid: 0be8c435e11d2e441886f5bb9d17dfc0, type: 2}
   barracksPool:
@@ -139,6 +179,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 511e7f41a07ea464f86fc6e26506c7f2, type: 2}
   defensePool:
   - {fileID: 11400000, guid: 511e7f41a07ea464f86fc6e26506c7f2, type: 2}
+  outpost: {fileID: 11400000, guid: ef96ebcd2c46b3a48a5f855d62c8d1f5, type: 2}
   expansionSequence: {fileID: 11400000, guid: 4e1773e528ffa7b4b993e8f41aff834e, type: 2}
 --- !u!65 &5324605677053662671
 BoxCollider:

@@ -11,6 +11,8 @@ public enum ColonyStatType
     maxUnitsLevel = 3,
     unitsSpawnSpeed = 4,
     maxBuildingLevel = 5,
+    raidSquadMaxUnits = 6,
+    raidSquadSpawnSpeed = 7,
     
 }
 
