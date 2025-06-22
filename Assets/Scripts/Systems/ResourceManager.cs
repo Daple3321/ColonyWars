@@ -75,6 +75,38 @@ public class ResourceManager : MonoBehaviour
             OnResourceDeleted?.Invoke(res.Value);
         }
     }
+    public void PlayerToolHarvest(GameObject resource, int yield) {
+        var res = resources.FirstOrDefault(x => x.Value.gameObject == resource);
+        if(res.Value == null) return;
+        
+        Item droppedResource = res.Value.resource.CreateItemInstance();
+        WorldItem worldItem;
+        worldItem = droppedResource.SpawnItem(resource.transform.position+new Vector3(0, 2, 0),  yield);
+        worldItem.Drop(resource.transform.up, 360, 1.5f);
+        
+        res.Value.amount--;
+        
+        Shake(res.Value.gameObject);
+        
+        if (res.Value.isDepleted) {
+            GameObject.Destroy(res.Value.gameObject);
+            resources.Remove(res.Value.id);
+            OnResourceDeleted?.Invoke(res.Value);
+        }
+        
+        Debug.Log("Tool gather");
+    }
+    public bool CanGather(GameObject resource, ToolData tool){
+        var res = resources.FirstOrDefault(x => x.Value.gameObject == resource);
+        if(res.Value == null) return false;
+        
+        if(tool.gatherResources.Contains(res.Value.resource)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     public List<ResourceData> GetResourcesInRadius(Vector3 center, float radius, ItemData resourceFilter = null) {
         List<ResourceData> result = new List<ResourceData>();

@@ -43,13 +43,12 @@ public class Item
     public virtual WorldItem SpawnItem(Vector3 spawnPos, int quantity)
     {
         WorldItem worldItem;
-        GameObject obj;
+        GameObject obj = null;
         if (itemData.customPrefab != null) // если есть кастомный префаб
         {
             obj = GameObject.Instantiate(itemData.customPrefab, spawnPos, Quaternion.identity);
         }
-        else
-        {
+        else if(itemData.customPrefab == null){
             obj = GameObject.Instantiate(GameAssets.itemPrefab, spawnPos, Quaternion.identity);
         }
         

@@ -1,28 +1,19 @@
 using UnityEngine;
 
-public class MeleeWeaponItem : WeaponWorldItem
+public class ToolWorldItem : MeleeWeaponItem
 {
-    [Space(7), Header("Melee weapon Settings")]
-    public float attackDistance;
-    public MeleeAttackType meleeAttackType;
-    public float knockBackForce;
-    public Vector3 attackBoxExtents;
-    
-    
-    public LayerMask hitLayers;
-    protected Transform shootPoint;
-    protected Player p;
-    
+    private ToolData toolData;
     public override void Initialize(ItemData data, Item origin, int quantity=1)
     {
         base.Initialize(data, origin, quantity);
 
-        if (data is MeleeWeaponData weaponData)
+        if (data is ToolData td)
         {
-            attackDistance = weaponData.attackDistance;
-            meleeAttackType = weaponData.meleeAttackType;
-            knockBackForce = weaponData.knockBackForce;
-            attackBoxExtents = weaponData.attackBoxExtents;
+            toolData = td;
+            attackDistance = td.attackDistance;
+            meleeAttackType = td.meleeAttackType;
+            knockBackForce = td.knockBackForce;
+            attackBoxExtents = td.attackBoxExtents;
         }
         
         p = GameController.p;
@@ -32,7 +23,9 @@ public class MeleeWeaponItem : WeaponWorldItem
     
     public override void Attack(float concentraion)
     {
-        base.Attack(concentraion);
+        if(impulseSource != null){
+            impulseSource.GenerateImpulse();
+        }
         
         switch (meleeAttackType)
         {
@@ -48,7 +41,7 @@ public class MeleeWeaponItem : WeaponWorldItem
         }
     }
     
-    protected virtual void RaycastAttack(float concentraion)
+    protected override void RaycastAttack(float concentraion)
     {
         //Vector3 shootDir = mouseHit.point - shootPoint.position;
         Vector3 mousePos = Input.mousePosition;
@@ -64,21 +57,19 @@ public class MeleeWeaponItem : WeaponWorldItem
                 damageable.TakeDamage(originWeapon.damage.Value, GameController.p.gameObject, -hit.normal*knockBackForce);
             }
             
-            //GameObject lineObj = Instantiate(hitScanLine, shootPoint.position, Quaternion.identity);
-            //lineObj.GetComponent<HitscanLine>().Init(shootPoint.position, hit.point);
+            if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Resources") 
+                && ResourceManager.i.CanGather(hit.collider.gameObject, toolData))
+            {
+                ResourceManager.i.PlayerToolHarvest(hit.collider.gameObject, Random.Range(toolData.yieldRange.x, toolData.yieldRange.y));
+            }
+            
             Helper.SpawnHitEffect(hit.point, hit.normal, hit.collider.gameObject.layer);
-        }
-        else{
-            //GameObject lineObj = Instantiate(hitScanLine, shootPoint.position, Quaternion.identity);
-            //lineObj.GetComponent<HitscanLine>().Init(shootPoint.position, shootRay.GetPoint(6f));
-            //Helper.SpawnHitEffect(mouseHit.point, mouseHit.normal, mouseHit.collider.gameObject.layer);
         }
         
         Debug.DrawRay(shootPoint.position, shootRay.direction, Color.cyan, 3);
-        //PlayShootEffect();
     }
     
-    protected virtual void BoxCastAttack(float concentraion)
+    protected override void BoxCastAttack(float concentraion)
     {
         Vector3 mousePos = Input.mousePosition;
         Ray mouseRay = cm.ScreenPointToRay(mousePos);
@@ -106,17 +97,8 @@ public class MeleeWeaponItem : WeaponWorldItem
                 
                 Helper.SpawnHitEffect(hit.transform.position, -hit.transform.forward, hit.gameObject.layer);
             }
-            
-            //GameObject lineObj = Instantiate(hitScanLine, shootPoint.position, Quaternion.identity);
-            //lineObj.GetComponent<HitscanLine>().Init(shootPoint.position, hit.point);
-        }
-        else{
-            //GameObject lineObj = Instantiate(hitScanLine, shootPoint.position, Quaternion.identity);
-            //lineObj.GetComponent<HitscanLine>().Init(shootPoint.position, shootRay.GetPoint(6f));
-            //Helper.SpawnHitEffect(mouseHit.point, mouseHit.normal, mouseHit.collider.gameObject.layer);
         }
         
         Debug.DrawRay(shootPoint.position, shootRay.direction, Color.cyan, 3);
-        //PlayShootEffect();
     }
 }

@@ -12,6 +12,7 @@ public class PlayerCombat : MonoBehaviour
     public float concentraion = 0;
     public bool canAttack;
     public bool isAiming;
+    public bool toolEquiped = false;
     
     void Awake()
     {
@@ -41,7 +42,10 @@ public class PlayerCombat : MonoBehaviour
             currentWeapon = wp;
             weaponWorld = e.worldItem as WeaponWorldItem;
             SetupWeapon(wp);
-
+            
+            if(currentWeapon is Tool){
+                toolEquiped = true;
+            }
             //PlayerAiming.OnAim += PlayerAiming_OnAim;
         }
         // Пока что САМАЯ худшая строчка кода за всю карьеру.
@@ -87,6 +91,10 @@ public class PlayerCombat : MonoBehaviour
         currentWeapon = null; // не считается нулевым почему-то
         concentraion = 0f;
         weaponWorld = null;
+        
+        if(toolEquiped == true){
+            toolEquiped = false;
+        }
         
         p.ui.SwitchAmmoCounter(false);
         playerAnimation.OnWeaponClear();
