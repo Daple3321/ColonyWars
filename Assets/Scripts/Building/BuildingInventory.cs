@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BuildingInventory
 {
@@ -21,9 +23,18 @@ public class BuildingInventory
         inventory.OnInventoryUpdated += UpdateUI;
     }
     
-    public void PrepareUI(bool transferPriority = false, InventoryUI transferInventory = null, RectTransform invParent = null)
+    public void PrepareUI(bool transferPriority = false, InventoryUI transferInventory = null, RectTransform invParent = null, string invName = "")
     {
-        GameObject invObj = GameObject.Instantiate(GameAssets.hotbarUI_Prefab);
+        GameObject invObj = GameObject.Instantiate(GameAssets.buildingInventory);
+        TextMeshProUGUI invText = invObj.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        
+        if(invName != ""){
+            invText.text = invName;
+        }
+        else{
+            invText.gameObject.SetActive(false);
+        }
+        
         if(invParent == null){
             invObj.transform.SetParent(GameController.i.buildingPanelManager.currentPanel.dataContainter);
         }

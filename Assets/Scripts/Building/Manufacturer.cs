@@ -12,7 +12,7 @@ public abstract class Manufacturer : Building
     }
     public override void PrepareUI()
     {
-        originInv.PrepareUI();
+        originInv.PrepareUI(false, null, null, "Resources");
         originInv.UpdateUI(originInv.inventory.GetCurrentInventoryState());
     }
     public override void ClearUI()

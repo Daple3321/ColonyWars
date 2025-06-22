@@ -29,4 +29,4 @@ MonoBehaviour:
   uses: 1
   isInfinite: 0
   chargeRate: 1
-  healAmount: 5
+  healAmount: 4

@@ -60,7 +60,8 @@ public class BuildingData : ScriptableObject
             Vector3Int cellIndex = ColoniesManager.i.grid.WorldToCell(projectionPos);
             Cell hoveredCell = ColoniesManager.i.gridManager.GetCell(cellIndex.x, cellIndex.z);
             if(hoveredCell == null){ // если на нашли ячейку (за границей)
-                inColonyZone = false;
+                //inColonyZone = false;
+                return false;
             }
             
             if(hoveredCell.affiliation == Affiliation.Player){

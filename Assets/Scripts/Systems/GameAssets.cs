@@ -20,6 +20,7 @@ public class GameAssets
     // ----- Building -----
     public static GameObject buildCanvas;
     public static GameObject buildingSlot;
+    public static GameObject buildingInventory;
     
     public static GameObject buildingPanel;
     public static GameObject buildingHoverPanel;
@@ -75,6 +76,7 @@ public class GameAssets
             nearbyUnitSlot_Prefab = Resources.Load<GameObject>("UI/NearbyUnitSlot");
             //UnityEngine.Debug.Log(unitSlot_Prefab + "Loaded");
             
+            buildingInventory = Resources.Load<GameObject>("UI/BuildingInventory");
             buildCanvas = Resources.Load<GameObject>("UI/BuildCanvas");
             buildingSlot = Resources.Load<GameObject>("UI/BuildingSlot");
             buildingPanel = Resources.Load<GameObject>("UI/BuildingPanel");

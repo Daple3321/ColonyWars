@@ -18,6 +18,6 @@ MonoBehaviour:
       quantity: 1
     - item: {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}
       quantity: 3
-  craftTime: 3
+  craftTime: 5
   finalItem: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
   finalAmount: 1

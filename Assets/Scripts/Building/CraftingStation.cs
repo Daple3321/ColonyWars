@@ -35,9 +35,9 @@ public class CraftingStation : Manufacturer
             craftingPanel = panel;
         }
         
-        originInv.PrepareUI(true, GameController.p.playerInventory.inventoryUI);
+        originInv.PrepareUI(true, GameController.p.playerInventory.inventoryUI, null, "Resources");
         originInv.UpdateUI(originInv.inventory.GetCurrentInventoryState());
-        outputInv.PrepareUI(false, GameController.p.playerInventory.inventoryUI, craftingPanel.outputContainer);
+        outputInv.PrepareUI(false, GameController.p.playerInventory.inventoryUI, craftingPanel.outputContainer, "Output");
         outputInv.UpdateUI(outputInv.inventory.GetCurrentInventoryState());
         
         if(GameController.i.buildingPanelManager.currentPanel is CraftingStationPanel csp)

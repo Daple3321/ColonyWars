@@ -27,7 +27,7 @@ public class Barracks : Manufacturer
     
     public override void PrepareUI()
     {
-        originInv.PrepareUI(true, GameController.p.playerInventory.inventoryUI);
+        originInv.PrepareUI(true, GameController.p.playerInventory.inventoryUI, null, "Resources");
         originInv.UpdateUI(originInv.inventory.GetCurrentInventoryState());
         
         if(GameController.i.buildingPanelManager.currentPanel is BarracksPanel csp)

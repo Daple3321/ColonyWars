@@ -90,6 +90,7 @@ MonoBehaviour:
   barDesc: {fileID: 608418682777122275}
   maxDrawDistance: 35
   followTarget: {fileID: 0}
+  parentTransform: {fileID: 0}
   offset: {x: 0, y: 2.55, z: 0}
 --- !u!222 &6553205036121155708
 CanvasRenderer:
@@ -221,8 +222,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 7
-  m_fontSizeBase: 7
+  m_fontSize: 6
+  m_fontSizeBase: 6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 13

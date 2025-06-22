@@ -5,15 +5,17 @@ using UnityEngine;
 public class ResourceRefiner : Building
 {
     public BuildingInventory originInv;
+    public int originInvSize = 4;
     public BuildingInventory refinedInv;
+    public int refinedInvSize = 4;
     
     private ResourceRefinerData refinerData;
     public override void Init(BuildingData data)
     {
         base.Init(data);
         
-        originInv = new BuildingInventory(this, 2);
-        refinedInv = new BuildingInventory(this, 2);
+        originInv = new BuildingInventory(this, originInvSize);
+        refinedInv = new BuildingInventory(this, refinedInvSize);
         
         if(data is ResourceRefinerData resourceRefinerData){
             this.refinerData = resourceRefinerData;
@@ -23,10 +25,10 @@ public class ResourceRefiner : Building
     }
     public override void PrepareUI()
     {
-        originInv.PrepareUI(true, GameController.p.playerInventory.inventoryUI);
+        originInv.PrepareUI(true, GameController.p.playerInventory.inventoryUI, null, "Resources");
         originInv.UpdateUI(originInv.inventory.GetCurrentInventoryState());
         
-        refinedInv.PrepareUI(false, GameController.p.playerInventory.inventoryUI);
+        refinedInv.PrepareUI(false, GameController.p.playerInventory.inventoryUI, null, "Output");
         refinedInv.UpdateUI(refinedInv.inventory.GetCurrentInventoryState());
     }
     public override void ClearUI()

@@ -16,6 +16,10 @@ MonoBehaviour:
     requirements:
     - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
       quantity: 16
+    - item: {fileID: 11400000, guid: cd29d64e0e90dc04787f8e8201e8f9fe, type: 2}
+      quantity: 5
+    - item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
+      quantity: 2
   craftTime: 8
   finalItem: {fileID: 11400000, guid: 8beb58358a8d4474cadb3154f9adf1c5, type: 2}
   finalAmount: 1

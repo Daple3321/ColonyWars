@@ -589,7 +589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4be6e11c8452bd649ac837fa1047e4c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryStartingSize: 12
+  inventoryStartingSize: 16
   hotbarStartingSize: 4
   itemDatas:
   - {fileID: 11400000, guid: 6b5b4916729fbed4abe7fad9b9d5eb3f, type: 2}
@@ -603,7 +603,7 @@ MonoBehaviour:
     rid: -2
   selectedWorldItem: {fileID: 0}
   hotbarStartInventory: {fileID: 11400000, guid: 6cbfda2174ee86842880c747cdcdaee9, type: 2}
-  starterInventory: {fileID: 0}
+  starterInventory: {fileID: 11400000, guid: 9d4c0ffe26e366e4ab2962453e438312, type: 2}
   activeInventories: []
   dropPoint: {fileID: 1358582417517567280}
   inventoryUI: {fileID: 0}
@@ -676,6 +676,7 @@ MonoBehaviour:
   concentraion: 0
   canAttack: 0
   isAiming: 0
+  toolEquiped: 0
   references:
     version: 2
     RefIds:

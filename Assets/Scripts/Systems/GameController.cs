@@ -90,8 +90,8 @@ public class GameController : MonoBehaviour
         currentTerrain = worldGenerator.terrain;
         objectGenerator.Init(gameSettings.objectGenSettings);
         timeManager.Init();
-        //await worldGenerator.GenerateTerrain();
-        //await objectGenerator.GenerateObjects();
+        await worldGenerator.GenerateTerrain();
+        await objectGenerator.GenerateObjects();
         //Pools.Init();
 
         //inventoryUI = GameObject.Find("PlayerInventory").GetComponent<InventoryUI>();
@@ -100,7 +100,7 @@ public class GameController : MonoBehaviour
         ColoniesManager.i.SpawnEnemyColonies(gameSettings.coloniesSpawnSettings);
         ColoniesManager.i.SpawnEnemyCamps(gameSettings.coloniesSpawnSettings);
         
-        //pSpawnPoint.transform.position = RandomPointOnMap();
+        pSpawnPoint.transform.position = RandomPointOnMap();
         GameObject playerObj = Instantiate(GameAssets.playerPrefab, pSpawnPoint.position, Quaternion.identity);
         p = playerObj.GetComponent<Player>();
         p.InitPlayer();
