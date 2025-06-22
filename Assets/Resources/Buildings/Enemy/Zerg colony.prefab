@@ -48,8 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingData: {fileID: 11400000, guid: e7241f3078605de45bb9a7d3fac5ce29, type: 2}
-  health: 600
-  maxHealth: 600
+  health: 800
+  maxHealth: 800
   interactionRange: 8
   canInteract: 1
   affiliation: 1
@@ -97,11 +97,11 @@ MonoBehaviour:
         statModifiers: []
     - Key: 6
       Value:
-        baseValue: 6
+        baseValue: 3
         statModifiers: []
     - Key: 7
       Value:
-        baseValue: 20
+        baseValue: 120
         statModifiers: []
   baseModifiers:
     _serializedList:
@@ -157,6 +157,7 @@ MonoBehaviour:
         speedMultiplier: 0
         meanDamage: 0
       followTarget: {fileID: 0}
+    unitsOnMission: []
     targetCell:
       worldPosition: {x: 0, y: 0, z: 0}
       captureProgress: 0
@@ -164,7 +165,6 @@ MonoBehaviour:
       yieldAmount: 0
       affiliation: 0
     targetBuildings: []
-    buildingTarget: {fileID: 0}
     hasTarget: 0
     isCompleted: 0
     maxRaidTime: 256

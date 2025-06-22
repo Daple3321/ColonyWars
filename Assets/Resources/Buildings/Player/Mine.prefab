@@ -133,8 +133,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingData: {fileID: 11400000, guid: ee98459513c33e24c9d13c0863a2423a, type: 2}
-  health: 70
-  maxHealth: 70
+  health: 150
+  maxHealth: 150
   interactionRange: 8
   canInteract: 1
   affiliation: 2
@@ -151,7 +151,7 @@ MonoBehaviour:
   capturedCells: []
   gatherRate: 5
   yieldAmount: 1
-  resourcesNearby: []
+  resourcesNearby: 
 --- !u!65 &6245144202259625261
 BoxCollider:
   m_ObjectHideFlags: 0

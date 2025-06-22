@@ -200,7 +200,7 @@ MonoBehaviour:
         maxAmount: 10
         spawnDelay: 35
         resource: {fileID: 11400000, guid: 346abaaa7b2b2884c8d1f15c9d30634d, type: 2}
-        amountRange: {x: 5, y: 5}
+        amountRange: {x: 5, y: 10}
         clicksToGather: 2
     - rid: 80067999182880872
       type: {class: PersistentResourceSettings, ns: , asm: Assembly-CSharp}
@@ -216,10 +216,10 @@ MonoBehaviour:
         randomizeScale: 0
         scaleRange: {x: 0, y: 0}
         prefab: {fileID: 3015683020160980244, guid: 96e9dbd1c6a4f0342a1e3b3d8f5d35fa, type: 3}
-        maxAmount: 15
+        maxAmount: 20
         spawnDelay: 35
         resource: {fileID: 11400000, guid: 065d5255fd3582e45a5e83f3b880816d, type: 2}
-        amountRange: {x: 10, y: 15}
+        amountRange: {x: 15, y: 20}
         clicksToGather: 2
     - rid: 80067999182880873
       type: {class: ResourceGenSettings, ns: , asm: Assembly-CSharp}

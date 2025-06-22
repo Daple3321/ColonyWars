@@ -155,6 +155,11 @@ public class Projectile : MonoBehaviour
             //Debug.Log("Player unit hit");
             ProccessHit(HitType.UNIT);
         }
+        if (col.gameObject.layer == 13 || col.gameObject.layer == 14) // any building
+        {
+            //Debug.Log("Building hit");
+            ProccessHit(HitType.BUILDING);
+        }
         //Debug.Log($"Hit {col.gameObject.name}");
     }
 }

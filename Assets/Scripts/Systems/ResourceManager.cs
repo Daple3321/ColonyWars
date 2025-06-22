@@ -50,7 +50,7 @@ public class ResourceManager : MonoBehaviour
             OnResourceDeleted?.Invoke(res);
         }
         
-        return new Item(res.resource);
+        return res.resource.CreateItemInstance();
     }
     
     public void PlayerHarvest(GameObject resource, int amount) {
@@ -59,7 +59,7 @@ public class ResourceManager : MonoBehaviour
         
         if(res.Value.HandleClick())
         {
-            Item droppedResource = new Item(res.Value.resource);
+            Item droppedResource = res.Value.resource.CreateItemInstance();
             WorldItem worldItem;
             worldItem = droppedResource.SpawnItem(resource.transform.position+new Vector3(0, 2, 0),  1);
             worldItem.Drop(resource.transform.up, 360, 1.5f);

@@ -55,6 +55,8 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
     
     public virtual void Init(BuildingData data)
     {
+        this.buildingData = data;
+        
         meshes = transform.GetComponentsInChildren<MeshRenderer>();
         //mat = meshes[0].material;
         propertyBlock = new MaterialPropertyBlock();
@@ -62,11 +64,10 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
         cellIndex = ColoniesManager.i.grid.WorldToCell(transform.position);
         cell = ColoniesManager.i.gridManager.GetCell(cellIndex.x, cellIndex.z);
         capturedCells = new List<Cell>();
+        cell.OnCellBuildingAdded?.Invoke(this);
         
         levelSystem = new LevelSystem();
         levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
-        
-        this.buildingData = data;
     }
     
     protected virtual void LevelSystem_OnLevelChanged(object sender, EventArgs e)
@@ -138,8 +139,8 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
             }
         }
         
+        cell.OnCellBuildingRemoved?.Invoke(this);
         OnBuildingDestroyed?.Invoke(this);
-        cell.OnCellBuildingsChanged?.Invoke();
         OnDeath();
         Destroy(gameObject);
     }

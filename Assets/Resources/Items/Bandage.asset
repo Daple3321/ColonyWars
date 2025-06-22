@@ -26,7 +26,7 @@ MonoBehaviour:
   customScale: {x: 0.5, y: 0.5, z: 0.5}
   customPrefab: {fileID: 0}
   useType: 1
-  uses: 5
+  uses: 3
   isInfinite: 0
-  chargeRate: 0.5
+  chargeRate: 0.4
   healAmount: 25

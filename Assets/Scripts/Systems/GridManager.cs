@@ -554,7 +554,9 @@ public class Cell
 
     public Affiliation affiliation;
     
-    public Action OnCellBuildingsChanged;
+    //public Action OnCellBuildingsChanged;
+    public Action<Building> OnCellBuildingAdded;
+    public Action<Building> OnCellBuildingRemoved;
     public Action<Cell, Affiliation> OnCaptured;
     public Action<Cell, Affiliation> OnCaptureStarted;
     

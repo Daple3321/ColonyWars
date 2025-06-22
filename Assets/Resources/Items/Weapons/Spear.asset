@@ -26,7 +26,7 @@ MonoBehaviour:
   customPrefab: {fileID: 2280244590060308478, guid: 18adfd06f3e345b48a71f9fe8e1ef81a, type: 3}
   damage: 10
   attackRate: 0.35
-  chargeRate: 2
+  chargeRate: 2.5
   needsAmmo: 0
   recoilForce: -14
   slowingAmount: 0.5

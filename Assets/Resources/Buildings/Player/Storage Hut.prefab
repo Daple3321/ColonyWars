@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingData: {fileID: 11400000, guid: 75b30877b2793c84fa86c56373c9ba93, type: 2}
-  health: 70
-  maxHealth: 70
+  health: 150
+  maxHealth: 150
   interactionRange: 8
   canInteract: 1
   affiliation: 2

@@ -6,6 +6,7 @@ using UnityEngine;
 public class Outpost : Building
 {
     public bool captureInProgress = false;
+    public bool capturedCell = false;
     
     public OutpostData outpostData;
     public override void Init(BuildingData data)
@@ -16,23 +17,35 @@ public class Outpost : Building
             this.outpostData = outpostData;
         }
         
-        TryStartCapture();
+        Invoke(nameof(TryStartCapture), 0.5f);
         
-        cell.OnCellBuildingsChanged += ()=>{ // bullshit delay hack
-            if(captureDelay != null)
-                StopCoroutine(captureDelay);
-            captureDelay = StartCoroutine(CaptureDelay());
-        };
+        // cell.OnCellBuildingAdded += x => { // bullshit delay hack
+        //     if(captureDelay != null)
+        //         StopCoroutine(captureDelay);
+        //     captureDelay = StartCoroutine(CaptureDelay());
+        // };
         //colony = new PlayerColony(this, colonyData, Affiliation.Player);    
     }
     
     Coroutine captureDelay;
     private IEnumerator CaptureDelay()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.6f);
         TryStartCapture();
     }
     
+    private float captureTryDelay = 3f;
+    void Update()
+    {
+        if(!capturedCell && captureTryDelay > 0 && !captureInProgress){
+            captureTryDelay -= Time.deltaTime;
+        }
+        else if(!capturedCell && captureTryDelay < 0 && !captureInProgress){
+            TryStartCapture();
+            captureTryDelay = 3f;
+        }
+    }
+
     private bool canStartCapture = false;
     public virtual void TryStartCapture()
     {
@@ -48,10 +61,10 @@ public class Outpost : Building
         
         if(cellBuildings.Find(b => b.affiliation != outpostData.affiliation)){ // если в клетке нашли здание не нашей affiliation
             Debug.LogWarning("Can't start capture. Enemy buildings in cell");
+            Debug.Log($"Found building: {cellBuildings.Find(b => b.affiliation != outpostData.affiliation)}");
             canStartCapture = false;
             return;
         }
-        
         
         if(cell.affiliation == Affiliation.None)
         {
@@ -82,6 +95,7 @@ public class Outpost : Building
         
         cell.Capture(affiliation);
         captureInProgress = false;
+        capturedCell = true;
     }
     public IEnumerator CaptureEnemyCell()
     {
@@ -110,6 +124,7 @@ public class Outpost : Building
         
         cell.Capture(affiliation);
         captureInProgress = false;
+        capturedCell = true;
     }
     
     StringBuilder sb = new StringBuilder();

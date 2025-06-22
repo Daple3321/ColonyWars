@@ -78,19 +78,29 @@ public class RaidSquad
         }
     }
     
-    public void StartRaid(Cell targetCell)
+    private void AssignTargetCell(Cell c)
     {
-        this.targetCell = targetCell;
+        if(this.targetCell != null){ // отписываемся от старой ячейки
+            targetCell.OnCellBuildingAdded -= AddTargetBuilding;
+            targetCell.OnCellBuildingRemoved -= OnTargetBuildingDestroyed;
+        }
+        
+        this.targetCell = c;
+        targetCell.OnCellBuildingAdded += AddTargetBuilding;
+        targetCell.OnCellBuildingRemoved += OnTargetBuildingDestroyed;
         targetCellIndex = ColoniesManager.i.grid.WorldToCell(targetCell.worldPosition);
         targetBuildings.Clear();
+    }
+    public void StartRaid(Cell targetCell)
+    {
+        AssignTargetCell(targetCell);
         
         Collider[] cols = ColoniesManager.i.gridManager.GetCellBuildings(targetCellIndex.x, targetCellIndex.z, Affiliation.Player);
         if(cols.Length > 0)
         {
             foreach (Collider col in cols){
                 Building b = col.GetComponent<Building>();
-                b.OnBuildingDestroyed += OnTargetBuildingDestroyed;
-                targetBuildings.Add(b);
+                AddTargetBuilding(b);
             }
             
             squad.MoveOrder(targetBuildings[0].transform.position);
@@ -106,17 +116,49 @@ public class RaidSquad
     }
     
     private float _raidTime;
-    public void HandleRaid()
-    {
-        if(!hasTarget) return;
+    // public void HandleRaid()
+    // {
+    //     if(!hasTarget) return;
         
-        if(_raidTime > 0){
-            _raidTime -= Time.deltaTime;
+    //     if(_raidTime > 0){
+    //         _raidTime -= Time.deltaTime;
+    //     }
+    // }
+    
+    public void CheckForBuildings()
+    {
+        Debug.Log("Checking for buildings");
+        Collider[] cols = ColoniesManager.i.gridManager.GetCellBuildings(targetCellIndex.x, targetCellIndex.z, Affiliation.Player);
+        if(cols.Length > 0)
+        {
+            foreach (Collider col in cols){
+                Building b = col.GetComponent<Building>();
+                AddTargetBuilding(b);
+            }
         }
     }
-    
+    public void AddTargetBuilding(Building b)
+    {
+        if(targetBuildings.Contains(b) || b.affiliation != Affiliation.Player) return;
+        
+        Debug.Log($"Adding building {b.buildingData.buildingName}", b.gameObject);
+        b.OnBuildingDestroyed += OnTargetBuildingDestroyed;
+        targetBuildings.Add(b);
+    }
+    public void RemoveTargetBuilding(Building b)
+    {
+        if(!targetBuildings.Contains(b) || b.affiliation != Affiliation.Player) return;
+        
+        Debug.Log($"Removing building {b.buildingData.buildingName}", b.gameObject);
+        b.OnBuildingDestroyed -= OnTargetBuildingDestroyed;
+        targetBuildings.Remove(b);
+    }
     public void OnTargetBuildingDestroyed(Building building)
     {
+        if(!targetBuildings.Contains(building) || building.affiliation != Affiliation.Player) return;
+        
+        //CheckForBuildings();
+        Debug.Log($"On building destroyed! {building.buildingData.buildingName}", building.gameObject);
         building.OnBuildingDestroyed -= OnTargetBuildingDestroyed;
         targetBuildings.Remove(building);
         

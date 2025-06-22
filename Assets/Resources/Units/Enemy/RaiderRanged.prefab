@@ -998,7 +998,7 @@ MonoBehaviour:
         statModifiers: []
     - Key: 8
       Value:
-        baseValue: 7
+        baseValue: 8.5
         statModifiers: []
     - Key: 7
       Value:

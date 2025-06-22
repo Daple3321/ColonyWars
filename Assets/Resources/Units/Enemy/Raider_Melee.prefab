@@ -374,7 +374,7 @@ MonoBehaviour:
     _serializedList:
     - Key: 5
       Value:
-        baseValue: 6
+        baseValue: 5.5
         statModifiers: []
     - Key: 8
       Value:
@@ -405,17 +405,17 @@ MonoBehaviour:
         attackSequence:
           sequenceCoolDown: 1.5
           attacks:
-          - duration: 0.65
+          - duration: 0.8
             damageMultiplier: 0
             recoilMultiplier: 0
             staminaDrain: 0
           - duration: 0.85
-            damageMultiplier: 0.5
+            damageMultiplier: 0.3
             recoilMultiplier: 0.5
             staminaDrain: 0
-          - duration: 1
-            damageMultiplier: 0.8
-            recoilMultiplier: 0.8
+          - duration: 1.2
+            damageMultiplier: 0.6
+            recoilMultiplier: 0.6
             staminaDrain: 0
           damageMod:
             Value: 0

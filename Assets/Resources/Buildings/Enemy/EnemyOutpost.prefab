@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingData: {fileID: 11400000, guid: ef96ebcd2c46b3a48a5f855d62c8d1f5, type: 2}
-  health: 100
-  maxHealth: 100
+  health: 150
+  maxHealth: 150
   interactionRange: 8
   canInteract: 1
   affiliation: 1
@@ -64,6 +64,7 @@ MonoBehaviour:
   cellIndex: {x: 0, y: 0, z: 0}
   capturedCells: []
   captureInProgress: 0
+  capturedCell: 0
   outpostData: {fileID: 0}
 --- !u!65 &5444826313274340212
 BoxCollider:
