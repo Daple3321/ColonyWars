@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingName: Ammo Station
   description: Crafts ammunition
-  buildingIcon: {fileID: -399640143, guid: 10a723cc0f4eaa043b70ae94b5cb80bc, type: 3}
+  buildingIcon: {fileID: 21300000, guid: 71d84f43481543542862ebfb5c384018, type: 3}
   craftPrice:
     requirements:
     - item: {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}

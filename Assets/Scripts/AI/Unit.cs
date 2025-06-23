@@ -139,6 +139,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
         
         GameObject go = Instantiate(GameAssets.stunEffect, transform.position+new Vector3(0, 1.7f, 0), Quaternion.identity);
         go.transform.forward = transform.up;
+        go.transform.SetParent(transform);
         Destroy(go, stun.GetStunTime());
     }
     protected virtual void OnStunEnd(){

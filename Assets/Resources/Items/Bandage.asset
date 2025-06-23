@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Bandage
   description: Hold to heal
-  icon: {fileID: -1536799493, guid: 05c986f37d7d2654888b5ebdd0b6f314, type: 3}
+  icon: {fileID: 21300000, guid: bc424c59d280f5843a1e357d964ed3a2, type: 3}
   rarity: 4
   IsStackable: 0
   maxStackSize: 1

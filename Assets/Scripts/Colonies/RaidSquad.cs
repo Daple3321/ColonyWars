@@ -141,7 +141,7 @@ public class RaidSquad
     {
         if(targetBuildings.Contains(b) || b.affiliation != Affiliation.Player) return;
         
-        Debug.Log($"Adding building {b.buildingData.buildingName}", b.gameObject);
+        //Debug.Log($"Adding building {b.buildingData.buildingName}", b.gameObject);
         b.OnBuildingDestroyed += OnTargetBuildingDestroyed;
         targetBuildings.Add(b);
     }
@@ -149,7 +149,7 @@ public class RaidSquad
     {
         if(!targetBuildings.Contains(b) || b.affiliation != Affiliation.Player) return;
         
-        Debug.Log($"Removing building {b.buildingData.buildingName}", b.gameObject);
+        //Debug.Log($"Removing building {b.buildingData.buildingName}", b.gameObject);
         b.OnBuildingDestroyed -= OnTargetBuildingDestroyed;
         targetBuildings.Remove(b);
     }
@@ -158,7 +158,7 @@ public class RaidSquad
         if(!targetBuildings.Contains(building) || building.affiliation != Affiliation.Player) return;
         
         //CheckForBuildings();
-        Debug.Log($"On building destroyed! {building.buildingData.buildingName}", building.gameObject);
+        //Debug.Log($"On building destroyed! {building.buildingData.buildingName}", building.gameObject);
         building.OnBuildingDestroyed -= OnTargetBuildingDestroyed;
         targetBuildings.Remove(building);
         

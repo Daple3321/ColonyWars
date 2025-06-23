@@ -17,7 +17,7 @@ MonoBehaviour:
   icon: {fileID: 2035311433, guid: 05c986f37d7d2654888b5ebdd0b6f314, type: 3}
   rarity: 0
   IsStackable: 1
-  maxStackSize: 64
+  maxStackSize: 128
   instantPickup: 1
   itemMesh: {fileID: -2228417370725966487, guid: a1b32849c2aed784e8213307f348eb92, type: 3}
   itemMaterials:

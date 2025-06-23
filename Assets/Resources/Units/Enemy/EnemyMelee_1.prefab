@@ -130,7 +130,7 @@ MonoBehaviour:
         statModifiers: []
     - Key: 2
       Value:
-        baseValue: 7
+        baseValue: 6.6
         statModifiers: []
   combat: {fileID: 5764437151515827472}
   homePos: {x: 0, y: 0, z: 0}
@@ -206,6 +206,10 @@ MonoBehaviour:
     - rid: 80067863468310770
       type: {class: MeleeAttackData, ns: , asm: Assembly-CSharp}
       data:
+        speedMod:
+          Value: 0
+          Type: 300
+          Order: 0
         knockBackForce: 0
         attackBoxExtents: {x: 1.3, y: 2, z: 1.7}
         attackSequence:

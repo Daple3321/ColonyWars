@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingName: Barracks
   description: Can create units
-  buildingIcon: {fileID: 21300000, guid: 1b5aa62ff23e7dc49bf7f4ba6ee0c86d, type: 3}
+  buildingIcon: {fileID: 21300000, guid: 41feb7afcdcb84f48ac699cd7831108b, type: 3}
   craftPrice:
     requirements:
     - item: {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}
       quantity: 32
     - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
-      quantity: 16
+      quantity: 10
     - item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
       quantity: 10
   insideColonyOnly: 1

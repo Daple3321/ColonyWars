@@ -21,7 +21,7 @@ MonoBehaviour:
       _serializedList:
       - Key:
           item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
-          amountRange: {x: 1, y: 2}
+          amountRange: {x: 3, y: 5}
         Value: 0.5
       - Key:
           item: {fileID: 11400000, guid: ee22d33a9fbe9794e8869ad073bdca86, type: 2}

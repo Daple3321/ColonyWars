@@ -35,7 +35,7 @@ public class MeleeAttack : Attack
     {
         _attackCd = attackSequence.CurrentAttack().duration;
         owner.combat.stats[damage].OnModifierChanged();
-        //owner.stats[runSpeed].OnModifierChanged();
+        owner.stats[runSpeed].OnModifierChanged();
         
         switch(meleeAttackData.meleeAttackType){
             case MeleeAttackType.RAYCAST:

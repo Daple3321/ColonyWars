@@ -21,8 +21,6 @@ MonoBehaviour:
     interval: 120
   - actionType: 1
     interval: 120
-  - actionType: 0
-    interval: 180
   dayActionIndex: 0
   nightSeq:
   - actionType: 5

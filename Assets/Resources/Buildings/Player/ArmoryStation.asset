@@ -20,9 +20,9 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}
       quantity: 20
     - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
-      quantity: 32
+      quantity: 16
     - item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
-      quantity: 10
+      quantity: 5
   insideColonyOnly: 1
   overlapRadius: 2.5
   maxBuildAngle: 45

@@ -17,6 +17,7 @@ public class AttackSequence
         cd = sequenceCoolDown;
         damageMod = new StatModifier(0, StatModType.PercentMult, 0, this);
         recoilMod = new StatModifier(0, StatModType.PercentMult, 0, this);
+        //speedMod = new StatModifier(0, StatModType.PercentMult, 0, this);
     }
     
     public void ResetSequence()

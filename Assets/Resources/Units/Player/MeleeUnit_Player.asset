@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Melee unit
   description: 
-  requirements:
-    requirements:
-    - item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
-      quantity: 1
-    - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
-      quantity: 16
+  icon: {fileID: 21300000, guid: f1e8c3dc20488024b857b8be594b11f7, type: 3}
+  recipe: {fileID: 0}
+  lootTable:
+    table:
+      _serializedList: []
+    rollAmountRange: {x: 0, y: 0}
   prefab: {fileID: 2149854553417079418, guid: a4b6347044b78084993e98fe4c4b0af7, type: 3}

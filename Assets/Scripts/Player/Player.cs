@@ -139,9 +139,9 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     public UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3())
     {
         DamageResult result = DamageResult.Dealt;
-        if(playerCombat.isBlocking && movement.HasStamina(8f)){
+        if(playerCombat.isBlocking && movement.HasStamina(5f)){
             result = DamageResult.Blocked;
-            movement.AddStamina(-8f);
+            movement.AddStamina(-5f);
             Flash(Color.blue, 0.3f);
         }
         else

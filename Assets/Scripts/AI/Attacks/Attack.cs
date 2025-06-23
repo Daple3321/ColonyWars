@@ -1,3 +1,5 @@
+using static EntityStatType;
+
 [System.Serializable]
 public abstract class Attack
 {
@@ -9,7 +11,6 @@ public abstract class Attack
         this.attackData = attackData;
         this.affiliation = affiliation;
     }
-    
     public bool attackFinished = false;
     public abstract void OneShotAttack();
     public abstract void ConstantAttack(); // ужасное название
