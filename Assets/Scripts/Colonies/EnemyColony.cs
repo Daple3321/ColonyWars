@@ -7,6 +7,8 @@ using Random = UnityEngine.Random;
 using System.Text;
 using System.Collections;
 using System.Threading;
+using MackySoft.Choice;
+using System.Linq;
 
 [System.Serializable]
 public class EnemyColony : Colony
@@ -24,17 +26,28 @@ public class EnemyColony : Colony
     
     [Space(10), Header("Unit Settings")]
     public int unitsAmount;
-    public List<UnitData> unitPool;
+    [SerializedDictionary("Unit", "Chance to spawn")]
+    public SerializedDictionary<UnitData, float> unitPool;
+    //public List<UnitData> unitPool;
     [Tooltip("Delay in seconds")] private float spawnDelay;
     
     public RaidSquad raidSquad;
     
     
     [Space(10), Header("Building pools")]
-    public List<BuildingData> resourcePool; // make them all weighted collections?
-    public List<BuildingData> barracksPool;
-    public List<BuildingData> storagePool;
-    public List<BuildingData> defensePool;
+    [SerializedDictionary("Resource miners", "Chance to spawn")]
+    public SerializedDictionary<BuildingData, float> resourcePool;
+    [SerializedDictionary("Barracks", "Chance to spawn")]
+    public SerializedDictionary<BuildingData, float> barracksPool;
+    [SerializedDictionary("Storages", "Chance to spawn")]
+    public SerializedDictionary<BuildingData, float> storagePool;
+    [SerializedDictionary("Defenses", "Chance to spawn")]
+    public SerializedDictionary<BuildingData, float> defensePool;
+    
+    // public List<BuildingData> resourcePool; // make them all weighted collections?
+    // public List<BuildingData> barracksPool;
+    // public List<BuildingData> storagePool;
+    // public List<BuildingData> defensePool;
     
     public BuildingData outpost;
     
@@ -88,7 +101,7 @@ public class EnemyColony : Colony
         
         for(int i = 0; i < startingBuildings; i++)
         {
-            BuildingData randBuilding = resourcePool[Random.Range(0, resourcePool.Count)];
+            BuildingData randBuilding = resourcePool.First().Key;
             Vector3 pointInCell = ColoniesManager.i.gridManager.RandomPointInCell(cellIndex.x, cellIndex.z);
             
             Building b = GameController.objectGenerator.CreateBuilding_Rules(randBuilding, pointInCell);
@@ -143,9 +156,10 @@ public class EnemyColony : Colony
             Debug.Log("Max units reached.", gameObject);
             return;
         }
+        var selector = unitPool.ToWeightedSelector(x => x.Value);
         
         Unit u = null;
-        GameObject randUnit = unitPool[Random.Range(0, unitPool.Count)].prefab;
+        GameObject randUnit = selector.SelectItemWithUnityRandom().Key.prefab;
         // if(buildings.Count > 0){
         //     Building randBuilding = buildings[Random.Range(0, buildings.Count)];
         //     u = SpawnUnit(randUnit, randBuilding, true);
@@ -257,23 +271,33 @@ public class EnemyColony : Colony
     {
         Cell c = capturedCells[Random.Range(0, capturedCells.Count)];
         Vector3 pos = ColoniesManager.i.gridManager.RandomPointInCell(c);
+        IWeightedSelector<KeyValuePair<BuildingData, float>> selector;
+        BuildingData selectedBuilding = null;
         
         switch(buildAction){
         case ColonyActionType.Resources:
-            Build(resourcePool[Random.Range(0, resourcePool.Count)], pos);
+            selector = resourcePool.ToWeightedSelector(x => x.Value);
+            selectedBuilding = selector.SelectItemWithUnityRandom().Key;
+            Build(selectedBuilding, pos);
         break;
         
         case ColonyActionType.Storage:
-            Build(storagePool[Random.Range(0, storagePool.Count)], pos);
+            selector = storagePool.ToWeightedSelector(x => x.Value);
+            selectedBuilding = selector.SelectItemWithUnityRandom().Key;
+            Build(selectedBuilding, pos);
         break;
         
         case ColonyActionType.Barracks:
             //if(maxDefenses.Value)
-            Build(barracksPool[Random.Range(0, barracksPool.Count)], pos);
+            selector = barracksPool.ToWeightedSelector(x => x.Value);
+            selectedBuilding = selector.SelectItemWithUnityRandom().Key;
+            Build(selectedBuilding, pos);
         break;
         
         case ColonyActionType.Defense:
-            Build(defensePool[Random.Range(0, defensePool.Count)], pos);
+            selector = defensePool.ToWeightedSelector(x => x.Value);
+            selectedBuilding = selector.SelectItemWithUnityRandom().Key;
+            Build(selectedBuilding, pos);
         break;
         }
     }

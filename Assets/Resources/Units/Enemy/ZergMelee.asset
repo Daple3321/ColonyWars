@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76fb453e7702fc44aa8a44898ddb2190, type: 3}
+  m_Name: ZergMelee
+  m_EditorClassIdentifier: 
+  unitName: Melee zerg
+  description: 
+  icon: {fileID: 21300000, guid: f826ceea60dd4e74ea8632dba2c7bf81, type: 3}
+  recipe: {fileID: 0}
+  lootTable:
+    table:
+      _serializedList:
+      - Key:
+          item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
+          amountRange: {x: 1, y: 2}
+        Value: 0.65
+      - Key:
+          item: {fileID: 11400000, guid: 1426475067439c347bf78c6063196eea, type: 2}
+          amountRange: {x: 1, y: 1}
+        Value: 0.15
+      - Key:
+          item: {fileID: 11400000, guid: cd29d64e0e90dc04787f8e8201e8f9fe, type: 2}
+          amountRange: {x: 5, y: 8}
+        Value: 0.35
+    rollAmountRange: {x: 1, y: 2}
+  prefab: {fileID: 5884279472296965459, guid: 21c43f23b2b00c04fb90aa97d1642744, type: 3}

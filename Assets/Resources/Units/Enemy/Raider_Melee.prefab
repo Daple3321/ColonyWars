@@ -400,10 +400,6 @@ MonoBehaviour:
     - rid: 80068026632241247
       type: {class: MeleeAttackData, ns: , asm: Assembly-CSharp}
       data:
-        speedMod:
-          Value: 0
-          Type: 0
-          Order: 0
         knockBackForce: 0
         attackBoxExtents: {x: 1.3, y: 2, z: 1.7}
         attackSequence:
@@ -462,7 +458,7 @@ CharacterController:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 32768
   m_LayerOverridePriority: 0
   m_ProvidesContacts: 0
   m_Enabled: 1

@@ -153,7 +153,7 @@ MonoBehaviour:
   colonyRadius: 10
   buildings: []
   colonyZone: {fileID: 0}
-  startingBuildings: 1
+  startingBuildings: 0
   stats:
     _serializedList:
     - Key: 0
@@ -232,8 +232,11 @@ MonoBehaviour:
         Order: 0
   unitsAmount: 0
   unitPool:
-  - {fileID: 11400000, guid: 5cf07f7180da4154e9a6eafdb3abed29, type: 2}
-  - {fileID: 11400000, guid: b18180fa73bc8ef498b3e43b1cd58037, type: 2}
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 5cf07f7180da4154e9a6eafdb3abed29, type: 2}
+      Value: 0.7
+    - Key: {fileID: 11400000, guid: b18180fa73bc8ef498b3e43b1cd58037, type: 2}
+      Value: 0.5
   raidSquad:
     squad:
       units: []
@@ -257,13 +260,21 @@ MonoBehaviour:
     - {fileID: 11400000, guid: dd2e67506ceb0394ea7427f02e62e6e9, type: 2}
     - {fileID: 11400000, guid: 3bedfa76f028d944fab5eba1adf70655, type: 2}
   resourcePool:
-  - {fileID: 11400000, guid: 0be8c435e11d2e441886f5bb9d17dfc0, type: 2}
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 0be8c435e11d2e441886f5bb9d17dfc0, type: 2}
+      Value: 0.5
   barracksPool:
-  - {fileID: 11400000, guid: cbe375dc7d5665347a221f3880927cfe, type: 2}
+    _serializedList:
+    - Key: {fileID: 11400000, guid: cbe375dc7d5665347a221f3880927cfe, type: 2}
+      Value: 0.5
   storagePool:
-  - {fileID: 11400000, guid: 511e7f41a07ea464f86fc6e26506c7f2, type: 2}
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 511e7f41a07ea464f86fc6e26506c7f2, type: 2}
+      Value: 0.5
   defensePool:
-  - {fileID: 11400000, guid: 511e7f41a07ea464f86fc6e26506c7f2, type: 2}
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 0be8c435e11d2e441886f5bb9d17dfc0, type: 2}
+      Value: 1
   outpost: {fileID: 11400000, guid: ef96ebcd2c46b3a48a5f855d62c8d1f5, type: 2}
   expansionSequence: {fileID: 11400000, guid: 9f6a0fbae5f79bc4eab411828feeb5c5, type: 2}
 --- !u!65 &5698036891128024495
