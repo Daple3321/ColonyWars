@@ -130,7 +130,7 @@ public class RangedWeaponItem : WeaponWorldItem
         PlayShootEffect();
     }
     
-    protected virtual void HitscanShot(float concentraion)
+    protected virtual async void HitscanShot(float concentraion)
     {
         // Vector3 mousePos = Input.mousePosition;
         // Ray mouseRay = Camera.main.ScreenPointToRay(mousePos);
@@ -202,7 +202,7 @@ public class RangedWeaponItem : WeaponWorldItem
                 IDamageable damageable;
                 if (hit.collider.gameObject.TryGetComponent<IDamageable>(out damageable))
                 {
-                    damageable.TakeDamage(damage, GameController.p.gameObject, -hit.normal*knockBackForce);
+                    var result = await damageable.TakeDamage(damage, GameController.p.gameObject, -hit.normal*knockBackForce);
                 }
                 
                 GameObject lineObj = Instantiate(hitScanLine, shootPoint.position, Quaternion.identity);

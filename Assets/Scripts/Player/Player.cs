@@ -1,5 +1,6 @@
 using System;
 using AYellowpaper.SerializedCollections;
+using Cysharp.Threading.Tasks;
 using PrimeTween;
 using TMPro;
 using UnityEngine;
@@ -129,25 +130,36 @@ public class Player : MonoBehaviour, IDamageable, ICommander
             isInteracting = false;
             EventBus.i.OnInteractionStop?.Invoke();
         }
+        
+        if(Input.GetKeyDown(KeyCode.Keypad5)){
+            AddHealth(45f);
+        }
     }
     
-    public void TakeDamage(float damage, GameObject source = null, Vector3 knockback = new Vector3())
+    public UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3())
     {
-        health -= damage;
-        //onPlayerDamaged?.Invoke(health, maxHealth);
-        movement.AddForce(knockback);
-        
-        StartCoroutine(PlayerCameraController.CameraShake(9, 0.35f));
-        Flash(Color.red, 0.1f);
-        //TextMeshProUGUI popUp = PopUpManager.i.Spawn(transform.position+new Vector3(0, 2f, 0), Color.red);
-        //popUp.text = damage.ToString("F1");
-        
-        EventBus.i.PlayerHealthChanged?.Invoke(health, stats[maxHealth].Value);
-        EventBus.i.PlayerDamaged?.Invoke(damage);
-        if (health <= 0)
-        {
-            Death();
+        DamageResult result = DamageResult.Dealt;
+        if(playerCombat.isBlocking && movement.HasStamina(8f)){
+            result = DamageResult.Blocked;
+            movement.AddStamina(-8f);
+            Flash(Color.blue, 0.3f);
         }
+        else
+        {
+            health -= damage;
+            movement.AddForce(knockback);
+            
+            StartCoroutine(PlayerCameraController.CameraShake(9, 0.35f));
+            Flash(Color.red, 0.1f);
+            
+            EventBus.i.PlayerHealthChanged?.Invoke(health, stats[maxHealth].Value);
+            EventBus.i.PlayerDamaged?.Invoke(damage);
+            if (health <= 0){
+                Death();
+            }
+        }
+        
+        return UniTask.FromResult(result);
     }
     
     public void AddHealth(float amount)
@@ -262,9 +274,17 @@ public class Player : MonoBehaviour, IDamageable, ICommander
 
 public interface IDamageable
 {
-    void TakeDamage(float damage, GameObject source = null, Vector3 knockback = new Vector3());
-    (float health, float maxHealth) GetHealth();
+    public UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3());
+    public (float health, float maxHealth) GetHealth();
     void Death();
+}
+public enum DamageResult : byte
+{
+    Dealt,
+    Blocked,
+    Missed,
+    Killed,
+    
 }
 
 public interface ICommander

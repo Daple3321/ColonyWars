@@ -39,8 +39,32 @@ public class UnitCombat : MonoBehaviour
         {
             attackRoutine = StartCoroutine(Attack());
         }
+    }
+    
+    public void CancelAttackDelayed(){
+        if(cancelRoutine == null){
+            cancelRoutine = StartCoroutine(CancelRoutine());
+        }
+    }
+    public void CancelAttackInstant(){
+        if(attackRoutine != null){
+            StopCoroutine(attackRoutine);
+        }
+        currentAttack.OnAttackCanceled();
+        isAttacking = false;
+        currentAttack.attackFinished = true;
+    }
+    private Coroutine cancelRoutine;
+    private IEnumerator CancelRoutine()
+    {
+        yield return new WaitForSeconds(3f);
+        Debug.Log("Attack canceled!");
+        StopCoroutine(attackRoutine);
+        currentAttack.OnAttackCanceled();
+        isAttacking = false;
+        currentAttack.attackFinished = true;
         
-        // TO-DO: HANDLE STUN AND ATTACK CANCELATION ON DAMAGE?
+        cancelRoutine = null;
     }
     public virtual IEnumerator Attack()
     {
@@ -69,7 +93,7 @@ public class UnitCombat : MonoBehaviour
         //Debug.Log($"[{owner.unitName}] Attack ended!", owner.gameObject);
     }
     public virtual bool CanAttack(){ return isAttacking ? false : true && _attackSpeed <= 0; }
-    public virtual bool IsAttacking() { return false;}
+    //public virtual bool IsAttacking() { return false;}
     
     
 #if UNITY_EDITOR

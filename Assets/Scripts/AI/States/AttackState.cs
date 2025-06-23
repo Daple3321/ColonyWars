@@ -11,16 +11,18 @@ public class AttackState : UnitState
     }
     public override void Update()
     {
-        if (owner.HasTarget() && owner.DistanceToTarget() <= owner.combat.stats[attackDistance].Value)
+        if (owner.HasTarget() && owner.DistanceToTarget() <= owner.combat.stats[attackDistance].Value && !owner.stun.IsStunned())
         {
             owner.combat.HandleAttacking();
             owner.RotateTo(owner.attackTarget.position);
         }
-        owner.MoveToAttackTarget();
-        // if(owner.HasTarget() && owner.DistanceToTarget() > owner.attackDistance)
-        // {
-        //     owner.MoveToAttackTarget();
-        // }
+        else if(owner.combat.isAttacking && (!owner.HasTarget() || owner.DistanceToTarget() > owner.combat.stats[attackDistance].Value)){
+            owner.combat.CancelAttackDelayed();
+        }
+        
+        if(!owner.stun.IsStunned()){
+            owner.MoveToAttackTarget();
+        }
         
         if (owner.DistanceToHome() > owner.homeRadius)
         {

@@ -944,7 +944,7 @@ MonoBehaviour:
         statModifiers: []
     - Key: 2
       Value:
-        baseValue: 7
+        baseValue: 7.5
         statModifiers: []
   combat: {fileID: 3032866134740245298}
   homePos: {x: 0, y: 0, z: 0}

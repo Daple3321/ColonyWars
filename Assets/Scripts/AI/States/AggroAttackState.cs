@@ -16,7 +16,14 @@ public class AggroAttackState : UnitState
             owner.combat.HandleAttacking();
             owner.RotateTo(owner.attackTarget.position);
         }
-        owner.MoveToAttackTarget();
+        else if(owner.combat.isAttacking && (!owner.HasTarget() || owner.DistanceToTarget() > owner.combat.stats[attackDistance].Value)){
+            //Debug.Log("Attack canceled");
+            owner.combat.CancelAttackDelayed();
+        }
+        
+        if(!owner.stun.IsStunned()){
+            owner.MoveToAttackTarget();
+        }
         
         if(!enemyOwner.aggrActive){ // если закончился аггр
             stateMachine.ChangeState(nextState);

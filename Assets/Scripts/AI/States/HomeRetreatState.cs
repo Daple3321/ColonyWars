@@ -10,8 +10,10 @@ public class HomeRetreatState : UnitState
     }
     public override void Update()
     {
-        owner.MoveToHome();
-        owner.UpdateAnimationParams();
+        if(!owner.stun.IsStunned()){
+            owner.MoveToHome();
+            owner.UpdateAnimationParams();
+        }
 
         if (owner.DistanceToHome() <= 1.5f)
         {

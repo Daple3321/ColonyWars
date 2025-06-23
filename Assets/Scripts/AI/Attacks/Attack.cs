@@ -13,4 +13,6 @@ public abstract class Attack
     public bool attackFinished = false;
     public abstract void OneShotAttack();
     public abstract void ConstantAttack(); // ужасное название
+    
+    public abstract void OnAttackCanceled();
 }

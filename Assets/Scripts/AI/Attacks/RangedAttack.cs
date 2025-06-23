@@ -17,6 +17,11 @@ public class RangedAttack : Attack
         //Debug.Log($"Constant attack from: {owner.gameObject.name}");
     }
 
+    public override void OnAttackCanceled()
+    {
+        
+    }
+
     public override void OneShotAttack()
     {
         Vector3 shootDir = owner.attackTarget.position - owner.attackPoint.position;

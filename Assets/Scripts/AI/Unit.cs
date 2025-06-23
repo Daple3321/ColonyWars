@@ -1,5 +1,6 @@
 using System;
 using AYellowpaper.SerializedCollections;
+using Cysharp.Threading.Tasks;
 using PrimeTween;
 using UnityEditor;
 using UnityEngine;
@@ -22,6 +23,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public SerializedDictionary<EntityStatType, Stat> stats;
     
     public UnitCombat combat;
+    public StunHandler stun;
     
     [Space(10), Header("Leveling")]
     public LevelSystem levelSystem;
@@ -74,6 +76,9 @@ public abstract class Unit : MonoBehaviour, IDamageable
         homePos = transform.position;
         
         levelSystem = new LevelSystem();
+        stun = new StunHandler();
+        stun.OnStun += OnStun;
+        stun.OnStunEnd += OnStunEnd;
 
         stateMachine.Init();
         
@@ -85,6 +90,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public void ChangeLevel(int level)
     {
         levelSystem.ChangeLevel(level);
+        healthBar.SetDescription($"{data.unitName} Lv.{levelSystem.GetLevel()}");
     }
     
     protected virtual void InitUI()
@@ -93,6 +99,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
         healthBar = WorldUI.i.CreateWorldBar();
         healthBar.Init(affiliation);
         healthBar.InitWorldBar(transform, GameController.i.worldCanvas, unitName);
+        healthBar.SetDescription($"{data.unitName} Lv.{levelSystem.GetLevel()}");
         healthBar.offset.y = transform.localScale.y + 1.4f;
         healthBar.parentTransform.position = transform.position + healthBar.offset;
         healthBar.parentTransform.SetParent(transform);
@@ -121,6 +128,21 @@ public abstract class Unit : MonoBehaviour, IDamageable
     
     void Update(){
         HandleUI();
+        stun.HandleStun();
+    }
+    
+    protected virtual void OnStun()
+    {
+        if(combat.isAttacking){
+            combat.CancelAttackInstant();
+        }
+        
+        GameObject go = Instantiate(GameAssets.stunEffect, transform.position+new Vector3(0, 1.7f, 0), Quaternion.identity);
+        go.transform.forward = transform.up;
+        Destroy(go, stun.GetStunTime());
+    }
+    protected virtual void OnStunEnd(){
+        
     }
     
     public virtual void RegisterToSquad(Squad squad)
@@ -284,7 +306,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     // }
     
     Sequence colorSeq;
-    public virtual void TakeDamage(float damage, GameObject source = null, Vector3 knockback = new Vector3())
+    public virtual UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3())
     {
         health -= damage;
         
@@ -303,6 +325,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
         }
         
         HealthChanged();
+        return UniTask.FromResult(DamageResult.Dealt);
     }
     public (float health, float maxHealth) GetHealth(){
         return (health, stats[maxHealth].Value);
@@ -343,4 +366,46 @@ public abstract class Unit : MonoBehaviour, IDamageable
     }
 
 #endif
+}
+
+public class StunHandler
+{
+    private float stunTime;    
+    private float maxStunTime = 4f;
+    
+    public event Action OnStun;
+    public event Action OnStunEnd;
+    private bool stunEndEventSent = false;
+    public StunHandler(float maxStunTime = 4f)
+    {
+        stunTime = 0f;
+        this.maxStunTime = maxStunTime;
+    }
+    
+    public void AddStun(float seconds){
+        stunTime += seconds;
+        stunTime = Mathf.Clamp(stunTime, 0, maxStunTime);
+        
+        OnStun?.Invoke();
+        stunEndEventSent = false;
+    }
+    
+    public void HandleStun()
+    {
+        if(stunTime > 0){
+            stunTime -= Time.deltaTime;
+        }
+        else if(stunTime < 0 && !stunEndEventSent){
+            OnStunEnd?.Invoke();
+            stunEndEventSent = true;
+        }
+    }
+    
+    public bool IsStunned(){
+        return stunTime > 0;
+    }
+    
+    public float GetStunTime(){
+        return stunTime;
+    }
 }

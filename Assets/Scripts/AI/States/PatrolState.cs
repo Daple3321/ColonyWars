@@ -17,10 +17,16 @@ public class PatrolState : UnitState
         _waitTime = waitTime;
         
         patrolRoute = new List<Vector3>();
-        for(int i = 0; i < parentColony.buildings.Count; i++)
+        if(parentColony != null)
         {
-            Vector2 bPos = new Vector2(parentColony.buildings[i].transform.position.x, parentColony.buildings[i].transform.position.z);
-            patrolRoute.Add(GameController.RandomPointInCircleTerrain(bPos, 2.5f, 10f));
+            for(int i = 0; i < parentColony.buildings.Count; i++)
+            {
+                Vector2 bPos = new Vector2(parentColony.buildings[i].transform.position.x, parentColony.buildings[i].transform.position.z);
+                patrolRoute.Add(GameController.RandomPointInCircleTerrain(bPos, 2.5f, 10f));
+            }
+        }
+        else{
+            patrolRoute.Add(GameController.RandomPointInCircleTerrain(owner.transform.position, 2.5f, 10f));
         }
     }
     public override void Update()

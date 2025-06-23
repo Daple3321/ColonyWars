@@ -41,7 +41,7 @@ public class ToolWorldItem : MeleeWeaponItem
         }
     }
     
-    protected override void RaycastAttack(float concentraion)
+    protected override async void RaycastAttack(float concentraion)
     {
         //Vector3 shootDir = mouseHit.point - shootPoint.position;
         Vector3 mousePos = Input.mousePosition;
@@ -54,7 +54,8 @@ public class ToolWorldItem : MeleeWeaponItem
             IDamageable damageable;
             if (hit.collider.gameObject.TryGetComponent<IDamageable>(out damageable))
             {
-                damageable.TakeDamage(originWeapon.damage.Value, GameController.p.gameObject, -hit.normal*knockBackForce);
+                var result = await damageable.TakeDamage(originWeapon.damage.Value, GameController.p.gameObject, -hit.normal*knockBackForce);
+                Debug.Log($"Hit result: {result}");
             }
             
             if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Resources") 
@@ -69,7 +70,7 @@ public class ToolWorldItem : MeleeWeaponItem
         Debug.DrawRay(shootPoint.position, shootRay.direction, Color.cyan, 3);
     }
     
-    protected override void BoxCastAttack(float concentraion)
+    protected override async void BoxCastAttack(float concentraion)
     {
         Vector3 mousePos = Input.mousePosition;
         Ray mouseRay = cm.ScreenPointToRay(mousePos);
@@ -92,7 +93,7 @@ public class ToolWorldItem : MeleeWeaponItem
             {
                 if (hit.gameObject.TryGetComponent<IDamageable>(out damageable))
                 {
-                    damageable.TakeDamage(originWeapon.damage.Value, p.gameObject, -hit.transform.forward*knockBackForce);
+                    var result = await damageable.TakeDamage(originWeapon.damage.Value, p.gameObject, -hit.transform.forward*knockBackForce);
                 }
                 
                 Helper.SpawnHitEffect(hit.transform.position, -hit.transform.forward, hit.gameObject.layer);

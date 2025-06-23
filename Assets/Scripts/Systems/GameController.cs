@@ -90,8 +90,8 @@ public class GameController : MonoBehaviour
         currentTerrain = worldGenerator.terrain;
         objectGenerator.Init(gameSettings.objectGenSettings);
         timeManager.Init();
-        await worldGenerator.GenerateTerrain();
-        await objectGenerator.GenerateObjects();
+        //await worldGenerator.GenerateTerrain();
+        //await objectGenerator.GenerateObjects();
         //Pools.Init();
 
         //inventoryUI = GameObject.Find("PlayerInventory").GetComponent<InventoryUI>();
@@ -100,7 +100,7 @@ public class GameController : MonoBehaviour
         ColoniesManager.i.SpawnEnemyColonies(gameSettings.coloniesSpawnSettings);
         ColoniesManager.i.SpawnEnemyCamps(gameSettings.coloniesSpawnSettings);
         
-        pSpawnPoint.transform.position = RandomPointOnMap();
+        //pSpawnPoint.transform.position = RandomPointOnMap();
         GameObject playerObj = Instantiate(GameAssets.playerPrefab, pSpawnPoint.position, Quaternion.identity);
         p = playerObj.GetComponent<Player>();
         p.InitPlayer();
@@ -224,7 +224,7 @@ public class GameController : MonoBehaviour
         PlayerAiming.isAiming = false;
         p.transform.position = pos;
         p.gameObject.SetActive(true);
-        p.TakeDamage(p.stats[maxHealth].Value/2);
+        p.TakeDamage(p.stats[maxHealth].Value/2, this);
         
         EventBus.i.PlayerRespawn?.Invoke();
     }
@@ -280,6 +280,18 @@ public class GameController : MonoBehaviour
     }
     public static Vector3 RandomPointInCircleTerrain(Vector2 origin, float minRadius, float maxRadius) // выходит за террейн если origin близко к краю!
     {
+        Vector2 randomDirection = (Random.insideUnitCircle.normalized * origin).normalized;
+        //Vector2 randomDirection = Random.insideUnitCircle.normalized;
+        float randomDistance = Random.Range(minRadius, maxRadius);
+        Vector2 point = origin + randomDirection * randomDistance;
+        
+        Vector3 terrainPoint = new Vector3(point.x, currentTerrain.SampleHeight(new Vector3(point.x, 0, point.y)), point.y);
+
+        return terrainPoint;
+    }
+    public static Vector3 RandomPointInCircleTerrain(Vector3 pos, float minRadius, float maxRadius)
+    {
+        Vector2 origin = new Vector2(pos.x, pos.z);
         Vector2 randomDirection = (Random.insideUnitCircle.normalized * origin).normalized;
         //Vector2 randomDirection = Random.insideUnitCircle.normalized;
         float randomDistance = Random.Range(minRadius, maxRadius);

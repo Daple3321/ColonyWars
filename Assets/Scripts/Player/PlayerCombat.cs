@@ -7,12 +7,19 @@ public class PlayerCombat : MonoBehaviour
 {
     [SerializeReference] public Weapon currentWeapon;
     [Space(10)] public WeaponWorldItem weaponWorld;
-
+    
+    [Space(5), Header("Aiming")]
     public AnimationCurve concentrationCurve;
     public float concentraion = 0;
-    public bool canAttack;
     public bool isAiming;
+    public bool canAttack;
     public bool toolEquiped = false;
+    
+    [Space(6), Header("Blocking")]
+    public float blockTime = 0.8f;
+    public float blockResetTime = 1.5f;
+    public bool isBlocking;
+    public bool canBlock = true;
     
     void Awake()
     {
@@ -225,9 +232,11 @@ public class PlayerCombat : MonoBehaviour
     }
     
     private Coroutine _aimRoutine;
+    private Coroutine blockRoutine;
+    private Coroutine blockReset;
     private void PlayerAiming_OnAim(bool isAiming)
     {
-        if (weaponWorld != null)
+        if (weaponWorld != null && currentWeapon is RangedWeapon)
         {
             if (isAiming)
             {
@@ -245,8 +254,60 @@ public class PlayerCombat : MonoBehaviour
                 this.isAiming = false;
             }
         }
+        
+        if(weaponWorld != null && currentWeapon is MeleeWeapon)
+        {
+            if (isAiming && canBlock){
+                if (blockReset != null){
+                    StopCoroutine(blockReset);
+                }
+                
+                blockRoutine = StartCoroutine(BeginBlock());
+            }
+            
+            if(!isAiming && isBlocking)
+            {
+                if (blockRoutine != null){
+                    StopCoroutine(blockRoutine);
+                }
+                
+                blockReset = StartCoroutine(BlockReset());
+                this.isBlocking = false;
+            }
+        }
     }
     
+    public IEnumerator BlockReset()
+    {
+        canBlock = false;
+        
+        float timeLeft = blockResetTime;
+        while (timeLeft > 0)
+        {
+            float normalizedProgess = timeLeft / blockResetTime;
+
+            timeLeft -= Time.deltaTime;
+            yield return null;
+        }
+        
+        canBlock = true;
+    }
+    public IEnumerator BeginBlock()
+    {
+        this.isBlocking = true;
+        
+        float timeLeft = blockTime;
+        while (timeLeft > 0)
+        {
+            float normalizedProgess = timeLeft / blockTime;
+
+            timeLeft -= Time.deltaTime;
+            yield return null;
+        }
+        
+        this.isBlocking = false;
+        blockReset = StartCoroutine(BlockReset());
+    }
     
     public IEnumerator BeginAim(float concentrationTime) // перенести в weapon?
     {

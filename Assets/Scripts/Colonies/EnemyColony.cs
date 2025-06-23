@@ -146,13 +146,13 @@ public class EnemyColony : Colony
         
         Unit u = null;
         GameObject randUnit = unitPool[Random.Range(0, unitPool.Count)].prefab;
-        if(buildings.Count > 0){
-            Building randBuilding = buildings[Random.Range(0, buildings.Count)];
-            u = SpawnUnit(randUnit, randBuilding, true);
-        }
-        else{
-            u = SpawnUnit(randUnit, null, true);
-        }
+        // if(buildings.Count > 0){
+        //     Building randBuilding = buildings[Random.Range(0, buildings.Count)];
+        //     u = SpawnUnit(randUnit, randBuilding, true);
+        // }
+        // else{
+        // }
+        u = SpawnUnit(randUnit, null, true);
         u.GetComponent<Enemy>().InitEnemy(this);
         u.Init();
         

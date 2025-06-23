@@ -48,7 +48,7 @@ public class MeleeWeaponItem : WeaponWorldItem
         }
     }
     
-    protected virtual void RaycastAttack(float concentraion)
+    protected virtual async void RaycastAttack(float concentraion)
     {
         //Vector3 shootDir = mouseHit.point - shootPoint.position;
         Vector3 mousePos = Input.mousePosition;
@@ -59,9 +59,10 @@ public class MeleeWeaponItem : WeaponWorldItem
         if (Physics.Raycast(shootRay, out hit, attackDistance, hitLayers))
         {
             IDamageable damageable;
-            if (hit.collider.gameObject.TryGetComponent<IDamageable>(out damageable))
+            if (hit.collider.gameObject.TryGetComponent(out damageable))
             {
-                damageable.TakeDamage(originWeapon.damage.Value, GameController.p.gameObject, -hit.normal*knockBackForce);
+                var result = await damageable.TakeDamage(originWeapon.damage.Value, GameController.p, -hit.normal*knockBackForce);
+                //Debug.Log($"Hit result: {result}");
             }
             
             //GameObject lineObj = Instantiate(hitScanLine, shootPoint.position, Quaternion.identity);
@@ -78,7 +79,7 @@ public class MeleeWeaponItem : WeaponWorldItem
         //PlayShootEffect();
     }
     
-    protected virtual void BoxCastAttack(float concentraion)
+    protected virtual async void BoxCastAttack(float concentraion)
     {
         Vector3 mousePos = Input.mousePosition;
         Ray mouseRay = cm.ScreenPointToRay(mousePos);
@@ -99,9 +100,10 @@ public class MeleeWeaponItem : WeaponWorldItem
             IDamageable damageable;
             foreach(Collider hit in hits)
             {
-                if (hit.gameObject.TryGetComponent<IDamageable>(out damageable))
+                if (hit.gameObject.TryGetComponent(out damageable))
                 {
-                    damageable.TakeDamage(originWeapon.damage.Value, p.gameObject, -hit.transform.forward*knockBackForce);
+                    var result = await damageable.TakeDamage(originWeapon.damage.Value, p.gameObject, -hit.transform.forward*knockBackForce);
+                    //Debug.Log($"Hit result: {result}");
                 }
                 
                 Helper.SpawnHitEffect(hit.transform.position, -hit.transform.forward, hit.gameObject.layer);

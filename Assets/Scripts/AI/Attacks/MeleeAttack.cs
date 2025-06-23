@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+using TMPro;
 using UnityEngine;
 using static EntityStatType;
 
@@ -53,7 +55,7 @@ public class MeleeAttack : Attack
             attackFinished = true;   
         }
     }
-    public void PerformBoxcastAttack()
+    public async void PerformBoxcastAttack()
     {
         Vector3 boxPos = owner.attackPoint.position + (owner.attackPoint.forward * (meleeAttackData.attackBoxExtents.z/2));
         Vector3 boxSize = meleeAttackData.attackBoxExtents;
@@ -64,21 +66,20 @@ public class MeleeAttack : Attack
         // go.transform.localScale = boxSize;
         // go.transform.rotation = owner.attackPoint.rotation;
         // GameObject.Destroy(go.GetComponent<Collider>());
-        // GameObject.Destroy(go, 1.5f);
+        // GameObject.Destroy(go, 0.35f);
         if (hits.Length > 0)
         {
             IDamageable damageable;
             foreach(Collider hit in hits)
             {
-                if (hit.gameObject.TryGetComponent<IDamageable>(out damageable)){
-                    damageable.TakeDamage(owner.combat.stats[damage].Value, owner.gameObject, -hit.transform.forward*meleeAttackData.knockBackForce);
+                if (hit.gameObject.TryGetComponent(out damageable)){
+                    var result = await damageable.TakeDamage(owner.combat.stats[damage].Value, owner, -hit.transform.forward*meleeAttackData.knockBackForce);
+                    HandleAttackResult(result, hit);
                 }
-                
-                Helper.SpawnHitEffect(hit.transform.position, -hit.transform.forward, hit.gameObject.layer);
             }
         }
     }
-    public void PerformRaycastAttack()
+    public async void PerformRaycastAttack()
     {
         Vector3 shootDir = owner.attackTarget.position - owner.attackPoint.position;
         shootDir.y += 1;
@@ -90,13 +91,41 @@ public class MeleeAttack : Attack
         if (Physics.Raycast(shootRay, out hit, owner.combat.stats[attackDistance].Value, owner.attackHitMask))
         {
             IDamageable damageable;
-            if (hit.collider.gameObject.TryGetComponent<IDamageable>(out damageable))
+            if (hit.collider.gameObject.TryGetComponent(out damageable))
             {
-                damageable.TakeDamage(owner.combat.stats[damage].Value, owner.gameObject, shootRay.direction);
+                var result = await damageable.TakeDamage(owner.combat.stats[damage].Value, owner, shootRay.direction);
+                HandleAttackResult(result, hit.collider);
             }
-            Helper.SpawnHitEffect(hit.point, hit.normal, hit.collider.gameObject.layer);
+            //Helper.SpawnHitEffect(hit.point, hit.normal, hit.collider.gameObject.layer);
 
             Debug.DrawLine(owner.attackPoint.position, hit.point, Color.yellow, 3);
         }
+    }
+    
+    private void HandleAttackResult(DamageResult result, Collider hit)
+    {
+        switch(result){
+        case DamageResult.Dealt:
+            Helper.SpawnHitEffect(hit.transform.position, -hit.transform.forward, hit.gameObject.layer);
+        break;
+        
+        case DamageResult.Blocked:
+            owner.stun.AddStun(2f);
+            
+        break;
+        
+        case DamageResult.Missed:
+            TextMeshProUGUI t = WorldUI.i.SpawnPopup(hit.transform.position, Color.white, Vector3.one, 0.4f);
+            t.text = "Missed!";
+        break;
+        
+        case DamageResult.Killed:
+            
+        break;
+        }
+    }
+
+    public override void OnAttackCanceled(){
+        attackSequence.ResetSequence();
     }
 }

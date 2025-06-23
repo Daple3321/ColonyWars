@@ -22,6 +22,11 @@ public class WorldBar : Bar
         barDesc.text = barDescription;
     }
     
+    public void SetDescription(string desc = "")
+    {
+        barDesc.text = desc;
+    }
+    
     public bool CheckDisctance(){
         if(Vector3.SqrMagnitude(followTarget.position - mainCam.transform.position) > maxDrawDistance*maxDrawDistance){
             return false;

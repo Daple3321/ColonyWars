@@ -130,7 +130,7 @@ MonoBehaviour:
         statModifiers: []
     - Key: 2
       Value:
-        baseValue: 7.5
+        baseValue: 7
         statModifiers: []
   combat: {fileID: 5764437151515827472}
   homePos: {x: 0, y: 0, z: 0}
@@ -211,16 +211,16 @@ MonoBehaviour:
         attackSequence:
           sequenceCoolDown: 1.5
           attacks:
-          - duration: 0.8
+          - duration: 1.5
             damageMultiplier: 0
             recoilMultiplier: 0
             staminaDrain: 0
-          - duration: 0.9
-            damageMultiplier: 0.5
+          - duration: 1.5
+            damageMultiplier: 0.3
             recoilMultiplier: 0.5
             staminaDrain: 0
-          - duration: 1.3
-            damageMultiplier: 0.8
+          - duration: 1.5
+            damageMultiplier: 0.6
             recoilMultiplier: 0.8
             staminaDrain: 0
           damageMod:

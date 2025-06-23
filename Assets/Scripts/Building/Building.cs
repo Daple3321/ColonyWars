@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using PrimeTween;
 using UnityEngine;
 
@@ -88,7 +89,7 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
     
     Sequence colorSeq;
     protected bool isDead = false;
-    public virtual void TakeDamage(float damage, GameObject source = null, Vector3 knockback = new Vector3())
+    public virtual UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3())
     {
         health -= damage;
         OnHealthChanged?.Invoke(health, maxHealth);
@@ -116,6 +117,8 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
         if(health <= 0 && !isDead){
             Death();
         }
+        
+        return UniTask.FromResult(DamageResult.Dealt);
     }
     public (float health, float maxHealth) GetHealth(){
         return (health, maxHealth);

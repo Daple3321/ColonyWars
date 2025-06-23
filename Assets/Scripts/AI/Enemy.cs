@@ -1,4 +1,5 @@
 using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class Enemy : Unit
@@ -86,25 +87,23 @@ public class Enemy : Unit
     {
         stateMachine.ChangeState(patrolState);
     }
-    public override void TakeDamage(float damage, GameObject source = null, Vector3 knockback = new Vector3())
+    public override UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3())
     {
         base.TakeDamage(damage, source, knockback);
         
         if(!aggrActive){
             StartCoroutine(StartAggr(source));
         }
-        // if(source != null) // enemy dealt damage
-        // {
-        // }
-        // else{ // player dealt damage
-            
-        // }
+        
+        return UniTask.FromResult(DamageResult.Dealt);
     }
-    protected virtual IEnumerator StartAggr(GameObject target)
+    protected virtual IEnumerator StartAggr<T>(T target)
     {
-        attackTarget = target.transform;
-        aggrTarget = target;
-        stateMachine.ChangeState(aggroState);
+        if(target is GameObject go){
+            attackTarget = go.transform;
+            aggrTarget = go;
+            stateMachine.ChangeState(aggroState);
+        }
         
         aggrActive = true;
         float progress = aggrTime;

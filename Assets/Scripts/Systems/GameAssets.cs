@@ -38,6 +38,7 @@ public class GameAssets
     public static GameObject projectilePrefab;
     public static GameObject groundHitParts;
     public static GameObject unitHitParts;
+    public static GameObject stunEffect;
 
     //private static EventBus eventBus;
     
@@ -95,6 +96,7 @@ public class GameAssets
             
             groundHitParts = Resources.Load<GameObject>("Effects/hitEffect_1");
             unitHitParts = Resources.Load<GameObject>("Effects/bloodHit_1");
+            stunEffect = Resources.Load<GameObject>("Effects/StunEffect");
             
             objectPooler = Resources.Load<GameObject>("ObjectPooler");
             

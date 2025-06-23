@@ -674,9 +674,13 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   concentraion: 0
-  canAttack: 0
   isAiming: 0
+  canAttack: 0
   toolEquiped: 0
+  blockTime: 0.8
+  blockResetTime: 1
+  isBlocking: 0
+  canBlock: 1
   references:
     version: 2
     RefIds:
