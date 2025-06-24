@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Bandage
   description: Hold to heal
-  icon: {fileID: 21300000, guid: bc424c59d280f5843a1e357d964ed3a2, type: 3}
+  icon: {fileID: 21300000, guid: 92d6d636d7abab7478a6eb8a547656e2, type: 3}
   rarity: 4
   IsStackable: 0
   maxStackSize: 1
   instantPickup: 1
-  itemMesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  itemMesh: {fileID: 8691780276856062721, guid: 78cd9bc73688a2c459e34f1827e7a248, type: 3}
   itemMaterials:
-  - {fileID: 2100000, guid: 903e4e87536f85941b3315fa70d9a532, type: 2}
+  - {fileID: 2100000, guid: 924afda58349c454d8d8e0790773c7b5, type: 2}
   hasCustomScale: 1
-  customScale: {x: 0.5, y: 0.5, z: 0.5}
+  customScale: {x: 1, y: 1, z: 1}
   customPrefab: {fileID: 0}
   useType: 1
   uses: 3
