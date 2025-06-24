@@ -272,6 +272,7 @@ public class PlayerCombat : MonoBehaviour
                 }
                 
                 blockReset = StartCoroutine(BlockReset());
+                CrosshairManager.i.SetCrosshair(CrosshairManager.CrosshairType.Aim);
                 this.isBlocking = false;
             }
         }
@@ -295,6 +296,7 @@ public class PlayerCombat : MonoBehaviour
     public IEnumerator BeginBlock()
     {
         this.isBlocking = true;
+        CrosshairManager.i.SetCrosshair(CrosshairManager.CrosshairType.Block);
         
         float timeLeft = blockTime;
         while (timeLeft > 0)
@@ -306,6 +308,7 @@ public class PlayerCombat : MonoBehaviour
         }
         
         this.isBlocking = false;
+        CrosshairManager.i.SetCrosshair(CrosshairManager.CrosshairType.Aim);
         blockReset = StartCoroutine(BlockReset());
     }
     

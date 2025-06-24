@@ -13,8 +13,8 @@ public class GatherCrosshair : Crosshair
         
     }
 
-    void Update()
-    {
-        UpdateCrosshair();
-    }
+    // void Update()
+    // {
+    //     UpdateCrosshair();
+    // }
 }

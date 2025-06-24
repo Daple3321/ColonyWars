@@ -9,6 +9,8 @@ public class CrosshairManager : MonoBehaviour
         Gather,
         Build,
         Interact,
+        Block,
+        
     }
     
     public CrosshairType type;
@@ -17,6 +19,7 @@ public class CrosshairManager : MonoBehaviour
     public Crosshair gatherCrosshair;
     public Crosshair buildCrosshair;
     public Crosshair interactCrosshair;
+    public Crosshair blockCrosshair;
     
     public Texture2D customCursor;
     
@@ -57,15 +60,45 @@ public class CrosshairManager : MonoBehaviour
         }
     }
     
-    private void SetCrosshair(CrosshairType type)
+    public void SetCrosshair(CrosshairType type)
     {
+        DisableAllCrosshairs();
         
+        switch (type){
+        case CrosshairType.Aim:
+            aimCrosshair.gameObject.SetActive(true);
+        break;
+        
+        case CrosshairType.Gather:
+            gatherCrosshair.gameObject.SetActive(true);
+        break;
+        
+        case CrosshairType.Interact:
+            interactCrosshair.gameObject.SetActive(true);
+        break;
+        
+        case CrosshairType.Build:
+            buildCrosshair.gameObject.SetActive(true);
+        break;
+        
+        case CrosshairType.Block:
+            blockCrosshair.gameObject.SetActive(true);
+        break;
+        }
+    }
+    private void DisableAllCrosshairs(){
+        gatherCrosshair.gameObject.SetActive(false);
+        aimCrosshair.gameObject.SetActive(false);
+        buildCrosshair.gameObject.SetActive(false);
+        blockCrosshair.gameObject.SetActive(false);
+        interactCrosshair.gameObject.SetActive(false);
     }
 
     public void Init()
     {
         aimCrosshair.Init();
         gatherCrosshair.Init();
+        blockCrosshair.Init();
         Hide();
         
         Cursor.SetCursor(customCursor, new Vector2(36, 36), CursorMode.Auto);
@@ -83,8 +116,8 @@ public class CrosshairManager : MonoBehaviour
         };
     }
 
-    void Update()
-    {
+    //void Update()
+    //{
         // Vector2 position;
         // RectTransformUtility.ScreenPointToLocalPointInRectangle(
         //     (RectTransform)crosshairCanvas.transform,
@@ -93,5 +126,5 @@ public class CrosshairManager : MonoBehaviour
         //     out position
         // );
         // crosshairHolder.position = crosshairCanvas.transform.TransformPoint(position);
-    }
+    //}
 }
