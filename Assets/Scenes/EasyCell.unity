@@ -145,7 +145,7 @@ Transform:
   m_GameObject: {fileID: 33705290}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 70, y: 7.2, z: -140}
+  m_LocalPosition: {x: 70, y: 7.2, z: -110}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -532,7 +532,7 @@ Transform:
   m_GameObject: {fileID: 107188123}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -140, y: 7.2, z: 70.2}
+  m_LocalPosition: {x: -110, y: 7.2, z: 70.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -971,7 +971,7 @@ Transform:
   m_GameObject: {fileID: 338951576}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 280, y: 7.2, z: 70}
+  m_LocalPosition: {x: 250, y: 7.2, z: 70}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1804,7 +1804,7 @@ Transform:
   m_GameObject: {fileID: 696123353}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 70, y: 7.2, z: 280}
+  m_LocalPosition: {x: 70, y: 7.2, z: 250}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3234,6 +3234,9 @@ MonoBehaviour:
     personalMultiplier: 1
   pointsToWin: 0
   pointsMultiplier: 0
+  playerStartingCell: {x: 5, y: 0, z: 2}
+  pColony: {fileID: 11400000, guid: 0095c38e6294f35429795201457ef26a, type: 2}
+  pSpawnPoint: {fileID: 1091325589}
   mainCanvas: {fileID: 0}
   worldCanvas: {fileID: 0}
   squadCanvas: {fileID: 0}
@@ -3241,7 +3244,6 @@ MonoBehaviour:
   squadAssemblePanel: {fileID: 0}
   buildingPanelManager: {fileID: 0}
   mouseFollower: {fileID: 0}
-  pSpawnPoint: {fileID: 1091325589}
   defaultGameSettings:
     worldGenSettings: {fileID: 11400000, guid: f5da6e7712a45cb429033f61205e7f75, type: 2}
     objectGenSettings: {fileID: 11400000, guid: ec9454641d302b6449d9b8434ddda813, type: 2}
@@ -3273,6 +3275,7 @@ MonoBehaviour:
     cellSize: {x: 0, y: 0, z: 0}
     cellHalf: 0
     mapSize: 0
+    gridDimension: 0
     outerCellOffset: 0
     borderOffset: 0.35
   grid: {fileID: 1910470729}

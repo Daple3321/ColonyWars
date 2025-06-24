@@ -39,7 +39,7 @@ public class ColoniesManager : MonoBehaviour
         // Bounds bd = grid.GetBoundsLocal(new Vector3Int(0, 0, 0), new Vector3(3, 1, 3));
         // Debug.Log(bd);
         // go.transform.localScale = bd.size;
-        gridManager = new GridManager(grid, borderPool, 10);
+        gridManager = new GridManager(grid, borderPool, 9);
     }
     
     public void OnColonyCreated(Colony newColony)   
@@ -96,10 +96,12 @@ public class ColoniesManager : MonoBehaviour
             int maxIterations = 10;
             while(b == null && maxIterations > 0)
             {
-                Vector3Int randCell = gridManager.RandomCellIndex();
-                if(!gridManager.CheckCellForBuildings(randCell.x, randCell.z, Affiliation.Enemy))
+                //Vector3Int randCell = gridManager.RandomCellIndex();
+                Vector3 cellCenter = grid.GetCellCenterWorld(spawnSettings.spawnCell);
+                Vector3 spawnPos = GameController.TerrainPoint(cellCenter);
+                if(!gridManager.CheckCellForBuildings(spawnSettings.spawnCell.x, spawnSettings.spawnCell.z, Affiliation.Enemy))
                 {
-                    Vector3 spawnPos = gridManager.RandomPointInCell(randCell.x, randCell.z);
+                    //Vector3 spawnPos = gridManager.RandomPointInCell(randCell.x, randCell.z);
                     
                     Quaternion rot = Quaternion.identity;
                     rot *= Quaternion.AngleAxis(Random.Range(0, 360f), Vector3.up);
@@ -107,7 +109,7 @@ public class ColoniesManager : MonoBehaviour
                     b = go.GetComponent<Building>();
                     b.Init(randColony);
                     
-                    b.CaptureCellInstant(randCell.x, randCell.z);
+                    b.CaptureCellInstant(spawnSettings.spawnCell.x, spawnSettings.spawnCell.z);
                     //gridManager.cells[randCell.x, randCell.z].Capture(Affiliation.Enemy);
                 }
 

@@ -4,9 +4,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ColoniesSpawnSettings", menuName = "Scriptable Objects/Colonies Spawn Settings")]
 public class ColoniesSpawnSettings : ScriptableObject
 {
-    public int colonies = 5;
+    public int colonies = 1;
     
-    public float minColonyDistance = 80f;
+    public Vector3Int spawnCell;
     
     //public ColonyCenterData[] coloniesPool;
     

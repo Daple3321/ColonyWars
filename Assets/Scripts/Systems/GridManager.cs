@@ -15,17 +15,19 @@ public class GridManager
     public float cellHalf;
     public Cell[,] cells;
     public int mapSize;
-    public int outerCellOffset = 1;
+    public int gridDimension;
+    public int outerCellOffset = 2;
 
     [Space(10), Header("Borders")]
     public float borderOffset = 0.45f;
     private BorderPool borderPool;
 
     private Renderer[,] planes;
-    public GridManager(Grid grid, BorderPool borderPool, int mapSize) // mapSize = TerrainSize/CellSize 
+    public GridManager(Grid grid, BorderPool borderPool, int dimension) // mapSize = TerrainSize/CellSize 
     {
         this.grid = grid;
-        this.mapSize = mapSize-outerCellOffset;
+        gridDimension = dimension;
+        this.mapSize = this.gridDimension - outerCellOffset;
         this.borderPool = borderPool;
         cellSize = grid.cellSize;
         cellHalf = cellSize.x / 2;
@@ -35,11 +37,11 @@ public class GridManager
         enemyCells = new List<Cell>();
         
         borders = new List<GameObject>();
-        cells = new Cell[mapSize, mapSize];
-        planes = new Renderer[mapSize, mapSize];
-        for (int i = outerCellOffset; i < mapSize; i++)
+        cells = new Cell[this.gridDimension, this.gridDimension];
+        planes = new Renderer[this.gridDimension, this.gridDimension];
+        for (int i = outerCellOffset; i < this.gridDimension; i++)
         {
-            for (int j = outerCellOffset; j < mapSize; j++)
+            for (int j = outerCellOffset; j < this.gridDimension; j++)
             {
                 Cell newCell = new Cell
                 {
@@ -138,9 +140,9 @@ public class GridManager
     private List<GameObject> borders;
     public void UpdateBorders()
     {
-        for (int i = outerCellOffset; i < mapSize; i++)
+        for (int i = outerCellOffset; i < gridDimension; i++)
         {
-            for (int j = outerCellOffset; j < mapSize; j++)
+            for (int j = outerCellOffset; j < gridDimension; j++)
             {
                 Cell origin = GetCell(i, j);
                 Vector2Int[] neighbors = GetDifferentNeighbors(i, j);
@@ -256,8 +258,8 @@ public class GridManager
 
     public bool WithinBounds(int x, int y)
     {
-        if (x >= outerCellOffset && x < mapSize &&
-            y >= outerCellOffset && y < mapSize)
+        if (x >= outerCellOffset && x < gridDimension &&
+            y >= outerCellOffset && y < gridDimension)
         {
             //Debug.Log(cell + " within bounds");
             return true;
@@ -269,8 +271,8 @@ public class GridManager
     }
     public bool WithinBounds(Vector2Int cell)
     {
-        if (cell.x >= outerCellOffset && cell.x < mapSize &&
-            cell.y >= outerCellOffset && cell.y < mapSize)
+        if (cell.x >= outerCellOffset && cell.x < gridDimension &&
+            cell.y >= outerCellOffset && cell.y < gridDimension)
         {
             //Debug.Log(cell + " within bounds");
             return true;
@@ -436,9 +438,9 @@ public class GridManager
     
     public bool HasCellOfAffiliation(Affiliation aff)
     {
-        for (int i = outerCellOffset; i < mapSize; i++)
+        for (int i = outerCellOffset; i < gridDimension; i++)
         {
-            for (int j = outerCellOffset; j < mapSize; j++)
+            for (int j = outerCellOffset; j < gridDimension; j++)
             {
                 if(GetCell(i, j).affiliation == aff){
                     return true;

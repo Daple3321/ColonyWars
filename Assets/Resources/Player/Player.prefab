@@ -558,7 +558,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildMode: 0
   availableBuildings:
-  - {fileID: 11400000, guid: 0095c38e6294f35429795201457ef26a, type: 2}
   - {fileID: 11400000, guid: 66ced8085358f47409a0d7374e536a72, type: 2}
   - {fileID: 11400000, guid: 8c18ed3782dbe1441a7b5ea4be5f5a38, type: 2}
   - {fileID: 11400000, guid: 75b30877b2793c84fa86c56373c9ba93, type: 2}

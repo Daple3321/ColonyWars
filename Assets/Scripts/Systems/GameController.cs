@@ -16,11 +16,16 @@ public class GameController : MonoBehaviour
     public static TimeManager timeManager;
 
     //public InventoryUI inventoryUI;
-    
+    [Header("Points")]
     public PointStats playerPoints;
     public PointStats enemyPoints;
     public int pointsToWin;
     public float pointsMultiplier;
+    
+    [Space(6), Header("Start settings")]
+    public Vector3Int playerStartingCell;
+    public BuildingData pColony;
+    public Transform pSpawnPoint;
 
     public Canvas mainCanvas;
     public Canvas worldCanvas;
@@ -29,7 +34,6 @@ public class GameController : MonoBehaviour
     public SquadAssemblePanel squadAssemblePanel;
     public BuildingPanelManager buildingPanelManager;
     public MouseFollower mouseFollower;
-    public Transform pSpawnPoint;
     public static Terrain currentTerrain;
     public GameSettings defaultGameSettings;
     
@@ -98,12 +102,13 @@ public class GameController : MonoBehaviour
         
         ColoniesManager.i.Init();
         ColoniesManager.i.SpawnEnemyColonies(gameSettings.coloniesSpawnSettings);
-        ColoniesManager.i.SpawnEnemyCamps(gameSettings.coloniesSpawnSettings);
+        //ColoniesManager.i.SpawnEnemyCamps(gameSettings.coloniesSpawnSettings);
         
+        SpawnPlayerAndColony();
         //pSpawnPoint.transform.position = RandomPointOnMap();
-        GameObject playerObj = Instantiate(GameAssets.playerPrefab, pSpawnPoint.position, Quaternion.identity);
-        p = playerObj.GetComponent<Player>();
-        p.InitPlayer();
+        // GameObject playerObj = Instantiate(GameAssets.playerPrefab, pSpawnPoint.position, Quaternion.identity);
+        // p = playerObj.GetComponent<Player>();
+        // p.InitPlayer();
         
         worldCanvas.worldCamera = Camera.main; // after player
         
@@ -113,6 +118,20 @@ public class GameController : MonoBehaviour
         EventBus.i.OnMinuteChange += IncrementPoints;
         
         OnGameStarted?.Invoke();
+    }
+    
+    private void SpawnPlayerAndColony()
+    {
+        Vector3 cellCenter = ColoniesManager.i.grid.GetCellCenterWorld(playerStartingCell);
+        Vector3 spawnPos = TerrainPoint(cellCenter);
+        Building colony = Instantiate(pColony.prefab, spawnPos, Quaternion.identity).GetComponent<Building>();
+        colony.Init(pColony);
+        StartCoroutine(colony.Build());
+        
+        pSpawnPoint.transform.position = RandomPointInCircleTerrain(colony.transform.position, 2, 3);
+        GameObject playerObj = Instantiate(GameAssets.playerPrefab, pSpawnPoint.transform.position, Quaternion.identity);
+        p = playerObj.GetComponent<Player>();
+        p.InitPlayer();
     }
     
     public void FindReferences()
@@ -212,7 +231,7 @@ public class GameController : MonoBehaviour
             Helper.RestartCurrentScene();
         }
         else{
-            StartCoroutine(RespawnPlayer(ColoniesManager.i.playerColonies[0].transform.position));
+            StartCoroutine(RespawnPlayer(pSpawnPoint.transform.position));
         }
     }
     

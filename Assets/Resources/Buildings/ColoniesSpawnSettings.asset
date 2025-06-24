@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0e4fe3136c573b488270922c763c099, type: 3}
   m_Name: ColoniesSpawnSettings
   m_EditorClassIdentifier: 
-  colonies: 2
-  minColonyDistance: 50
+  colonies: 1
+  spawnCell: {x: 5, y: 0, z: 8}
   colonyPool:
     _serializedList:
     - Key: {fileID: 11400000, guid: e7241f3078605de45bb9a7d3fac5ce29, type: 2}
