@@ -37,6 +37,7 @@ public class UnitCombat : MonoBehaviour
     {
         if(CanAttack())
         {
+            Debug.Log("Can attack!");
             attackRoutine = StartCoroutine(Attack());
         }
     }
@@ -52,7 +53,8 @@ public class UnitCombat : MonoBehaviour
         }
         currentAttack.OnAttackCanceled();
         isAttacking = false;
-        currentAttack.attackFinished = true;
+        _attackSpeed = 0f;
+        //currentAttack.attackFinished = true;
     }
     private Coroutine cancelRoutine;
     private IEnumerator CancelRoutine()
@@ -63,6 +65,7 @@ public class UnitCombat : MonoBehaviour
         currentAttack.OnAttackCanceled();
         isAttacking = false;
         currentAttack.attackFinished = true;
+        _attackSpeed = 0f;
         
         cancelRoutine = null;
     }

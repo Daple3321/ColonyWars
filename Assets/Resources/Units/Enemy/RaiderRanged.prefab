@@ -989,7 +989,7 @@ MonoBehaviour:
   currentAttack:
     rid: -2
   attackData:
-    rid: 80067863468310684
+    rid: 80068091196211373
   stats:
     _serializedList:
     - Key: 5
@@ -1017,7 +1017,7 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 80067863468310684
+    - rid: 80068091196211373
       type: {class: RangedAttackData, ns: , asm: Assembly-CSharp}
       data:
         bulletsPerShot: 1

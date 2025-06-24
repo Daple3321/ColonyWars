@@ -19,7 +19,7 @@ public class RangedAttack : Attack
 
     public override void OnAttackCanceled()
     {
-        
+        attackFinished = true;
     }
 
     public override void OneShotAttack()

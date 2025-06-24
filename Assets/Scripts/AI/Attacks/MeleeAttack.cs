@@ -126,6 +126,7 @@ public class MeleeAttack : Attack
     }
 
     public override void OnAttackCanceled(){
+        attackFinished = true;
         attackSequence.ResetSequence();
     }
 }

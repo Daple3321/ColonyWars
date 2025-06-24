@@ -91,6 +91,8 @@ MonoBehaviour:
     _serializedList:
     - Key: 4
       Value: -0.05
+    - Key: 7
+      Value: -0.05
 --- !u!205 &1718344931702803144
 LODGroup:
   m_ObjectHideFlags: 0

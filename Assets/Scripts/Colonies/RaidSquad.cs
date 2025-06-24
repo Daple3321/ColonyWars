@@ -57,17 +57,28 @@ public class RaidSquad
         if(unitsOnMission.Contains(u)) return;
         
         unitsOnMission.Add(u);
+        u.onUnitDeath += OnUnitOnMissionDeath;
     }
     private void OnUnitOnMissionDeath(Unit u){
         if(unitsOnMission.Contains(u)){
             unitsOnMission.Remove(u);
         }
     }
+    private void ClearUnitsOnMission(){
+        foreach(var u in unitsOnMission){
+            u.onUnitDeath -= OnUnitOnMissionDeath;
+        }
+        unitsOnMission.Clear();
+    }
+    public bool HasTarget(){
+        return hasTarget;
+    }
     public bool HasUnitsOnMission(){
         return unitsOnMission.Count > 0;
     }
-    public bool IsCaptureSuccesful(){
+    public bool IsRaidSuccesful(){
         if(CanCaptureTargetCell() && HasUnitsOnMission()){
+            ClearUnitsOnMission();
             return true;
         }
         else if(!CanCaptureTargetCell() || !HasUnitsOnMission()){
@@ -106,7 +117,7 @@ public class RaidSquad
             squad.MoveOrder(targetBuildings[0].transform.position);
             foreach(Unit u in squad.units){
                 OnUnitSentToMission(u);
-                u.onUnitDeath += OnUnitOnMissionDeath;
+                //u.onUnitDeath += OnUnitOnMissionDeath;
             }
         }
         

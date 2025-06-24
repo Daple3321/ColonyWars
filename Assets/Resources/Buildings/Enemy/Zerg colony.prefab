@@ -101,7 +101,7 @@ MonoBehaviour:
         statModifiers: []
     - Key: 7
       Value:
-        baseValue: 120
+        baseValue: 20
         statModifiers: []
   baseModifiers:
     _serializedList:

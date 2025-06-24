@@ -175,6 +175,8 @@ MonoBehaviour:
     _serializedList:
     - Key: 2
       Value: 2
+    - Key: 6
+      Value: 1
   percentModifiers:
     _serializedList: []
 --- !u!205 &3601858077372982152

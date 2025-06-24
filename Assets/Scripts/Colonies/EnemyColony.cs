@@ -241,7 +241,7 @@ public class EnemyColony : Colony
         break;
         
         case ColonyActionType.Capture:
-            StartCoroutine(Capture());
+            StartCoroutine(Capture(Affiliation.Player));
         break;
         
         case ColonyActionType.RaidSquad:
@@ -303,30 +303,22 @@ public class EnemyColony : Colony
     }
     protected void Build(BuildingData building, Vector3 pos)
     {
-        if(buildings.Count < stats[maxBuildings].Value)
-        {
-            Building b = GameController.objectGenerator.CreateBuilding_Rules(building, pos);
-            if(b != null)
-            {
-                b.Init(building);
-                StartCoroutine(b.Build());
-                
-                AddBuilding(b);
-                
-                if(b is EnemyBuilding eb){
-                    ApplyModifiersToStats(eb.GetModifiers());
-                }
-                
-                // foreach(var stat in stats)
-                // {
-                //     Debug.Log($"{stat.Key} = {stat.Value.Value}");
-                // }
-            }
-        }
-        else{
+        if(buildings.Count >= stats[maxBuildings].Value){
             levelSystem.LevelUp();
             Debug.Log($"{gameObject.name} lvl up! Lv.{levelSystem.GetLevel()}", gameObject);
-            // level up
+        }
+        
+        Building b = GameController.objectGenerator.CreateBuilding_Rules(building, pos);
+        if(b != null)
+        {
+            b.Init(building);
+            StartCoroutine(b.Build());
+            
+            AddBuilding(b);
+            
+            if(b is EnemyBuilding eb){
+                ApplyModifiersToStats(eb.GetModifiers());
+            }
         }
     }
     
@@ -391,8 +383,14 @@ public class EnemyColony : Colony
     
     protected void Expand()
     {
-        Vector2Int newCell = ColoniesManager.i.gridManager._ClosestDifferentCell(cellIndex.x, cellIndex.z);
-        CaptureCellInstant(newCell.x, newCell.y);
+        // Vector2Int newCell = ColoniesManager.i.gridManager._ClosestDifferentCell(cellIndex.x, cellIndex.z);
+        // CaptureCellInstant(newCell.x, newCell.y);
+        //StartCoroutine(Capture(Affiliation.None)); // захват пустой ячейки
+        
+        Vector2Int closestCellIndex = ColoniesManager.i.gridManager.ClosestCell(cellIndex.x, cellIndex.z, Affiliation.None);
+        Cell closestCell = ColoniesManager.i.gridManager.GetCell(closestCellIndex.x, closestCellIndex.y);
+        Vector3 outpostPos = ColoniesManager.i.gridManager.RandomPointInCell(closestCell);
+        Build(outpost, outpostPos);
     }
     
     protected void RaidSquad(Vector2Int cellTarget = default)
@@ -412,24 +410,24 @@ public class EnemyColony : Colony
     }
     
     
-    protected IEnumerator Capture()
+    protected IEnumerator Capture(Affiliation cellAffiliation)
     {
-        Vector2Int closestCellIndex = ColoniesManager.i.gridManager.ClosestCell(cellIndex.x, cellIndex.z, Affiliation.Player);
+        Vector2Int closestCellIndex = ColoniesManager.i.gridManager.ClosestCell(cellIndex.x, cellIndex.z, cellAffiliation);
         Cell closestCell = ColoniesManager.i.gridManager.GetCell(closestCellIndex.x, closestCellIndex.y);
         RaidSquad(closestCellIndex);
         
         yield return new WaitUntil(() => !raidSquad.HasUnitsOnMission() || raidSquad.CanCaptureTargetCell());
         
-        if(raidSquad.IsCaptureSuccesful())
+        if(raidSquad.IsRaidSuccesful())
         {
-            Debug.Log($"Can start capture of the cell", gameObject);
-    
             Vector3 outpostPos = ColoniesManager.i.gridManager.RandomPointInCell(closestCell);
             Build(outpost, outpostPos);
+            
+            Debug.Log($"Outpost built.", gameObject);
         }
         else{
             raidSquad.squad.MoveOrder(GameController.RandomPointInCircleTerrain(new Vector2(transform.position.x, transform.position.z), 2, 5));
-            Debug.Log("Capture failed. Everyone is dead or there are player buildings.");
+            Debug.Log("Capture failed. No raiders alive or there are player buildings.");
         }
     }
 }

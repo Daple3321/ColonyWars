@@ -19,9 +19,9 @@ public class PatrolState : UnitState
         patrolRoute = new List<Vector3>();
         if(parentColony != null)
         {
-            for(int i = 0; i < parentColony.buildings.Count; i++)
+            foreach(var building in parentColony.buildings)
             {
-                Vector2 bPos = new Vector2(parentColony.buildings[i].transform.position.x, parentColony.buildings[i].transform.position.z);
+                Vector2 bPos = new Vector2(building.transform.position.x, building.transform.position.z);
                 patrolRoute.Add(GameController.RandomPointInCircleTerrain(bPos, 2.5f, 10f));
             }
         }

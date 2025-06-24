@@ -405,9 +405,12 @@ public class GridManager
         Debug.LogError("Different cell not found");
         return new Vector2Int(-1, -1);
     }
-    public Vector2Int ClosestCell(int x, int y, Affiliation ofAffiliation) // БЕСКОНЕЧНЫЙ ЛУП КОГДА ВСЕ ЯЧЕЙКИ НА КАРТЕ ОДНОЙ AFFILIATION!
+    public Vector2Int ClosestCell(int x, int y, Affiliation ofAffiliation)
     {
-        if(!HasCellOfAffiliation(ofAffiliation)) return new Vector2Int(-1, -1);
+        if(!HasCellOfAffiliation(ofAffiliation)) {
+            Debug.LogWarning($"No cells found of affiliation: {ofAffiliation}");
+            return new Vector2Int(-1, -1);
+        }
         
         Cell origin = GetCell(x, y);
         Queue<Vector2Int> frontier = new Queue<Vector2Int>();
