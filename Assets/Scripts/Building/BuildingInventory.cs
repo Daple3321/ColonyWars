@@ -41,6 +41,7 @@ public class BuildingInventory
         else{
             invObj.transform.SetParent(invParent);
         }
+        invObj.GetComponent<RectTransform>().localScale = new Vector3(1,1,1);
         
         inventoryUI = invObj.GetComponent<InventoryUI>();
         inventoryUI.InitializeInventoryUI(inventoryStartingSize);

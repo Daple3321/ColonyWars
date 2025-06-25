@@ -18,7 +18,7 @@ public class MouseTooltip : MonoBehaviour
 
     public Vector2 offset;
     public float textPaddingSize;
-
+    
     private void Awake()
     {
         if (i != null)
@@ -62,11 +62,18 @@ public class MouseTooltip : MonoBehaviour
         //transform.localPosition = localPoint + offset;
         
         Vector3 pos = new Vector3(Input.mousePosition.x + offset.x, Input.mousePosition.y + offset.y, 0);
-        if(pos.x + backgroundTransform.rect.width > canvasTransform.rect.width){
-            pos.x = canvasTransform.rect.width - backgroundTransform.rect.width;
+        // if(pos.x + backgroundTransform.rect.width > canvasTransform.rect.width){
+        //     pos.x = canvasTransform.rect.width - backgroundTransform.rect.width;
+        // }
+        // if(pos.y + backgroundTransform.rect.height > canvasTransform.rect.height){
+        //     pos.y = canvasTransform.rect.height - backgroundTransform.rect.height;
+        // }
+        
+        if(pos.x + backgroundTransform.rect.width > Screen.width){
+            pos.x = Screen.width - backgroundTransform.rect.width;
         }
-        if(pos.y + backgroundTransform.rect.height > canvasTransform.rect.height){
-            pos.y = canvasTransform.rect.height - backgroundTransform.rect.height;
+        if(pos.y + backgroundTransform.rect.height > Screen.height){
+            pos.y = Screen.height - backgroundTransform.rect.height;
         }
 
         transform.position = pos;

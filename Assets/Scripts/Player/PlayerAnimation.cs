@@ -12,11 +12,14 @@ public class PlayerAnimation : MonoBehaviour
         this.animator = animator;
         
         enabled = true;
+        
     }
     
-    public void SetLayer(int layerIndex, float weight)
-    {
+    public void SetLayer(int layerIndex, float weight){
         animator.SetLayerWeight(layerIndex, weight);
+    }
+    public void SetTrigger(int id){
+        animator.SetTrigger(id);
     }
     
     Coroutine animationRoutine;
@@ -26,6 +29,7 @@ public class PlayerAnimation : MonoBehaviour
         {
             case WeaponType.Pistol:
                 SetLayer(2, 0);
+                SetLayer(3, 0);
                 
                 if(animationRoutine != null){
                     StopCoroutine(animationRoutine);
@@ -34,8 +38,9 @@ public class PlayerAnimation : MonoBehaviour
             break;
             
             case WeaponType.Rifle:
-                SetLayer(0, 0);
-                SetLayer(1, 0);
+                //SetLayer(0, 0);
+                SetLayer(1, 0); // pistol
+                SetLayer(3, 0); // sword
                 
                 if(animationRoutine != null){
                     StopCoroutine(animationRoutine);
@@ -44,13 +49,16 @@ public class PlayerAnimation : MonoBehaviour
             break;
             
             case WeaponType.Sword:
-                //SetLayer(1, 0);
+                SetLayer(1, 0);
+                SetLayer(2, 0);
                 
                 if(animationRoutine != null){
                     StopCoroutine(animationRoutine);
                 }
-                animationRoutine = StartCoroutine(FadeOutLayer(1, 0.15f));
-                animationRoutine = StartCoroutine(FadeOutLayer(2, 0.15f));
+                animationRoutine = StartCoroutine(FadeInLayer(3, 0.15f));
+                
+                //animationRoutine = StartCoroutine(FadeOutLayer(1, 0.15f));
+                //animationRoutine = StartCoroutine(FadeOutLayer(2, 0.15f));
             break;
         }
     }
@@ -63,8 +71,15 @@ public class PlayerAnimation : MonoBehaviour
         
         animationRoutine = StartCoroutine(FadeOutLayer(1, 0.15f));
         animationRoutine = StartCoroutine(FadeOutLayer(2, 0.15f));
+        animationRoutine = StartCoroutine(FadeOutLayer(3, 0.15f));
         //SetLayer(1, 0);
         //SetLayer(2, 0);
+    }
+    
+    public void OnMeleeAttack()
+    {
+        animator.SetTrigger("meleeAttack");
+        //SetTrigger(3);
     }
     
     public IEnumerator FadeOutLayer(int layerIndex, float duration)

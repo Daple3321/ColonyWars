@@ -66,6 +66,7 @@ public class MeleeWeapon : Weapon
         damage.OnModifierChanged(); // чтоб сделать isDirty = true;
         recoilForce.OnModifierChanged();
         GameController.p.movement.AddStamina(-attackSequence.CurrentAttack().staminaDrain);
+        GameController.p.playerAnimation.OnMeleeAttack();
         
         attackSequence.Attack();
         attackCharge = 0;
