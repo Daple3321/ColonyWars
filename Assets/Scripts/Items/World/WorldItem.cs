@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class WorldItem : MonoBehaviour
@@ -47,7 +48,12 @@ public class WorldItem : MonoBehaviour
         // drop effect?
         // item halo
     }
-
+    
+    public IEnumerator DelayedAttach(Transform attachTo)
+    {
+        yield return new WaitForSeconds(0.5f);
+        Attach(attachTo);
+    }
     public virtual void Attach(Transform attachTo)
     {
         if (attachmentPoint != null)
@@ -61,7 +67,7 @@ public class WorldItem : MonoBehaviour
         }
         transform.rotation = attachTo.rotation;
 
-        transform.SetParent(attachTo);
+        transform.SetParent(attachTo, true);
     }
 
     public ItemData GetItemData() => itemData;

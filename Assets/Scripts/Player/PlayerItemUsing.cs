@@ -33,7 +33,7 @@ public class PlayerItemUsing : MonoBehaviour
             itemWorld = e.worldItem;
             SetupItem(u);
         }
-        else
+        else if(e.selectedItem == null && itemWorld != null)
         {
             ClearItem();
         }

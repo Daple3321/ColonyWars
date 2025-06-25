@@ -10,42 +10,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f80b962b15c4c240b3b12bea01003bc, type: 3}
-  m_Name: Iron Pickaxe
+  m_Name: Stone pickaxe
   m_EditorClassIdentifier: 
-  itemName: Iron pickaxe
+  itemName: Stone pickaxe
   description: 
   icon: {fileID: 21300000, guid: 070c838a24de69e41b6c7273295a48d2, type: 3}
-  rarity: 2
+  rarity: 1
   IsStackable: 0
   maxStackSize: 1
   instantPickup: 1
-  itemMesh: {fileID: 8385836491182413749, guid: 514b83e6fc8e24e41b9ed8dea215b833, type: 3}
-  itemMaterials:
-  - {fileID: 2100000, guid: a1af9b23bf4a9fc4cb3cfa2219f4085b, type: 2}
+  itemMesh: {fileID: 0}
+  itemMaterials: []
   hasCustomScale: 0
   customScale: {x: 1, y: 1, z: 1}
   customPrefab: {fileID: 2105286065181999658, guid: 45879780d4a50f348b0dec372d6dc36a, type: 3}
-  damage: 7
+  damage: 4.5
   attackRate: 0.2
-  chargeRate: 1.2
+  chargeRate: 0.1
   needsAmmo: 0
-  recoilForce: -3
+  recoilForce: -2
   slowingAmount: 65
   ammoType: {fileID: 0}
   attackType: 2
   weaponType: 3
   attackTriggeredByAnimation: 1
-  attackDistance: 2.5
+  attackDistance: 2
   knockBackForce: 0
   attackBoxExtents: {x: 0, y: 0, z: 0}
   attackSequence:
     sequenceCoolDown: 2
     attacks:
-    - duration: 1.2
+    - duration: 1
       damageMultiplier: 0
       recoilMultiplier: 0
       staminaDrain: 1
-    - duration: 1
+    - duration: 1.2
       damageMultiplier: 0.2
       recoilMultiplier: 0.6
       staminaDrain: 2
@@ -59,8 +58,8 @@ MonoBehaviour:
       Order: 0
   meleeAttackType: 0
   gatherResources:
-  - {fileID: 11400000, guid: dfe06b9807283144fb496089e9fc5643, type: 2}
   - {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
   - {fileID: 11400000, guid: 857b41fb7bd31774cb5df1a783bc1631, type: 2}
   - {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
-  yieldRange: {x: 3, y: 5}
+  - {fileID: 11400000, guid: dfe06b9807283144fb496089e9fc5643, type: 2}
+  yieldRange: {x: 2, y: 4}

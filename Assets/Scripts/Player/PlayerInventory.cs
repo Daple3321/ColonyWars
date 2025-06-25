@@ -498,8 +498,9 @@ public class PlayerInventory : MonoBehaviour
                 Destroy(selectedWorldItem.gameObject);
             }
 
-            selectedWorldItem = selectedItem.SpawnItem(rightHand.forward, 1);
+            selectedWorldItem = selectedItem.SpawnItem(rightHand.position, 1);
             selectedWorldItem.Attach(rightHand);
+            //StartCoroutine(selectedWorldItem.DelayedAttach(rightHand));
 
             OnItemSelected?.Invoke(this, new OnItemSelectedEventArgs { selectedItem = selectedItem, worldItem = selectedWorldItem, slotId = slotId });
 

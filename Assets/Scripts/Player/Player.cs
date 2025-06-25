@@ -107,11 +107,11 @@ public class Player : MonoBehaviour, IDamageable, ICommander
                     clickable.OnClick(this);
                 }
                 
-                if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Resources") // HAND GATHERING
-                && Vector3.Distance(transform.position, hit.collider.transform.position) < 4f
-                && !playerCombat.toolEquiped){
-                    ResourceManager.i.PlayerHarvest(hit.collider.gameObject, 1);
-                }
+                // if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Resources") // HAND GATHERING
+                // && Vector3.Distance(transform.position, hit.collider.transform.position) < 4f
+                // && !playerCombat.toolEquiped){
+                //     ResourceManager.i.PlayerHarvest(hit.collider.gameObject, 1);
+                // }
             }
         }
         

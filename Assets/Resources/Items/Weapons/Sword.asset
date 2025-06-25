@@ -18,7 +18,7 @@ MonoBehaviour:
   rarity: 1
   IsStackable: 0
   maxStackSize: 1
-  instantPickup: 0
+  instantPickup: 1
   itemMesh: {fileID: 0}
   itemMaterials: []
   hasCustomScale: 0

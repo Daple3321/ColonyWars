@@ -20,9 +20,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}
       quantity: 32
     - item: {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
-      quantity: 5
-    - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
-      quantity: 5
+      quantity: 8
   insideColonyOnly: 1
   overlapRadius: 1.8
   maxBuildAngle: 35
@@ -30,6 +28,8 @@ MonoBehaviour:
   recipes:
   - {fileID: 11400000, guid: 5447863d95a08af4fb88ac81c8959f5b, type: 2}
   - {fileID: 11400000, guid: cd2f9c47f436c0b42a442bfc86bed2db, type: 2}
+  - {fileID: 11400000, guid: 5dabb51c6d828d4438960db487b767e3, type: 2}
+  - {fileID: 11400000, guid: af4634df38682474ab6bc8c63e155ea7, type: 2}
   - {fileID: 11400000, guid: 365c9fa0b5736d4408028bbc75f2cc29, type: 2}
   - {fileID: 11400000, guid: 8b169d7649c616e46a9185fdab627d00, type: 2}
   - {fileID: 11400000, guid: 285de89219073ac49823229f6310df96, type: 2}

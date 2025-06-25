@@ -8,6 +8,9 @@ public class PlayerCombat : MonoBehaviour
     [SerializeReference] public Weapon currentWeapon;
     [Space(10)] public WeaponWorldItem weaponWorld;
     
+    public ItemData fistsData;
+    private Tool fists;
+    
     [Space(5), Header("Aiming")]
     public AnimationCurve concentrationCurve;
     public float concentraion = 0;
@@ -43,6 +46,8 @@ public class PlayerCombat : MonoBehaviour
         player.animationEvents.PerformAttack += PerformAttackOnEvent;
         player.animationEvents.OnAttackEnded += OnAttackEnded;
         
+        fists = fistsData.CreateItemInstance() as Tool;
+        
         enabled = true;
     }
 
@@ -50,6 +55,8 @@ public class PlayerCombat : MonoBehaviour
     {
         if (e.selectedItem != null && e.selectedItem is Weapon wp)
         {
+            ClearWeapon();
+            
             currentWeapon = wp;
             weaponWorld = e.worldItem as WeaponWorldItem;
             SetupWeapon(wp);
@@ -60,10 +67,21 @@ public class PlayerCombat : MonoBehaviour
             //PlayerAiming.OnAim += PlayerAiming_OnAim;
         }
         // Пока что САМАЯ худшая строчка кода за всю карьеру.
-        else if((e.selectedItem == null || e.selectedItem is not Weapon) && weaponWorld != null && e.selectedItem is not Usable) // Просто без слов...
+        else if((e.selectedItem == null || e.selectedItem is not Weapon) && weaponWorld != null && e.selectedItem is not Usable) // 
         { 
             ClearWeapon();
             //PlayerAiming.OnAim -= PlayerAiming_OnAim;
+        }
+        
+        if (e.selectedItem == null){ // EMPTY HANDS
+            ClearWeapon();
+            
+            currentWeapon = fists;
+            weaponWorld = fists.SpawnItem(p.rightHand.position, 1) as ToolWorldItem;
+            weaponWorld.Attach(p.rightHand);
+            SetupWeapon(fists);
+            
+            toolEquiped = true;
         }
     }
     private void PlayerInventory_OnItemDropped(object sender, PlayerInventory.OnItemDroppedEventArgs e)
@@ -94,6 +112,8 @@ public class PlayerCombat : MonoBehaviour
             p.ui.UpdateAmmoCount(wp.GetAmmoInfo());
         }
         
+        wp.isAttacking = false;
+        
         //Debug.Log($"Selected weapon: {currentWeapon.itemName}.");
     }
 
@@ -101,6 +121,9 @@ public class PlayerCombat : MonoBehaviour
     {
         currentWeapon = null; // не считается нулевым почему-то
         concentraion = 0f;
+        if(weaponWorld != null){
+            Destroy(weaponWorld.gameObject);
+        }
         weaponWorld = null;
         
         if(toolEquiped == true){
@@ -113,6 +136,8 @@ public class PlayerCombat : MonoBehaviour
 
     private void HandleWeapon()
     {
+        //if(controls.Player.Attack.WasPressedThisFrame() && EventSystem.current.IsPointerOverGameObject()) return;
+        
         if (controls.Player.Attack.IsPressed() && !EventSystem.current.IsPointerOverGameObject())
         {
             switch (currentWeapon.attackType)
@@ -249,7 +274,9 @@ public class PlayerCombat : MonoBehaviour
             yield return null;
         }
         
-        currentWeapon.isAttacking = false;
+        if(currentWeapon != null){
+            currentWeapon.isAttacking = false;
+        }
         p.movement.curSpeed.Remove();
         //p.movement.ResetSpeed();
         p.movement.UpdateSpeed();

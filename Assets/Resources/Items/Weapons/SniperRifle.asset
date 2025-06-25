@@ -20,7 +20,7 @@ MonoBehaviour:
   rarity: 2
   IsStackable: 0
   maxStackSize: 1
-  instantPickup: 0
+  instantPickup: 1
   itemMesh: {fileID: 0}
   itemMaterials: []
   hasCustomScale: 0
@@ -35,6 +35,7 @@ MonoBehaviour:
   ammoType: {fileID: 11400000, guid: 4ffda51a2c4250845877488d241f2467, type: 2}
   attackType: 3
   weaponType: 2
+  attackTriggeredByAnimation: 0
   projectilesPerShot: 1
   shootDistance: 30
   projectileSpeed: 0

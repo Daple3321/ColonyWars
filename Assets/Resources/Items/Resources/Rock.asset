@@ -23,5 +23,5 @@ MonoBehaviour:
   itemMaterials:
   - {fileID: 2100000, guid: d321ecaaef7d4c549a97ff1bd1fc22ad, type: 2}
   hasCustomScale: 1
-  customScale: {x: 0.5, y: 0.5, z: 0.5}
+  customScale: {x: 0.35, y: 0.35, z: 0.35}
   customPrefab: {fileID: 0}

@@ -20,6 +20,6 @@ MonoBehaviour:
       quantity: 10
     - item: {fileID: 11400000, guid: cd29d64e0e90dc04787f8e8201e8f9fe, type: 2}
       quantity: 5
-  craftTime: 4
+  craftTime: 7
   finalItem: {fileID: 11400000, guid: 0e1e79a3b865ab34fa07f436b3cbc6a0, type: 2}
   finalAmount: 1

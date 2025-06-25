@@ -61,7 +61,7 @@ Transform:
   m_GameObject: {fileID: 5369362668547743331}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.931965, y: 1.3301187, z: 27.102745}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -92,10 +92,10 @@ MonoBehaviour:
   slowingAmount: 0
   attackType: 0
   impulseSource: {fileID: 5111023126620504500}
-  attackDuration: 0
   attackDistance: 0
   meleeAttackType: 0
   knockBackForce: 0
+  attackBoxExtents: {x: 0, y: 0, z: 0}
   hitLayers:
     serializedVersion: 2
     m_Bits: 10368
