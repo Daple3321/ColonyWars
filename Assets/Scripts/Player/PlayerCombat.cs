@@ -161,10 +161,20 @@ public class PlayerCombat : MonoBehaviour
             }
             
             currentWeapon.Attack();
-            weaponWorld.Attack(concentraion);
-            StartCoroutine(AttackRoutine());
+            if(!currentWeapon.weaponData.attackTriggeredByAnimation){
+                weaponWorld.Attack(concentraion);
+                ApplyRecoil(currentWeapon.recoilForce.Value);
+            }
             
-            ApplyRecoil(currentWeapon.recoilForce.Value);
+            if(attackRoutine != null){
+                StopCoroutine(attackRoutine);
+                p.movement.curSpeed.Remove();
+                p.movement.ResetSpeed();
+                p.movement.runningAllowed = true;
+            }
+            attackRoutine = StartCoroutine(AttackRoutine());
+            
+            //ApplyRecoil(currentWeapon.recoilForce.Value);
             //StartCoroutine(PlayerCameraController.CameraShake(1, 0.15f));
 
             currentWeapon.mouseReleased = false;
@@ -186,21 +196,48 @@ public class PlayerCombat : MonoBehaviour
             }
             
             currentWeapon.Attack();
-            weaponWorld.Attack(concentraion);
+            if(!currentWeapon.weaponData.attackTriggeredByAnimation){
+                weaponWorld.Attack(concentraion);
+                ApplyRecoil(currentWeapon.recoilForce.Value);
+            }
             
-            ApplyRecoil(currentWeapon.recoilForce.Value);
+            if(attackRoutine != null){
+                StopCoroutine(attackRoutine);
+                p.movement.curSpeed.Remove();
+                //p.movement.ResetSpeed();
+                p.movement.UpdateSpeed();
+                p.movement.runningAllowed = true;
+            }
+            attackRoutine = StartCoroutine(AttackRoutine());
+            
+            //ApplyRecoil(currentWeapon.recoilForce.Value);
             //StartCoroutine(PlayerCameraController.CameraShake(2, 0.25f));
 
             currentWeapon.mouseReleased = false;
         }
     }
+    
+    public void PerformAttackOnEvent(){
+        weaponWorld.Attack(concentraion);
+        ApplyRecoil(currentWeapon.recoilForce.Value);
+    }
+    public void OnAttackEnded(){
+        if(currentWeapon != null){
+            currentWeapon.isAttacking = false;
+        }
+    }
+    
+    private Coroutine attackRoutine;
     private IEnumerator AttackRoutine()
     {
         p.movement.runningAllowed = false;
-        p.movement.curSpeed.Add(-currentWeapon.weaponData.slowingAmount*100);
+        p.movement.curSpeed.Add(-currentWeapon.weaponData.slowingAmount);
         p.movement.currentSpeed = p.movement.curSpeed.Get();
         
         float timeLeft = currentWeapon.attackRate;
+        if(currentWeapon is MeleeWeapon melee){
+            timeLeft = melee.attackSequence.CurrentAttack().duration;
+        }
         while(timeLeft > 0)
         {
             p.movement.RotateToMouse();
@@ -208,8 +245,10 @@ public class PlayerCombat : MonoBehaviour
             yield return null;
         }
         
+        currentWeapon.isAttacking = false;
         p.movement.curSpeed.Remove();
-        p.movement.ResetSpeed();
+        //p.movement.ResetSpeed();
+        p.movement.UpdateSpeed();
         p.movement.runningAllowed = true;
     }
     private void ApplyRecoil(float recoilForce)

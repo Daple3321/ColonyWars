@@ -443,7 +443,7 @@ public class PlayerMovement : MonoBehaviour
         {
             runningAllowed = false;
             //ChangeSpeed(-40f);
-            curSpeed.Add(-40f);
+            curSpeed.Add(-50f);
             currentSpeed = curSpeed.Get();
         }
         else
@@ -458,9 +458,11 @@ public class PlayerMovement : MonoBehaviour
     // {
     //     currentSpeed = walkSpeed + (walkSpeed * (percent / 100));
     // }
-    public void ResetSpeed()
-    {
+    public void ResetSpeed(){
         currentSpeed = walkSpeed;
+    }
+    public void UpdateSpeed(){
+        currentSpeed = curSpeed.Get();
     }
     
     public bool CanRun()
@@ -537,7 +539,10 @@ public class PlayerMovement : MonoBehaviour
             EventBus.i.PlayerStaminaChanged?.Invoke(currentStamina, p.stats[maxStamina].Value);
         }
     }
-
+    
+    public void StartStaminaRegenDelay(float delay){
+        StartCoroutine(StaminaRegenDelayed(delay));
+    }
     private IEnumerator StaminaRegenDelayed(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -554,38 +559,38 @@ public class PlayerMovement : MonoBehaviour
 
 public class ModVar
 {
-    public float baseValue;
+    [SerializeField] private float baseValue;
     public Stack<float> stack;
 
-    public ModVar(float startingValue)
+    public ModVar(float baseValue)
     {
         stack = new Stack<float>();
         
-        baseValue = startingValue;
-        stack.Push(startingValue);
+        this.baseValue = baseValue;
+        stack.Push(baseValue);
     }
 
     public void Add(float percent)
     {
-        float newValue = stack.Peek() + (stack.Peek() * percent / 100);
-        stack.Push(newValue);
-        // foreach (float item in stack)
-        // {
-        //     Debug.Log("stack item: " + item);
-        // }
+        // float newValue = stack.Peek() + (stack.Peek() * percent / 100);
+        // stack.Push(newValue);
+        
+        stack.Push(percent);
     }
 
     public void Remove()
     {
-        stack.Pop();
+        if(stack.Count > 0)
+            stack.Pop();
     }
 
     public float Get()
     {
-        // foreach (float item in stack)
-        // {
-        //     Debug.Log("stack item: " + item);
-        // }
-        return stack.Peek();
+        float final = baseValue;
+        foreach(float item in stack){
+            final += final * (item/100);
+        }
+        return final;
+        //return stack.Peek();
     }
 }

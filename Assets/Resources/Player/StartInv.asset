@@ -30,3 +30,11 @@ MonoBehaviour:
       Value: 64
     - Key: {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
       Value: 32
+    - Key: {fileID: 11400000, guid: 22c6422f791fe3d43aed36e95d428522, type: 2}
+      Value: 1
+    - Key: {fileID: 11400000, guid: 0ed7a9971a5f3a04d9314a863cb23196, type: 2}
+      Value: 32
+    - Key: {fileID: 11400000, guid: 23313022b98286f42b9ced6461d21457, type: 2}
+      Value: 1
+    - Key: {fileID: 11400000, guid: 01b04d4a62885454f8f32d4971c72c94, type: 2}
+      Value: 1

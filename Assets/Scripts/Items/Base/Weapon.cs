@@ -9,6 +9,7 @@ public class Weapon : Equipable
     public float attackCharge = 0f;
     public Stat recoilForce;
     public float chargeRate;
+    public bool isAttacking = false;
     public AttackType attackType;
     [Tooltip("For animations")] public WeaponType weaponType;
 

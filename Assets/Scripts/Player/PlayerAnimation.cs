@@ -76,10 +76,10 @@ public class PlayerAnimation : MonoBehaviour
         //SetLayer(2, 0);
     }
     
-    public void OnMeleeAttack()
+    public void OnMeleeAttack(float duration)
     {
         animator.SetTrigger("meleeAttack");
-        //SetTrigger(3);
+        animator.SetFloat("meleeAttackMultiplier", 1.5f/duration);
     }
     
     public IEnumerator FadeOutLayer(int layerIndex, float duration)

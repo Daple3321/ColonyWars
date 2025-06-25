@@ -8,10 +8,12 @@ public class WeaponData : ItemData
     public float chargeRate = 0.1f;
     public bool needsAmmo;
     public float recoilForce = 0f;
-    public float slowingAmount = 0.5f;
+    [Range(0, 100f)]
+    public float slowingAmount = 50f;
     public ItemData ammoType;
-
+    
     public AttackType attackType;
     
     public WeaponType weaponType;
+    public bool attackTriggeredByAnimation = false;
 }

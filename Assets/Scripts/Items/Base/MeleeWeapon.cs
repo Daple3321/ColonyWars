@@ -39,17 +39,17 @@ public class MeleeWeapon : Weapon
     
     public override bool CanAttack()
     {
-        if (attackType == AttackType.SINGLE && mouseReleased && _attackCd <= 0 && CheckAmmo() 
+        if (attackType == AttackType.SINGLE && !isAttacking && mouseReleased && _attackCd <= 0 && CheckAmmo() 
             && GameController.p.movement.HasStamina(attackSequence.CurrentAttack().staminaDrain))
         {
             return true;
         }
-        else if (attackType == AttackType.AUTOMATIC && _attackCd <= 0 && CheckAmmo() 
+        else if (attackType == AttackType.AUTOMATIC && !isAttacking && _attackCd <= 0 && CheckAmmo() 
             && GameController.p.movement.HasStamina(attackSequence.CurrentAttack().staminaDrain))
         {
             return true;
         }
-        else if(attackType == AttackType.CHARGE && _attackCd <= 0 && IsCharged() && CheckAmmo()
+        else if(attackType == AttackType.CHARGE && !isAttacking && _attackCd <= 0 && IsCharged() && CheckAmmo()
             && GameController.p.movement.HasStamina(attackSequence.CurrentAttack().staminaDrain))
         {
             return true;
@@ -62,11 +62,17 @@ public class MeleeWeapon : Weapon
 
     public override void Attack()
     {
+        isAttacking = true;
         _attackCd = attackSequence.CurrentAttack().duration;
         damage.OnModifierChanged(); // чтоб сделать isDirty = true;
         recoilForce.OnModifierChanged();
+        
+        // эээмммм....
         GameController.p.movement.AddStamina(-attackSequence.CurrentAttack().staminaDrain);
-        GameController.p.playerAnimation.OnMeleeAttack();
+        GameController.p.movement.canRegenStamina = false;
+        GameController.p.movement.StartStaminaRegenDelay(2f);
+        GameController.p.playerAnimation.OnMeleeAttack(attackSequence.CurrentAttack().duration);
+        // -----------
         
         attackSequence.Attack();
         attackCharge = 0;
@@ -75,6 +81,8 @@ public class MeleeWeapon : Weapon
             SubtractAmmo();
             //Debug.Log($"Ammo count: {GetAmmoInfo()}");
         }
+        
+        Debug.Log("ATTACKING");
     }
     
     public override string GetDescription()

@@ -24,15 +24,16 @@ MonoBehaviour:
   hasCustomScale: 0
   customScale: {x: 1, y: 1, z: 1}
   customPrefab: {fileID: 7127071996251879949, guid: c1640f6faad7979498d1422d7fc8f3d1, type: 3}
-  damage: 6
+  damage: 6.5
   attackRate: 0.2
   chargeRate: 1.5
   needsAmmo: 0
   recoilForce: -2
-  slowingAmount: 0.5
+  slowingAmount: 65
   ammoType: {fileID: 0}
   attackType: 3
   weaponType: 3
+  attackTriggeredByAnimation: 1
   attackDistance: 2.6
   knockBackForce: 0
   attackBoxExtents: {x: 0, y: 0, z: 0}
@@ -56,4 +57,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}
   - {fileID: 11400000, guid: 065d5255fd3582e45a5e83f3b880816d, type: 2}
   - {fileID: 11400000, guid: 346abaaa7b2b2884c8d1f15c9d30634d, type: 2}
-  yieldRange: {x: 2, y: 3}
+  yieldRange: {x: 3, y: 4}

@@ -24,25 +24,26 @@ MonoBehaviour:
   hasCustomScale: 0
   customScale: {x: 1, y: 1, z: 1}
   customPrefab: {fileID: 2280244590060308478, guid: 18adfd06f3e345b48a71f9fe8e1ef81a, type: 3}
-  damage: 10
+  damage: 12
   attackRate: 0.35
   chargeRate: 2.5
   needsAmmo: 0
-  recoilForce: -14
-  slowingAmount: 0.5
+  recoilForce: -17
+  slowingAmount: 75
   ammoType: {fileID: 0}
   attackType: 3
   weaponType: 3
+  attackTriggeredByAnimation: 1
   attackDistance: 3.5
   knockBackForce: 0
   attackBoxExtents: {x: 0.5, y: 2, z: 3}
   attackSequence:
     sequenceCoolDown: 1.5
     attacks:
-    - duration: 0.35
+    - duration: 1
       damageMultiplier: 0
       recoilMultiplier: 0
-      staminaDrain: 2
+      staminaDrain: 3.5
     damageMod:
       Value: 0
       Type: 300
