@@ -22,6 +22,11 @@ public class RangedAttack : Attack
         attackFinished = true;
     }
 
+    public override void OnAttackEnded()
+    {
+        
+    }
+
     public override void OneShotAttack()
     {
         Vector3 shootDir = owner.attackTarget.position - owner.attackPoint.position;
@@ -46,5 +51,10 @@ public class RangedAttack : Attack
             Debug.DrawRay(owner.attackPoint.position, shootRay.direction * 4, Color.cyan, 2);
         }
         //Debug.Log($"OneShot attack from: {owner.gameObject.name}");
+    }
+
+    public override void PerformAttack()
+    {
+        
     }
 }

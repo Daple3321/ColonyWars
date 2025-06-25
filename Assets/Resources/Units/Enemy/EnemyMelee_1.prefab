@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 1891940221324671340}
   - component: {fileID: 5764437151515827472}
   - component: {fileID: 6652208709358791084}
+  - component: {fileID: 8950018842705010377}
   - component: {fileID: 3563731621153534692}
   - component: {fileID: 9082773906270089882}
   m_Layer: 11
@@ -116,6 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Melee Enemy
   health: 35
+  currentSpeed: 0
   rotationSpeed: 7.5
   fallSpeed: 10
   stats:
@@ -151,6 +153,8 @@ MonoBehaviour:
       speedMultiplier: 0
       meanDamage: 0
     followTarget: {fileID: 0}
+  animator: {fileID: 0}
+  animationEvents: {fileID: 0}
   attackPoint: {fileID: 1716718945382976523}
   attackTarget: {fileID: 0}
   followTarget: {fileID: 0}
@@ -207,9 +211,9 @@ MonoBehaviour:
       type: {class: MeleeAttackData, ns: , asm: Assembly-CSharp}
       data:
         knockBackForce: 0
-        attackBoxExtents: {x: 1.3, y: 2, z: 1.7}
+        attackBoxExtents: {x: 1.3, y: 2, z: 1.4}
         attackSequence:
-          sequenceCoolDown: 1.5
+          sequenceCoolDown: 2
           attacks:
           - duration: 1.5
             damageMultiplier: 0
@@ -251,6 +255,18 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+--- !u!114 &8950018842705010377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750506295094990067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b41a0c6a56903e4290ea9ed8f102411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!143 &3563731621153534692
 CharacterController:
   m_ObjectHideFlags: 0

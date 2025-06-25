@@ -21,6 +21,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     public PlayerBuilding playerBuilding;
     public PlayerAnimation playerAnimation;
     public PlayerUI ui;
+    public AnimationEvents animationEvents;
     public BuildingPanelManager buildingPanelManager;
     public SquadManager squadManager;
     public StateMachine stateMachine;
@@ -58,6 +59,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         
         cameraController.Init(playerFollow);
         playerAnimation.Init(animator);
+        animationEvents.Init();
         playerAiming = new PlayerAiming();
         movement.Init(this, cameraController, playerAiming);
         playerInventory.Init(this);

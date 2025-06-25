@@ -37,24 +37,27 @@ public class MeleeAttack : Attack
         owner.combat.stats[damage].OnModifierChanged();
         owner.stats[runSpeed].OnModifierChanged();
         
-        switch(meleeAttackData.meleeAttackType){
-            case MeleeAttackType.RAYCAST:
-                PerformRaycastAttack();
-            break;
+        owner.animator.SetTrigger("meleeAttack");
+        owner.animator.SetFloat("meleeAttackMultiplier", 1.5f/attackSequence.CurrentAttack().duration);
+        // switch(meleeAttackData.meleeAttackType){
+        //     case MeleeAttackType.RAYCAST:
+        //         PerformRaycastAttack();
+        //     break;
             
-            case MeleeAttackType.BOX:
-                PerformBoxcastAttack();
-            break;
+        //     case MeleeAttackType.BOX:
+        //         PerformBoxcastAttack();
+        //     break;
             
-            case MeleeAttackType.SPHERE:
+        //     case MeleeAttackType.SPHERE:
                 
-            break;
-        }
+        //     break;
+        // }
         
         if(!attackSequence.Attack()){ // если дошли до конца
             attackFinished = true;   
         }
     }
+    
     public async void PerformBoxcastAttack()
     {
         Vector3 boxPos = owner.attackPoint.position + (owner.attackPoint.forward * (meleeAttackData.attackBoxExtents.z/2));
@@ -128,5 +131,27 @@ public class MeleeAttack : Attack
     public override void OnAttackCanceled(){
         attackFinished = true;
         attackSequence.ResetSequence();
+    }
+
+    public override void PerformAttack()
+    {
+        switch(meleeAttackData.meleeAttackType){
+            case MeleeAttackType.RAYCAST:
+                PerformRaycastAttack();
+            break;
+            
+            case MeleeAttackType.BOX:
+                PerformBoxcastAttack();
+            break;
+            
+            case MeleeAttackType.SPHERE:
+                
+            break;
+        }
+    }
+
+    public override void OnAttackEnded()
+    {
+        
     }
 }

@@ -29,6 +29,10 @@ public class UnitCombat : MonoBehaviour
 
     public void Init(Unit owner){
         this.owner = owner;
+        
+        owner.animationEvents.PerformAttack += PerformAttack;
+        owner.animationEvents.OnAttackEnded += OnAttackEnded;
+        
         enabled = true;
     }
     
@@ -54,6 +58,8 @@ public class UnitCombat : MonoBehaviour
         currentAttack.OnAttackCanceled();
         isAttacking = false;
         _attackSpeed = 0f;
+        owner.speedMod.Remove();
+        owner.UpdateSpeed();
         //currentAttack.attackFinished = true;
     }
     private Coroutine cancelRoutine;
@@ -66,6 +72,8 @@ public class UnitCombat : MonoBehaviour
         isAttacking = false;
         currentAttack.attackFinished = true;
         _attackSpeed = 0f;
+        owner.speedMod.Remove();
+        owner.UpdateSpeed();
         
         cancelRoutine = null;
     }
@@ -73,6 +81,8 @@ public class UnitCombat : MonoBehaviour
     {
         isAttacking = true;
         currentAttack.attackFinished = false;
+        owner.speedMod.Add(-70f);
+        owner.UpdateSpeed();
         
         currentAttack.OneShotAttack();
         // Attack effects&animations here
@@ -93,8 +103,18 @@ public class UnitCombat : MonoBehaviour
         }
         
         isAttacking = false;
+        owner.speedMod.Remove();
+        owner.UpdateSpeed();
         //Debug.Log($"[{owner.unitName}] Attack ended!", owner.gameObject);
     }
+    
+    public void PerformAttack(){
+        currentAttack.PerformAttack();
+    }
+    public void OnAttackEnded(){
+        currentAttack.OnAttackEnded();   
+    }
+    
     public virtual bool CanAttack(){ return isAttacking ? false : true && _attackSpeed <= 0; }
     //public virtual bool IsAttacking() { return false;}
     

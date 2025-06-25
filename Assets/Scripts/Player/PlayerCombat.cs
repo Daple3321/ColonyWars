@@ -39,6 +39,10 @@ public class PlayerCombat : MonoBehaviour
         playerInventory.OnItemSelected += PlayerInventory_OnItemSelected;
         playerInventory.OnItemDropped += PlayerInventory_OnItemDropped;
         PlayerAiming.OnAim += PlayerAiming_OnAim;
+        
+        player.animationEvents.PerformAttack += PerformAttackOnEvent;
+        player.animationEvents.OnAttackEnded += OnAttackEnded;
+        
         enabled = true;
     }
 

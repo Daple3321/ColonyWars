@@ -15,5 +15,8 @@ public abstract class Attack
     public abstract void OneShotAttack();
     public abstract void ConstantAttack(); // ужасное название
     
+    public abstract void PerformAttack();
+    public abstract void OnAttackEnded();
+    
     public abstract void OnAttackCanceled();
 }

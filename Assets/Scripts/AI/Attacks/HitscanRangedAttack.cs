@@ -21,6 +21,11 @@ public class HitscanRangedAttack : Attack
         
     }
 
+    public override void OnAttackEnded()
+    {
+        
+    }
+
     public override void OneShotAttack()
     {
         Vector3 shootDir = owner.attackTarget.position - owner.attackPoint.position;
@@ -45,5 +50,10 @@ public class HitscanRangedAttack : Attack
             //Debug.Log($"Hit {hit.collider.name}");
             Debug.DrawLine(owner.attackPoint.position, hit.point, Color.green, 2);
         }
+    }
+
+    public override void PerformAttack()
+    {
+        
     }
 }

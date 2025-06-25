@@ -15,7 +15,8 @@ public abstract class Unit : MonoBehaviour, IDamageable
     //public float maxHealth;
     
     [Space(5), Header("Movement")]
-    //public float currentSpeed;
+    public float currentSpeed;
+    public ModVar speedMod;
     public float rotationSpeed;
     public float fallSpeed;
     
@@ -41,9 +42,10 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public UnitData data;
     public Squad squad;
     protected CharacterController characterController;
-    private WorldBar healthBar;
-    private Animator animator;
-    private Material mat;
+    protected WorldBar healthBar;
+    public Animator animator;
+    public AnimationEvents animationEvents;
+    protected Material mat;
     public Transform attackPoint;
     public Transform attackTarget = null;
     public Transform followTarget = null;
@@ -72,6 +74,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
         squad = null;
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        animationEvents = GetComponent<AnimationEvents>();
         mat = GetComponentInChildren<Renderer>().material;
         homePos = transform.position;
         
@@ -79,6 +82,9 @@ public abstract class Unit : MonoBehaviour, IDamageable
         stun = new StunHandler();
         stun.OnStun += OnStun;
         stun.OnStunEnd += OnStunEnd;
+        
+        currentSpeed = stats[runSpeed].Value;
+        speedMod = new ModVar(currentSpeed);
 
         stateMachine.Init();
         
@@ -211,7 +217,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
         {
             moveDir.y = -fallSpeed;
         }
-        characterController.Move(moveDir * stats[runSpeed].Value * Time.deltaTime);
+        characterController.Move(moveDir * currentSpeed * Time.deltaTime);
         
         //Debug.DrawRay(transform.position, moveDir*10, Color.cyan);
         //float speedX = Mathf.Clamp(characterController.velocity.x, -1, 1);
@@ -239,6 +245,12 @@ public abstract class Unit : MonoBehaviour, IDamageable
         float speedZ = Mathf.Clamp(characterController.velocity.z, -1, 1);
         animator.SetFloat("Speed X", speedX, 0.1f, Time.deltaTime);
         animator.SetFloat("Speed Z", speedZ, 0.1f, Time.deltaTime);
+    }
+    public void UpdateSpeed(){
+        currentSpeed = speedMod.Get();
+    }
+    public void ResetSpeed(){
+        currentSpeed = stats[runSpeed].Value;
     }
     
     public void SetHome(Vector3 newHomePos)

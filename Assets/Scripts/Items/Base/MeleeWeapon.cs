@@ -82,7 +82,7 @@ public class MeleeWeapon : Weapon
             //Debug.Log($"Ammo count: {GetAmmoInfo()}");
         }
         
-        Debug.Log("ATTACKING");
+        //Debug.Log("ATTACKING");
     }
     
     public override string GetDescription()

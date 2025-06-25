@@ -26,10 +26,10 @@ MonoBehaviour:
       - Key:
           item: {fileID: 11400000, guid: 1426475067439c347bf78c6063196eea, type: 2}
           amountRange: {x: 1, y: 1}
-        Value: 0.15
+        Value: 0.05
       - Key:
           item: {fileID: 11400000, guid: cd29d64e0e90dc04787f8e8201e8f9fe, type: 2}
           amountRange: {x: 5, y: 8}
-        Value: 0.35
+        Value: 0.15
     rollAmountRange: {x: 1, y: 2}
   prefab: {fileID: 5884279472296965459, guid: 21c43f23b2b00c04fb90aa97d1642744, type: 3}

@@ -18,6 +18,26 @@ MonoBehaviour:
   recipe: {fileID: 0}
   lootTable:
     table:
-      _serializedList: []
+      _serializedList:
+      - Key:
+          item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
+          amountRange: {x: 4, y: 5}
+        Value: 0.6
+      - Key:
+          item: {fileID: 11400000, guid: 4ffda51a2c4250845877488d241f2467, type: 2}
+          amountRange: {x: 16, y: 16}
+        Value: 0.3
+      - Key:
+          item: {fileID: 11400000, guid: 1426475067439c347bf78c6063196eea, type: 2}
+          amountRange: {x: 1, y: 2}
+        Value: 0.1
+      - Key:
+          item: {fileID: 11400000, guid: f057f1e5bdec1914d9733846d6f5d5c5, type: 2}
+          amountRange: {x: 8, y: 16}
+        Value: 0.1
+      - Key:
+          item: {fileID: 11400000, guid: ee22d33a9fbe9794e8869ad073bdca86, type: 2}
+          amountRange: {x: 2, y: 2}
+        Value: 0.1
     rollAmountRange: {x: 4, y: 6}
   prefab: {fileID: 5229817481626551662, guid: ab0c976d1868ed546a0d718866e72ec9, type: 3}
