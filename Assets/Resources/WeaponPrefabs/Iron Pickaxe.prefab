@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 328414215675969461}
   - component: {fileID: 1088805735359824719}
   - component: {fileID: 6912028345061034295}
-  m_Layer: 0
+  - component: {fileID: 7377316769685507557}
+  m_Layer: 8
   m_Name: Iron Pickaxe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +80,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2105286065181999658}
-  m_Mesh: {fileID: -1407623660032272785, guid: d6ddabe1586a71345b73b49d87482ec6, type: 3}
+  m_Mesh: {fileID: 8385836491182413749, guid: 514b83e6fc8e24e41b9ed8dea215b833, type: 3}
 --- !u!23 &1088805735359824719
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -178,6 +179,27 @@ MonoBehaviour:
     DissipationDistance: 100
     PropagationSpeed: 343
   DefaultVelocity: {x: 0, y: 0, z: -0.31}
+--- !u!135 &7377316769685507557
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105286065181999658}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.36
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7386373384827797841
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,7 +225,7 @@ Transform:
   m_GameObject: {fileID: 7386373384827797841}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.164, z: -0.004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
