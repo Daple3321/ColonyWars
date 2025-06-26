@@ -59,6 +59,8 @@ public class LootDrop : MonoBehaviour
         rb.isKinematic = false;
         
         enabled = true;
+        
+        StartCoroutine(DropDelay(1f));
     }
     public void StartDrop(Vector3 direction, float angleDisp = 25f, float velocityMultiplier = 1f)
     {
@@ -82,6 +84,8 @@ public class LootDrop : MonoBehaviour
         rb.isKinematic = false;
         
         enabled = true;
+        
+        StartCoroutine(DropDelay(1f));
     }
 
 
@@ -121,13 +125,13 @@ public class LootDrop : MonoBehaviour
     
     private IEnumerator DropDelay(float delay = 0.25f)
     {
-        dropDelayStarted = true;
+        //dropDelayStarted = true;
         yield return new WaitForSeconds(delay);
         onDropped?.Invoke();
         
         col.isTrigger = true;
-        Destroy(rb);
-        Destroy(this);
+        //Destroy(rb);
+        //Destroy(this);
     }
 
     void OnTriggerEnter(Collider other)
@@ -135,7 +139,11 @@ public class LootDrop : MonoBehaviour
         if(other.gameObject.layer == LayerMask.NameToLayer("Ground")){
             rb.isKinematic = true;
             Destroy(rb);
-            StartCoroutine(DropDelay(0.25f));
+            //StartCoroutine(DropDelay(0.25f));
+            
+            onDropped?.Invoke();
+            col.isTrigger = true;
+            Destroy(this);
         }
     }
 }

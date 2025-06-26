@@ -14,7 +14,7 @@ public class AttackState : UnitState
         if (owner.HasTarget() && owner.DistanceToTarget() <= owner.combat.stats[attackDistance].Value && !owner.stun.IsStunned())
         {
             owner.combat.HandleAttacking();
-            owner.RotateTo(owner.attackTarget.position);
+            owner.movement.RotateTo(owner.attackTarget.position);
         }
         else if(owner.combat.isAttacking && (!owner.HasTarget() || owner.DistanceToTarget() > owner.combat.stats[attackDistance].Value)){
             owner.combat.CancelAttackDelayed();

@@ -38,6 +38,16 @@ public class ResourceManager : MonoBehaviour
         
         return id;
     }
+    
+    public ResourceData TryGetResource(GameObject go){
+        var res = resources.FirstOrDefault(x => x.Value.gameObject == go);
+        if(res.Value != null){
+            return res.Value;
+        }
+        else{
+            return null;
+        }
+    }
 
     public Item GeneratorGather(int id, int amount) {
         if (!resources.TryGetValue(id, out var res)) return null;
@@ -209,6 +219,15 @@ public class ResourceData {
     public int clicksToGather = 1;
     private int clicksLeft;
     public bool isDepleted => amount <= 0;
+    
+    public enum ResourceMaterial : byte
+    { // FOR EFFECTS
+        None,
+        Rock,
+        Wood,
+        Iron,
+    }
+    public ResourceMaterial resourceMaterial;
     
     public ResourceData(int id, GameObject gameObject, ItemData resource, Vector3 position, int amount, int clicksToGather = 1)
     {

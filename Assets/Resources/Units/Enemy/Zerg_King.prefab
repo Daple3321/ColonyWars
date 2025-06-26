@@ -583,6 +583,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4536021221787869828}
   - component: {fileID: 6551085838856330778}
+  - component: {fileID: 7338886882890454264}
   - component: {fileID: 6426944059314460338}
   - component: {fileID: 419382837661942678}
   - component: {fileID: 1304685140063604325}
@@ -627,8 +628,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Zerg King
   health: 250
-  rotationSpeed: 4
-  fallSpeed: 10
+  movement: {fileID: 7338886882890454264}
   stats:
     _serializedList:
     - Key: 0
@@ -662,6 +662,8 @@ MonoBehaviour:
       speedMultiplier: 0
       meanDamage: 0
     followTarget: {fileID: 0}
+  animator: {fileID: 0}
+  animationEvents: {fileID: 0}
   attackPoint: {fileID: 6686756259791874476}
   attackTarget: {fileID: 0}
   followTarget: {fileID: 0}
@@ -671,6 +673,28 @@ MonoBehaviour:
   aggrActive: 0
   aggrTarget: {fileID: 0}
   parentColony: {fileID: 0}
+--- !u!114 &7338886882890454264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5229817481626551662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15b7cda5d4769234b807a50b058eef05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSpeed: 0
+  rotationSpeed: 4
+  fallSpeed: 10
+  gravity: 15
+  groundCheckRadius: 0.45
+  groundCheckOffset: {x: 0, y: -0.02, z: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  externalForceDamping: 12
 --- !u!114 &6426944059314460338
 MonoBehaviour:
   m_ObjectHideFlags: 0

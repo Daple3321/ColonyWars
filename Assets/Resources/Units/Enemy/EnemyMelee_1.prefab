@@ -73,6 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1838950384880120066}
   - component: {fileID: 1891940221324671340}
+  - component: {fileID: 6035300119314321798}
   - component: {fileID: 5764437151515827472}
   - component: {fileID: 6652208709358791084}
   - component: {fileID: 8950018842705010377}
@@ -117,9 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Melee Enemy
   health: 35
-  currentSpeed: 0
-  rotationSpeed: 7.5
-  fallSpeed: 10
+  movement: {fileID: 6035300119314321798}
   stats:
     _serializedList:
     - Key: 0
@@ -164,6 +163,28 @@ MonoBehaviour:
   aggrActive: 0
   aggrTarget: {fileID: 0}
   parentColony: {fileID: 0}
+--- !u!114 &6035300119314321798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750506295094990067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15b7cda5d4769234b807a50b058eef05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSpeed: 0
+  rotationSpeed: 7
+  fallSpeed: 10
+  gravity: 15
+  groundCheckRadius: 0.3
+  groundCheckOffset: {x: 0, y: 0.02, z: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  externalForceDamping: 9
 --- !u!114 &5764437151515827472
 MonoBehaviour:
   m_ObjectHideFlags: 0

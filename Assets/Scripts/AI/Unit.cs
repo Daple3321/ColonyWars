@@ -14,11 +14,12 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public float health;
     //public float maxHealth;
     
+    // public float currentSpeed;
+    // public ModVar speedMod;
+    // public float rotationSpeed;
+    // public float fallSpeed;
     [Space(5), Header("Movement")]
-    public float currentSpeed;
-    public ModVar speedMod;
-    public float rotationSpeed;
-    public float fallSpeed;
+    public UnitMovement movement;
     
     [SerializedDictionary("Stat Type", "Unit Stat")]
     public SerializedDictionary<EntityStatType, Stat> stats;
@@ -83,8 +84,10 @@ public abstract class Unit : MonoBehaviour, IDamageable
         stun.OnStun += OnStun;
         stun.OnStunEnd += OnStunEnd;
         
-        currentSpeed = stats[runSpeed].Value;
-        speedMod = new ModVar(currentSpeed);
+        //currentSpeed = stats[runSpeed].Value;
+        //speedMod = new ModVar(currentSpeed);
+        
+        movement.Init(this);
 
         stateMachine.Init();
         
@@ -143,6 +146,8 @@ public abstract class Unit : MonoBehaviour, IDamageable
             combat.CancelAttackInstant();
         }
         
+        movement.ResetVelocity();
+        
         GameObject go = Instantiate(GameAssets.stunEffect, transform.position+new Vector3(0, 1.7f, 0), Quaternion.identity);
         go.transform.forward = transform.up;
         go.transform.SetParent(transform);
@@ -175,13 +180,13 @@ public abstract class Unit : MonoBehaviour, IDamageable
     {
         if (followTarget != null && Vector3.Distance(transform.position, followTarget.position) > targetStopDistance)
         {
-            MoveTo(followTarget.position);
-            RotateTo(followTarget.position);
+            movement.MoveTo(followTarget.position);
+            movement.RotateTo(followTarget.position);
         }
         else{
-            ResetVelocity();
+            movement.ResetVelocity();
         }
-        UpdateAnimationParams();
+        movement.UpdateAnimationParams();
         
         //MoveTo(followTarget.position);
     }
@@ -189,27 +194,27 @@ public abstract class Unit : MonoBehaviour, IDamageable
     {
         if(HasTarget() && DistanceToTarget() > combat.stats[attackDistance].Value)
         {
-            MoveTo(attackTarget.position);
-            RotateTo(attackTarget.position);
+            movement.MoveTo(attackTarget.position);
+            movement.RotateTo(attackTarget.position);
         }
         else{
-            ResetVelocity();
+            movement.ResetVelocity();
         }
-        UpdateAnimationParams();
+        movement.UpdateAnimationParams();
         
         //MoveTo(attackTarget.position);
     }
-    public void ResetVelocity(){
-        characterController.SimpleMove(Vector3.zero);
-    }
+    // public void ResetVelocity(){
+    //     characterController.SimpleMove(Vector3.zero);
+    // }
     
     public virtual void MoveToHome()
     {
-        MoveTo(homePos);
-        RotateTo(homePos);
+        movement.MoveTo(homePos);
+        movement.RotateTo(homePos);
     }
     
-    Vector3 moveDir = new Vector3(0, 0, 0);
+    /*Vector3 moveDir = new Vector3(0, 0, 0);
     protected virtual void MoveTo(Vector3 target)
     {
         moveDir = (target - transform.position).normalized;
@@ -251,7 +256,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     }
     public void ResetSpeed(){
         currentSpeed = stats[runSpeed].Value;
-    }
+    }*/
     
     public void SetHome(Vector3 newHomePos)
     {
@@ -322,6 +327,8 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public virtual UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3())
     {
         health -= damage;
+        
+        movement.AddForce(knockback);
         
         colorSeq.Complete();
         colorSeq = Sequence.Create()

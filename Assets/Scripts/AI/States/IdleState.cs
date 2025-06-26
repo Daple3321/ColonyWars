@@ -11,7 +11,7 @@ public class IdleState : UnitState
     }
     public override void Update()
     {
-        owner.UpdateAnimationParams();
+        owner.movement.UpdateAnimationParams();
         
         if (enemyCheckDelay > 0)
         {

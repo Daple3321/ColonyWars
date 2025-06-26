@@ -267,6 +267,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1172311147102521729}
   - component: {fileID: 8708438273196794620}
+  - component: {fileID: 6111233875432468111}
   - component: {fileID: 7613943342512471892}
   - component: {fileID: 153902723318275916}
   - component: {fileID: 2368028524763762512}
@@ -311,8 +312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Melee raider
   health: 40
-  rotationSpeed: 7
-  fallSpeed: 10
+  movement: {fileID: 6111233875432468111}
   stats:
     _serializedList:
     - Key: 0
@@ -346,6 +346,8 @@ MonoBehaviour:
       speedMultiplier: 0
       meanDamage: 0
     followTarget: {fileID: 0}
+  animator: {fileID: 0}
+  animationEvents: {fileID: 0}
   attackPoint: {fileID: 3824659089407018788}
   attackTarget: {fileID: 0}
   followTarget: {fileID: 0}
@@ -355,6 +357,28 @@ MonoBehaviour:
   aggrActive: 0
   aggrTarget: {fileID: 0}
   parentColony: {fileID: 0}
+--- !u!114 &6111233875432468111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2771398244645150855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15b7cda5d4769234b807a50b058eef05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSpeed: 0
+  rotationSpeed: 8
+  fallSpeed: 10
+  gravity: 15
+  groundCheckRadius: 0.3
+  groundCheckOffset: {x: 0, y: 0, z: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  externalForceDamping: 9
 --- !u!114 &7613943342512471892
 MonoBehaviour:
   m_ObjectHideFlags: 0

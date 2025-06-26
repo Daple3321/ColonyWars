@@ -12,12 +12,12 @@ public class HomeRetreatState : UnitState
     {
         if(!owner.stun.IsStunned()){
             owner.MoveToHome();
-            owner.UpdateAnimationParams();
+            owner.movement.UpdateAnimationParams();
         }
 
         if (owner.DistanceToHome() <= 1.5f)
         {
-            owner.ResetVelocity();
+            owner.movement.ResetVelocity();
             stateMachine.ChangeState(nextState);
         }
 

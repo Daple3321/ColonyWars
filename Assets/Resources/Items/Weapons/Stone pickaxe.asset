@@ -35,7 +35,7 @@ MonoBehaviour:
   weaponType: 3
   attackTriggeredByAnimation: 1
   attackDistance: 2
-  knockBackForce: 0
+  knockBackForce: 9
   attackBoxExtents: {x: 0, y: 0, z: 0}
   attackSequence:
     sequenceCoolDown: 2

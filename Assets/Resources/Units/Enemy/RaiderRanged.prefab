@@ -887,6 +887,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7511578565205024846}
   - component: {fileID: 3233505321197765712}
+  - component: {fileID: 537151779113812358}
   - component: {fileID: 3032866134740245298}
   - component: {fileID: 1562868129411341354}
   - component: {fileID: 7247487533193782473}
@@ -931,8 +932,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Ranged raider
   health: 30
-  rotationSpeed: 7
-  fallSpeed: 10
+  movement: {fileID: 537151779113812358}
   stats:
     _serializedList:
     - Key: 0
@@ -966,6 +966,8 @@ MonoBehaviour:
       speedMultiplier: 0
       meanDamage: 0
     followTarget: {fileID: 0}
+  animator: {fileID: 0}
+  animationEvents: {fileID: 0}
   attackPoint: {fileID: 7117089060322898563}
   attackTarget: {fileID: 0}
   followTarget: {fileID: 0}
@@ -975,6 +977,28 @@ MonoBehaviour:
   aggrActive: 0
   aggrTarget: {fileID: 0}
   parentColony: {fileID: 0}
+--- !u!114 &537151779113812358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7601663837146890382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15b7cda5d4769234b807a50b058eef05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSpeed: 0
+  rotationSpeed: 7
+  fallSpeed: 10
+  gravity: 15
+  groundCheckRadius: 0.3
+  groundCheckOffset: {x: 0, y: 0.01, z: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  externalForceDamping: 9
 --- !u!114 &3032866134740245298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -995,11 +1019,11 @@ MonoBehaviour:
     _serializedList:
     - Key: 5
       Value:
-        baseValue: 4.5
+        baseValue: 5
         statModifiers: []
     - Key: 8
       Value:
-        baseValue: 8.5
+        baseValue: 15
         statModifiers: []
     - Key: 7
       Value:
@@ -1010,7 +1034,7 @@ MonoBehaviour:
         baseValue: 0
         statModifiers: []
   attackDuration: 0
-  attackSpeed: 0.7
+  attackSpeed: 1.6
   concentration: 0
   isAttacking: 0
   references:
@@ -1022,11 +1046,11 @@ MonoBehaviour:
       type: {class: RangedAttackData, ns: , asm: Assembly-CSharp}
       data:
         bulletsPerShot: 1
-        projectileSpeed: 40
-        projectileLifetime: 2.5
+        projectileSpeed: 35
+        projectileLifetime: 3.5
         penetrationAmount: 0
         knockBackForce: 0
-        projectileScatter: {x: 0, y: 10}
+        projectileScatter: {x: 0, y: 8}
         projectilePrefab: {fileID: 1014752688310764929, guid: d96163116091c5941b0d0e79d4b8396e, type: 3}
 --- !u!114 &1562868129411341354
 MonoBehaviour:

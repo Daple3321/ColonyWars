@@ -31,11 +31,11 @@ MonoBehaviour:
   recoilForce: -2
   slowingAmount: 65
   ammoType: {fileID: 0}
-  attackType: 3
+  attackType: 2
   weaponType: 3
   attackTriggeredByAnimation: 1
   attackDistance: 2.6
-  knockBackForce: 0
+  knockBackForce: 9
   attackBoxExtents: {x: 0, y: 0, z: 0}
   attackSequence:
     sequenceCoolDown: 1.5

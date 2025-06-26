@@ -33,7 +33,7 @@ public class PatrolState : UnitState
     {
         HandlePatroling();
         
-        owner.UpdateAnimationParams();
+        owner.movement.UpdateAnimationParams();
         
         if (enemyCheckDelay > 0){
             enemyCheckDelay -= Time.deltaTime;
@@ -66,7 +66,7 @@ public class PatrolState : UnitState
         
         if (owner.DistanceToHome() <= 1.5f)
         {
-            owner.ResetVelocity();
+            owner.movement.ResetVelocity();
         }
         else{
             owner.MoveToHome();

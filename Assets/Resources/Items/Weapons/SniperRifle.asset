@@ -41,7 +41,7 @@ MonoBehaviour:
   projectileSpeed: 0
   penetrationAmount: 2
   projectileLifetime: 2
-  knockBackForce: 50
+  knockBackForce: 30
   concentrationScatter:
     serializedVersion: 2
     m_Curve:

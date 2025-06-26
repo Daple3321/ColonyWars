@@ -263,6 +263,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2158878422839435738}
   - component: {fileID: 8211662545435870813}
+  - component: {fileID: 1692937804939048690}
   - component: {fileID: 8111911276412679491}
   - component: {fileID: 6832292291311947986}
   - component: {fileID: 3176950254231028830}
@@ -307,8 +308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Melee unit
   health: 80
-  rotationSpeed: 6
-  fallSpeed: 10
+  movement: {fileID: 1692937804939048690}
   stats:
     _serializedList:
     - Key: 0
@@ -342,11 +342,35 @@ MonoBehaviour:
       speedMultiplier: 0
       meanDamage: 0
     followTarget: {fileID: 0}
+  animator: {fileID: 0}
+  animationEvents: {fileID: 0}
   attackPoint: {fileID: 7571345222274897524}
   attackTarget: {fileID: 0}
   followTarget: {fileID: 0}
   affiliation: 2
   stateMachine: {fileID: 6832292291311947986}
+--- !u!114 &1692937804939048690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2149854553417079418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15b7cda5d4769234b807a50b058eef05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentSpeed: 0
+  rotationSpeed: 8
+  fallSpeed: 10
+  gravity: 15
+  groundCheckRadius: 0.3
+  groundCheckOffset: {x: 0, y: 0.05, z: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  externalForceDamping: 9
 --- !u!114 &8111911276412679491
 MonoBehaviour:
   m_ObjectHideFlags: 0
