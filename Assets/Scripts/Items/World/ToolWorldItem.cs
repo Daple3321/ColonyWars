@@ -55,7 +55,7 @@ public class ToolWorldItem : MeleeWeaponItem
             if (hit.collider.gameObject.TryGetComponent<IDamageable>(out damageable))
             {
                 var result = await damageable.TakeDamage(originWeapon.damage.Value, GameController.p.gameObject, -hit.normal*knockBackForce);
-                Debug.Log($"Hit result: {result}");
+                //Debug.Log($"Hit result: {result}");
             }
             
             if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Resources") 

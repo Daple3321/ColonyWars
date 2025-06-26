@@ -94,7 +94,7 @@ public class ResourceManager : MonoBehaviour
         worldItem = droppedResource.SpawnItem(resource.transform.position+new Vector3(0, 2, 0),  yield);
         worldItem.Drop(resource.transform.up, 360, 1.5f);
         
-        res.Value.amount--;
+        res.Value.amount -= yield;
         
         Shake(res.Value.gameObject);
         

@@ -604,7 +604,7 @@ MonoBehaviour:
     rid: -2
   selectedWorldItem: {fileID: 0}
   hotbarStartInventory: {fileID: 11400000, guid: 6cbfda2174ee86842880c747cdcdaee9, type: 2}
-  starterInventory: {fileID: 11400000, guid: 9d4c0ffe26e366e4ab2962453e438312, type: 2}
+  starterInventory: {fileID: 0}
   activeInventories: []
   dropPoint: {fileID: 1358582417517567280}
   inventoryUI: {fileID: 0}
