@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e65d406910de6e44b81191ad31c92c2, type: 3}
+  m_Name: Bomb
+  m_EditorClassIdentifier: 
+  itemName: Bomb
+  description: 
+  icon: {fileID: 21300000, guid: 43018030a442e2b46b46d8cccaa66b89, type: 3}
+  rarity: 3
+  IsStackable: 1
+  maxStackSize: 8
+  instantPickup: 1
+  itemMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  itemMaterials:
+  - {fileID: 2100000, guid: efd3307a9c4f0714d9d31f0d9d295b9d, type: 2}
+  hasCustomScale: 1
+  customScale: {x: 0.5, y: 0.5, z: 0.5}
+  customPrefab: {fileID: 0}
+  useType: 1
+  uses: 1
+  isInfinite: 0
+  chargeRate: 1
+  throwForce: 1500
+  prefab: {fileID: 1752829003901434293, guid: 98ce3142733d7d548aeeae9f62fca2fa, type: 3}

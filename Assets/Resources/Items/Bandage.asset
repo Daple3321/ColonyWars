@@ -15,9 +15,9 @@ MonoBehaviour:
   itemName: Bandage
   description: Hold to heal
   icon: {fileID: 21300000, guid: 92d6d636d7abab7478a6eb8a547656e2, type: 3}
-  rarity: 4
-  IsStackable: 0
-  maxStackSize: 1
+  rarity: 2
+  IsStackable: 1
+  maxStackSize: 3
   instantPickup: 1
   itemMesh: {fileID: 8691780276856062721, guid: 78cd9bc73688a2c459e34f1827e7a248, type: 3}
   itemMaterials:
@@ -26,7 +26,7 @@ MonoBehaviour:
   customScale: {x: 1, y: 1, z: 1}
   customPrefab: {fileID: 0}
   useType: 1
-  uses: 3
+  uses: 1
   isInfinite: 0
   chargeRate: 0.35
   healAmount: 15

@@ -119,11 +119,18 @@ public class PlayerItemUsing : MonoBehaviour
 
             currentItem.mouseReleased = false;
             
+            int selectedSlot = playerInventory.selectedSlotId;
             if(!currentItem.CheckUses()){
-                currentItem = null;
-                itemWorld = null;
-                playerInventory.hotbar.DeleteItem(playerInventory.selectedSlotId);
-                p.ui.SwitchChargeBar(false);
+                if(playerInventory.hotbar.DeleteItem(playerInventory.selectedSlotId, 1) && currentItem != null)
+                { // если ещё есть в стаке и не удалился
+                    currentItem.uses = currentItem.usableData.uses;
+                    playerInventory.SelectItem(playerInventory.hotbar, selectedSlot);
+                }
+                else{
+                    currentItem = null;
+                    itemWorld = null;
+                    p.ui.SwitchChargeBar(false);
+                }
             }
         }
     }
@@ -139,13 +146,15 @@ public class PlayerItemUsing : MonoBehaviour
             
             int selectedSlot = playerInventory.selectedSlotId;
             if(!currentItem.CheckUses()){
-                if(playerInventory.hotbar.DeleteItem(playerInventory.selectedSlotId, 1) && currentItem != null){
-                    currentItem.uses = 1;
+                if(playerInventory.hotbar.DeleteItem(playerInventory.selectedSlotId, 1) && currentItem != null){ // если ещё есть в стаке и не удалился
+                    currentItem.uses = currentItem.usableData.uses;
                     playerInventory.SelectItem(playerInventory.hotbar, selectedSlot);
                 }
-                currentItem = null;
-                itemWorld = null;
-                p.ui.SwitchChargeBar(false);
+                else{
+                    currentItem = null;
+                    itemWorld = null;
+                    p.ui.SwitchChargeBar(false);
+                }
             }
         }
     }
@@ -166,11 +175,18 @@ public class PlayerItemUsing : MonoBehaviour
             currentItem.mouseReleased = false;
         }
         
+        int selectedSlot = playerInventory.selectedSlotId;
         if(!currentItem.CheckUses()){
-            currentItem = null;
-            itemWorld = null;
-            playerInventory.hotbar.DeleteItem(playerInventory.selectedSlotId);
-            p.ui.SwitchChargeBar(false);
+            if(playerInventory.hotbar.DeleteItem(playerInventory.selectedSlotId, 1) && currentItem != null)
+            {
+                currentItem.uses = currentItem.usableData.uses;
+                playerInventory.SelectItem(playerInventory.hotbar, selectedSlot);
+            }
+            else{
+                currentItem = null;
+                itemWorld = null;
+                p.ui.SwitchChargeBar(false);
+            }
         }
     }
 }

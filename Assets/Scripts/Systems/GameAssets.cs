@@ -36,10 +36,14 @@ public class GameAssets
     public static GameObject crosshairCanvas;
 
     public static GameObject projectilePrefab;
+    
+    // ------- EFFECTS ---------------
     public static GameObject groundHitParts;
     public static GameObject unitHitParts;
     public static GameObject stunEffect;
     public static GameObject hitScanLine;
+    public static GameObject explosion;
+    // ---------------------------------
 
     //private static EventBus eventBus;
     
@@ -99,6 +103,7 @@ public class GameAssets
             unitHitParts = Resources.Load<GameObject>("Effects/bloodHit_1");
             stunEffect = Resources.Load<GameObject>("Effects/StunEffect");
             hitScanLine = Resources.Load<GameObject>("Effects/HitscanLine");
+            explosion = Resources.Load<GameObject>("Effects/Explosion");
             
             objectPooler = Resources.Load<GameObject>("ObjectPooler");
             
