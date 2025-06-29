@@ -95,8 +95,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7846314996701290427}
-  - component: {fileID: 5970544471390702350}
   - component: {fileID: 5573175524923913482}
+  - component: {fileID: 5970544471390702350}
   m_Layer: 14
   m_Name: Barracks_Player
   m_TagString: Untagged
@@ -120,27 +120,6 @@ Transform:
   - {fileID: 4244844894494462018}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &5970544471390702350
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4553841584339707113}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.448104, y: 1.8092811, z: 1.4170694}
-  m_Center: {x: -0.007516384, y: 1.0617307, z: -0.017672211}
 --- !u!114 &5573175524923913482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,7 +134,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingData: {fileID: 0}
   health: 200
-  maxHealth: 200
+  buildingStats:
+    _serializedList:
+    - Key: 0
+      Value:
+        baseValue: 200
+        statModifiers: []
+    - Key: 11
+      Value:
+        baseValue: 50
+        statModifiers: []
+    - Key: 12
+      Value:
+        baseValue: 50
+        statModifiers: []
+    - Key: 13
+      Value:
+        baseValue: 0
+        statModifiers: []
   interactionRange: 8
   canInteract: 1
   affiliation: 2
@@ -179,3 +175,24 @@ MonoBehaviour:
   queue: []
   queueCapacity: 10
   barracksData: {fileID: 11400000, guid: eddf1b41078b70945a3fb38484c94f30, type: 2}
+--- !u!65 &5970544471390702350
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4553841584339707113}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.448104, y: 1.8092811, z: 1.4170694}
+  m_Center: {x: -0.007516384, y: 1.0617307, z: -0.017672211}

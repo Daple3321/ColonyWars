@@ -87,7 +87,7 @@ public class Enemy : Unit
     {
         stateMachine.ChangeState(patrolState);
     }
-    public override UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3())
+    public override UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3(), DamageType damageType = DamageType.Melee)
     {
         base.TakeDamage(damage, source, knockback);
         

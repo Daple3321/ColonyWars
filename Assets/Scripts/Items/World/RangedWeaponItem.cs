@@ -202,7 +202,7 @@ public class RangedWeaponItem : WeaponWorldItem
                 IDamageable damageable;
                 if (hit.collider.gameObject.TryGetComponent<IDamageable>(out damageable))
                 {
-                    var result = await damageable.TakeDamage(damage, GameController.p.gameObject, -hit.normal*knockBackForce);
+                    var result = await damageable.TakeDamage(damage, GameController.p.gameObject, -hit.normal*knockBackForce, DamageType.Ranged);
                 }
                 
                 GameObject lineObj = Instantiate(hitScanLine, shootPoint.position, Quaternion.identity);

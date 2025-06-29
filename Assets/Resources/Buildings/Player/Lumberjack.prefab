@@ -48,7 +48,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingData: {fileID: 11400000, guid: 66ced8085358f47409a0d7374e536a72, type: 2}
   health: 120
-  maxHealth: 120
+  buildingStats:
+    _serializedList:
+    - Key: 0
+      Value:
+        baseValue: 150
+        statModifiers: []
+    - Key: 11
+      Value:
+        baseValue: 50
+        statModifiers: []
+    - Key: 12
+      Value:
+        baseValue: 50
+        statModifiers: []
+    - Key: 13
+      Value:
+        baseValue: 0
+        statModifiers: []
   interactionRange: 8
   canInteract: 1
   affiliation: 2

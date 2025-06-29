@@ -133,7 +133,7 @@ public class Projectile : MonoBehaviour
         IDamageable damageable;
         if (col.gameObject.TryGetComponent<IDamageable>(out damageable))
         {
-            damageable.TakeDamage(damage, owner.gameObject, transform.up.normalized*knockBackForce);
+            damageable.TakeDamage(damage, owner.gameObject, transform.up.normalized*knockBackForce, DamageType.Ranged);
         }
             
         if (col.gameObject.layer == 7) // ground

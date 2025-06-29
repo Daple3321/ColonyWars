@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6151037954201751766}
   - component: {fileID: 8718789277455306287}
   - component: {fileID: 7554940759487452666}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: StorageDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,8 +95,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3138871610185223326}
-  - component: {fileID: 7462893797162953496}
   - component: {fileID: 512844392226608064}
+  - component: {fileID: 7462893797162953496}
   m_Layer: 13
   m_Name: Enemy Barracks
   m_TagString: Untagged
@@ -120,27 +120,6 @@ Transform:
   - {fileID: 6151037954201751766}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &7462893797162953496
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 614426742624893566}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 5.5308313, y: 4.342957, z: 4.328659}
-  m_Center: {x: 0, y: 1.86, z: 0}
 --- !u!114 &512844392226608064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,7 +134,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingData: {fileID: 11400000, guid: 0be8c435e11d2e441886f5bb9d17dfc0, type: 2}
   health: 150
-  maxHealth: 150
+  buildingStats:
+    _serializedList:
+    - Key: 0
+      Value:
+        baseValue: 150
+        statModifiers: []
+    - Key: 11
+      Value:
+        baseValue: 50
+        statModifiers: []
+    - Key: 12
+      Value:
+        baseValue: 50
+        statModifiers: []
+    - Key: 13
+      Value:
+        baseValue: 0
+        statModifiers: []
   interactionRange: 8
   canInteract: 1
   affiliation: 1
@@ -176,3 +172,24 @@ MonoBehaviour:
       Value: 2
   percentModifiers:
     _serializedList: []
+--- !u!65 &7462893797162953496
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614426742624893566}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.8381653, y: 1.6153145, z: 2.7378845}
+  m_Center: {x: 0.00894165, y: 0.6723881, z: 0.024429321}

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1211573150766364255}
   - component: {fileID: 1774775475222953175}
   - component: {fileID: 3316248718067782578}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,8 +95,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5995221907767157198}
-  - component: {fileID: 6382503812601173879}
   - component: {fileID: 442829662802917792}
+  - component: {fileID: 6382503812601173879}
   m_Layer: 13
   m_Name: Enemy wall
   m_TagString: Untagged
@@ -120,6 +120,56 @@ Transform:
   - {fileID: 1211573150766364255}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &442829662802917792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7580235864359956165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b3de5248adab8647aa5edf7d630d3dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingData: {fileID: 11400000, guid: 7a9abd22cd3a5054fba5d163390b96b1, type: 2}
+  health: 150
+  buildingStats:
+    _serializedList:
+    - Key: 0
+      Value:
+        baseValue: 150
+        statModifiers: []
+    - Key: 11
+      Value:
+        baseValue: 75
+        statModifiers: []
+    - Key: 12
+      Value:
+        baseValue: 75
+        statModifiers: []
+    - Key: 13
+      Value:
+        baseValue: 0
+        statModifiers: []
+  interactionRange: 8
+  canInteract: 0
+  affiliation: 1
+  buildTime: 4
+  built: 0
+  buildProgress: 0
+  cell:
+    worldPosition: {x: 0, y: 0, z: 0}
+    captureProgress: 0
+    whoIsCapturing: 0
+    yieldAmount: 0
+    affiliation: 0
+  cellIndex: {x: 0, y: 0, z: 0}
+  capturedCells: []
+  flatModifiers:
+    _serializedList: []
+  percentModifiers:
+    _serializedList: []
 --- !u!65 &6382503812601173879
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -141,36 +191,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &442829662802917792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7580235864359956165}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b3de5248adab8647aa5edf7d630d3dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buildingData: {fileID: 11400000, guid: 7a9abd22cd3a5054fba5d163390b96b1, type: 2}
-  health: 150
-  maxHealth: 150
-  interactionRange: 8
-  canInteract: 0
-  affiliation: 1
-  buildTime: 4
-  built: 0
-  buildProgress: 0
-  cell:
-    worldPosition: {x: 0, y: 0, z: 0}
-    captureProgress: 0
-    whoIsCapturing: 0
-    yieldAmount: 0
-    affiliation: 0
-  cellIndex: {x: 0, y: 0, z: 0}
-  capturedCells: []
-  flatModifiers:
-    _serializedList: []
-  percentModifiers:
-    _serializedList: []

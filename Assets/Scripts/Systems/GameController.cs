@@ -94,8 +94,8 @@ public class GameController : MonoBehaviour
         currentTerrain = worldGenerator.terrain;
         objectGenerator.Init(gameSettings.objectGenSettings);
         timeManager.Init();
-        await worldGenerator.GenerateTerrain();
-        await objectGenerator.GenerateObjects();
+        //await worldGenerator.GenerateTerrain();
+        //await objectGenerator.GenerateObjects();
         //Pools.Init();
 
         //inventoryUI = GameObject.Find("PlayerInventory").GetComponent<InventoryUI>();

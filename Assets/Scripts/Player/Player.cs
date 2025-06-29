@@ -138,7 +138,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         }
     }
     
-    public UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3())
+    public UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3(), DamageType damageType = DamageType.Melee)
     {
         DamageResult result = DamageResult.Dealt;
         if(playerCombat.isBlocking && movement.HasStamina(5f)){
@@ -276,7 +276,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
 
 public interface IDamageable
 {
-    public UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3());
+    public UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3(), DamageType damageType = DamageType.Melee);
     public (float health, float maxHealth) GetHealth();
     void Death();
 }
@@ -287,6 +287,14 @@ public enum DamageResult : byte
     Missed,
     Killed,
     
+}
+public enum DamageType : byte
+{
+    Melee,
+    Ranged,
+    Explosive,
+    
+    // stab, slash, pierce ...
 }
 
 public interface ICommander

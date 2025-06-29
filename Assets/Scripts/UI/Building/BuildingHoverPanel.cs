@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using PrimeTween;
 using TMPro;
 using UnityEngine;
+using static EntityStatType;
 
 public class BuildingHoverPanel : MonoBehaviour
 {
@@ -18,11 +19,11 @@ public class BuildingHoverPanel : MonoBehaviour
         healthBar.Init(building.affiliation);
         healthBar.barDesc.text = $"{building.buildingData.buildingName} <color=yellow>Lv.{building.levelSystem.GetLevel()}</color>";
         building.OnHealthChanged += healthBar.UpdateBar;
-        healthBar.UpdateBar(building.health, building.maxHealth);
+        healthBar.UpdateBar(building.health, building.buildingStats[maxHealth].Value);
     }
     
     public void UpdateBar(Building building){
-        healthBar.UpdateBar(building.health, building.maxHealth);
+        healthBar.UpdateBar(building.health, building.buildingStats[maxHealth].Value);
     }
     public void UpdateInfo(string info = ""){
         infoText.text = info;

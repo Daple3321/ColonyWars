@@ -15,10 +15,10 @@ public class UnitCombat : MonoBehaviour
     public SerializedDictionary<EntityStatType, Stat> stats;
     //public float damage;
     //public float attackDistance = 1f;
-    public float attackDuration;
+    //public float attackDuration;
     public float attackSpeed;
     protected float _attackSpeed;
-    public float concentration;
+    //public float concentration;
     public bool isAttacking;
     
     private Unit owner;
@@ -41,7 +41,6 @@ public class UnitCombat : MonoBehaviour
     {
         if(CanAttack())
         {
-            Debug.Log("Can attack!");
             attackRoutine = StartCoroutine(Attack());
         }
     }

@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2166060837753958237}
-  - component: {fileID: 8419886259395144129}
   - component: {fileID: 2430875245281945605}
+  - component: {fileID: 8419886259395144129}
   - component: {fileID: 1718344931702803144}
   m_Layer: 13
   m_Name: Enemy Mine
@@ -35,27 +35,6 @@ Transform:
   - {fileID: 4474723173616221378}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8419886259395144129
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 184440193701801956}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 4.592919, y: 2.9085329, z: 4.328659}
-  m_Center: {x: -0.41676468, y: 1.1427883, z: 0}
 --- !u!114 &2430875245281945605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,7 +49,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingData: {fileID: 11400000, guid: 0be8c435e11d2e441886f5bb9d17dfc0, type: 2}
   health: 150
-  maxHealth: 150
+  buildingStats:
+    _serializedList:
+    - Key: 0
+      Value:
+        baseValue: 150
+        statModifiers: []
+    - Key: 11
+      Value:
+        baseValue: 50
+        statModifiers: []
+    - Key: 12
+      Value:
+        baseValue: 50
+        statModifiers: []
+    - Key: 13
+      Value:
+        baseValue: 0
+        statModifiers: []
   interactionRange: 8
   canInteract: 1
   affiliation: 1
@@ -93,6 +89,27 @@ MonoBehaviour:
       Value: -0.05
     - Key: 7
       Value: -0.05
+--- !u!65 &8419886259395144129
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 184440193701801956}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.592919, y: 2.9085329, z: 4.328659}
+  m_Center: {x: -0.41676468, y: 1.1427883, z: 0}
 --- !u!205 &1718344931702803144
 LODGroup:
   m_ObjectHideFlags: 0
@@ -131,7 +148,7 @@ GameObject:
   - component: {fileID: 4474723173616221378}
   - component: {fileID: 5510811143391476505}
   - component: {fileID: 7473988663172984142}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: StorageDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}

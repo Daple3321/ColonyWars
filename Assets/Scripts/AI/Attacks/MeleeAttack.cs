@@ -96,7 +96,7 @@ public class MeleeAttack : Attack
             IDamageable damageable;
             if (hit.collider.gameObject.TryGetComponent(out damageable))
             {
-                var result = await damageable.TakeDamage(owner.combat.stats[damage].Value, owner, shootRay.direction);
+                var result = await damageable.TakeDamage(owner.combat.stats[damage].Value, owner, shootRay.direction, DamageType.Melee);
                 HandleAttackResult(result, hit.collider);
             }
             //Helper.SpawnHitEffect(hit.point, hit.normal, hit.collider.gameObject.layer);

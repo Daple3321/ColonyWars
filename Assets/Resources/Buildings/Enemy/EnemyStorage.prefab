@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9017767559045348}
   - component: {fileID: 8796965717289104502}
   - component: {fileID: 2928171032490729722}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: StorageDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,8 +95,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7213807166696763614}
-  - component: {fileID: 1674708560550418707}
   - component: {fileID: 5343371440417074469}
+  - component: {fileID: 1674708560550418707}
   - component: {fileID: 3601858077372982152}
   m_Layer: 13
   m_Name: EnemyStorage
@@ -121,27 +121,6 @@ Transform:
   - {fileID: 9017767559045348}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1674708560550418707
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5296791000703797051}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 5.5308313, y: 4.342957, z: 4.328659}
-  m_Center: {x: 0, y: 1.86, z: 0}
 --- !u!114 &5343371440417074469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,7 +135,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingData: {fileID: 11400000, guid: 511e7f41a07ea464f86fc6e26506c7f2, type: 2}
   health: 150
-  maxHealth: 150
+  buildingStats:
+    _serializedList:
+    - Key: 0
+      Value:
+        baseValue: 150
+        statModifiers: []
+    - Key: 11
+      Value:
+        baseValue: 50
+        statModifiers: []
+    - Key: 12
+      Value:
+        baseValue: 50
+        statModifiers: []
+    - Key: 13
+      Value:
+        baseValue: 0
+        statModifiers: []
   interactionRange: 8
   canInteract: 1
   affiliation: 1
@@ -179,6 +175,27 @@ MonoBehaviour:
       Value: 1
   percentModifiers:
     _serializedList: []
+--- !u!65 &1674708560550418707
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5296791000703797051}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.5308313, y: 4.342957, z: 4.328659}
+  m_Center: {x: 0, y: 1.86, z: 0}
 --- !u!205 &3601858077372982152
 LODGroup:
   m_ObjectHideFlags: 0

@@ -12,12 +12,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public string unitName;
     
     public float health;
-    //public float maxHealth;
     
-    // public float currentSpeed;
-    // public ModVar speedMod;
-    // public float rotationSpeed;
-    // public float fallSpeed;
     [Space(5), Header("Movement")]
     public UnitMovement movement;
     
@@ -83,9 +78,6 @@ public abstract class Unit : MonoBehaviour, IDamageable
         stun = new StunHandler();
         stun.OnStun += OnStun;
         stun.OnStunEnd += OnStunEnd;
-        
-        //currentSpeed = stats[runSpeed].Value;
-        //speedMod = new ModVar(currentSpeed);
         
         movement.Init(this);
 
@@ -201,62 +193,13 @@ public abstract class Unit : MonoBehaviour, IDamageable
             movement.ResetVelocity();
         }
         movement.UpdateAnimationParams();
-        
-        //MoveTo(attackTarget.position);
     }
-    // public void ResetVelocity(){
-    //     characterController.SimpleMove(Vector3.zero);
-    // }
     
     public virtual void MoveToHome()
     {
         movement.MoveTo(homePos);
         movement.RotateTo(homePos);
     }
-    
-    /*Vector3 moveDir = new Vector3(0, 0, 0);
-    protected virtual void MoveTo(Vector3 target)
-    {
-        moveDir = (target - transform.position).normalized;
-        if (!characterController.isGrounded)
-        {
-            moveDir.y = -fallSpeed;
-        }
-        characterController.Move(moveDir * currentSpeed * Time.deltaTime);
-        
-        //Debug.DrawRay(transform.position, moveDir*10, Color.cyan);
-        //float speedX = Mathf.Clamp(characterController.velocity.x, -1, 1);
-        //float speedZ = Mathf.Clamp(characterController.velocity.z, -1, 1);
-        //animator.SetFloat("Speed X", dir.x, 0.1f, Time.deltaTime);
-        //animator.SetFloat("Speed Z", dir.z, 0.1f, Time.deltaTime);
-    }
-    public virtual void RotateTo(Vector3 target)
-    {
-        Vector3 dir = (target - transform.position).normalized;
-        Vector3 lookDir = Quaternion.AngleAxis(-90, Vector3.up) * Vector3.Cross(Vector3.up, dir);
-        Quaternion lookRot = Quaternion.LookRotation(lookDir, Vector3.up);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, rotationSpeed * Time.deltaTime);
-        
-        Debug.DrawRay(transform.position, dir*8, Color.red);
-        //Debug.DrawRay(transform.position, lookDir*10, Color.cyan);    
-    }
-    public virtual void UpdateAnimationParams()
-    {
-        //Debug.DrawRay(transform.position, moveDir*10, Color.cyan);
-        // animator.SetFloat("Speed X", moveDir.x, 0.1f, Time.deltaTime);
-        // animator.SetFloat("Speed Z", moveDir.z, 0.1f, Time.deltaTime);
-        
-        float speedX = Mathf.Clamp(characterController.velocity.x, -1, 1);
-        float speedZ = Mathf.Clamp(characterController.velocity.z, -1, 1);
-        animator.SetFloat("Speed X", speedX, 0.1f, Time.deltaTime);
-        animator.SetFloat("Speed Z", speedZ, 0.1f, Time.deltaTime);
-    }
-    public void UpdateSpeed(){
-        currentSpeed = speedMod.Get();
-    }
-    public void ResetSpeed(){
-        currentSpeed = stats[runSpeed].Value;
-    }*/
     
     public void SetHome(Vector3 newHomePos)
     {
@@ -319,12 +262,8 @@ public abstract class Unit : MonoBehaviour, IDamageable
         return closest;
     }
     
-    // public virtual void ChangeSpeed(float newSpeed){
-    //     this.currentSpeed = newSpeed;
-    // }
-    
     Sequence colorSeq;
-    public virtual UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3())
+    public virtual UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3(), DamageType damageType = DamageType.Melee)
     {
         health -= damage;
         

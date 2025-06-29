@@ -39,6 +39,7 @@ public class GameAssets
     public static GameObject groundHitParts;
     public static GameObject unitHitParts;
     public static GameObject stunEffect;
+    public static GameObject hitScanLine;
 
     //private static EventBus eventBus;
     
@@ -97,6 +98,7 @@ public class GameAssets
             groundHitParts = Resources.Load<GameObject>("Effects/hitEffect_1");
             unitHitParts = Resources.Load<GameObject>("Effects/bloodHit_1");
             stunEffect = Resources.Load<GameObject>("Effects/StunEffect");
+            hitScanLine = Resources.Load<GameObject>("Effects/HitscanLine");
             
             objectPooler = Resources.Load<GameObject>("ObjectPooler");
             

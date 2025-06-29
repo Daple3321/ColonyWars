@@ -1,16 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using AYellowpaper.SerializedCollections;
 using Cysharp.Threading.Tasks;
 using PrimeTween;
 using UnityEngine;
+using static EntityStatType;
 
 public abstract class Building : MonoBehaviour, IDamageable, IInteractable
 {
     public BuildingData buildingData;
     
     public float health;
-    public float maxHealth;
+    //public float maxHealth;
+    
+    [Space(10)]
+    [SerializedDictionary("Stat Type", "Building Stat")]
+    public SerializedDictionary<EntityStatType, Stat> buildingStats;
     
     public Action<Building> OnAttacked;
     public Action<float, float> OnHealthChanged;
@@ -89,10 +95,11 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
     
     Sequence colorSeq;
     protected bool isDead = false;
-    public virtual UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3())
+    public virtual UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3(), DamageType damageType = DamageType.Melee)
     {
-        health -= damage;
-        OnHealthChanged?.Invoke(health, maxHealth);
+        float finalDamage = CalculateDamageWithResists(damage, damageType);
+        health -= finalDamage;
+        OnHealthChanged?.Invoke(health, buildingStats[maxHealth].Value);
         
         if(canAlarm){
             StartCoroutine(AttackAlarm());
@@ -112,7 +119,7 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
             //.Chain(Tween.MaterialColor(mat, Color.red, 0.2f))
             //.Chain(Tween.MaterialColor(mat, Color.white, 0.2f));
         WorldUI.i.DamagePopup(transform.position+new Vector3(0, 2f, 0), Color.white)
-        .text = damage.ToString("F1");
+        .text = finalDamage.ToString("F1");
         
         if(health <= 0 && !isDead){
             Death();
@@ -120,8 +127,26 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
         
         return UniTask.FromResult(DamageResult.Dealt);
     }
+    protected float CalculateDamageWithResists(float baseDamage, DamageType damageType)
+    {
+        float finalDamage = baseDamage;
+        switch(damageType) {
+            case DamageType.Explosive:
+                finalDamage -= baseDamage * (buildingStats[explosiveDamageResist].Value / 100);
+                return finalDamage;
+            case DamageType.Melee:
+                finalDamage -= baseDamage * (buildingStats[meleeDamageResist].Value / 100);
+                return finalDamage;
+            case DamageType.Ranged:
+                finalDamage -= baseDamage * (buildingStats[rangedDamageResist].Value / 100);
+                return finalDamage;
+                
+            default:
+                return finalDamage;
+        }
+    }
     public (float health, float maxHealth) GetHealth(){
-        return (health, maxHealth);
+        return (health, buildingStats[maxHealth].Value);
     }
     public virtual void Death(){
         isDead = true;

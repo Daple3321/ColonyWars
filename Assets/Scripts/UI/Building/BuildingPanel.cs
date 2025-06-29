@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static EntityStatType;
 
 public class BuildingPanel : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class BuildingPanel : MonoBehaviour
         
         healthBar.Init(Affiliation.Player);
         building.OnHealthChanged += healthBar.UpdateBar;
-        healthBar.UpdateBar(building.health, building.maxHealth);
+        healthBar.UpdateBar(building.health, building.buildingStats[maxHealth].Value);
         
         buildingName.text = $"{building.buildingData.buildingName} <color=yellow>Lv.{building.levelSystem.GetLevel()}</color>";
         

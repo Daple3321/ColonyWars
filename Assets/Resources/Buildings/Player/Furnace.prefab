@@ -5094,7 +5094,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingData: {fileID: 0}
   health: 150
-  maxHealth: 150
+  buildingStats:
+    _serializedList:
+    - Key: 0
+      Value:
+        baseValue: 150
+        statModifiers: []
+    - Key: 11
+      Value:
+        baseValue: 50
+        statModifiers: []
+    - Key: 12
+      Value:
+        baseValue: 50
+        statModifiers: []
+    - Key: 13
+      Value:
+        baseValue: 0
+        statModifiers: []
   interactionRange: 8
   canInteract: 1
   affiliation: 2
@@ -5109,6 +5126,8 @@ MonoBehaviour:
     affiliation: 0
   cellIndex: {x: 0, y: 0, z: 0}
   capturedCells: []
+  originInvSize: 4
+  refinedInvSize: 4
   refineDelay: 0
   refineInProgress: 0
 --- !u!65 &1613324865376583654

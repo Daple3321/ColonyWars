@@ -33,6 +33,10 @@ public enum EntityStatType
     maxCommandEnergy = 9,
     commandEnergyRegenSpeed = 10,
     
+    meleeDamageResist = 11,
+    rangedDamageResist = 12,
+    explosiveDamageResist = 13,
+    
 }
 
 [System.Serializable]

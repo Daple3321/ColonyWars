@@ -49,7 +49,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingData: {fileID: 11400000, guid: e7241f3078605de45bb9a7d3fac5ce29, type: 2}
   health: 800
-  maxHealth: 800
+  buildingStats:
+    _serializedList:
+    - Key: 0
+      Value:
+        baseValue: 800
+        statModifiers: []
+    - Key: 11
+      Value:
+        baseValue: 90
+        statModifiers: []
+    - Key: 12
+      Value:
+        baseValue: 90
+        statModifiers: []
+    - Key: 13
+      Value:
+        baseValue: 0
+        statModifiers: []
   interactionRange: 8
   canInteract: 1
   affiliation: 1
@@ -251,7 +268,7 @@ GameObject:
   - component: {fileID: 6311382828604219310}
   - component: {fileID: 2730450693159181980}
   - component: {fileID: 4162579038574727725}
-  m_Layer: 13
+  m_Layer: 0
   m_Name: Hut
   m_TagString: Untagged
   m_Icon: {fileID: 0}

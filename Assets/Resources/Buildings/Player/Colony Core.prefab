@@ -95,8 +95,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5468044167917880224}
-  - component: {fileID: 2613515667809938636}
   - component: {fileID: 8314242478907788193}
+  - component: {fileID: 2613515667809938636}
   m_Layer: 14
   m_Name: Colony Core
   m_TagString: PlayerColony
@@ -120,6 +120,56 @@ Transform:
   - {fileID: 4782417682374166464}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8314242478907788193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8020434315683561330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d813b60ea14b254bb50326fda216c12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingData: {fileID: 0}
+  health: 500
+  buildingStats:
+    _serializedList:
+    - Key: 0
+      Value:
+        baseValue: 500
+        statModifiers: []
+    - Key: 11
+      Value:
+        baseValue: 90
+        statModifiers: []
+    - Key: 12
+      Value:
+        baseValue: 90
+        statModifiers: []
+    - Key: 13
+      Value:
+        baseValue: 10
+        statModifiers: []
+  interactionRange: 8
+  canInteract: 1
+  affiliation: 2
+  buildTime: 0
+  built: 0
+  buildProgress: 0
+  cell:
+    worldPosition: {x: 0, y: 0, z: 0}
+    captureProgress: 0
+    whoIsCapturing: 0
+    yieldAmount: 0
+    affiliation: 0
+  cellIndex: {x: 0, y: 0, z: 0}
+  capturedCells: []
+  colonyData: {fileID: 0}
+  colonyRadius: 20
+  buildings: []
+  colonyZone: {fileID: 0}
 --- !u!65 &2613515667809938636
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -141,36 +191,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8314242478907788193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8020434315683561330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d813b60ea14b254bb50326fda216c12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buildingData: {fileID: 0}
-  health: 500
-  maxHealth: 500
-  interactionRange: 8
-  canInteract: 1
-  affiliation: 2
-  buildTime: 0
-  built: 0
-  buildProgress: 0
-  cell:
-    worldPosition: {x: 0, y: 0, z: 0}
-    captureProgress: 0
-    whoIsCapturing: 0
-    yieldAmount: 0
-    affiliation: 0
-  cellIndex: {x: 0, y: 0, z: 0}
-  capturedCells: []
-  colonyData: {fileID: 0}
-  colonyRadius: 20
-  buildings: []
-  colonyZone: {fileID: 0}
