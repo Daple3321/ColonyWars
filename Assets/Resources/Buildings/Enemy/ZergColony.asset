@@ -24,7 +24,7 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: 0ed7a9971a5f3a04d9314a863cb23196, type: 2}
       quantity: 32
     - item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
-      quantity: 32
+      quantity: 64
   insideColonyOnly: 1
   overlapRadius: 2.5
   maxBuildAngle: 45

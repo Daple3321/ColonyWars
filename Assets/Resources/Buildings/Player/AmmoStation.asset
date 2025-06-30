@@ -26,7 +26,6 @@ MonoBehaviour:
   maxBuildAngle: 35
   prefab: {fileID: 7164720863985716766, guid: 74afad0c3ec5e8f4fb5f420daeb17be4, type: 3}
   recipes:
-  - {fileID: 11400000, guid: b551d609964e0844d91ff0564a61453a, type: 2}
   - {fileID: 11400000, guid: 69d1df963edf1044f8ee3d4d281597c8, type: 2}
   - {fileID: 11400000, guid: fe6623968b53d964fb05acc23ecfe1da, type: 2}
   - {fileID: 11400000, guid: 6c01510459d620242813f165db1ef2bc, type: 2}

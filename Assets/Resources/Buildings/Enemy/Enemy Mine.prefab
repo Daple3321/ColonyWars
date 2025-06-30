@@ -48,12 +48,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingData: {fileID: 11400000, guid: 0be8c435e11d2e441886f5bb9d17dfc0, type: 2}
-  health: 150
+  health: 100
   buildingStats:
     _serializedList:
     - Key: 0
       Value:
-        baseValue: 150
+        baseValue: 100
         statModifiers: []
     - Key: 11
       Value:

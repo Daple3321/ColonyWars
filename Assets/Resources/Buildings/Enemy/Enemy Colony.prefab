@@ -290,8 +290,10 @@ MonoBehaviour:
       Value: 0.5
   defensePool:
     _serializedList:
-    - Key: {fileID: 11400000, guid: 0be8c435e11d2e441886f5bb9d17dfc0, type: 2}
-      Value: 1
+    - Key: {fileID: 11400000, guid: 3ab62c90304b4fe4e85d6db6274e9af4, type: 2}
+      Value: 0.7
+    - Key: {fileID: 11400000, guid: f114b3c24fa15c34ba053248acb74ed6, type: 2}
+      Value: 0.1
   outpost: {fileID: 11400000, guid: ef96ebcd2c46b3a48a5f855d62c8d1f5, type: 2}
   expansionSequence: {fileID: 11400000, guid: 9f6a0fbae5f79bc4eab411828feeb5c5, type: 2}
 --- !u!65 &5698036891128024495

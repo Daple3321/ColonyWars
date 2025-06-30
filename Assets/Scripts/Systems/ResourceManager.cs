@@ -104,7 +104,7 @@ public class ResourceManager : MonoBehaviour
             OnResourceDeleted?.Invoke(res.Value);
         }
         
-        Debug.Log("Tool gather");
+        //Debug.Log("Tool gather");
     }
     public bool CanGather(GameObject resource, ToolData tool){
         var res = resources.FirstOrDefault(x => x.Value.gameObject == resource);

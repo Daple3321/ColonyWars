@@ -130,7 +130,7 @@ public class Enemy : Unit
     public override void Death()
     {
         base.Death();
-        onUnitDeath?.Invoke(this);
-        Destroy(gameObject);
+        //onUnitDeath?.Invoke(this);
+        //Destroy(gameObject);
     }
 }

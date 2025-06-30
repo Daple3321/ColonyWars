@@ -209,7 +209,7 @@ MonoBehaviour:
         spawnType: 1
         spawnRules:
         - spawnRuleType: 0
-          valueRange: {x: 5, y: 15}
+          valueRange: {x: 4, y: 17}
         spawnAmount: 0
         spawnChance: 0
         alignToGround: 1
@@ -217,7 +217,7 @@ MonoBehaviour:
         scaleRange: {x: 0, y: 0}
         prefab: {fileID: 3015683020160980244, guid: 96e9dbd1c6a4f0342a1e3b3d8f5d35fa, type: 3}
         maxAmount: 20
-        spawnDelay: 35
+        spawnDelay: 30
         resource: {fileID: 11400000, guid: 065d5255fd3582e45a5e83f3b880816d, type: 2}
         amountRange: {x: 15, y: 20}
         clicksToGather: 2
@@ -245,7 +245,7 @@ MonoBehaviour:
         spawnType: 1
         spawnRules:
         - spawnRuleType: 0
-          valueRange: {x: 4, y: 15}
+          valueRange: {x: 4, y: 17}
         spawnAmount: 20
         spawnChance: 0
         alignToGround: 1
@@ -253,5 +253,5 @@ MonoBehaviour:
         scaleRange: {x: 0, y: 0}
         prefab: {fileID: 3015683020160980244, guid: 96e9dbd1c6a4f0342a1e3b3d8f5d35fa, type: 3}
         resource: {fileID: 11400000, guid: 065d5255fd3582e45a5e83f3b880816d, type: 2}
-        amountRange: {x: 10, y: 15}
+        amountRange: {x: 15, y: 25}
         clicksToGather: 2

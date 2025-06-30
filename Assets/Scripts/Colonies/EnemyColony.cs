@@ -94,6 +94,7 @@ public class EnemyColony : Colony
         
         expansionSequence = ScriptableObject.Instantiate<ExpansionSequence>(expansionSequence);
         expansionSequence.Init(GameController.timeManager, this);
+        CaptureCellInstant(cellIndex.x, cellIndex.z);
         
         EventBus.i.OnSunrise += ()=>{isDay = true;};
         EventBus.i.OnSunset += ()=>{isDay = false;};
@@ -117,6 +118,8 @@ public class EnemyColony : Colony
         }
         
         EventBus.i.OnSunrise += OnSunrise;
+        
+        //expansionSequence.SimulateDays(6);
     }
     
     protected override void LevelSystem_OnLevelChanged(object sender, EventArgs e)
@@ -226,18 +229,18 @@ public class EnemyColony : Colony
         OnAttacked += b => unit.SetHome(b.transform.position);
     }
     
-    public void PerformAction(ColonyAction action)
+    public void PerformAction(ColonyAction action, bool immediate = false)
     {
-        HandleAction(action.actionType);
+        HandleAction(action.actionType, immediate);
         
         Debug.Log($"{gameObject.name} Performed {action.actionType}", gameObject);
     }
     
-    protected virtual void HandleAction(ColonyActionType actionType)
+    protected virtual void HandleAction(ColonyActionType actionType, bool immediate = false)
     {
         switch(actionType){
         case ColonyActionType.Expand:
-            Expand();
+            Expand(immediate);
         break;
         
         case ColonyActionType.Capture:
@@ -381,16 +384,25 @@ public class EnemyColony : Colony
         //Expand();
     }
     
-    protected void Expand()
+    protected void Expand(bool immediate = false)
     {
         // Vector2Int newCell = ColoniesManager.i.gridManager._ClosestDifferentCell(cellIndex.x, cellIndex.z);
         // CaptureCellInstant(newCell.x, newCell.y);
         //StartCoroutine(Capture(Affiliation.None)); // захват пустой ячейки
         
-        Vector2Int closestCellIndex = ColoniesManager.i.gridManager.ClosestCell(cellIndex.x, cellIndex.z, Affiliation.None);
-        Cell closestCell = ColoniesManager.i.gridManager.GetCell(closestCellIndex.x, closestCellIndex.y);
-        Vector3 outpostPos = ColoniesManager.i.gridManager.RandomPointInCell(closestCell);
-        Build(outpost, outpostPos);
+        if(!immediate){
+            Vector2Int closestCellIndex = ColoniesManager.i.gridManager.ClosestCell(cellIndex.x, cellIndex.z, Affiliation.None);
+            Cell closestCell = ColoniesManager.i.gridManager.GetCell(closestCellIndex.x, closestCellIndex.y);
+            Vector3 outpostPos = ColoniesManager.i.gridManager.RandomPointInCell(closestCell);
+            Build(outpost, outpostPos);
+        }
+        else{
+            Vector2Int closestCellIndex = ColoniesManager.i.gridManager.ClosestCell(cellIndex.x, cellIndex.z, Affiliation.None);
+            Cell closestCell = ColoniesManager.i.gridManager.GetCell(closestCellIndex.x, closestCellIndex.y);
+            CaptureCellInstant(closestCellIndex.x, closestCellIndex.y);
+            Vector3 outpostPos = ColoniesManager.i.gridManager.RandomPointInCell(closestCell);
+            Build(outpost, outpostPos);
+        }
     }
     
     protected void RaidSquad(Vector2Int cellTarget = default)

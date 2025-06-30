@@ -64,8 +64,8 @@ public class RangedUnit : Unit
     
     public override void Death()
     {
+        //onUnitDeath?.Invoke(this);
+        //Destroy(gameObject);
         base.Death();
-        onUnitDeath?.Invoke(this);
-        Destroy(gameObject);
     }
 }

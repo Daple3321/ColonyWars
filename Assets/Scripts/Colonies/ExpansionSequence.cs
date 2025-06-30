@@ -44,40 +44,41 @@ public class ExpansionSequence : ScriptableObject
         }
     }
     
-    private void HandleDaySequence()
+    private void HandleDaySequence(bool immediate = false)
     {
         if(timeToNextAction > 0){
             timeToNextAction -= 1;
         }
         else if(timeToNextAction <= 0 && dayActionIndex < daySeq.Count-1){ // ещё не достигли конца
-            PerformAction(daySeq[dayActionIndex]);
+            PerformAction(daySeq[dayActionIndex], immediate);
             dayActionIndex++;
             
             currentAction = daySeq[dayActionIndex];
             SetActionInterval(currentAction);
         }
         else if(timeToNextAction <= 0 && dayActionIndex < daySeq.Count){ // достигли конца сиквенса
-            PerformAction(daySeq[dayActionIndex]);
+            PerformAction(daySeq[dayActionIndex], immediate);
             dayActionIndex = 0; // loop
             
             currentAction = daySeq[dayActionIndex];
             SetActionInterval(currentAction);
         }
     }
-    private void HandleNightSequence()
+    
+    private void HandleNightSequence(bool immediate = false)
     {
         if(timeToNextAction > 0){
             timeToNextAction -= 1;
         }
         else if(timeToNextAction <= 0 && nightActionIndex < nightSeq.Count-1){
-            PerformAction(nightSeq[nightActionIndex]);
+            PerformAction(nightSeq[nightActionIndex], immediate);
             nightActionIndex++;
             
             currentAction = nightSeq[nightActionIndex];
             SetActionInterval(currentAction);
         }
         else if(timeToNextAction <= 0 && nightActionIndex < nightSeq.Count){
-            PerformAction(nightSeq[nightActionIndex]);
+            PerformAction(nightSeq[nightActionIndex], immediate);
             nightActionIndex = 0; // loop
             
             currentAction = nightSeq[nightActionIndex];
@@ -85,13 +86,38 @@ public class ExpansionSequence : ScriptableObject
         }
     }
     
-    private void PerformAction(ColonyAction action)
+    private void PerformAction(ColonyAction action, bool immediate = false)
     {
-        ownerColony.PerformAction(action);
+        ownerColony.PerformAction(action, immediate);
     }
     
     private void SetActionInterval(ColonyAction action)
     {
         timeToNextAction = action.interval - (action.interval*actionSpeedMultiplier);
+    }
+    
+    public void SimulateDays(int days)
+    {
+        int minutesInDay = Mathf.CeilToInt((timeManager.timeSettings.sunsetHour - timeManager.timeSettings.sunriseHour)*60);
+        Debug.Log($"Minutes in day: {minutesInDay}");
+        int minutesInNight = Mathf.CeilToInt((24-(timeManager.timeSettings.sunsetHour - timeManager.timeSettings.sunriseHour))*60);
+        Debug.Log($"Minutes in night: {minutesInNight}");
+        
+        int daysLeft = days;
+        while(daysLeft > 0)
+        {
+            for(int i = minutesInDay; i > 0; i--)
+            {
+                HandleDaySequence(true);
+                //Debug.Log("Simulated day action");
+            }
+            for(int i = minutesInNight; i > 0; i--)
+            {
+                HandleNightSequence(true);
+                //Debug.Log("Simulated night action");
+            }
+            
+            daysLeft--;
+        }
     }
 }

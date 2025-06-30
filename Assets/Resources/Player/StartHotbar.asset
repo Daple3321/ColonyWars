@@ -14,11 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   items:
     _serializedList:
-    - Key: {fileID: 11400000, guid: 6b5b4916729fbed4abe7fad9b9d5eb3f, type: 2}
+    - Key: {fileID: 11400000, guid: 8fbf8b7ecb1b6df44abfbd934e425db5, type: 2}
       Value: 1
-    - Key: {fileID: 11400000, guid: ec571e844a221c54886ac1cfb85476c8, type: 2}
-      Value: 8
-    - Key: {fileID: 11400000, guid: 1426475067439c347bf78c6063196eea, type: 2}
-      Value: 3
-    - Key: {fileID: 11400000, guid: ee22d33a9fbe9794e8869ad073bdca86, type: 2}
-      Value: 3
+    - Key: {fileID: 11400000, guid: 2d7012f1961c0ce46ba2fb71123b54c8, type: 2}
+      Value: 1
+    - Key: {fileID: 11400000, guid: 844df1fbf341976459209426a1c7e542, type: 2}
+      Value: 1

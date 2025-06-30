@@ -108,14 +108,12 @@ public class ColoniesManager : MonoBehaviour
                     GameObject go = Instantiate(randColony.prefab, spawnPos, rot);
                     b = go.GetComponent<Building>();
                     b.Init(randColony);
-                    
-                    b.CaptureCellInstant(spawnSettings.spawnCell.x, spawnSettings.spawnCell.z);
+                    if(b is EnemyColony eColony){
+                        eColony.expansionSequence.SimulateDays(spawnSettings.simulateDays);
+                    }
+                    //b.CaptureCellInstant(spawnSettings.spawnCell.x, spawnSettings.spawnCell.z);
                     //gridManager.cells[randCell.x, randCell.z].Capture(Affiliation.Enemy);
                 }
-
-                // if(b != null){
-                //     b.GetComponent<EnemyColony>().Init(randColony);
-                // }
                 
                 maxIterations--;
             }

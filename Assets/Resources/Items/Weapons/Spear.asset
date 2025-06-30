@@ -24,7 +24,7 @@ MonoBehaviour:
   hasCustomScale: 0
   customScale: {x: 1, y: 1, z: 1}
   customPrefab: {fileID: 2280244590060308478, guid: 18adfd06f3e345b48a71f9fe8e1ef81a, type: 3}
-  damage: 12
+  damage: 14
   attackRate: 0.35
   chargeRate: 2.5
   needsAmmo: 0
@@ -43,7 +43,7 @@ MonoBehaviour:
     - duration: 1
       damageMultiplier: 0
       recoilMultiplier: 0
-      staminaDrain: 3.5
+      staminaDrain: 2
     damageMod:
       Value: 0
       Type: 300

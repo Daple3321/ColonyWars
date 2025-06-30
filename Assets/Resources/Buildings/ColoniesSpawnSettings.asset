@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colonies: 1
   spawnCell: {x: 5, y: 0, z: 8}
+  simulateDays: 10
   colonyPool:
     _serializedList:
     - Key: {fileID: 11400000, guid: e7241f3078605de45bb9a7d3fac5ce29, type: 2}

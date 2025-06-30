@@ -304,7 +304,10 @@ public abstract class Unit : MonoBehaviour, IDamageable
             data.lootTable.DropLoot(transform.position + new Vector3(0, 1.5f, 0));
         }
         
-        Destroy(healthBar.gameObject); 
+        onUnitDeath?.Invoke(this);
+        
+        Destroy(healthBar.gameObject);
+        Destroy(gameObject);
     }
 
     public Action<Unit> onUnitDeath;

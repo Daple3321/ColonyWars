@@ -34,6 +34,7 @@ public abstract class Defense : MonoBehaviour
     protected virtual void Init()
     {
         detection.Init(this, whoIsEnemy);
+        EventBus.i.PlayerDeath += HandlePlayerDeath;
     }
     
     public virtual bool CanAttack(){ return currentTarget != null || (whoIsEnemy == Affiliation.Player && playerTarget != null); }
@@ -79,6 +80,11 @@ public abstract class Defense : MonoBehaviour
     protected void HandleTargetDeath(Unit target){
         target.onUnitDeath -= HandleTargetDeath;
         RemoveTarget(target);
+        GetCurrentTarget();
+    }
+    protected void HandlePlayerDeath()
+    {
+        playerTarget = null;
         GetCurrentTarget();
     }
     

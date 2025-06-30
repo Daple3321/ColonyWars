@@ -8,6 +8,8 @@ public class ColoniesSpawnSettings : ScriptableObject
     
     public Vector3Int spawnCell;
     
+    public int simulateDays = 0;
+    
     //public ColonyCenterData[] coloniesPool;
     
     [SerializedDictionary("Colony", "Chance to spawn")]

@@ -101,10 +101,10 @@ public class GameController : MonoBehaviour
         //inventoryUI = GameObject.Find("PlayerInventory").GetComponent<InventoryUI>();
         
         ColoniesManager.i.Init();
+        SpawnPlayerAndColony();
         ColoniesManager.i.SpawnEnemyColonies(gameSettings.coloniesSpawnSettings);
         //ColoniesManager.i.SpawnEnemyCamps(gameSettings.coloniesSpawnSettings);
         
-        SpawnPlayerAndColony();
         //pSpawnPoint.transform.position = RandomPointOnMap();
         // GameObject playerObj = Instantiate(GameAssets.playerPrefab, pSpawnPoint.position, Quaternion.identity);
         // p = playerObj.GetComponent<Player>();

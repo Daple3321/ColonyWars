@@ -47,11 +47,11 @@ MonoBehaviour:
     - duration: 1
       damageMultiplier: 0.4
       recoilMultiplier: 0.5
-      staminaDrain: 2
+      staminaDrain: 1.5
     - duration: 1.2
       damageMultiplier: 0.6
       recoilMultiplier: 1
-      staminaDrain: 2.5
+      staminaDrain: 2
     damageMod:
       Value: 0
       Type: 300

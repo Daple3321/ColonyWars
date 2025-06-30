@@ -5,6 +5,7 @@ using UnityEngine;
 public class LevelSystem
 {
     private int level;
+    private int maxLevel = -1;
     private int skillPoints;
     private int experience;
 
@@ -19,6 +20,7 @@ public class LevelSystem
         // skillPoints = SaveManager.i.state.skillPoints;
         // experience = SaveManager.i.state.experience;
         level = 1;
+        maxLevel = -1;
         skillPoints = 0;
         experience = 0;
     }
@@ -44,6 +46,11 @@ public class LevelSystem
     
     public void LevelUp()
     {
+        if(!CanLevelUp()) {
+            Debug.Log("Can't level up. Max lvl reached.");
+            return;
+        }
+        
         level++;
         experience = 0;
         OnLevelChanged?.Invoke(this, EventArgs.Empty);
@@ -55,6 +62,17 @@ public class LevelSystem
         experience = 0;
         OnLevelChanged?.Invoke(this, EventArgs.Empty);
         OnExperienceChanged?.Invoke(this, EventArgs.Empty);
+    }
+    
+    public bool CanLevelUp(){
+        if(maxLevel == -1) 
+            return true;
+        else if (maxLevel != -1 && level < maxLevel){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     
     public int GetLevel(){

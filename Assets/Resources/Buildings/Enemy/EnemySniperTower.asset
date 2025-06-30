@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6d8a1e42e4efff4ca2e80f29ce0d19a, type: 3}
-  m_Name: Enemy Barracks
+  m_Name: EnemySniperTower
   m_EditorClassIdentifier: 
-  buildingName: Enemy Barracks
+  buildingName: Sniper Tower
   description: 
   buildingIcon: {fileID: 0}
   craftPrice:
     requirements:
-    - item: {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
-      quantity: 10
-    - item: {fileID: 11400000, guid: 82b55b43dc561b049bd2e4eff7737eeb, type: 2}
-      quantity: 10
     - item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
-      quantity: 12
+      quantity: 16
+    - item: {fileID: 11400000, guid: 82b55b43dc561b049bd2e4eff7737eeb, type: 2}
+      quantity: 32
+    - item: {fileID: 11400000, guid: 4ffda51a2c4250845877488d241f2467, type: 2}
+      quantity: 32
   insideColonyOnly: 1
   overlapRadius: 2.5
-  maxBuildAngle: 25
-  prefab: {fileID: 614426742624893566, guid: 99d31309948301e4484bf5c8c8d3f2ae, type: 3}
+  maxBuildAngle: 45
+  prefab: {fileID: 5363157599482202129, guid: 1c7e8f529af82674e922dbe55013ab57, type: 3}
