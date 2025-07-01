@@ -109,6 +109,7 @@ public class ColoniesManager : MonoBehaviour
                     b = go.GetComponent<Building>();
                     b.Init(randColony);
                     if(b is EnemyColony eColony){
+                        eColony.playerDirection = spawnSettings.playerDirection;
                         eColony.expansionSequence.SimulateDays(spawnSettings.simulateDays);
                     }
                     //b.CaptureCellInstant(spawnSettings.spawnCell.x, spawnSettings.spawnCell.z);

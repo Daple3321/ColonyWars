@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colonies: 1
   spawnCell: {x: 5, y: 0, z: 8}
+  playerDirection: 3
   simulateDays: 10
   colonyPool:
     _serializedList:

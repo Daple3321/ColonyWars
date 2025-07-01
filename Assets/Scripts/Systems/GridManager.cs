@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Random = UnityEngine.Random;
+using Cysharp.Threading.Tasks;
 
 [System.Serializable]
 public class GridManager
@@ -21,6 +22,26 @@ public class GridManager
     [Space(10), Header("Borders")]
     public float borderOffset = 0.45f;
     private BorderPool borderPool;
+    
+    public readonly Vector2Int[] dirs = new Vector2Int[]{
+        new(1,0), // RIGHT >
+        new(-1,0), // LEFT <
+        new(0,1), //    UP /\
+        new(0,-1), // DOWN \/
+    };
+    
+    public enum Direction : byte
+    {
+        Left,
+        Right,
+        Top,
+        Bottom,
+        
+        TopLeft,
+        TopRight,
+        BottomLeft,
+        BottomRight,
+    }
 
     private Renderer[,] planes;
     public GridManager(Grid grid, BorderPool borderPool, int dimension) // mapSize = TerrainSize/CellSize 
@@ -64,9 +85,13 @@ public class GridManager
                 // go.transform.position = grid.GetCellCenterWorld(new Vector3Int(i, 0, j));
                 // Bounds bd = grid.GetBoundsLocal(new Vector3Int(i, 0, j), new Vector3(1, 1, 1));
                 // go.transform.localScale = bd.size / 2;
+                // GameObject.Destroy(go.GetComponent<Collider>());
                 // planes[i, j] = go.GetComponent<Renderer>();
             }
         }
+        
+        //GameObject test = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        //test.transform.position = RandomPointOnSide(cells[2, 2], Direction.Left, 4f);
 
         //cells[0, 0].affiliation = Affiliation.Player;
         //cells[1, 0].affiliation = Affiliation.Player;
@@ -249,7 +274,7 @@ public class GridManager
     {
         if (!WithinBounds(x, y))
         {
-            Debug.LogWarning("Trying to get cell out of bounds.");
+            //Debug.LogWarning("Trying to get cell out of bounds.");
             return null;
         }
 
@@ -285,12 +310,12 @@ public class GridManager
 
     public Vector2Int[] GetNeighbors(int x, int y)
     {
-        Vector2Int[] dirs = new Vector2Int[]{
-            new Vector2Int(1,0),
-            new Vector2Int(0,1),
-            new Vector2Int(-1,0),
-            new Vector2Int(0,-1),
-        };
+        // Vector2Int[] dirs = new Vector2Int[]{
+        //     new Vector2Int(1,0),
+        //     new Vector2Int(0,1),
+        //     new Vector2Int(-1,0),
+        //     new Vector2Int(0,-1),
+        // };
         List<Vector2Int> result = new List<Vector2Int>();
 
         foreach (Vector2Int dir in dirs)
@@ -306,12 +331,12 @@ public class GridManager
     }
     public Vector2Int[] GetNeighbors(int x, int y, Affiliation affiliation) // найти только определённых соседей
     {
-        Vector2Int[] dirs = new Vector2Int[]{
-            new Vector2Int(1,0),
-            new Vector2Int(0,1),
-            new Vector2Int(-1,0),
-            new Vector2Int(0,-1),
-        };
+        // Vector2Int[] dirs = new Vector2Int[]{
+        //     new Vector2Int(1,0),
+        //     new Vector2Int(0,1),
+        //     new Vector2Int(-1,0),
+        //     new Vector2Int(0,-1),
+        // };
         List<Vector2Int> result = new List<Vector2Int>();
 
         foreach (Vector2Int dir in dirs)
@@ -405,37 +430,57 @@ public class GridManager
         Debug.LogError("Different cell not found");
         return new Vector2Int(-1, -1);
     }
+    public async UniTask<Vector2Int> FindClosestCell(int x, int y, Affiliation ofAffiliation)
+    {
+        return await UniTask.RunOnThreadPool(() => 
+        {
+            return ClosestCell(x, y, ofAffiliation);
+        });
+    }
     public Vector2Int ClosestCell(int x, int y, Affiliation ofAffiliation)
     {
         if(!HasCellOfAffiliation(ofAffiliation)) {
-            Debug.LogWarning($"No cells found of affiliation: {ofAffiliation}");
+            //Debug.LogWarning($"No cells found of affiliation: {ofAffiliation}");
             return new Vector2Int(-1, -1);
         }
         
-        Cell origin = GetCell(x, y);
+        //Cell origin = GetCell(x, y);
         Queue<Vector2Int> frontier = new Queue<Vector2Int>();
         frontier.Enqueue(new Vector2Int(x, y));
-
+        
+        HashSet<Vector2Int> visited = new HashSet<Vector2Int>();
+        visited.Add(new Vector2Int(x, y));
+        
         // когда вся карта одинаковая, ячейки будут бесконечно добавлятся во frontier
-        bool isFound = false;
-        while (!isFound || frontier.Count > 0) 
+        //bool isFound = false;
+        while (frontier.Count > 0) 
         {
             Vector2Int current = frontier.Dequeue();
+            
+            if (GetCell(current.x, current.y).affiliation == ofAffiliation)
+            {
+                return current;
+            }
+            
             foreach (Vector2Int next in GetNeighbors(current.x, current.y))
             {
-                if (GetCell(next.x, next.y).affiliation == ofAffiliation)
+                // Проверяем, не посещали ли мы эту ячейку ранее
+                if(!visited.Contains(next))
                 {
-                    isFound = true;
-                    return next;
-                }
-                else
-                {
-                    frontier.Enqueue(next); // Вот это скорее всего вызывает баг
+                    if (GetCell(next.x, next.y).affiliation == ofAffiliation)
+                    {
+                        //isFound = true;
+                        return next; // Нашли ближайшую ячейку
+                    }
+                    
+                    // Если не нашли, добавляем в очередь и помечаем как посещенную
+                    frontier.Enqueue(next);
+                    visited.Add(next);
                 }
             }
         }
 
-        Debug.LogError("Different cell not found");
+        //Debug.LogError("Different cell not found");
         return new Vector2Int(-1, -1);
     }
     
@@ -528,6 +573,44 @@ public class GridManager
         Vector3Int randIndex = new Vector3Int(Random.Range(outerCellOffset, mapSize), 0, Random.Range(outerCellOffset, mapSize));
         return cells[randIndex.x,randIndex.z];
     }
+    
+    public Vector3 RandomPointOnSide(Cell cell, Direction side, float padding = 2f)
+    {
+        Vector3 finalPoint;
+        Vector3Int cellIndex = grid.WorldToCell(cell.worldPosition);
+        Vector3 cellCenter = grid.GetCellCenterWorld(new Vector3Int(cellIndex.x, 0, cellIndex.z));
+        
+        float randX;
+        float randZ;
+        switch(side){
+        case Direction.Left:
+            randZ = Random.Range(-cellHalf, cellHalf);
+            finalPoint = new Vector3(cellCenter.x+cellHalf-padding, 0, cellCenter.z+randZ);
+        break;
+        
+        case Direction.Right:
+            randZ = Random.Range(-cellHalf, cellHalf);
+            finalPoint = new Vector3(cellCenter.x-cellHalf+padding, 0, cellCenter.z+randZ);
+        break;
+        
+        case Direction.Top:
+            randX = Random.Range(-cellHalf, cellHalf);
+            finalPoint = new Vector3(cellCenter.x+randX, 0, cellCenter.z+cellHalf-padding);
+        break;
+        
+        case Direction.Bottom:
+            randX = Random.Range(-cellHalf, cellHalf);
+            finalPoint = new Vector3(cellCenter.x+randX, 0, cellCenter.z-cellHalf+padding);
+        break;
+        
+        default:
+            finalPoint = new Vector3(cellCenter.x, 0, cellCenter.z);
+        break;
+        }
+        
+        return GameController.TerrainPoint(finalPoint);
+    }
+    
     // public Cell[] FindCells(Predicate<Cell> match)
     // {
     //     List<List<Cell>> cellsList = new List<List<Cell>>(); // wat da fuuuu

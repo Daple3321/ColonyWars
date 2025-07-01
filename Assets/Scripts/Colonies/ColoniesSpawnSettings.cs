@@ -7,6 +7,7 @@ public class ColoniesSpawnSettings : ScriptableObject
     public int colonies = 1;
     
     public Vector3Int spawnCell;
+    public GridManager.Direction playerDirection;
     
     public int simulateDays = 0;
     

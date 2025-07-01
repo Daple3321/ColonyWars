@@ -9,6 +9,8 @@ using System.Collections;
 using System.Threading;
 using MackySoft.Choice;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
+using System.Threading.Tasks;
 
 [System.Serializable]
 public class EnemyColony : Colony
@@ -53,6 +55,7 @@ public class EnemyColony : Colony
     
     [Space(5), Header("Expansion")]
     public ExpansionSequence expansionSequence;
+    public GridManager.Direction playerDirection;
     private bool isDay = true;
     
     // [ContextMenu("Add stat")]
@@ -270,7 +273,7 @@ public class EnemyColony : Colony
         }
     }
     
-    protected virtual void PerformBuildAction(ColonyActionType buildAction)
+    protected virtual void PerformBuildAction(ColonyActionType buildAction) // вынести всю постройку в отдельный класс ColonyBuilder
     {
         Cell c = capturedCells[Random.Range(0, capturedCells.Count)];
         Vector3 pos = ColoniesManager.i.gridManager.RandomPointInCell(c);
@@ -300,6 +303,7 @@ public class EnemyColony : Colony
         case ColonyActionType.Defense:
             selector = defensePool.ToWeightedSelector(x => x.Value);
             selectedBuilding = selector.SelectItemWithUnityRandom().Key;
+            pos = ColoniesManager.i.gridManager.RandomPointOnSide(c, playerDirection, 2f);
             Build(selectedBuilding, pos);
         break;
         }
@@ -392,15 +396,21 @@ public class EnemyColony : Colony
         
         if(!immediate){
             Vector2Int closestCellIndex = ColoniesManager.i.gridManager.ClosestCell(cellIndex.x, cellIndex.z, Affiliation.None);
+            //Vector2Int closestCellIndex = await ColoniesManager.i.gridManager.FindClosestCell(cellIndex.x, cellIndex.z, Affiliation.None);
             Cell closestCell = ColoniesManager.i.gridManager.GetCell(closestCellIndex.x, closestCellIndex.y);
-            Vector3 outpostPos = ColoniesManager.i.gridManager.RandomPointInCell(closestCell);
+            //Vector3 outpostPos = ColoniesManager.i.gridManager.RandomPointInCell(closestCell);
+            Vector3 outpostPos = ColoniesManager.i.grid.GetCellCenterWorld(new Vector3Int(closestCellIndex.x, 0, closestCellIndex.y));
+            outpostPos = GameController.TerrainPoint(outpostPos);
             Build(outpost, outpostPos);
         }
         else{
             Vector2Int closestCellIndex = ColoniesManager.i.gridManager.ClosestCell(cellIndex.x, cellIndex.z, Affiliation.None);
+            //Vector2Int closestCellIndex = await ColoniesManager.i.gridManager.FindClosestCell(cellIndex.x, cellIndex.z, Affiliation.None);
             Cell closestCell = ColoniesManager.i.gridManager.GetCell(closestCellIndex.x, closestCellIndex.y);
             CaptureCellInstant(closestCellIndex.x, closestCellIndex.y);
-            Vector3 outpostPos = ColoniesManager.i.gridManager.RandomPointInCell(closestCell);
+            //Vector3 outpostPos = ColoniesManager.i.gridManager.RandomPointInCell(closestCell);
+            Vector3 outpostPos = ColoniesManager.i.grid.GetCellCenterWorld(new Vector3Int(closestCellIndex.x, 0, closestCellIndex.y));
+            outpostPos = GameController.TerrainPoint(outpostPos);
             Build(outpost, outpostPos);
         }
     }
@@ -409,6 +419,7 @@ public class EnemyColony : Colony
     {
         if(cellTarget == default){
             Vector2Int closestCellIndex = ColoniesManager.i.gridManager.ClosestCell(cellIndex.x, cellIndex.z, Affiliation.Player);
+            //Vector2Int closestCellIndex = await ColoniesManager.i.gridManager.FindClosestCell(cellIndex.x, cellIndex.z, Affiliation.Player);
             
             if(closestCellIndex.x != -1){
                 Cell closestCell = ColoniesManager.i.gridManager.GetCell(closestCellIndex.x, closestCellIndex.y);
@@ -432,7 +443,9 @@ public class EnemyColony : Colony
         
         if(raidSquad.IsRaidSuccesful())
         {
-            Vector3 outpostPos = ColoniesManager.i.gridManager.RandomPointInCell(closestCell);
+            //Vector3 outpostPos = ColoniesManager.i.gridManager.RandomPointInCell(closestCell);
+            Vector3 outpostPos = ColoniesManager.i.grid.GetCellCenterWorld(new Vector3Int(closestCellIndex.x, 0, closestCellIndex.y));
+            outpostPos = GameController.TerrainPoint(outpostPos);
             Build(outpost, outpostPos);
             
             Debug.Log($"Outpost built.", gameObject);

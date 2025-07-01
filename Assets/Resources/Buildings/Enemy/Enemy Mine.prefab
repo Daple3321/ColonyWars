@@ -86,9 +86,9 @@ MonoBehaviour:
   percentModifiers:
     _serializedList:
     - Key: 4
-      Value: -0.05
+      Value: -0.04
     - Key: 7
-      Value: -0.05
+      Value: -0.04
 --- !u!65 &8419886259395144129
 BoxCollider:
   m_ObjectHideFlags: 0

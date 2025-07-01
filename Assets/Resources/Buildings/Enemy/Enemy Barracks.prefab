@@ -169,7 +169,7 @@ MonoBehaviour:
   flatModifiers:
     _serializedList:
     - Key: 3
-      Value: 2
+      Value: 1
   percentModifiers:
     _serializedList: []
 --- !u!65 &7462893797162953496
