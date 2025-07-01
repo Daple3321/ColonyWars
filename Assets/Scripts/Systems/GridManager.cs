@@ -350,6 +350,67 @@ public class GridManager
 
         return result.ToArray();
     }
+    
+    /// <summary>
+    /// Оставляет только те ячейки, которые имеют соседа/соседей с affiliation == neighbourAff
+    /// </summary>
+    /// <param name="cells"></param>
+    /// <param name="neighbourAff"></param>
+    /// <returns></returns>
+    public List<Vector2Int> FilterCellsWithNeighbours(List<Vector2Int> cells, Affiliation neighbourAff)
+    {
+        List<Vector2Int> finalCells = new();
+        
+        foreach (Vector2Int cell in cells)
+        {
+            if(HasNeighbourOfAffiliation(cell.x, cell.y, neighbourAff))
+            {
+                finalCells.Add(cell);
+            }
+        }
+        
+        return finalCells;
+    }
+    /// <summary>
+    /// Оставляет только ячейки, у которых есть соседи с отличающейся affiliation
+    /// </summary>
+    /// <param name="cells"></param>
+    /// <returns></returns>
+    public List<Vector2Int> FilterCellsWithDiffNeighbours(List<Vector2Int> cells)
+    {
+        List<Vector2Int> finalCells = new();
+        
+        foreach (Vector2Int cell in cells)
+        {
+            if(HasNeighbourOfDiffAffiliation(cell.x, cell.y))
+            {
+                finalCells.Add(cell);
+            }
+        }
+        
+        return finalCells;
+    }
+    /// <summary>
+    /// Оставляет только те ячейки, у которых есть соседи с отличающейся affiliation
+    /// </summary>
+    /// <param name="cells"></param>
+    /// <returns></returns>
+    public List<Vector2Int> FilterCellsWithDiffNeighbours(List<Cell> cells)
+    {
+        List<Vector2Int> finalCells = new();
+        
+        foreach (Cell c in cells)
+        {
+            Vector3Int cellIdx = grid.WorldToCell(c.worldPosition);
+            
+            if(HasNeighbourOfDiffAffiliation(cellIdx.x, cellIdx.y))
+            {
+                finalCells.Add(new Vector2Int(cellIdx.x, cellIdx.z));
+            }
+        }
+        
+        return finalCells;
+    }
 
     public Vector2Int[] GetDifferentNeighbors(int x, int y)
     {
@@ -366,6 +427,34 @@ public class GridManager
         }
 
         return result.ToArray();
+    }
+    
+    public bool HasNeighbourOfAffiliation(int x, int y, Affiliation aff)
+    {
+        foreach (Vector2Int dir in dirs)
+        {
+            Vector2Int neighbor = new Vector2Int(x + dir.x, y + dir.y);
+            if (WithinBounds(neighbor) && GetCell(neighbor.x, neighbor.y).affiliation == aff)
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    public bool HasNeighbourOfDiffAffiliation(int x, int y)
+    {
+        Cell origin = GetCell(x, y);
+        foreach (Vector2Int dir in dirs)
+        {
+            Vector2Int neighbor = new Vector2Int(x + dir.x, y + dir.y);
+            if (WithinBounds(neighbor) && GetCell(neighbor.x, neighbor.y).affiliation != origin.affiliation)
+            {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     public Vector2Int ClosestDifferentCell(int x, int y) // just straight up BULLSHIT
@@ -437,6 +526,13 @@ public class GridManager
             return ClosestCell(x, y, ofAffiliation);
         });
     }
+    /// <summary>
+    /// Находит ближайшую от координат x,y клетку с заданной ofAffiliation. Использует поиск в ширину (Breadth-first search)
+    /// </summary>
+    /// <param name="x">Origin of search</param>
+    /// <param name="y">Origin of search</param>
+    /// <param name="ofAffiliation">Какой affiliation искать</param>
+    /// <returns></returns>
     public Vector2Int ClosestCell(int x, int y, Affiliation ofAffiliation)
     {
         if(!HasCellOfAffiliation(ofAffiliation)) {
@@ -484,6 +580,11 @@ public class GridManager
         return new Vector2Int(-1, -1);
     }
     
+    /// <summary>
+    /// Остались ли в мире ячейки с заданной affiliation
+    /// </summary>
+    /// <param name="aff"></param>
+    /// <returns></returns>
     public bool HasCellOfAffiliation(Affiliation aff)
     {
         for (int i = outerCellOffset; i < gridDimension; i++)

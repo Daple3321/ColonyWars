@@ -12,7 +12,8 @@ public class ColonyAction
 public enum ColonyActionType
 {
     Expand,
-    Defense,
+    DefenseTower,
+    Wall,
     Storage,
     Barracks,
     Resources,

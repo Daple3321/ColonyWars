@@ -96,6 +96,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4468887974341970762}
   - component: {fileID: 5164981832454280031}
+  - component: {fileID: 4088329292403456286}
   - component: {fileID: 5698036891128024495}
   m_Layer: 13
   m_Name: Enemy Colony
@@ -276,6 +277,22 @@ MonoBehaviour:
     unitPool:
     - {fileID: 11400000, guid: dd2e67506ceb0394ea7427f02e62e6e9, type: 2}
     - {fileID: 11400000, guid: 3bedfa76f028d944fab5eba1adf70655, type: 2}
+  builder: {fileID: 4088329292403456286}
+  outpost: {fileID: 11400000, guid: ef96ebcd2c46b3a48a5f855d62c8d1f5, type: 2}
+  expansionSequence: {fileID: 11400000, guid: 9f6a0fbae5f79bc4eab411828feeb5c5, type: 2}
+  playerDirection: 0
+--- !u!114 &4088329292403456286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3155966525258664324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e5dceaa236058d4fb40bb35d01c0b8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   resourcePool:
     _serializedList:
     - Key: {fileID: 11400000, guid: 0be8c435e11d2e441886f5bb9d17dfc0, type: 2}
@@ -294,8 +311,10 @@ MonoBehaviour:
       Value: 0.7
     - Key: {fileID: 11400000, guid: f114b3c24fa15c34ba053248acb74ed6, type: 2}
       Value: 0.1
-  outpost: {fileID: 11400000, guid: ef96ebcd2c46b3a48a5f855d62c8d1f5, type: 2}
-  expansionSequence: {fileID: 11400000, guid: 9f6a0fbae5f79bc4eab411828feeb5c5, type: 2}
+  wallPool:
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 7a9abd22cd3a5054fba5d163390b96b1, type: 2}
+      Value: 1
 --- !u!65 &5698036891128024495
 BoxCollider:
   m_ObjectHideFlags: 0

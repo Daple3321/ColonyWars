@@ -6,11 +6,8 @@ using System;
 using Random = UnityEngine.Random;
 using System.Text;
 using System.Collections;
-using System.Threading;
 using MackySoft.Choice;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
-using System.Threading.Tasks;
 
 [System.Serializable]
 public class EnemyColony : Colony
@@ -36,22 +33,10 @@ public class EnemyColony : Colony
     public RaidSquad raidSquad;
     
     
-    [Space(10), Header("Building pools")]
-    [SerializedDictionary("Resource miners", "Chance to spawn")]
-    public SerializedDictionary<BuildingData, float> resourcePool;
-    [SerializedDictionary("Barracks", "Chance to spawn")]
-    public SerializedDictionary<BuildingData, float> barracksPool;
-    [SerializedDictionary("Storages", "Chance to spawn")]
-    public SerializedDictionary<BuildingData, float> storagePool;
-    [SerializedDictionary("Defenses", "Chance to spawn")]
-    public SerializedDictionary<BuildingData, float> defensePool;
-    
-    // public List<BuildingData> resourcePool; // make them all weighted collections?
-    // public List<BuildingData> barracksPool;
-    // public List<BuildingData> storagePool;
-    // public List<BuildingData> defensePool;
-    
+    [Space(10), Header("Building")]
+    public ColonyBuilder builder;
     public BuildingData outpost;
+    
     
     [Space(5), Header("Expansion")]
     public ExpansionSequence expansionSequence;
@@ -91,6 +76,8 @@ public class EnemyColony : Colony
         //stats[unitsSpawnSpeed] = new(30);
         ApplyInitialModifiers();
         
+        builder.Init(this);
+        
         spawnDelay = stats[unitsSpawnSpeed].Value;
         //raidSquad = new RaidSquad((int)stats[raidSquadMaxUnits].Value, stats[raidSquadSpawnSpeed].Value, this);
         raidSquad.Init(this);
@@ -103,26 +90,24 @@ public class EnemyColony : Colony
         EventBus.i.OnSunset += ()=>{isDay = false;};
         EventBus.i.OnMinuteChange += OnMinuteChange;
         
-        for(int i = 0; i < startingBuildings; i++)
-        {
-            BuildingData randBuilding = resourcePool.First().Key;
-            Vector3 pointInCell = ColoniesManager.i.gridManager.RandomPointInCell(cellIndex.x, cellIndex.z);
+        // for(int i = 0; i < startingBuildings; i++)
+        // {
+        //     BuildingData randBuilding = resourcePool.First().Key;
+        //     Vector3 pointInCell = ColoniesManager.i.gridManager.RandomPointInCell(cellIndex.x, cellIndex.z);
             
-            Building b = GameController.objectGenerator.CreateBuilding_Rules(randBuilding, pointInCell);
-            if(b != null)
-            {
-                b.Init(randBuilding);
-                StartCoroutine(b.Build());
+        //     Building b = GameController.objectGenerator.CreateBuilding_Rules(randBuilding, pointInCell);
+        //     if(b != null)
+        //     {
+        //         b.Init(randBuilding);
+        //         StartCoroutine(b.Build());
                 
-                AddBuilding(b);
+        //         AddBuilding(b);
                 
-                ApplyModifiersToStats(b.GetComponent<EnemyBuilding>().GetModifiers());
-            }
-        }
+        //         ApplyModifiersToStats(b.GetComponent<EnemyBuilding>().GetModifiers());
+        //     }
+        // }
         
         EventBus.i.OnSunrise += OnSunrise;
-        
-        //expansionSequence.SimulateDays(6);
     }
     
     protected override void LevelSystem_OnLevelChanged(object sender, EventArgs e)
@@ -255,60 +240,29 @@ public class EnemyColony : Colony
         break;
         
         case ColonyActionType.Resources:
-            PerformBuildAction(actionType);
+            builder.PerformBuildAction(actionType);
         break;
         
         case ColonyActionType.Storage:
-            PerformBuildAction(actionType);
+            builder.PerformBuildAction(actionType);
         break;
         
-        case ColonyActionType.Defense:
-            PerformBuildAction(actionType);
+        case ColonyActionType.DefenseTower:
+            builder.PerformBuildAction(actionType);
+        break;
+        
+        case ColonyActionType.Wall:
+            builder.PerformBuildAction(actionType);
         break;
         
         case ColonyActionType.Barracks:
-            PerformBuildAction(actionType);
+            builder.PerformBuildAction(actionType);
         break;
         
         }
     }
     
-    protected virtual void PerformBuildAction(ColonyActionType buildAction) // вынести всю постройку в отдельный класс ColonyBuilder
-    {
-        Cell c = capturedCells[Random.Range(0, capturedCells.Count)];
-        Vector3 pos = ColoniesManager.i.gridManager.RandomPointInCell(c);
-        IWeightedSelector<KeyValuePair<BuildingData, float>> selector;
-        BuildingData selectedBuilding = null;
-        
-        switch(buildAction){
-        case ColonyActionType.Resources:
-            selector = resourcePool.ToWeightedSelector(x => x.Value);
-            selectedBuilding = selector.SelectItemWithUnityRandom().Key;
-            Build(selectedBuilding, pos);
-        break;
-        
-        case ColonyActionType.Storage:
-            selector = storagePool.ToWeightedSelector(x => x.Value);
-            selectedBuilding = selector.SelectItemWithUnityRandom().Key;
-            Build(selectedBuilding, pos);
-        break;
-        
-        case ColonyActionType.Barracks:
-            //if(maxDefenses.Value)
-            selector = barracksPool.ToWeightedSelector(x => x.Value);
-            selectedBuilding = selector.SelectItemWithUnityRandom().Key;
-            Build(selectedBuilding, pos);
-        break;
-        
-        case ColonyActionType.Defense:
-            selector = defensePool.ToWeightedSelector(x => x.Value);
-            selectedBuilding = selector.SelectItemWithUnityRandom().Key;
-            pos = ColoniesManager.i.gridManager.RandomPointOnSide(c, playerDirection, 2f);
-            Build(selectedBuilding, pos);
-        break;
-        }
-    }
-    protected void Build(BuildingData building, Vector3 pos)
+    public void Build(BuildingData building, Vector3 pos)
     {
         if(buildings.Count >= stats[maxBuildings].Value){
             levelSystem.LevelUp();
@@ -316,6 +270,26 @@ public class EnemyColony : Colony
         }
         
         Building b = GameController.objectGenerator.CreateBuilding_Rules(building, pos);
+        if(b != null)
+        {
+            b.Init(building);
+            StartCoroutine(b.Build());
+            
+            AddBuilding(b);
+            
+            if(b is EnemyBuilding eb){
+                ApplyModifiersToStats(eb.GetModifiers());
+            }
+        }
+    }
+    public void Build(BuildingData building, Vector3 pos, GridManager.Direction rotDir)
+    {
+        if(buildings.Count >= stats[maxBuildings].Value){
+            levelSystem.LevelUp();
+            Debug.Log($"{gameObject.name} lvl up! Lv.{levelSystem.GetLevel()}", gameObject);
+        }
+        
+        Building b = GameController.objectGenerator.CreateBuilding(building, pos, rotDir);
         if(b != null)
         {
             b.Init(building);
@@ -390,28 +364,19 @@ public class EnemyColony : Colony
     
     protected void Expand(bool immediate = false)
     {
-        // Vector2Int newCell = ColoniesManager.i.gridManager._ClosestDifferentCell(cellIndex.x, cellIndex.z);
-        // CaptureCellInstant(newCell.x, newCell.y);
-        //StartCoroutine(Capture(Affiliation.None)); // захват пустой ячейки
-        
         if(!immediate){
             Vector2Int closestCellIndex = ColoniesManager.i.gridManager.ClosestCell(cellIndex.x, cellIndex.z, Affiliation.None);
             //Vector2Int closestCellIndex = await ColoniesManager.i.gridManager.FindClosestCell(cellIndex.x, cellIndex.z, Affiliation.None);
-            Cell closestCell = ColoniesManager.i.gridManager.GetCell(closestCellIndex.x, closestCellIndex.y);
-            //Vector3 outpostPos = ColoniesManager.i.gridManager.RandomPointInCell(closestCell);
-            Vector3 outpostPos = ColoniesManager.i.grid.GetCellCenterWorld(new Vector3Int(closestCellIndex.x, 0, closestCellIndex.y));
-            outpostPos = GameController.TerrainPoint(outpostPos);
-            Build(outpost, outpostPos);
+            
+            builder.BuildOutpost(closestCellIndex);
         }
         else{
             Vector2Int closestCellIndex = ColoniesManager.i.gridManager.ClosestCell(cellIndex.x, cellIndex.z, Affiliation.None);
             //Vector2Int closestCellIndex = await ColoniesManager.i.gridManager.FindClosestCell(cellIndex.x, cellIndex.z, Affiliation.None);
-            Cell closestCell = ColoniesManager.i.gridManager.GetCell(closestCellIndex.x, closestCellIndex.y);
+            
             CaptureCellInstant(closestCellIndex.x, closestCellIndex.y);
-            //Vector3 outpostPos = ColoniesManager.i.gridManager.RandomPointInCell(closestCell);
-            Vector3 outpostPos = ColoniesManager.i.grid.GetCellCenterWorld(new Vector3Int(closestCellIndex.x, 0, closestCellIndex.y));
-            outpostPos = GameController.TerrainPoint(outpostPos);
-            Build(outpost, outpostPos);
+
+            builder.BuildOutpost(closestCellIndex);
         }
     }
     
@@ -444,9 +409,7 @@ public class EnemyColony : Colony
         if(raidSquad.IsRaidSuccesful())
         {
             //Vector3 outpostPos = ColoniesManager.i.gridManager.RandomPointInCell(closestCell);
-            Vector3 outpostPos = ColoniesManager.i.grid.GetCellCenterWorld(new Vector3Int(closestCellIndex.x, 0, closestCellIndex.y));
-            outpostPos = GameController.TerrainPoint(outpostPos);
-            Build(outpost, outpostPos);
+            builder.BuildOutpost(closestCellIndex);
             
             Debug.Log($"Outpost built.", gameObject);
         }

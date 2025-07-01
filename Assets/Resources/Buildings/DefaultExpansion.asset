@@ -13,21 +13,25 @@ MonoBehaviour:
   m_Name: DefaultExpansion
   m_EditorClassIdentifier: 
   daySeq:
-  - actionType: 2
-    interval: 160
   - actionType: 3
-    interval: 120
+    interval: 160
   - actionType: 4
+    interval: 120
+  - actionType: 5
     interval: 120
   - actionType: 1
     interval: 120
+  - actionType: 2
+    interval: 40
+  - actionType: 0
+    interval: 40
   - actionType: 0
     interval: 250
   dayActionIndex: 0
   nightSeq:
-  - actionType: 5
-    interval: 120
   - actionType: 6
+    interval: 120
+  - actionType: 7
     interval: 300
   nightActionIndex: 0
   currentAction:

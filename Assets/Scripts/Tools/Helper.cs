@@ -235,4 +235,44 @@ public static class Helper
                 return new Color(0,0,0,0);
         }
     }
+    
+    public static Quaternion GetRotationFromDirection(GridManager.Direction dir)
+    {
+        Quaternion rot = new();
+        switch(dir){
+            case GridManager.Direction.Top:
+                rot = Quaternion.Euler(new Vector3(0, 0, 0));
+            break;
+            
+            case GridManager.Direction.Bottom:
+                rot = Quaternion.Euler(new Vector3(0, 180, 0));
+            break;
+            
+            case GridManager.Direction.Left:
+                rot = Quaternion.Euler(new Vector3(0, -90, 0));
+            break;
+            
+            case GridManager.Direction.Right:
+                rot = Quaternion.Euler(new Vector3(0, 90, 0));
+            break;
+            
+            case GridManager.Direction.TopLeft:
+                rot = Quaternion.Euler(new Vector3(0, -45, 0));
+            break;
+            
+            case GridManager.Direction.TopRight:
+                rot = Quaternion.Euler(new Vector3(0, 45, 0));
+            break;
+            
+            case GridManager.Direction.BottomLeft:
+                rot = Quaternion.Euler(new Vector3(0, 225, 0));
+            break;
+            
+            case GridManager.Direction.BottomRight:
+                rot = Quaternion.Euler(new Vector3(0, 135, 0));
+            break;
+        }
+        
+        return rot;
+    }
 }

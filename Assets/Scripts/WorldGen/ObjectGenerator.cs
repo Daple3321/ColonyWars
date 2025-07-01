@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 using Debug = UnityEngine.Debug;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks.Triggers;
+using UnityEditor.Experimental.GraphView;
 
 public class ObjectGenerator : MonoBehaviour
 {
@@ -389,7 +390,14 @@ public class ObjectGenerator : MonoBehaviour
         
         return null;
     }*/
-    
+    public Building CreateBuilding(BuildingData building, Vector3 pos, GridManager.Direction lookDir)
+    {
+        Quaternion rot = Helper.GetRotationFromDirection(lookDir);
+        //rot *= Quaternion.AngleAxis(Random.Range(0, 360f), Vector3.up);
+        GameObject go = Instantiate(building.prefab, pos, rot);
+        
+        return go.GetComponent<Building>(); 
+    }
     public Building CreateBuilding_Rules(BuildingData building, Vector3 pos) // вообще чёт не понял зачем это так сделано
     {
         bool spawned = false;

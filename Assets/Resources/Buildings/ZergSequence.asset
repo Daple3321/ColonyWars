@@ -13,25 +13,31 @@ MonoBehaviour:
   m_Name: ZergSequence
   m_EditorClassIdentifier: 
   daySeq:
-  - actionType: 2
+  - actionType: 3
     interval: 120
-  - actionType: 4
+  - actionType: 5
     interval: 120
-  - actionType: 4
+  - actionType: 3
     interval: 300
-  - actionType: 2
+  - actionType: 5
     interval: 120
   - actionType: 1
     interval: 160
+  - actionType: 2
+    interval: 25
+  - actionType: 2
+    interval: 25
+  - actionType: 2
+    interval: 25
   - actionType: 0
     interval: 250
   dayActionIndex: 0
   nightSeq:
   - actionType: 6
     interval: 300
-  - actionType: 5
+  - actionType: 6
     interval: 120
-  - actionType: 5
+  - actionType: 7
     interval: 200
   nightActionIndex: 0
   currentAction:
