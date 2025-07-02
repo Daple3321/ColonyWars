@@ -24,6 +24,7 @@ MonoBehaviour:
   - rid: 80067978364977242
   - rid: 80067999182880873
   - rid: 80067999182880874
+  - rid: 3942449631061344341
   persistentObjects:
   - rid: 80067999182880864
   - rid: 80067999182880872
@@ -255,3 +256,17 @@ MonoBehaviour:
         resource: {fileID: 11400000, guid: 065d5255fd3582e45a5e83f3b880816d, type: 2}
         amountRange: {x: 15, y: 25}
         clicksToGather: 2
+    - rid: 3942449631061344341
+      type: {class: ObjGenSettings, ns: , asm: Assembly-CSharp}
+      data:
+        objName: Leaves
+        spawnType: 1
+        spawnRules:
+        - spawnRuleType: 0
+          valueRange: {x: 4, y: 7}
+        spawnAmount: 2
+        spawnChance: 0
+        alignToGround: 0
+        randomizeScale: 0
+        scaleRange: {x: 0, y: 0}
+        prefab: {fileID: 6223873656198492998, guid: 6096666a8ce065541ace89c317e3c603, type: 3}

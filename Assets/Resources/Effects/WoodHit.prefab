@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6765123016190639983
+--- !u!1 &1891878518575831379
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,38 +8,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6549749272201485202}
-  - component: {fileID: 1731111710259267397}
-  - component: {fileID: 5549373610419104284}
+  - component: {fileID: 8091123919189490754}
+  - component: {fileID: 7804223601605742047}
+  - component: {fileID: 6525153447040364994}
   m_Layer: 0
-  m_Name: RockHit
+  m_Name: WoodHit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6549749272201485202
+--- !u!4 &8091123919189490754
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6765123016190639983}
+  m_GameObject: {fileID: 1891878518575831379}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 243.3, y: 22.798, z: 80.63}
+  m_LocalPosition: {x: 217.9623, y: 17.147, z: 263.737}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!198 &1731111710259267397
+--- !u!198 &7804223601605742047
 ParticleSystem:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6765123016190639983}
+  m_GameObject: {fileID: 1891878518575831379}
   serializedVersion: 8
   lengthInSec: 3
   simulationSpeed: 1
@@ -116,8 +116,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 7
-      minScalar: 5
+      scalar: 5
+      minScalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -287,8 +287,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.6
-      minScalar: 0.45
+      scalar: 0.3
+      minScalar: 0.2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -980,7 +980,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 15
+        scalar: 6
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -1052,6 +1052,15 @@ ParticleSystem:
           weightedMode: 0
           inWeight: 0
           outWeight: 0
+        - serializedVersion: 3
+          time: 0.9586355
+          value: 0.7047316
+          inSlope: -0.957271
+          outSlope: -0.957271
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
           value: 0
@@ -4815,14 +4824,14 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!199 &5549373610419104284
+--- !u!199 &6525153447040364994
 ParticleSystemRenderer:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6765123016190639983}
+  m_GameObject: {fileID: 1891878518575831379}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -4839,7 +4848,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d321ecaaef7d4c549a97ff1bd1fc22ad, type: 2}
+  - {fileID: 2100000, guid: 7f7e8b8732104034891b2785fe4be487, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4871,7 +4880,7 @@ ParticleSystemRenderer:
   m_SortingFudge: 0
   m_NormalDirection: 1
   m_ShadowBias: 0
-  m_RenderAlignment: 0
+  m_RenderAlignment: 2
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
   m_EnableGPUInstancing: 1
@@ -4883,9 +4892,9 @@ ParticleSystemRenderer:
   m_VertexStreams: 00010304
   m_UseCustomTrailVertexStreams: 0
   m_TrailVertexStreams: 00010304
-  m_Mesh: {fileID: 4493585093827132993, guid: a1b32849c2aed784e8213307f348eb92, type: 3}
-  m_Mesh1: {fileID: -1550514412580984892, guid: a1b32849c2aed784e8213307f348eb92, type: 3}
-  m_Mesh2: {fileID: -5053925668127403250, guid: a1b32849c2aed784e8213307f348eb92, type: 3}
+  m_Mesh: {fileID: 7252620314616412052, guid: 288d6a8e246aacc488bd816af1b71c75, type: 3}
+  m_Mesh1: {fileID: 2534964839176971238, guid: e8c8f695010044d4581a80144c3ee539, type: 3}
+  m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MeshWeighting: 1
   m_MeshWeighting1: 1

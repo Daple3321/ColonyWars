@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class ToolWorldItem : MeleeWeaponItem
 {
+    public GameObject gatherEffect;
+    
+    
     private ToolData toolData;
     public override void Initialize(ItemData data, Item origin, int quantity=1)
     {
@@ -33,7 +36,7 @@ public class ToolWorldItem : MeleeWeaponItem
                 RaycastAttack(concentraion);
                 break;
             case MeleeAttackType.SPHERE:
-                
+                Debug.LogWarning("Not implemented yet.", gameObject);
                 break;
             case MeleeAttackType.BOX:
                 BoxCastAttack(concentraion);
@@ -62,6 +65,8 @@ public class ToolWorldItem : MeleeWeaponItem
                 && ResourceManager.i.CanGather(hit.collider.gameObject, toolData))
             {
                 ResourceManager.i.PlayerToolHarvest(hit.collider.gameObject, Random.Range(toolData.yieldRange.x, toolData.yieldRange.y));
+                
+                Helper.SpawnEffect(gatherEffect, hit.point, hit.normal);
             }
             
             Helper.SpawnHitEffect(hit.point, hit.normal, hit.collider.gameObject.layer);
@@ -94,6 +99,14 @@ public class ToolWorldItem : MeleeWeaponItem
                 if (hit.gameObject.TryGetComponent<IDamageable>(out damageable))
                 {
                     var result = await damageable.TakeDamage(originWeapon.damage.Value, p.gameObject, -hit.transform.forward*knockBackForce);
+                }
+                
+                if(hit.gameObject.layer == LayerMask.NameToLayer("Resources") 
+                && ResourceManager.i.CanGather(hit.gameObject, toolData))
+                {
+                    ResourceManager.i.PlayerToolHarvest(hit.gameObject, Random.Range(toolData.yieldRange.x, toolData.yieldRange.y));
+                    
+                    Helper.SpawnEffect(gatherEffect, hit.transform.position, -hit.transform.forward);
                 }
                 
                 Helper.SpawnHitEffect(hit.transform.position, -hit.transform.forward, hit.gameObject.layer);

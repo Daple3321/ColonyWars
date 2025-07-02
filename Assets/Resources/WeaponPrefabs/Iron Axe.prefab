@@ -99,6 +99,7 @@ MonoBehaviour:
   hitLayers:
     serializedVersion: 2
     m_Bits: 43008
+  gatherEffect: {fileID: 1891878518575831379, guid: dd6858a29b39a574bb73312ad2812866, type: 3}
   references:
     version: 2
     RefIds:

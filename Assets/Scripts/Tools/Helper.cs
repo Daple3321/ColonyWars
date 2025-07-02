@@ -162,7 +162,15 @@ public static class Helper
         
         GameObject.Destroy(hit, 5);
     }*/
-    public static void SpawnHitEffect(Vector3 pos, Vector3 hitNormal, int objLayer) // OBJECT POOL!!
+    
+    public static void SpawnEffect(GameObject effect, Vector3 pos, Vector3 hitNormal)
+    {
+        GameObject hit;
+        hit = PoolManager.Get(effect);
+        hit.transform.position = pos;
+        hit.transform.rotation = Quaternion.LookRotation(hitNormal, Vector3.right);
+    }
+    public static void SpawnHitEffect(Vector3 pos, Vector3 hitNormal, int objLayer)
     {
         GameObject hit = null;
         switch (objLayer)
