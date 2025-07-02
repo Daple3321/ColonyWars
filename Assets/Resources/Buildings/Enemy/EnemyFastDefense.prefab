@@ -120,7 +120,7 @@ MonoBehaviour:
         statModifiers: []
     - Key: 8
       Value:
-        baseValue: 12
+        baseValue: 8.88
         statModifiers: []
   affiliation: 1
   whoIsEnemy: 2

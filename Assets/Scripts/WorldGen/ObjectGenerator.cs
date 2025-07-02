@@ -7,6 +7,7 @@ using Debug = UnityEngine.Debug;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks.Triggers;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor;
 
 public class ObjectGenerator : MonoBehaviour
 {
@@ -397,6 +398,28 @@ public class ObjectGenerator : MonoBehaviour
         GameObject go = Instantiate(building.prefab, pos, rot);
         
         return go.GetComponent<Building>(); 
+    }
+    public Building CreateBuilding_Rules(BuildingData building, Vector3 pos, GridManager.Direction lookDir)
+    {
+        bool spawned = false;
+        int maxIterations = 10;
+        while(!spawned && maxIterations > 0) // repeat until suitable place is found
+        {
+            Collider[] hitColliders = Physics.OverlapSphere(pos, building.overlapRadius, LayerMask.GetMask("EnemyBuilding","PlayerBuilding"));
+            if(hitColliders.Length <= 0)
+            {
+                Quaternion rot = Helper.GetRotationFromDirection(lookDir);
+                GameObject go = Instantiate(building.prefab, pos, rot);
+                
+                spawned = true;
+                
+                return go.GetComponent<Building>();
+            }
+            
+            maxIterations--;
+        }
+        
+        return null;
     }
     public Building CreateBuilding_Rules(BuildingData building, Vector3 pos) // вообще чёт не понял зачем это так сделано
     {

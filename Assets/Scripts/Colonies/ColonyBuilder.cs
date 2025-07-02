@@ -96,7 +96,7 @@ public class ColonyBuilder : MonoBehaviour
         //Cell c = owner.capturedCells[Random.Range(0, owner.capturedCells.Count)];
         Cell c = ColoniesManager.i.gridManager.GetCell(cellIdx.x, cellIdx.y);
         
-        Vector3 pos = ColoniesManager.i.gridManager.RandomPointOnSide(c, owner.playerDirection, 4f);
+        Vector3 pos = ColoniesManager.i.gridManager.RandomPointOnSide(c, owner.playerDirection, 4.5f);
 
         owner.Build(SelectBuildingFromPool(defensePool), pos, owner.playerDirection);
     }
@@ -113,7 +113,7 @@ public class ColonyBuilder : MonoBehaviour
         //Cell c = owner.capturedCells[Random.Range(0, owner.capturedCells.Count)];
         Cell c = ColoniesManager.i.gridManager.GetCell(cellIdx.x, cellIdx.y);
         
-        Vector3 pos = ColoniesManager.i.gridManager.RandomPointOnSide(c, owner.playerDirection, 1.5f);
+        Vector3 pos = ColoniesManager.i.gridManager.RandomPointOnSide(c, owner.playerDirection, 2f);
 
         owner.Build(SelectBuildingFromPool(wallPool), pos, owner.playerDirection);
     }

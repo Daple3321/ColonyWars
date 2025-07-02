@@ -27,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 3073295151433737060}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.01, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.05259, y: -0.01, z: 0}
+  m_LocalScale: {x: 1.10518, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5995221907767157198}
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2ed81f7ea7723e042a0c4bcdbef074b0, type: 2}
+  - {fileID: 2100000, guid: 7f7e8b8732104034891b2785fe4be487, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -133,20 +133,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingData: {fileID: 11400000, guid: 7a9abd22cd3a5054fba5d163390b96b1, type: 2}
-  health: 150
+  health: 80
   buildingStats:
     _serializedList:
     - Key: 0
       Value:
-        baseValue: 150
+        baseValue: 80
         statModifiers: []
     - Key: 11
       Value:
-        baseValue: 75
+        baseValue: 60
         statModifiers: []
     - Key: 12
       Value:
-        baseValue: 75
+        baseValue: 60
         statModifiers: []
     - Key: 13
       Value:
@@ -189,5 +189,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.1110588, y: 1, z: 1}
+  m_Center: {x: -0.05552917, y: 0, z: 0}

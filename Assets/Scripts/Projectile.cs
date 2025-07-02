@@ -20,7 +20,8 @@ public class Projectile : MonoBehaviour
     private MaterialPropertyBlock propertyBlock;
     //[SerializeField] private CinemachineImpulseSource impulseSource;
     
-    public virtual void Init(float damage, float speed, Affiliation affiliation, GameObject owner = null, int penetrationAmount = 0, float lifeTime = 2.5f, float knockBackForce = 0f)
+    public virtual void Init(float damage, float speed, Affiliation affiliation, 
+        GameObject owner = null, int penetrationAmount = 0, float lifeTime = 2.5f, float knockBackForce = 0f)
     {
         propertyBlock = new MaterialPropertyBlock();
         //rb = GetComponent<Rigidbody>();

@@ -289,7 +289,7 @@ public class EnemyColony : Colony
             Debug.Log($"{gameObject.name} lvl up! Lv.{levelSystem.GetLevel()}", gameObject);
         }
         
-        Building b = GameController.objectGenerator.CreateBuilding(building, pos, rotDir);
+        Building b = GameController.objectGenerator.CreateBuilding_Rules(building, pos, rotDir);
         if(b != null)
         {
             b.Init(building);
