@@ -44,6 +44,12 @@ public class CraftingStationPanel : BuildingPanel
     }
     
     public void OnInventoryUpdated(Dictionary<int, InventoryItem> invState = null){
+        UpdateCraftsAvailability();
+    }
+    public void UpdateCraftsAvailability()
+    {
+        if(crafts.Count <= 0) {Debug.LogError("No craft slots initiated. Calling this meathod too early."); return;}
+        
         foreach(CraftSlot slot in crafts)
         {
             slot.UpdateAvailability();

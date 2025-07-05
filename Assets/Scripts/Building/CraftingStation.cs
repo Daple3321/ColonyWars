@@ -44,6 +44,7 @@ public class CraftingStation : Manufacturer
         {
             csp.InitCrafts(recipes.ToArray());
             csp.InitQueue(queue);
+            csp.UpdateCraftsAvailability();
             // foreach(CraftSlot slot in csp.crafts){
             //     slot.OnCraftClicked += QueueCraft;
             // }

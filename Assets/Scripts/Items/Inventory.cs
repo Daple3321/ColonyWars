@@ -391,17 +391,19 @@ public class Inventory
         return finalList;
     }
     
-    // public bool CheckItemRequirements(ItemRequirements requirements)
-    // {
-    //     foreach(ItemRequirement req in requirements.requirements)
-    //     {
-    //         (Inventory _, int index) = HasItem(req.item);
-    //         if(index != -1 && ItemAmount(req.item) > req.quantity)
-    //         {
-                
-    //         }
-    //     }
-    // }
+    public bool CheckItemRequirements(ItemRequirements requirements)
+    {   
+        foreach(ItemRequirement req in requirements.requirements)
+        {
+            int index = HasItem(req.item);
+            if(index == -1 || ItemAmount(req.item) < req.quantity)
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
     
     public int HasStackableItem(Item item)
     {

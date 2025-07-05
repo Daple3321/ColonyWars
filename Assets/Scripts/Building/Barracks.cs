@@ -34,6 +34,7 @@ public class Barracks : Manufacturer
         {
             csp.InitCrafts(recipes.ToArray());
             csp.InitQueue(queue);
+            csp.UpdateCraftsAvailability();
         }
     }
     public override void ClearUI()

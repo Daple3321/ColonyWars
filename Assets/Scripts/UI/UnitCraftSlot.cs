@@ -48,19 +48,26 @@ public class UnitCraftSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     
     public void UpdateAvailability()
     {
-        foreach(var req in recipe.requirements.requirements)
-        {
-            int[] amounts = parentInventory.inventory.GetItemAmounts(recipe.requirements.requirements.ToArray());
-            foreach(int n in amounts)
-            {
-                if(n < req.quantity){
-                    rarityBg.color = GameAssets.colors.blockedColor;
-                    return;
-                }
-                else{
-                    rarityBg.color = GameAssets.colors.availableColor;
-                }
-            }
+        // foreach(var req in recipe.requirements.requirements)
+        // {
+        //     int[] amounts = parentInventory.inventory.GetItemAmounts(recipe.requirements.requirements.ToArray());
+        //     foreach(int n in amounts)
+        //     {
+        //         if(n < req.quantity){
+        //             rarityBg.color = GameAssets.colors.blockedColor;
+        //             return;
+        //         }
+        //         else{
+        //             rarityBg.color = GameAssets.colors.availableColor;
+        //         }
+        //     }
+        // }
+        
+        if(!parentInventory.inventory.CheckItemRequirements(recipe.requirements)){
+            rarityBg.color = GameAssets.colors.blockedColor;
+        }
+        else{
+            rarityBg.color = GameAssets.colors.availableColor;
         }
     }
     
