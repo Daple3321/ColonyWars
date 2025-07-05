@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e316dacb42bbb234390c83927aaf9439, type: 3}
-  m_Name: Ranged Unit
+  m_Name: Healer 1
   m_EditorClassIdentifier: 
   requirements:
     requirements:
+    - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
+      quantity: 8
+    - item: {fileID: 11400000, guid: ee22d33a9fbe9794e8869ad073bdca86, type: 2}
+      quantity: 3
     - item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
       quantity: 1
-    - item: {fileID: 11400000, guid: 82b55b43dc561b049bd2e4eff7737eeb, type: 2}
-      quantity: 8
-    - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
-      quantity: 6
-  craftTime: 6
-  unit: {fileID: 11400000, guid: 75a73a9322c446d4080de56ece56aaee, type: 2}
+  craftTime: 7
+  unit: {fileID: 11400000, guid: 20ab78d314e809441b59cbf3ee8a5d80, type: 2}

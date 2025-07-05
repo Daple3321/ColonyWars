@@ -5,15 +5,16 @@ using UnityEngine;
 
 public class SquadManager : MonoBehaviour
 {
-    public Squad squad;
+    public Squad selectedSquad;
+    public Commander selectedCommander;
     
     public float squadCallDistance;
     public LayerMask unitsMask;
     
-    public int currentUnits;
     public int maxUnits;
     
-    public SquadPanel squadUI;
+    public SquadPanel playerSquadUI;
+    public SquadPanel selectedSquadUI;
     public SquadAssemblePanel squadAssembleUI;
     public float searchDelay;
     private float _searchDelay;
@@ -25,16 +26,15 @@ public class SquadManager : MonoBehaviour
     }
     
     private Zone searchZone;
-    public void Init(){
-        squad = new Squad(maxUnits);
-        squadUI = GameController.i.playerSquadPanel;
-        squadAssembleUI = GameController.i.squadAssemblePanel;
-        squadUI.Init(squad);
-        squadAssembleUI.Init(this);
-        SwitchAssemblePanel();
-        squad.onSquadUpdate += squadUI.OnSquadUpdate;
-        _searchDelay = searchDelay;
+    public void Init()
+    {
+        SetupPlayerSquadUI();
+        SetupSelectedSquadUI();
         
+        SquadDeselect();
+        SwitchAssemblePanel();
+        
+        _searchDelay = searchDelay;
         searchZone = ZoneFactory.CreateZone(
             transform.position,
             GameAssets.colors.gatherRadius,
@@ -45,6 +45,50 @@ public class SquadManager : MonoBehaviour
         searchZone.gameObject.SetActive(false);
         
         enabled = true;
+    }
+    private void SetupPlayerSquadUI()
+    {
+        playerSquadUI = GameController.i.playerSquadPanel;
+        squadAssembleUI = GameController.i.squadAssemblePanel;
+        
+        playerSquadUI.Init("Player", GameController.p.squad);
+        squadAssembleUI.Init(GameController.p.squad, this);
+        GameController.p.squad.onSquadUpdate += playerSquadUI.OnSquadUpdate;
+    }
+    private void SetupSelectedSquadUI()
+    {
+        selectedSquadUI = GameController.i.selectedSquadPanel;
+        selectedSquadUI.Init("Commander", selectedSquad);
+        
+        selectedSquad.onSquadUpdate += selectedSquadUI.OnSquadUpdate;
+    }
+    public void OnSquadSelected(Commander commander, Squad squad)
+    {
+        selectedCommander = commander;
+        //selectedCommander.SwitchUnitSearching();
+        selectedSquad = squad;
+        
+        selectedSquadUI.Init("Commander", selectedSquad);
+        selectedSquad.onSquadUpdate += selectedSquadUI.OnSquadUpdate;
+        selectedSquadUI.Show();
+    }
+    public void CommanderAssemble(){
+        if(selectedCommander == null) {Debug.LogError("No selected commander!"); return;}
+        
+        selectedCommander.TryAssembleSquad();
+    }
+    public void CommanderClearSquad(){
+        if(selectedCommander == null) {Debug.LogError("No selected commander!"); return;}
+        
+        selectedCommander.ClearSquad();
+    }
+    public void SquadDeselect(){
+        selectedSquad.onSquadUpdate -= selectedSquadUI.OnSquadUpdate;
+        
+        selectedSquad = GameController.p.squad;
+        selectedSquadUI.Hide();
+        //selectedCommander.SwitchUnitSearching();
+        selectedCommander = null;
     }
     
     void Update()
@@ -101,21 +145,21 @@ public class SquadManager : MonoBehaviour
     }
     
     public void FollowOrder(){
-        squad.FollowOrder(transform);
+        selectedSquad.FollowOrder(transform);
     }
     public void HomePosOrder(Vector3 orderPos){
-        squad.MoveOrder(orderPos);
+        selectedSquad.MoveOrder(orderPos);
     }
     public void UnitOrder(Vector3 orderPos, Unit targetUnit){
-        squad.MoveOrder(orderPos, targetUnit);
+        selectedSquad.MoveOrder(orderPos, targetUnit);
     }
     public void ClearSquad(){
-        squad.RemoveAllUnits();
+        selectedSquad.RemoveAllUnits();
     }
     
-    public bool AddUnit(Unit unit)
+    public bool AddUnit(Squad targetSquad, Unit unit)
     {
-        return squad.TryAddUnit(unit);
+        return targetSquad.TryAddUnit(unit);
     }
     
     public bool TryAssembleSquad()
@@ -125,11 +169,10 @@ public class SquadManager : MonoBehaviour
         {
             foreach (Collider col in hitColliders)
             {
-                Unit hitUnit;
-                if (col.TryGetComponent<Unit>(out hitUnit))
+                if (col.TryGetComponent(out Unit hitUnit))
                 {
                     //Debug.Log($"Hit unit: {hitUnit.name}");
-                    squad.TryAddUnit(hitUnit);
+                    selectedSquad.TryAddUnit(hitUnit);
                 }
             }
             //squad.FollowOrder(transform);
@@ -144,18 +187,18 @@ public class SquadManager : MonoBehaviour
         }
     }
     
-    public bool HasSquad(){
-        return squad.units.Count > 0 ? true : false;
-    }
+    // public bool HasSquad(){
+    //     return squad.units.Count > 0 ? true : false;
+    // }
     
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Handles.color = Color.blue;
         
-        if(!squad.IsEmpty()){
+        if(!GameController.p.squad.IsEmpty()){
             //Handles.DrawWireDisc(squad.GetCenterPosition(), Vector3.one, 360, 0.35f);
-            Handles.DrawWireCube(squad.GetCenterPosition(), Vector3.one);
+            Handles.DrawWireCube(GameController.p.squad.GetCenterPosition(), Vector3.one);
         }
     }
 #endif

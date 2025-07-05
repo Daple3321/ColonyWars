@@ -152,6 +152,10 @@ MonoBehaviour:
       Value:
         baseValue: 10
         statModifiers: []
+    - Key: 14
+      Value:
+        baseValue: 10
+        statModifiers: []
   interactionRange: 8
   canInteract: 1
   affiliation: 2

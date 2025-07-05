@@ -14,9 +14,11 @@ public class NearbyUnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     
     public RectTransform hoverPanel;
     
-    public void Init(Unit unit, SquadAssemblePanel squadPanel)
+    private Squad originSquad;
+    public void Init(Squad originSquad, Unit unit, SquadAssemblePanel squadPanel)
     {
         this.unit = unit;
+        this.originSquad = originSquad;
         //unit.onUnitDeath += OnUnitDeath;
         unit.onUnregisterFromSquad += OnUnitUnregister;
         rectTransform = GetComponent<RectTransform>();
@@ -34,7 +36,7 @@ public class NearbyUnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        bool wasAdded = parentPanel.squadManager.AddUnit(unit);
+        bool wasAdded = parentPanel.squadManager.AddUnit(originSquad, unit);
         if(wasAdded){
             parentPanel.DestroySlot(this);
         }

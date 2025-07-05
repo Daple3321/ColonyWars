@@ -12,7 +12,9 @@ public class SquadAssemblePanel : MonoBehaviour
     
     public CanvasGroup panelGroup;
     
-    public void Init(SquadManager squadManager){
+    private Squad originSquad;
+    public void Init(Squad originSquad, SquadManager squadManager){
+        this.originSquad = originSquad;
         unitSlots = new List<NearbyUnitSlot>();
         containedUnits = new List<Unit>();
         this.squadManager = squadManager;
@@ -32,7 +34,7 @@ public class SquadAssemblePanel : MonoBehaviour
                     
                     GameObject slotObj = Instantiate(GameAssets.nearbyUnitSlot_Prefab, transform);
                     NearbyUnitSlot slot = slotObj.GetComponent<NearbyUnitSlot>();
-                    slot.Init(unit, this);
+                    slot.Init(originSquad, unit, this);
                     //Debug.Log("Spawning new slot");
                     
                     unitSlots.Add(slot);

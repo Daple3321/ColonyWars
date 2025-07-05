@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0e4fe3136c573b488270922c763c099, type: 3}
   m_Name: ColoniesSpawnSettings
   m_EditorClassIdentifier: 
-  colonies: 1
+  colonies: 0
   spawnCell: {x: 5, y: 0, z: 8}
   playerDirection: 3
   simulateDays: 10

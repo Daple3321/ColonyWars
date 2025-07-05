@@ -36,6 +36,7 @@ public enum EntityStatType
     meleeDamageResist = 11,
     rangedDamageResist = 12,
     explosiveDamageResist = 13,
+    destructiveDamageResist = 14,
     
 }
 

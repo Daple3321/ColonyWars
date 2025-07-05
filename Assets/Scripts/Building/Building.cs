@@ -140,6 +140,9 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
             case DamageType.Ranged:
                 finalDamage -= baseDamage * (buildingStats[rangedDamageResist].Value / 100);
                 return finalDamage;
+            case DamageType.Destructive:
+                finalDamage -= baseDamage * (buildingStats[destructiveDamageResist].Value / 100);
+                return finalDamage;
                 
             default:
                 return finalDamage;

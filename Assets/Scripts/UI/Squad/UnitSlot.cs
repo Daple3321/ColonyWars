@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Unit unit;
     public Bar healthBar;
@@ -32,11 +32,14 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         Tween.PunchScale(rectTransform, strength: new Vector3(1.1f, 1.1f, 1), duration: 0.35f, frequency: 4);
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public void RemoveUnit(){
+        unit.squad.RemoveUnit(unit);
+    }
+    public void SelectUnit()
     {
-        // делать здесь set homePos
-        unit.squad.RemoveUnit(unit); // как-то это не правильно
-        //unit.UnregisterFromSquad();
+        if(unit is Commander commander){
+            GameController.p.squadManager.OnSquadSelected(commander, commander.ownedSquad);
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)

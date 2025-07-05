@@ -36,7 +36,17 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public LayerMask attackHitMask;
     
     public UnitData data;
-    public Squad squad;
+    
+    private Squad _squad;
+    public Squad squad {
+    get{
+        return _squad; 
+        }
+    set{
+        _squad = value;
+        Debug.Log("Squad has been assigned");
+    }
+    }
     protected CharacterController characterController;
     protected WorldBar healthBar;
     public Animator animator;
@@ -71,6 +81,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         animationEvents = GetComponent<AnimationEvents>();
+        animationEvents.Init();
         mat = GetComponentInChildren<Renderer>().material;
         homePos = transform.position;
         
@@ -127,7 +138,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
         }
     }
     
-    void Update(){
+    protected virtual void Update(){
         HandleUI();
         stun.HandleStun();
     }
@@ -149,19 +160,28 @@ public abstract class Unit : MonoBehaviour, IDamageable
         
     }
     
-    public virtual void RegisterToSquad(Squad squad)
+    public void RegisterToSquad(Squad squad)
     {
         this.squad = squad;
         onRegiesterToSquad?.Invoke(squad);
+        Debug.Log($"REGISTERING TO SQUAD {squad.squadOwner}");
     }
-    public virtual void UnregisterFromSquad()
+    public void UnregisterFromSquad()
     {
+        Debug.Log($"UNREGESTERING FROM SQUAD {squad.squadOwner}");
+        
         this.squad = null;
         followTarget = null;
         onUnregisterFromSquad?.Invoke();
     }
     public bool InSquad(){
-        return squad == null ? false : true;
+        if(squad != null){
+            return true;
+        }
+        else{
+            return false;
+        }
+        //return squad != null;
     }
 
     public abstract void ConfigureStates();
@@ -262,17 +282,23 @@ public abstract class Unit : MonoBehaviour, IDamageable
         return closest;
     }
     
-    Sequence colorSeq;
+    public void AddHealth(float amount)
+    {
+        health += amount;
+        health = Math.Clamp(health, 0, stats[maxHealth].Value);
+        HealthChanged();
+        
+        Flash(Color.green, 0.3f);
+    }
     public virtual UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3(), DamageType damageType = DamageType.Melee)
     {
-        health -= damage;
+        float finalDamage = CalculateDamageWithResists(damage, damageType);
+        health -= finalDamage;
+        //health -= damage;
         
         movement.AddForce(knockback);
         
-        colorSeq.Complete();
-        colorSeq = Sequence.Create()
-            .Chain(Tween.MaterialColor(mat, Color.red, 0.2f))
-            .Chain(Tween.MaterialColor(mat, Color.white, 0.2f));
+        Flash(Color.red, 0.2f);
             
         if(affiliation == Affiliation.Player){
             WorldUI.i.DamagePopup(transform.position+new Vector3(0, 1.65f, 0), Color.red)
@@ -286,6 +312,27 @@ public abstract class Unit : MonoBehaviour, IDamageable
         HealthChanged();
         return UniTask.FromResult(DamageResult.Dealt);
     }
+    protected float CalculateDamageWithResists(float baseDamage, DamageType damageType)
+    {
+        float finalDamage = baseDamage;
+        switch(damageType) {
+            case DamageType.Explosive:
+                finalDamage -= baseDamage * (stats[explosiveDamageResist].Value / 100);
+                return finalDamage;
+            case DamageType.Melee:
+                finalDamage -= baseDamage * (stats[meleeDamageResist].Value / 100);
+                return finalDamage;
+            case DamageType.Ranged:
+                finalDamage -= baseDamage * (stats[rangedDamageResist].Value / 100);
+                return finalDamage;
+            case DamageType.Destructive:
+                finalDamage -= baseDamage * (stats[destructiveDamageResist].Value / 100);
+                return finalDamage;
+            
+            default:
+                return finalDamage;
+        }
+    }
     public (float health, float maxHealth) GetHealth(){
         return (health, stats[maxHealth].Value);
     }
@@ -297,6 +344,15 @@ public abstract class Unit : MonoBehaviour, IDamageable
         {
             Death();
         }
+    }
+    
+    Sequence colorSeq;
+    public void Flash(Color flashColor, float duration = 0.2f)
+    {
+        colorSeq.Complete();
+        colorSeq = Sequence.Create()
+            .Chain(Tween.MaterialColor(mat, flashColor, duration))
+            .Chain(Tween.MaterialColor(mat, Color.white, duration));
     }
 
     public virtual void Death() { 

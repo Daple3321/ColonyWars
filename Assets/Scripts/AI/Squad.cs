@@ -11,12 +11,14 @@ public class Squad
     
     public SquadStats stats;
     
+    public GameObject squadOwner;
     public Transform followTarget;
     public Action<Squad> onSquadUpdate;
 
-    public Squad(int maxUnits)
+    public Squad(int maxUnits, GameObject owner = null)
     {
         this.maxUnits = maxUnits;
+        this.squadOwner = owner;
         units = new List<Unit>();
         stats = SquadStats.GetEmptyStats();
     }
@@ -29,11 +31,18 @@ public class Squad
         if (units.Count <= 0)
             return;
 
-        this.followTarget = followTarget;
+        // this.followTarget = followTarget;
 
+        // foreach (Unit unit in units)
+        // {
+        //     unit.followTarget = followTarget;
+        //     unit.StartFollowing();
+        // }
+        
+        this.followTarget = squadOwner.transform;
         foreach (Unit unit in units)
         {
-            unit.followTarget = followTarget;
+            unit.followTarget = squadOwner.transform;
             unit.StartFollowing();
         }
     }
@@ -65,8 +74,6 @@ public class Squad
         targetUnit.SetHome(orderPos);
         targetUnit.StopFollowing();
         targetUnit.followTarget = null;
-        targetUnit.UnregisterFromSquad();
-        RemoveUnit(targetUnit);
         
         UpdateStats();
         onSquadUpdate?.Invoke(this);
@@ -125,12 +132,17 @@ public class Squad
             return false;
         }
         if (units.Contains(unit)){
-            Debug.LogWarning("Unit already in squad!");
+            Debug.LogWarning("Unit already in THIS squad!");
             return false;
         }
-        // if(!unit.InSquad()){
-            
-        // }
+        if(unit.InSquad()){
+            Debug.LogWarning($"Unit already in ANOTHER squad! Squad owner: {unit.squad.squadOwner}");
+            return false;
+        }
+        if(unit.gameObject == squadOwner){
+            Debug.LogWarning("Unit is THE OWNER of this squad!");
+            return false;
+        }
 
         units.Add(unit);
         unit.RegisterToSquad(this);

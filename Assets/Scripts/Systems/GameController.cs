@@ -31,6 +31,7 @@ public class GameController : MonoBehaviour
     public Canvas worldCanvas;
     public Canvas squadCanvas;
     public SquadPanel playerSquadPanel;
+    public SquadPanel selectedSquadPanel;
     public SquadAssemblePanel squadAssemblePanel;
     public BuildingPanelManager buildingPanelManager;
     public MouseFollower mouseFollower;
@@ -147,6 +148,7 @@ public class GameController : MonoBehaviour
         
         squadCanvas = GameObject.Find("SquadCanvas").GetComponent<Canvas>();
         playerSquadPanel = GameObject.Find("SquadPanel").GetComponent<SquadPanel>();
+        selectedSquadPanel = GameObject.Find("SelectedSquadPanel").GetComponent<SquadPanel>();
         squadAssemblePanel = GameObject.Find("SquadAssemblePanel").GetComponent<SquadAssemblePanel>();
         
         buildingPanelManager = GameObject.Find("BuildingCanvas").GetComponent<BuildingPanelManager>();

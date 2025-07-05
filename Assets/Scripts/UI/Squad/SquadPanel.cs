@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SquadPanel : MonoBehaviour
 {
@@ -12,14 +13,30 @@ public class SquadPanel : MonoBehaviour
     public List<UnitSlot> unitSlots = new List<UnitSlot>();
     
     public CanvasGroup panelGroup;
+    public RectTransform slotsContainer;
+    
+    public Button deselectButton;
+    public Button assembleButton;
+    public Button disassembleButton;
     
     public bool hidden = false;
     
-    public void Init(Squad squad)
+    private string squadOwner;
+    public void Init(string squadOwner, Squad squad)
     {
+        ClearSquadUI();
+        
         unitSlots = new List<UnitSlot>();
         this.squad = squad;
+        this.squadOwner = squadOwner;
         UpdateSquadUI(squad);
+        
+        if(deselectButton != null){
+            deselectButton.onClick.AddListener(GameController.p.squadManager.SquadDeselect);
+            assembleButton.onClick.AddListener(GameController.p.squadManager.CommanderAssemble);
+            disassembleButton.onClick.AddListener(GameController.p.squadManager.CommanderClearSquad);
+            //assembleButton.onClick.AddListener()
+        }
     }
     
     public void OnSquadUpdate(Squad newSquad)
@@ -40,14 +57,21 @@ public class SquadPanel : MonoBehaviour
         
         foreach (Unit unit in newSquad.units)
         {   
-            GameObject slotObj = Instantiate(GameAssets.unitSlot_Prefab, transform);
+            GameObject slotObj;
+            if(slotsContainer != null){
+                slotObj = Instantiate(GameAssets.unitSlot_Prefab, slotsContainer);
+            }
+            else{
+                slotObj = Instantiate(GameAssets.unitSlot_Prefab, transform);
+            }
+            
             UnitSlot slot = slotObj.GetComponent<UnitSlot>();
             slot.Init(unit, this);
             
             unitSlots.Add(slot);
         }
         
-        squadLabel.text = $"Player's squad {newSquad.units.Count}/{newSquad.maxUnits}";
+        squadLabel.text = $"{squadOwner}'s squad {newSquad.units.Count}/{newSquad.maxUnits}";
         squadStats.text = $"| Damage: {newSquad.stats.meanDamage:F1} | ";
     }
     
@@ -59,7 +83,7 @@ public class SquadPanel : MonoBehaviour
         }
         unitSlots.Clear();
         
-        squadLabel.text = $"Player's squad 0/{squad.maxUnits}";
+        squadLabel.text = $"{squadOwner}'s squad 0/{squad.maxUnits}";
         squadStats.text = $"| Attack: 0 | ";
     }
     

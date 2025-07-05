@@ -526,11 +526,11 @@ MonoBehaviour:
         statModifiers: []
     - Key: 9
       Value:
-        baseValue: 30
+        baseValue: 70
         statModifiers: []
     - Key: 10
       Value:
-        baseValue: 0.35
+        baseValue: 0.45
         statModifiers: []
   health: 60
   rightHand: {fileID: 3315800805882177323}
@@ -542,8 +542,17 @@ MonoBehaviour:
   mouseClickLayers:
     serializedVersion: 2
     m_Bits: 63648
-  commandEnergy: 30
+  commandEnergy: 70
   isInteracting: 0
+  maxUnits: 6
+  squad:
+    units: []
+    maxUnits: 0
+    stats:
+      speedMultiplier: 0
+      meanDamage: 0
+    squadOwner: {fileID: 0}
+    followTarget: {fileID: 0}
   mat: {fileID: 0}
   animator: {fileID: 2345883527334119590}
 --- !u!114 &8888628033046219892
@@ -801,20 +810,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba9dd3b4ec7d14f498c879128b220436, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  squad:
+  selectedSquad:
     units: []
     maxUnits: 0
     stats:
       speedMultiplier: 0
       meanDamage: 0
+    squadOwner: {fileID: 0}
     followTarget: {fileID: 0}
+  selectedCommander: {fileID: 0}
   squadCallDistance: 4
   unitsMask:
     serializedVersion: 2
     m_Bits: 4096
-  currentUnits: 0
   maxUnits: 6
-  squadUI: {fileID: 0}
+  playerSquadUI: {fileID: 0}
+  selectedSquadUI: {fileID: 0}
   squadAssembleUI: {fileID: 0}
   searchDelay: 0.5
   searchingForUnits: 0

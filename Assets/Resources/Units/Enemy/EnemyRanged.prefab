@@ -913,6 +913,22 @@ MonoBehaviour:
       Value:
         baseValue: 7.5
         statModifiers: []
+    - Key: 11
+      Value:
+        baseValue: 0
+        statModifiers: []
+    - Key: 12
+      Value:
+        baseValue: 0
+        statModifiers: []
+    - Key: 13
+      Value:
+        baseValue: 0
+        statModifiers: []
+    - Key: 14
+      Value:
+        baseValue: 80
+        statModifiers: []
   combat: {fileID: 5953411143727860260}
   homePos: {x: 0, y: 0, z: 0}
   homeRadius: 18
@@ -999,9 +1015,7 @@ MonoBehaviour:
       Value:
         baseValue: 0
         statModifiers: []
-  attackDuration: 0
   attackSpeed: 1.7
-  concentration: 0
   isAttacking: 0
   references:
     version: 2

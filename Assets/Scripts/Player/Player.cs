@@ -46,6 +46,9 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     
     public bool isInteracting = false;
     
+    public int maxUnits;
+    public Squad squad;
+    
     private Controls controls;
     private Mouse mouse;
     private Camera mainCam;
@@ -57,6 +60,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         CrosshairManager.i.Init();
         CrosshairManager.SwitchCrosshair(true);
         
+        squad = new Squad(maxUnits, gameObject);
         cameraController.Init(playerFollow);
         playerAnimation.Init(animator);
         animationEvents.Init();
@@ -169,6 +173,8 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         health += amount;
         health = Math.Clamp(health, 0, stats[maxHealth].Value);
         EventBus.i.PlayerHealthChanged?.Invoke(health, stats[maxHealth].Value);
+        
+        Flash(Color.green, 0.2f);
     }
     Sequence colorSeq;
     public void Flash(Color flashColor, float fadeTime = 0.2f)
@@ -223,7 +229,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         
     }
     public bool HasSquad(){
-        return squadManager.HasSquad();
+        return squad.units.Count > 0;
     }
     public bool CanCommand(float commandPrice){
         return commandEnergy >= commandPrice;
@@ -293,7 +299,7 @@ public enum DamageType : byte
     Melee,
     Ranged,
     Explosive,
-    
+    Destructive, // for buildings
     // stab, slash, pierce ...
 }
 
