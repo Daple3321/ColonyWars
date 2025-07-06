@@ -1038,13 +1038,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 10368
   data: {fileID: 11400000, guid: 75a73a9322c446d4080de56ece56aaee, type: 2}
-  squad:
-    units: []
-    maxUnits: 0
-    stats:
-      speedMultiplier: 0
-      meanDamage: 0
-    followTarget: {fileID: 0}
+  characterObject: {fileID: 0}
   animator: {fileID: 0}
   animationEvents: {fileID: 0}
   attackPoint: {fileID: 6049868573793015363}
@@ -1098,7 +1092,7 @@ MonoBehaviour:
         statModifiers: []
     - Key: 8
       Value:
-        baseValue: 7
+        baseValue: 15
         statModifiers: []
     - Key: 7
       Value:

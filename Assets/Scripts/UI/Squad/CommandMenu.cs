@@ -36,6 +36,7 @@ public class CommandMenu : MonoBehaviour
     public void Init(SquadManager squadManager)
     {
         this.squadManager = squadManager;
+        squadManager.OnUnitSelect += u => SetupMenu();
         SetupButtons();
         
         Hide();
@@ -55,7 +56,7 @@ public class CommandMenu : MonoBehaviour
         deselectUnit.onClick.AddListener(squadManager.DeselectUnit);
     }
     
-    private void SetupButtonGroups()
+    private void SetupMenu()
     {
         if(squadManager.selectedUnit != null)
         {
@@ -92,7 +93,7 @@ public class CommandMenu : MonoBehaviour
     {
         gameObject.SetActive(true);
         
-        SetupButtonGroups();
+        SetupMenu();
         
         isOpen = true;
         EventBus.i.OnInteractivePanelOpened?.Invoke();

@@ -11,6 +11,7 @@ public class Squad
     
     public SquadStats stats;
     
+    public Vector3 lastMoveOrder;
     public GameObject squadOwner;
     public Transform followTarget;
     public Action<Squad> onSquadUpdate;
@@ -62,7 +63,8 @@ public class Squad
     {
         if (units.Count <= 0)
             return;
-
+        
+        lastMoveOrder = orderPos;
         foreach (Unit unit in units)
         {
             Vector3 offset = CalculateOffsetForUnit(units.IndexOf(unit), 1.8f);
@@ -87,6 +89,7 @@ public class Squad
         targetUnit.StopFollowing();
         targetUnit.followTarget = null;
         
+        lastMoveOrder = orderPos;
         UpdateStats();
         onSquadUpdate?.Invoke(this);
     }

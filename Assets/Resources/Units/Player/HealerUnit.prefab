@@ -631,7 +631,7 @@ MonoBehaviour:
   triggerZone: {fileID: 0}
   healRadius: 8
   healAmount: 4
-  healRate: 4
+  healRate: 5
   healTargets: []
 --- !u!114 &7014061075724155418
 MonoBehaviour:

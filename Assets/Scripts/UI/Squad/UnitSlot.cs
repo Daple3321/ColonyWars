@@ -37,7 +37,7 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     }
     public void SelectUnit()
     {
-        GameController.p.squadManager.OnUnitSelected(unit);
+        GameController.p.squadManager.SelectUnit(unit);
         // if(unit is Commander commander){
         // }
     }

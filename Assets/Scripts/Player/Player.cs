@@ -70,7 +70,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         playerUsing.Init(this);
         playerCombat.Init(this, playerAnimation);
         playerBuilding.Init(playerInventory);
-        squadManager.Init();
+        squadManager.Init(this);
         ui.Init();
         
         buildingPanelManager = GameController.i.buildingPanelManager;

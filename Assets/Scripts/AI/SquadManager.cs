@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class SquadManager : MonoBehaviour
 {
@@ -27,8 +28,13 @@ public class SquadManager : MonoBehaviour
     }
     
     private Zone searchZone;
-    public void Init()
+    private Controls controls;
+    private Player p;
+    public void Init(Player player)
     {
+        controls = GameAssets.controls;
+        this.p = player;
+        
         SetupPlayerSquadUI();
         SetupSelectedSquadUI();
         
@@ -67,7 +73,8 @@ public class SquadManager : MonoBehaviour
         selectedSquad.onSquadUpdate += selectedSquadUI.OnSquadUpdate;
     }
     
-    public void OnUnitSelected(Unit unit)
+    public event Action<Unit> OnUnitSelect;
+    public void SelectUnit(Unit unit)
     {
         if(unit == selectedUnit){
             DeselectUnit();
@@ -86,7 +93,31 @@ public class SquadManager : MonoBehaviour
             outline.OutlineColor = GameAssets.colors.craftReq;
             outline.OutlineWidth = 4.5f;
         }
+        
+        OnUnitSelect?.Invoke(unit);
     }
+    public void DeselectUnit()
+    {
+        if(selectedUnit == null) return;
+        
+        if(selectedUnit.characterObject.TryGetComponent(out Outline o)){
+            
+            Destroy(o);
+        }
+        
+        if(selectedUnit is Commander c){
+            selectedSquad.onSquadUpdate -= selectedSquadUI.OnSquadUpdate;
+            c.SwitchUnitSearching();
+            c.ownedSquad.RemoveOutlines();
+            
+            selectedSquad = GameController.p.squad;
+            selectedSquadUI.Hide();
+        }
+        
+        selectedUnit = null;
+        OnUnitSelect?.Invoke(null);
+    }
+    
     public void OnCommanderSelected(Commander commander)
     {
         //selectedCommander = commander;
@@ -133,26 +164,6 @@ public class SquadManager : MonoBehaviour
             c.ClearSquad();
         }
     }
-    public void DeselectUnit()
-    {
-        if(selectedUnit == null) return;
-        
-        if(selectedUnit.characterObject.TryGetComponent(out Outline o)){
-            
-            Destroy(o);
-        }
-        
-        if(selectedUnit is Commander c){
-            selectedSquad.onSquadUpdate -= selectedSquadUI.OnSquadUpdate;
-            c.SwitchUnitSearching();
-            c.ownedSquad.RemoveOutlines();
-            
-            selectedSquad = GameController.p.squad;
-            selectedSquadUI.Hide();
-        }
-        
-        selectedUnit = null;
-    }
     
     public void UnitMove()
     {
@@ -193,6 +204,48 @@ public class SquadManager : MonoBehaviour
             SearchForUnits();
             squadAssembleUI.UpdateUI(nearbyUnits);
             _searchDelay = searchDelay;
+        }
+        
+        HandleSquadScrolling();
+    }
+    
+    private void HandleSquadScrolling()
+    {
+        if(p.squad.IsEmpty()) return;
+        
+        if(commandMenu.isOpen && Input.mouseScrollDelta.y > 0f){
+            ScrollSquad(true);
+        }
+        else if(commandMenu.isOpen && Input.mouseScrollDelta.y < 0f){
+            ScrollSquad(false);
+        }
+    }
+    private int selectedUnitIndex = 0;
+    private void ScrollSquad(bool isForward)
+    {
+        if(p.squad.IsEmpty()) return;
+        
+        if(isForward)
+        {
+            if(selectedUnitIndex < p.squad.units.Count-1){
+                selectedUnitIndex++;
+                SelectUnit(p.squad.units[selectedUnitIndex]);
+            }
+            else if(selectedUnitIndex == p.squad.units.Count-1){
+                selectedUnitIndex = 0;
+                SelectUnit(p.squad.units[selectedUnitIndex]);
+            }
+        }
+        else
+        {
+            if(selectedUnitIndex > 0){
+                selectedUnitIndex--;
+                SelectUnit(p.squad.units[selectedUnitIndex]);
+            }
+            else if(selectedUnitIndex == 0){
+                selectedUnitIndex = p.squad.units.Count-1;
+                SelectUnit(p.squad.units[selectedUnitIndex]);
+            }
         }
     }
     
@@ -280,9 +333,7 @@ public class SquadManager : MonoBehaviour
         }
     }
     
-    // public bool HasSquad(){
-    //     return squad.units.Count > 0 ? true : false;
-    // }
+    
     
 #if UNITY_EDITOR
     private void OnDrawGizmos()

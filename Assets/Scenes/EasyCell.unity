@@ -2348,6 +2348,7 @@ MonoBehaviour:
     stats:
       speedMultiplier: 0
       meanDamage: 0
+    lastMoveOrder: {x: 0, y: 0, z: 0}
     squadOwner: {fileID: 0}
     followTarget: {fileID: 0}
   unitSlots: []
@@ -5393,6 +5394,7 @@ MonoBehaviour:
     stats:
       speedMultiplier: 0
       meanDamage: 0
+    lastMoveOrder: {x: 0, y: 0, z: 0}
     squadOwner: {fileID: 0}
     followTarget: {fileID: 0}
   unitSlots: []
@@ -5508,7 +5510,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4194175839080544761, guid: ed01fc9d95aecf742a4e723288639cb4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 213.0672
+      value: 224.16
       objectReference: {fileID: 0}
     - target: {fileID: 4194175839080544761, guid: ed01fc9d95aecf742a4e723288639cb4, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5516,7 +5518,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4194175839080544761, guid: ed01fc9d95aecf742a4e723288639cb4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 70.12683
+      value: 74.14
       objectReference: {fileID: 0}
     - target: {fileID: 4194175839080544761, guid: ed01fc9d95aecf742a4e723288639cb4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5549,10 +5551,6 @@ PrefabInstance:
     - target: {fileID: 8833364481316749265, guid: ed01fc9d95aecf742a4e723288639cb4, type: 3}
       propertyPath: m_Name
       value: RangedUnit
-      objectReference: {fileID: 0}
-    - target: {fileID: 8833364481316749265, guid: ed01fc9d95aecf742a4e723288639cb4, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -20742,7 +20740,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Remove
+  m_text: Leave squad
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f794e6a47d7a37e4ab145e5d3d42f1e0, type: 2}
   m_sharedMaterial: {fileID: 4139368065130269032, guid: f794e6a47d7a37e4ab145e5d3d42f1e0, type: 2}

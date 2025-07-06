@@ -44,7 +44,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IClickable
         }
     set{
         _squad = value;
-        Debug.Log("Squad has been assigned");
+        //Debug.Log("Squad has been assigned");
     }
     }
     protected CharacterController characterController;
@@ -164,17 +164,19 @@ public abstract class Unit : MonoBehaviour, IDamageable, IClickable
     
     public void OnClick(Player caller)
     {
-        GameController.p.squadManager.OnUnitSelected(this);
+        if(affiliation == Affiliation.Player){
+            GameController.p.squadManager.SelectUnit(this);
+        }
     }
     public void RegisterToSquad(Squad squad)
     {
         this.squad = squad;
         onRegiesterToSquad?.Invoke(squad);
-        Debug.Log($"REGISTERING TO SQUAD {squad.squadOwner}");
+        //Debug.Log($"REGISTERING TO SQUAD {squad.squadOwner}");
     }
     public void UnregisterFromSquad()
     {
-        Debug.Log($"UNREGESTERING FROM SQUAD {squad.squadOwner}");
+        //Debug.Log($"UNREGESTERING FROM SQUAD {squad.squadOwner}");
         
         this.squad = null;
         followTarget = null;
