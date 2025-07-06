@@ -19,6 +19,7 @@ public class SquadPanel : MonoBehaviour
     public Button assembleButton;
     public Button disassembleButton;
     
+    public bool hideIfSquadEmpty = true;
     public bool hidden = false;
     
     private string squadOwner;
@@ -31,12 +32,12 @@ public class SquadPanel : MonoBehaviour
         this.squadOwner = squadOwner;
         UpdateSquadUI(squad);
         
-        if(deselectButton != null){
+        /*if(deselectButton != null){
             deselectButton.onClick.AddListener(GameController.p.squadManager.SquadDeselect);
             assembleButton.onClick.AddListener(GameController.p.squadManager.CommanderAssemble);
             disassembleButton.onClick.AddListener(GameController.p.squadManager.CommanderClearSquad);
             //assembleButton.onClick.AddListener()
-        }
+        }*/
     }
     
     public void OnSquadUpdate(Squad newSquad)
@@ -48,7 +49,7 @@ public class SquadPanel : MonoBehaviour
     {
         ClearSquadUI();
         
-        if(squad.units.Count <= 0){
+        if(squad.units.Count <= 0 && hideIfSquadEmpty){
             Hide();
         }
         else{

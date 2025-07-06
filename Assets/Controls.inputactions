@@ -141,51 +141,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SquadAssemble",
-                    "type": "Button",
-                    "id": "43ab9389-e6e9-491e-b043-7bd8942ee4bd",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SquadMoveOrder",
-                    "type": "Button",
-                    "id": "a5dab587-aaff-4b25-888d-7fd33ab2e22f",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SquadRetreat",
-                    "type": "Button",
-                    "id": "c66501c1-fe02-4342-aab7-206771651cdf",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SquadAssembleMenu",
-                    "type": "Button",
-                    "id": "2cdf1f5a-ed86-4999-ad20-8dd3c3533656",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SquadClear",
-                    "type": "Button",
-                    "id": "0ecdea2f-6129-4a6f-9ad9-0bb76104b266",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "BuildMode",
                     "type": "Button",
                     "id": "73a3f520-7d83-46fd-bbae-84ffc70d5997",
@@ -693,7 +648,80 @@
                 },
                 {
                     "name": "",
-                    "id": "22ef883d-c1a3-4dcd-b529-e8a1c6763bd2",
+                    "id": "92dbc4c9-4909-4a5e-9dfb-d941c342e30a",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "BuildMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Squad",
+            "id": "d00a150d-32ee-48f1-a504-5c6a13f00851",
+            "actions": [
+                {
+                    "name": "SquadAssemble",
+                    "type": "Button",
+                    "id": "1210d130-84da-4525-8706-ec013b6c141f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SquadClear",
+                    "type": "Button",
+                    "id": "c3c2e5a4-1fcf-4ddf-9134-a2af0fc2a581",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SquadAssembleMenu",
+                    "type": "Button",
+                    "id": "0f71f4a5-8b77-457a-9966-57664789db29",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SquadRetreat",
+                    "type": "Button",
+                    "id": "c637f93f-2ca5-466b-8338-795db4bd8920",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SquadMoveOrder",
+                    "type": "Button",
+                    "id": "3c6840f8-678d-4a38-b829-e2de0170b1c2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CommandMenu",
+                    "type": "Button",
+                    "id": "10d5f264-c42a-40a1-949b-fec0c733e715",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3021e471-64da-4c32-833e-80765d2bd32a",
                     "path": "<Keyboard>/v",
                     "interactions": "Hold",
                     "processors": "",
@@ -704,40 +732,7 @@
                 },
                 {
                     "name": "",
-                    "id": "2ced7d76-980a-4cd8-9c5b-58f0fea58b1a",
-                    "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "SquadMoveOrder",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "04ee9a0a-bc68-4bb1-b0f6-93af699294d5",
-                    "path": "<Keyboard>/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "SquadRetreat",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2508f8c7-2618-4dfc-a9a5-a33b279b92f8",
-                    "path": "<Keyboard>/v",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "SquadAssembleMenu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7bccdecd-499c-4ae5-b6fb-7cd212998a57",
+                    "id": "6a264220-f444-44fa-8bd7-5d934799ad99",
                     "path": "<Keyboard>/z",
                     "interactions": "",
                     "processors": "",
@@ -748,12 +743,45 @@
                 },
                 {
                     "name": "",
-                    "id": "92dbc4c9-4909-4a5e-9dfb-d941c342e30a",
-                    "path": "<Keyboard>/b",
+                    "id": "13f67757-1334-499b-9a1f-05953205fde7",
+                    "path": "<Keyboard>/v",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SquadAssembleMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "34c11618-f92b-45a1-9a59-714b9f52ec2f",
+                    "path": "<Keyboard>/x",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "BuildMode",
+                    "action": "SquadRetreat",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ab1c4336-4562-4667-a7ef-3f230d46edfa",
+                    "path": "<Keyboard>/f",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "SquadMoveOrder",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "96843c44-b243-4292-be76-9b294cce2f99",
+                    "path": "<Keyboard>/f",
+                    "interactions": "Hold(duration=0.3)",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "CommandMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

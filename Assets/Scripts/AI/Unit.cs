@@ -7,7 +7,7 @@ using UnityEngine;
 using static EntityStatType;
 
 [RequireComponent(typeof(StateMachine))]
-public abstract class Unit : MonoBehaviour, IDamageable
+public abstract class Unit : MonoBehaviour, IDamageable, IClickable
 {
     public string unitName;
     
@@ -48,6 +48,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     }
     }
     protected CharacterController characterController;
+    public GameObject characterObject;
     protected WorldBar healthBar;
     public Animator animator;
     public AnimationEvents animationEvents;
@@ -79,6 +80,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
         gameObject.name = data.unitName;
         squad = null;
         characterController = GetComponent<CharacterController>();
+        characterObject = transform.Find("CHARACTER").gameObject;
         animator = GetComponent<Animator>();
         animationEvents = GetComponent<AnimationEvents>();
         animationEvents.Init();
@@ -160,6 +162,10 @@ public abstract class Unit : MonoBehaviour, IDamageable
         
     }
     
+    public void OnClick(Player caller)
+    {
+        GameController.p.squadManager.OnUnitSelected(this);
+    }
     public void RegisterToSquad(Squad squad)
     {
         this.squad = squad;
@@ -176,6 +182,15 @@ public abstract class Unit : MonoBehaviour, IDamageable
     }
     public bool InSquad(){
         if(squad != null){
+            return true;
+        }
+        else{
+            return false;
+        }
+        //return squad != null;
+    }
+    public bool InSquad(Squad squadCompare){
+        if(squad != null && squad == squadCompare){
             return true;
         }
         else{

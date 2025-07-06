@@ -82,6 +82,7 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         MouseTooltip.i.Init();
         
         controls = GameAssets.controls;
+        controls.Squad.Enable();
         mouse = Mouse.current;
         mainCam = Camera.main;
 
@@ -199,21 +200,30 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     
     public void HandleCommands()
     {
-        if (controls.Player.SquadMoveOrder.WasPressedThisFrame()){
+        if(controls.Squad.CommandMenu.WasPerformedThisFrame()){
+            squadManager.commandMenu.Show();
+            // if (controls.Squad.CommandMenu.IsPressed() && !squadManager.commandMenu.isOpen){
+            // }
+        }
+        if(controls.Squad.CommandMenu.WasReleasedThisFrame() && squadManager.commandMenu.isOpen){
+            squadManager.commandMenu.Hide();
+        }
+        
+        if (controls.Squad.SquadMoveOrder.WasPerformedThisFrame()){
             Command(CommandType.HOMEPOS, 5);
         }
-        if (controls.Player.SquadAssembleMenu.WasPressedThisFrame()){
+        if (controls.Squad.SquadAssembleMenu.WasPerformedThisFrame()){
             squadManager.SwitchAssemblePanel();
             //Command(CommandType.CREATE_SQUAD);
             //TakeDamage(2, 100);
         }
-        if(controls.Player.SquadAssemble.WasPerformedThisFrame()){
+        if(controls.Squad.SquadAssemble.WasPerformedThisFrame()){
             Command(CommandType.CREATE_SQUAD);
         }
-        if(controls.Player.SquadRetreat.WasPerformedThisFrame()){
+        if(controls.Squad.SquadRetreat.WasPerformedThisFrame()){
             Command(CommandType.FOLLOW, 5);
         }
-        if(controls.Player.SquadClear.WasPerformedThisFrame()){
+        if(controls.Squad.SquadClear.WasPerformedThisFrame()){
             Command(CommandType.CLEAR_SQUAD);
         }
         

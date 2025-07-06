@@ -620,13 +620,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   data: {fileID: 11400000, guid: 20ab78d314e809441b59cbf3ee8a5d80, type: 2}
-  squad:
-    units: []
-    maxUnits: 0
-    stats:
-      speedMultiplier: 0
-      meanDamage: 0
-    followTarget: {fileID: 0}
+  characterObject: {fileID: 0}
   animator: {fileID: 1340456010980370266}
   animationEvents: {fileID: 3746048410512964240}
   attackPoint: {fileID: 3835747246494355782}
@@ -635,9 +629,9 @@ MonoBehaviour:
   affiliation: 2
   stateMachine: {fileID: 8681265812827461181}
   triggerZone: {fileID: 0}
-  healRadius: 9
-  healAmount: 5
-  healRate: 3
+  healRadius: 8
+  healAmount: 4
+  healRate: 4
   healTargets: []
 --- !u!114 &7014061075724155418
 MonoBehaviour:

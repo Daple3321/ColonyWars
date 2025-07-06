@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Commander : Unit, IClickable
+public class Commander : Unit
 {
     public UnitState idleState;
     public UnitState retreatState;
@@ -35,7 +35,7 @@ public class Commander : Unit, IClickable
             squadCallDistance);
         searchZone.transform.SetParent(transform, false);
         searchZone.transform.localPosition = Vector3.zero;
-        //searchZone.gameObject.SetActive(false);
+        searchZone.gameObject.SetActive(false);
         
         combat.Init(this);
         combat.currentAttack = new MeleeAttack(this, combat.attackData, affiliation);
@@ -146,7 +146,7 @@ public class Commander : Unit, IClickable
     public void FollowOrder(){
         ownedSquad.FollowOrder(transform);
     }
-    public void HomePosOrder(Vector3 orderPos){
+    public void MoveOrder(Vector3 orderPos){
         ownedSquad.MoveOrder(orderPos);
     }
     public void UnitOrder(Vector3 orderPos, Unit targetUnit){
@@ -184,10 +184,5 @@ public class Commander : Unit, IClickable
     
     public bool HasSquad(){
         return !ownedSquad.IsEmpty();
-    }
-
-    public void OnClick(Player caller)
-    {
-        GameController.p.squadManager.OnSquadSelected(this, ownedSquad);
     }
 }

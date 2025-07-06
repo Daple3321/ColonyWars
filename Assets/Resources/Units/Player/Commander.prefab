@@ -289,14 +289,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 10368
   data: {fileID: 11400000, guid: 0bb33bad9a41110458f28f361565f2b9, type: 2}
-  squad:
-    units: []
-    maxUnits: 0
-    stats:
-      speedMultiplier: 0
-      meanDamage: 0
-    squadOwner: {fileID: 0}
-    followTarget: {fileID: 0}
+  characterObject: {fileID: 0}
   animator: {fileID: 5276941812017154355}
   animationEvents: {fileID: 4127849675993932147}
   attackPoint: {fileID: 6352259872540717396}
@@ -457,7 +450,7 @@ CharacterController:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 61440
+    m_Bits: 57344
   m_LayerOverridePriority: 0
   m_ProvidesContacts: 0
   m_Enabled: 1

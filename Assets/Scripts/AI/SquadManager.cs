@@ -6,13 +6,14 @@ using UnityEngine;
 public class SquadManager : MonoBehaviour
 {
     public Squad selectedSquad;
-    public Commander selectedCommander;
+    public Unit selectedUnit;
     
     public float squadCallDistance;
     public LayerMask unitsMask;
     
     public int maxUnits;
     
+    public CommandMenu commandMenu;
     public SquadPanel playerSquadUI;
     public SquadPanel selectedSquadUI;
     public SquadAssemblePanel squadAssembleUI;
@@ -31,7 +32,8 @@ public class SquadManager : MonoBehaviour
         SetupPlayerSquadUI();
         SetupSelectedSquadUI();
         
-        SquadDeselect();
+        DeselectUnit();
+        selectedSquadUI.Hide();
         SwitchAssemblePanel();
         
         _searchDelay = searchDelay;
@@ -48,6 +50,8 @@ public class SquadManager : MonoBehaviour
     }
     private void SetupPlayerSquadUI()
     {
+        commandMenu = GameController.i.commandMenu;
+        commandMenu.Init(this);
         playerSquadUI = GameController.i.playerSquadPanel;
         squadAssembleUI = GameController.i.squadAssemblePanel;
         
@@ -62,33 +66,122 @@ public class SquadManager : MonoBehaviour
         
         selectedSquad.onSquadUpdate += selectedSquadUI.OnSquadUpdate;
     }
-    public void OnSquadSelected(Commander commander, Squad squad)
+    
+    public void OnUnitSelected(Unit unit)
     {
-        selectedCommander = commander;
+        if(unit == selectedUnit){
+            DeselectUnit();
+            return;
+        }
+        
+        DeselectUnit();
+        
+        if(unit is Commander c){
+            OnCommanderSelected(c);
+        }
+        
+        selectedUnit = unit;
+        Outline outline = selectedUnit.characterObject.AddComponent<Outline>();
+        if(outline != null){
+            outline.OutlineColor = GameAssets.colors.craftReq;
+            outline.OutlineWidth = 4.5f;
+        }
+    }
+    public void OnCommanderSelected(Commander commander)
+    {
+        //selectedCommander = commander;
         //selectedCommander.SwitchUnitSearching();
-        selectedSquad = squad;
+        selectedSquad = commander.ownedSquad;
+        
+        commander.SwitchUnitSearching();
+        commander.ownedSquad.OutlineSquad();
         
         selectedSquadUI.Init("Commander", selectedSquad);
         selectedSquad.onSquadUpdate += selectedSquadUI.OnSquadUpdate;
         selectedSquadUI.Show();
     }
-    public void CommanderAssemble(){
-        if(selectedCommander == null) {Debug.LogError("No selected commander!"); return;}
+    public void CommanderSquadMove(){
+        if(selectedUnit == null) {Debug.LogError("No selected unit!"); return;}
         
-        selectedCommander.TryAssembleSquad();
+        if(selectedUnit is Commander c){
+            Vector3 mousePos = Input.mousePosition;
+            Ray mouseRay = Camera.main.ScreenPointToRay(mousePos);
+            if (Physics.Raycast(mouseRay, out RaycastHit hit, 50, LayerMask.GetMask("Ground")))
+            {
+                c.ownedSquad.MoveOrder(hit.point);
+            }
+        }
+    }
+    public void CommanderSquadFollow(){
+        if(selectedUnit == null) {Debug.LogError("No selected unit!"); return;}
+        
+        if(selectedUnit is Commander c){
+            c.FollowOrder();
+        }
+    }
+    public void CommanderAssemble(){
+        if(selectedUnit == null) {Debug.LogError("No selected unit!"); return;}
+        
+        if(selectedUnit is Commander c){
+            c.TryAssembleSquad();
+        }
     }
     public void CommanderClearSquad(){
-        if(selectedCommander == null) {Debug.LogError("No selected commander!"); return;}
+        if(selectedUnit == null) {Debug.LogError("No selected unit!"); return;}
         
-        selectedCommander.ClearSquad();
+         if(selectedUnit is Commander c){
+            c.ClearSquad();
+        }
     }
-    public void SquadDeselect(){
-        selectedSquad.onSquadUpdate -= selectedSquadUI.OnSquadUpdate;
+    public void DeselectUnit()
+    {
+        if(selectedUnit == null) return;
         
-        selectedSquad = GameController.p.squad;
-        selectedSquadUI.Hide();
-        //selectedCommander.SwitchUnitSearching();
-        selectedCommander = null;
+        if(selectedUnit.characterObject.TryGetComponent(out Outline o)){
+            
+            Destroy(o);
+        }
+        
+        if(selectedUnit is Commander c){
+            selectedSquad.onSquadUpdate -= selectedSquadUI.OnSquadUpdate;
+            c.SwitchUnitSearching();
+            c.ownedSquad.RemoveOutlines();
+            
+            selectedSquad = GameController.p.squad;
+            selectedSquadUI.Hide();
+        }
+        
+        selectedUnit = null;
+    }
+    
+    public void UnitMove()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        Ray mouseRay = Camera.main.ScreenPointToRay(mousePos);
+        if (Physics.Raycast(mouseRay, out RaycastHit hit, 50, LayerMask.GetMask("Ground")))
+        {
+            selectedUnit.SetHome(hit.point);
+            selectedUnit.StopFollowing();
+            selectedUnit.followTarget = null;
+        }
+    }
+    public void UnitFollow()
+    {
+        if(!selectedUnit.InSquad()){
+            Debug.LogWarning($"{selectedUnit.unitName} not in any squad", selectedUnit.gameObject);
+            return;
+        }
+        
+        selectedUnit.squad.FollowOrder(selectedUnit);
+    }
+    public void UnitRemove()
+    {
+        if(!selectedUnit.InSquad()){
+            Debug.LogWarning($"{selectedUnit.unitName} not in any squad", selectedUnit.gameObject);
+            return;
+        }
+        
+        selectedUnit.squad.RemoveUnit(selectedUnit);
     }
     
     void Update()
@@ -145,16 +238,16 @@ public class SquadManager : MonoBehaviour
     }
     
     public void FollowOrder(){
-        selectedSquad.FollowOrder(transform);
+        GameController.p.squad.FollowOrder(transform);
     }
     public void HomePosOrder(Vector3 orderPos){
-        selectedSquad.MoveOrder(orderPos);
+        GameController.p.squad.MoveOrder(orderPos);
     }
     public void UnitOrder(Vector3 orderPos, Unit targetUnit){
-        selectedSquad.MoveOrder(orderPos, targetUnit);
+        GameController.p.squad.MoveOrder(orderPos, targetUnit);
     }
     public void ClearSquad(){
-        selectedSquad.RemoveAllUnits();
+        GameController.p.squad.RemoveAllUnits();
     }
     
     public bool AddUnit(Squad targetSquad, Unit unit)
@@ -172,7 +265,7 @@ public class SquadManager : MonoBehaviour
                 if (col.TryGetComponent(out Unit hitUnit))
                 {
                     //Debug.Log($"Hit unit: {hitUnit.name}");
-                    selectedSquad.TryAddUnit(hitUnit);
+                    GameController.p.squad.TryAddUnit(hitUnit);
                 }
             }
             //squad.FollowOrder(transform);

@@ -46,6 +46,18 @@ public class Squad
             unit.StartFollowing();
         }
     }
+    public void FollowOrder(Unit targetUnit)
+    {
+        if (units.Count <= 0)
+            return;
+        if(!units.Contains(targetUnit)){
+            Debug.LogError($"Can't order to {targetUnit.unitName}. Not in this squad");
+            return;
+        }
+        
+        targetUnit.followTarget = squadOwner.transform;
+        targetUnit.StartFollowing();
+    }
     public void MoveOrder(Vector3 orderPos)
     {
         if (units.Count <= 0)
@@ -152,6 +164,27 @@ public class Squad
         onSquadUpdate?.Invoke(this);
         
         return true;
+    }
+    
+    public void OutlineSquad()
+    {
+        foreach(Unit u in units)
+        {
+            Outline o = u.characterObject.AddComponent<Outline>();
+            if(o != null){
+                o.OutlineColor = GameAssets.colors.availableColor;
+                o.OutlineWidth = 4.5f;
+            }
+        }
+    }
+    public void RemoveOutlines(){
+        foreach(Unit u in units)
+        {
+            if(u.characterObject.TryGetComponent(out Outline o))
+            {
+                GameObject.Destroy(o);
+            }
+        }
     }
     
     public Vector3 GetCenterPosition()
