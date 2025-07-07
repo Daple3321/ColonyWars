@@ -29,7 +29,8 @@ public class RangedTowerAttack : TowerAttack
                 owner.gameObject, 
                 rangedAttackData.penetrationAmount, 
                 rangedAttackData.projectileLifetime,
-                rangedAttackData.knockBackForce
+                rangedAttackData.knockBackForce,
+                rangedAttackData.damageType
             );
 
             Debug.DrawRay(owner.attackPoint.position, shootRay.direction * 4, Color.cyan, 2);

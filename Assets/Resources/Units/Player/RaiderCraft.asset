@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e316dacb42bbb234390c83927aaf9439, type: 3}
+  m_Name: RaiderCraft
+  m_EditorClassIdentifier: 
+  requirements:
+    requirements:
+    - item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
+      quantity: 2
+    - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
+      quantity: 8
+    - item: {fileID: 11400000, guid: 8fbf8b7ecb1b6df44abfbd934e425db5, type: 2}
+      quantity: 1
+  craftTime: 6
+  unit: {fileID: 11400000, guid: 6adc6ff1211d9854bb851f27e75c3b91, type: 2}

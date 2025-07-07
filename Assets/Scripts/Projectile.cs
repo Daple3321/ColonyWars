@@ -7,21 +7,23 @@ public class Projectile : MonoBehaviour
     public float speed;
     public int penetrationAmount;
     public float lifeTime;
+    public DamageType damageType = DamageType.Ranged;
     public Affiliation affiliation;
     public LayerMask currentExcludeMask;
     public LayerMask playerExcludeMask;
     public LayerMask enemyExcludeMask;
-    [SerializeField] private GameObject owner; // if = null -> player's projectile
+    [SerializeField] protected GameObject owner; // if == null => player's projectile
 
-    [SerializeField] private Rigidbody rb;
-    [SerializeField] private TrailRenderer trail;
+    [SerializeField] protected Rigidbody rb;
+    [SerializeField] protected TrailRenderer trail;
     //[SerializeField] private Material mat;
-    [SerializeField] private Renderer rend;
-    private MaterialPropertyBlock propertyBlock;
+    [SerializeField] protected Renderer rend;
+    protected MaterialPropertyBlock propertyBlock;
     //[SerializeField] private CinemachineImpulseSource impulseSource;
     
     public virtual void Init(float damage, float speed, Affiliation affiliation, 
-        GameObject owner = null, int penetrationAmount = 0, float lifeTime = 2.5f, float knockBackForce = 0f)
+        GameObject owner = null, int penetrationAmount = 0, float lifeTime = 2.5f, float knockBackForce = 0f,
+        DamageType damageType = DamageType.Ranged)
     {
         propertyBlock = new MaterialPropertyBlock();
         //rb = GetComponent<Rigidbody>();
@@ -29,6 +31,7 @@ public class Projectile : MonoBehaviour
         //trail = GetComponentInChildren<TrailRenderer>();
         //mat = GetComponent<Renderer>().material;
         
+        this.damageType = damageType;
         this.damage = damage;
         this.speed = speed;
         this.penetrationAmount = penetrationAmount;
@@ -129,12 +132,12 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    protected void OnTriggerEnter(Collider col)
+    protected virtual void OnTriggerEnter(Collider col)
     {
         IDamageable damageable;
         if (col.gameObject.TryGetComponent<IDamageable>(out damageable))
         {
-            damageable.TakeDamage(damage, owner.gameObject, transform.up.normalized*knockBackForce, DamageType.Ranged);
+            damageable.TakeDamage(damage, owner.gameObject, transform.up.normalized*knockBackForce, damageType);
         }
             
         if (col.gameObject.layer == 7) // ground

@@ -4,7 +4,8 @@ using UnityEngine;
 public class Healer : Unit
 {
     [Space(7f), Header("Healer settings")]
-    public TriggerZone triggerZone;
+    public Zone triggerZone;
+    public LayerMask healMask;
     public float healRadius = 3f;
     public float healAmount = 5f;
     public float healRate = 2f; // seconds
@@ -24,8 +25,8 @@ public class Healer : Unit
         triggerZone = ZoneFactory.CreateTriggerZone(transform.position, GameAssets.colors.availableColor, ZoneShape.Cylinder, healRadius, 6f);
         triggerZone.transform.SetParent(transform);
         triggerZone.transform.localPosition = Vector3.zero;
-        triggerZone.OnZoneEnter += OnZoneEnter;
-        triggerZone.OnZoneExit += OnZoneExit;
+        // triggerZone.OnZoneEnter += OnZoneEnter;
+        // triggerZone.OnZoneExit += OnZoneExit;
 
         combat.Init(this);
         combat.currentAttack = new RangedAttack(this, combat.attackData, affiliation);
@@ -72,7 +73,8 @@ public class Healer : Unit
         followTarget = null;
     }
 
-    void Update(){
+    protected override void Update(){
+        base.Update();
         HandleHeal();
     }
     
@@ -92,29 +94,38 @@ public class Healer : Unit
     }
     protected void HealAllTargets()
     {
-        foreach(Unit target in healTargets)
+        Collider[] hits = Physics.OverlapSphere(transform.position, healRadius, healMask);
+        if(hits.Length > 0)
         {
-            target.AddHealth(healAmount);
-        }
-    }
-    protected void OnZoneEnter(GameObject go)
-    {
-        if(go.TryGetComponent(out Unit unit) && unit.affiliation == affiliation)
-        {
-            if(!healTargets.Contains(unit)){
-                healTargets.Add(unit);
+            foreach(Collider target in hits)
+            {
+                target.GetComponent<Unit>().AddHealth(healAmount);
             }
         }
+        
+        // foreach(Unit target in healTargets)
+        // {
+        //     target.AddHealth(healAmount);
+        // }
     }
-    protected void OnZoneExit(GameObject go)
-    {
-        if(go.TryGetComponent(out Unit unit) && unit.affiliation == affiliation)
-        {
-            if(healTargets.Contains(unit)){
-                healTargets.Remove(unit);
-            }
-        }
-    }
+    // protected void OnZoneEnter(GameObject go)
+    // {
+    //     if(go.TryGetComponent(out Unit unit) && unit.affiliation == affiliation)
+    //     {
+    //         if(!healTargets.Contains(unit)){
+    //             healTargets.Add(unit);
+    //         }
+    //     }
+    // }
+    // protected void OnZoneExit(GameObject go)
+    // {
+    //     if(go.TryGetComponent(out Unit unit) && unit.affiliation == affiliation)
+    //     {
+    //         if(healTargets.Contains(unit)){
+    //             healTargets.Remove(unit);
+    //         }
+    //     }
+    // }
 
     public override void Death()
     {

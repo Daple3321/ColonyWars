@@ -31,13 +31,14 @@ public class PlayerUI : MonoBehaviour
         commandEnergy = GameObject.Find("commandEnergy_text").GetComponent<TextMeshProUGUI>();
         EventBus.i.PlayerCommandEnergyChanged += UpdateCommandEnergy;
         
+        /*
         playerPointsBar = GameObject.Find("PlayerPoints_Bar").GetComponent<Bar>();
         EventBus.i.OnPlayerPointsChanged += playerPointsBar.UpdateBar;
         playerPointsBar.Init();
         
         enemyPointsBar = GameObject.Find("EnemyPoints_Bar").GetComponent<Bar>();
         EventBus.i.OnEnemyPointsChanged += enemyPointsBar.UpdateBar;
-        enemyPointsBar.Init();
+        enemyPointsBar.Init();*/
         
         chargeBar = GameObject.Find("ChargeBar").GetComponent<Bar>();
         chargeBar.Init();

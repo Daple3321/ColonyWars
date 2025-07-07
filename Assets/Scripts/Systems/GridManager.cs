@@ -80,13 +80,13 @@ public class GridManager
                 newCell.OnCaptured += OnCellCaptured;
                 newCell.OnCaptureStarted += OnCaptureStarted;
                 
-                GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                go.name = $"[{i}, {j}]";
-                go.transform.position = grid.GetCellCenterWorld(new Vector3Int(i, 0, j));
-                Bounds bd = grid.GetBoundsLocal(new Vector3Int(i, 0, j), new Vector3(1, 1, 1));
-                go.transform.localScale = bd.size / 2;
-                GameObject.Destroy(go.GetComponent<Collider>());
-                planes[i, j] = go.GetComponent<Renderer>();
+                // GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                // go.name = $"[{i}, {j}]";
+                // go.transform.position = grid.GetCellCenterWorld(new Vector3Int(i, 0, j));
+                // Bounds bd = grid.GetBoundsLocal(new Vector3Int(i, 0, j), new Vector3(1, 1, 1));
+                // go.transform.localScale = bd.size / 2;
+                // GameObject.Destroy(go.GetComponent<Collider>());
+                // planes[i, j] = go.GetComponent<Renderer>();
             }
         }
         

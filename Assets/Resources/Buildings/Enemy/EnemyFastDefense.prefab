@@ -145,6 +145,7 @@ MonoBehaviour:
     - rid: 80068227900375151
       type: {class: RangedAttackData, ns: , asm: Assembly-CSharp}
       data:
+        damageType: 1
         bulletsPerShot: 1
         projectileSpeed: 60
         projectileLifetime: 1

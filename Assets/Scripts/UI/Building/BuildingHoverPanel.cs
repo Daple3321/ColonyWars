@@ -54,7 +54,8 @@ public class BuildingHoverPanel : MonoBehaviour
     // }
     
     private void ShowForBuilding(Building building, string info = ""){
-        transform.position = building.transform.position + new Vector3(0,4.2f,0);
+        float verticalOffset = building.transform.localScale.y+building.transform.localScale.y+0.5f;
+        transform.position = building.transform.position + new Vector3(0,verticalOffset,0);
         gameObject.SetActive(true);
         infoText.text = info;
         UpdateBar(building);

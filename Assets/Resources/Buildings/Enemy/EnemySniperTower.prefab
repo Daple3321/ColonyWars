@@ -329,6 +329,7 @@ MonoBehaviour:
     - rid: 80068227900375152
       type: {class: HitscanAttackData, ns: , asm: Assembly-CSharp}
       data:
+        damageType: 1
         projectilesPerShot: 1
         penetrationAmount: 0
         knockBackForce: 15

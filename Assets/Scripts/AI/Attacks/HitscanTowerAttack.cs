@@ -24,7 +24,7 @@ public class HitscanTowerAttack : TowerAttack
                 IDamageable damageable;
                 if (hit.collider.gameObject.TryGetComponent(out damageable))
                 {
-                    var result = damageable.TakeDamage(owner.stats[damage].Value, owner.gameObject, shootRay.direction, DamageType.Ranged);
+                    var result = damageable.TakeDamage(owner.stats[damage].Value, owner.gameObject, shootRay.direction, hitscanAttackData.damageType);
                 }
                 
                 GameObject lineObj = GameObject.Instantiate(GameAssets.hitScanLine, owner.attackPoint.position, Quaternion.identity);

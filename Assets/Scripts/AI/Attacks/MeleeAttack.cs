@@ -76,7 +76,8 @@ public class MeleeAttack : Attack
             foreach(Collider hit in hits)
             {
                 if (hit.gameObject.TryGetComponent(out damageable)){
-                    var result = await damageable.TakeDamage(owner.combat.stats[damage].Value, owner, -hit.transform.forward*meleeAttackData.knockBackForce);
+                    var result = await damageable.TakeDamage(owner.combat.stats[damage].Value, owner, -hit.transform.forward*meleeAttackData.knockBackForce,
+                    meleeAttackData.damageType);
                     HandleAttackResult(result, hit);
                 }
             }
@@ -96,7 +97,8 @@ public class MeleeAttack : Attack
             IDamageable damageable;
             if (hit.collider.gameObject.TryGetComponent(out damageable))
             {
-                var result = await damageable.TakeDamage(owner.combat.stats[damage].Value, owner, shootRay.direction, DamageType.Melee);
+                var result = await damageable.TakeDamage(owner.combat.stats[damage].Value, owner, shootRay.direction, 
+                meleeAttackData.damageType);
                 HandleAttackResult(result, hit.collider);
             }
             //Helper.SpawnHitEffect(hit.point, hit.normal, hit.collider.gameObject.layer);

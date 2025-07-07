@@ -941,13 +941,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 20672
   data: {fileID: 11400000, guid: b18180fa73bc8ef498b3e43b1cd58037, type: 2}
-  squad:
-    units: []
-    maxUnits: 0
-    stats:
-      speedMultiplier: 0
-      meanDamage: 0
-    followTarget: {fileID: 0}
+  characterObject: {fileID: 0}
   animator: {fileID: 0}
   animationEvents: {fileID: 0}
   attackPoint: {fileID: 947056284864973253}
@@ -1025,6 +1019,7 @@ MonoBehaviour:
     - rid: 80067863468310684
       type: {class: RangedAttackData, ns: , asm: Assembly-CSharp}
       data:
+        damageType: 1
         bulletsPerShot: 1
         projectileSpeed: 35
         projectileLifetime: 4

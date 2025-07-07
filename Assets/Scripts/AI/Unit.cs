@@ -112,9 +112,9 @@ public abstract class Unit : MonoBehaviour, IDamageable, IClickable
         //healthBar = Instantiate(GameAssets.worldBar, GameController.i.worldCanvas.transform).GetComponent<WorldBar>();
         healthBar = WorldUI.i.CreateWorldBar();
         healthBar.Init(affiliation);
-        healthBar.InitWorldBar(transform, GameController.i.worldCanvas, unitName);
+        healthBar.InitWorldBar(transform, GameController.i.worldCanvas, data.unitName);
         healthBar.SetDescription($"{data.unitName} Lv.{levelSystem.GetLevel()}");
-        healthBar.offset.y = transform.localScale.y + 1.4f;
+        healthBar.offset.y = transform.localScale.y+transform.localScale.y+0.15f;
         healthBar.parentTransform.position = transform.position + healthBar.offset;
         healthBar.parentTransform.SetParent(transform);
         healthBar.UpdateBar(health, stats[maxHealth].Value);

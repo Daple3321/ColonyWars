@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76fb453e7702fc44aa8a44898ddb2190, type: 3}
+  m_Name: EnemyHealer
+  m_EditorClassIdentifier: 
+  unitName: Healer
+  description: 
+  icon: {fileID: 21300000, guid: 0fb920a047006154ca704f283a251729, type: 3}
+  recipe: {fileID: 0}
+  lootTable:
+    table:
+      _serializedList:
+      - Key:
+          item: {fileID: 11400000, guid: 471ce9d14ac514b40844bd5f6c46d877, type: 2}
+          amountRange: {x: 4, y: 6}
+        Value: 0.8
+      - Key:
+          item: {fileID: 11400000, guid: 1426475067439c347bf78c6063196eea, type: 2}
+          amountRange: {x: 1, y: 2}
+        Value: 0.7
+      - Key:
+          item: {fileID: 11400000, guid: ee22d33a9fbe9794e8869ad073bdca86, type: 2}
+          amountRange: {x: 1, y: 2}
+        Value: 0.5
+    rollAmountRange: {x: 1, y: 3}
+  prefab: {fileID: 7361227746065737625, guid: ed4c11d45108164458163dff6a000a0c, type: 3}
