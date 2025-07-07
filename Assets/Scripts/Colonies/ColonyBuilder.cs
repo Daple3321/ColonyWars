@@ -93,6 +93,7 @@ public class ColonyBuilder : MonoBehaviour
         else{
             cellIdx = ColoniesManager.i.gridManager.ClosestCell(owner.cellIndex.x, owner.cellIndex.z, Affiliation.None);
         }
+        //Debug.Log($"Building defense on cell: {cellIdx}");
         //Cell c = owner.capturedCells[Random.Range(0, owner.capturedCells.Count)];
         Cell c = ColoniesManager.i.gridManager.GetCell(cellIdx.x, cellIdx.y);
         
