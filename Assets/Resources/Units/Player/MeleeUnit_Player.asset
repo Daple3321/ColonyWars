@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76fb453e7702fc44aa8a44898ddb2190, type: 3}
   m_Name: MeleeUnit_Player
   m_EditorClassIdentifier: 
-  unitName: Melee unit
+  unitName: Spearman
   description: 
   icon: {fileID: 21300000, guid: f1e8c3dc20488024b857b8be594b11f7, type: 3}
-  recipe: {fileID: 0}
+  recipe: {fileID: 11400000, guid: 3b0eafeb9dc88a94f88d97dc9cc91752, type: 2}
   lootTable:
     table:
       _serializedList: []

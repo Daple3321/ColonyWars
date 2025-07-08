@@ -10,6 +10,8 @@ public class Explosion
     
     public LayerMask hitMask;
     
+    public GameObject customExplosionPrefab;
+    
     public Explosion(float damage, float radius, float knockBackForce, LayerMask hitMask){
         this.damage = damage;
         this.radius = radius;
@@ -37,7 +39,13 @@ public class Explosion
             }
         }
         
-        GameObject explosion = GameObject.Instantiate(GameAssets.explosion, pos, Quaternion.identity);
-        GameObject.Destroy(explosion.gameObject, 7f);
+        if(customExplosionPrefab == null){
+            GameObject explosion = GameObject.Instantiate(GameAssets.explosion, pos, Quaternion.identity);
+            GameObject.Destroy(explosion.gameObject, 7f);
+        }
+        else{
+            GameObject explosion = GameObject.Instantiate(customExplosionPrefab, pos, Quaternion.identity);
+            GameObject.Destroy(explosion.gameObject, 7f);
+        }
     }
 }

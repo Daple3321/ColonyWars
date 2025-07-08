@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76fb453e7702fc44aa8a44898ddb2190, type: 3}
   m_Name: RangedUnit_Enemy
   m_EditorClassIdentifier: 
-  unitName: Ranged Enemy
+  unitName: Rifleman
   description: 
   icon: {fileID: 0}
   recipe: {fileID: 0}

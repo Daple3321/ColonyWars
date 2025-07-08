@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cdec9a7528f287a4299bcf85893eefe5, type: 3}
-  m_Name: Shotgun
+  m_Name: RocketLauncher
   m_EditorClassIdentifier: 
-  itemName: Shotgun
-  description: S.H.O.T.G.U.N
-  icon: {fileID: 21300000, guid: d215148136a3b0543ac0f0670ed2234f, type: 3}
-  rarity: 3
+  itemName: Rocket launcher
+  description: 
+  icon: {fileID: 21300000, guid: 66b351cd3e8ec2d4d88775064b48f617, type: 3}
+  rarity: 4
   IsStackable: 0
   maxStackSize: 1
   instantPickup: 1
@@ -23,43 +23,43 @@ MonoBehaviour:
   itemMaterials: []
   hasCustomScale: 0
   customScale: {x: 1, y: 1, z: 1}
-  customPrefab: {fileID: 1549962704229280597, guid: 4af3d8938075e88468789c45c259ba60, type: 3}
-  damage: 4
-  attackRate: 0.45
-  chargeRate: 0.1
+  customPrefab: {fileID: 1313484379718077408, guid: c5ceff68ed43ae14d982a241012febc3, type: 3}
+  damage: 23
+  attackRate: 0.4
+  chargeRate: 0.7
   needsAmmo: 1
-  recoilForce: 9
-  slowingAmount: 0.5
-  ammoType: {fileID: 11400000, guid: f057f1e5bdec1914d9733846d6f5d5c5, type: 2}
-  attackType: 2
+  recoilForce: 25
+  slowingAmount: 95
+  ammoType: {fileID: 11400000, guid: 5494435d96e3a624c9c357f9102154e7, type: 2}
+  attackType: 3
   weaponType: 2
   attackTriggeredByAnimation: 0
-  projectilesPerShot: 5
-  shootDistance: 30
-  projectileSpeed: 50
+  projectilesPerShot: 1
+  shootDistance: 60
+  projectileSpeed: 2000
   penetrationAmount: 0
-  projectileLifetime: 1
-  knockBackForce: 15
+  projectileLifetime: 2.5
+  knockBackForce: 40
   concentrationScatter:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 15
-      inSlope: -10
-      outSlope: -10
+      value: 20
+      inSlope: -18
+      outSlope: -18
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 5
-      inSlope: -1.697022
-      outSlope: -1.697022
-      tangentMode: 0
+      value: 2
+      inSlope: -18
+      outSlope: -18
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.052518845
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

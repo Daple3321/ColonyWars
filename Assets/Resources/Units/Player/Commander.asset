@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Commander
   m_EditorClassIdentifier: 
   unitName: Commander
-  description: Can create squad like player and command it
+  description: Can create a squad and command it
   icon: {fileID: 21300000, guid: 1e372e62e6311ec4080ea59d70a7ee9f, type: 3}
   recipe: {fileID: 0}
   lootTable:

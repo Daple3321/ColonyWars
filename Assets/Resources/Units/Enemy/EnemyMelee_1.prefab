@@ -161,13 +161,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 20672
   data: {fileID: 11400000, guid: 5cf07f7180da4154e9a6eafdb3abed29, type: 2}
-  squad:
-    units: []
-    maxUnits: 0
-    stats:
-      speedMultiplier: 0
-      meanDamage: 0
-    followTarget: {fileID: 0}
+  characterObject: {fileID: 0}
   animator: {fileID: 0}
   animationEvents: {fileID: 0}
   attackPoint: {fileID: 1716718945382976523}
@@ -245,6 +239,7 @@ MonoBehaviour:
     - rid: 80067863468310770
       type: {class: MeleeAttackData, ns: , asm: Assembly-CSharp}
       data:
+        damageType: 0
         knockBackForce: 0
         attackBoxExtents: {x: 1.3, y: 2, z: 1.4}
         attackSequence:
@@ -315,7 +310,7 @@ CharacterController:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 32768
+    m_Bits: 40960
   m_LayerOverridePriority: 0
   m_ProvidesContacts: 0
   m_Enabled: 1

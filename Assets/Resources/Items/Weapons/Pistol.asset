@@ -37,9 +37,9 @@ MonoBehaviour:
   attackTriggeredByAnimation: 0
   projectilesPerShot: 1
   shootDistance: 30
-  projectileSpeed: 50
+  projectileSpeed: 55
   penetrationAmount: 0
-  projectileLifetime: 0.45
+  projectileLifetime: 1.5
   knockBackForce: 10
   concentrationScatter:
     serializedVersion: 2

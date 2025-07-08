@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using PrimeTween;
 using TMPro;
 using UnityEngine;
@@ -75,11 +76,15 @@ public class UnitCraftSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterH
     {
         OnCraftClicked?.Invoke(recipe);
     }
+    StringBuilder sb = new StringBuilder();
     private void ShowTooltip()
     {
-        MouseTooltip.ShowTooltip_Static(recipe.unit.unitName, 
-        recipe.requirements.GetRequirementsCompare(
+        sb.Clear();
+        sb.AppendLine(recipe.unit.description);
+        sb.Append(recipe.requirements.GetRequirementsCompare(
             parentInventory.inventory.GetItemAmounts(recipe.requirements.requirements.ToArray())));
+        
+        MouseTooltip.ShowTooltip_Static(recipe.unit.unitName, sb.ToString());
     }
     Tween scaleTween;
     public void OnPointerEnter(PointerEventData eventData)

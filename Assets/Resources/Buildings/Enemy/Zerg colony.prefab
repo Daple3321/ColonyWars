@@ -58,11 +58,11 @@ MonoBehaviour:
         statModifiers: []
     - Key: 11
       Value:
-        baseValue: 90
+        baseValue: 80
         statModifiers: []
     - Key: 12
       Value:
-        baseValue: 90
+        baseValue: 70
         statModifiers: []
     - Key: 13
       Value:
@@ -172,6 +172,8 @@ MonoBehaviour:
     _serializedList:
     - Key: {fileID: 11400000, guid: 307f0b4d17cbe4e45b7a419a28c10fb6, type: 2}
       Value: 0.8
+    - Key: {fileID: 11400000, guid: 81a9fbfa338f08a42b46b00da25cb48f, type: 2}
+      Value: 0.2
     - Key: {fileID: 11400000, guid: 52efff97d8f05c244bf7733a63aa2269, type: 2}
       Value: 0.1
   raidSquad:
@@ -181,6 +183,8 @@ MonoBehaviour:
       stats:
         speedMultiplier: 0
         meanDamage: 0
+      lastMoveOrder: {x: 0, y: 0, z: 0}
+      squadOwner: {fileID: 0}
       followTarget: {fileID: 0}
     unitsOnMission: []
     targetCell:
@@ -229,7 +233,7 @@ MonoBehaviour:
     - Key: {fileID: 11400000, guid: 3ab62c90304b4fe4e85d6db6274e9af4, type: 2}
       Value: 0.85
     - Key: {fileID: 11400000, guid: f114b3c24fa15c34ba053248acb74ed6, type: 2}
-      Value: 0.05
+      Value: 0.1
   wallPool:
     _serializedList:
     - Key: {fileID: 11400000, guid: 7a9abd22cd3a5054fba5d163390b96b1, type: 2}

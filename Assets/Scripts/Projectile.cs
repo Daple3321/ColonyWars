@@ -47,7 +47,7 @@ public class Projectile : MonoBehaviour
         Destroy(gameObject, lifeTime);
     }
     
-    void SetupAffiliation()
+    protected void SetupAffiliation()
     {
         if(affiliation == Affiliation.Enemy){
             currentExcludeMask = enemyExcludeMask;
@@ -70,7 +70,7 @@ public class Projectile : MonoBehaviour
         rb.excludeLayers = currentExcludeMask;
     }
 
-    void Update()
+    protected virtual void Update()
     {
         Vector3 moveDir = Vector3.up * speed * Time.deltaTime;
         transform.Translate(moveDir);

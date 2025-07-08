@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3c27d93c3f14c848852d4b1f34c386f, type: 3}
-  m_Name: Gunpowder
+  m_Name: Rocket launcher
   m_EditorClassIdentifier: 
   requirements:
     requirements:
-    - item: {fileID: 11400000, guid: 857b41fb7bd31774cb5df1a783bc1631, type: 2}
-      quantity: 1
-    - item: {fileID: 11400000, guid: dfe06b9807283144fb496089e9fc5643, type: 2}
-      quantity: 1
-  craftTime: 0.8
-  finalItem: {fileID: 11400000, guid: 82b55b43dc561b049bd2e4eff7737eeb, type: 2}
-  finalAmount: 5
+    - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
+      quantity: 32
+    - item: {fileID: 11400000, guid: 82b55b43dc561b049bd2e4eff7737eeb, type: 2}
+      quantity: 16
+  craftTime: 10
+  finalItem: {fileID: 11400000, guid: f6c5822ec4489f94bbdd98eb7862dec9, type: 2}
+  finalAmount: 1
