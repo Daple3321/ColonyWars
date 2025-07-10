@@ -13,7 +13,7 @@ public class AttackState : UnitState
     {
         this.enemyCheckDelay = stateMachine.owner.enemyCheckDelay;
     }
-    public override void Update(StateMachine stateMachine)
+    public override void UpdateState(StateMachine stateMachine)
     {
         if (stateMachine.owner.HasTarget() && 
         stateMachine.owner.DistanceToTarget() <= stateMachine.owner.combat.stats[attackDistance].Value && 

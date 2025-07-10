@@ -12,7 +12,7 @@ public class IdleState : UnitState
     {
         this.enemyCheckDelay = stateMachine.owner.enemyCheckDelay;
     }
-    public override void Update(StateMachine stateMachine)
+    public override void UpdateState(StateMachine stateMachine)
     {
         stateMachine.owner.movement.UpdateAnimationParams();
         

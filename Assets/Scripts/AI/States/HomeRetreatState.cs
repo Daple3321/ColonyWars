@@ -12,7 +12,7 @@ public class HomeRetreatState : UnitState
     {
         this.enemyCheckDelay = stateMachine.owner.enemyCheckDelay;
     }
-    public override void Update(StateMachine stateMachine)
+    public override void UpdateState(StateMachine stateMachine)
     {
         if(!stateMachine.owner.stun.IsStunned()){
             stateMachine.owner.MoveToHome();

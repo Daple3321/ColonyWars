@@ -23,7 +23,7 @@ public class PatrolState : UnitState
         this.enemyCheckDelay = stateMachine.owner.enemyCheckDelay;
         _waitTime = waitTime;
     }
-    public override void Update(StateMachine stateMachine)
+    public override void UpdateState(StateMachine stateMachine)
     {
         HandlePatroling(stateMachine.owner);
         

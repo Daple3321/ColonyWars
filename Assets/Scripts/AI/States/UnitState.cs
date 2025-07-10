@@ -14,7 +14,7 @@ public abstract class UnitState : ScriptableObject
     //public Unit owner;
     
     public abstract void Enter(StateMachine stateMachine);
-    public abstract void Update(StateMachine stateMachine);
+    public abstract void UpdateState(StateMachine stateMachine);
     public virtual void FixedUpdate(){}
     //public virtual void Back(){}
     public abstract void Exit();

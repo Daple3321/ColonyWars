@@ -37,7 +37,7 @@ public class StateMachine : MonoBehaviour
     void Update()
     {
         if (currentState != null)
-            currentState.Update(this);
+            currentState.UpdateState(this);
     }
 
     void FixedUpdate()

@@ -11,7 +11,7 @@ public class FollowState : UnitState
     {
 
     }
-    public override void Update(StateMachine stateMachine)
+    public override void UpdateState(StateMachine stateMachine)
     {
         stateMachine.owner.FollowTarget();
         // if (owner.followTarget != null && Vector3.Distance(owner.transform.position, owner.followTarget.position) > stopDistance)
