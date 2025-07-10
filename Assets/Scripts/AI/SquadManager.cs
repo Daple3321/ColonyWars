@@ -88,6 +88,7 @@ public class SquadManager : MonoBehaviour
         }
         
         selectedUnit = unit;
+        selectedUnit.onUnitDeath += OnSelectedUnitDeath;
         Outline outline = selectedUnit.characterObject.AddComponent<Outline>();
         if(outline != null){
             outline.OutlineColor = GameAssets.colors.craftReq;
@@ -100,6 +101,7 @@ public class SquadManager : MonoBehaviour
     {
         if(selectedUnit == null) return;
         
+        selectedUnit.onUnitDeath -= OnSelectedUnitDeath;
         if(selectedUnit.characterObject.TryGetComponent(out Outline o)){
             
             Destroy(o);
@@ -116,6 +118,10 @@ public class SquadManager : MonoBehaviour
         
         selectedUnit = null;
         OnUnitSelect?.Invoke(null);
+    }
+    private void OnSelectedUnitDeath(Unit unit)
+    {
+        DeselectUnit();
     }
     
     public void OnCommanderSelected(Commander commander)

@@ -85,6 +85,7 @@ public class Commander : Unit
     }
     public override void Death()
     {
+        ClearSquad();
         base.Death();
     }
     
