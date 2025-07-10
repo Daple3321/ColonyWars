@@ -1,60 +1,53 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
+[CreateAssetMenu(fileName = "New Patrol State", menuName = "AI/States/Patrol state")]
 public class PatrolState : UnitState
 {
     private float enemyCheckDelay;
     
-    public List<Vector3> patrolRoute;
-    public int currentPoint = 0;
     public float waitTime = 7f;
     private float _waitTime = 7f;
     
-    public EnemyColony parentColony;
-    public override void Enter()
+    public UnitState OnEnemyFound;
+    public UnitState OnFarFromHome;
+    
+    public void InitRoute(StateMachine stateMachine)
     {
-        this.enemyCheckDelay = owner.enemyCheckDelay;
-        _waitTime = waitTime;
-        
-        patrolRoute = new List<Vector3>();
-        if(parentColony != null)
-        {
-            foreach(var building in parentColony.buildings)
-            {
-                Vector2 bPos = new Vector2(building.transform.position.x, building.transform.position.z);
-                patrolRoute.Add(GameController.RandomPointInCircleTerrain(bPos, 2.5f, 10f));
-            }
-        }
-        else{
-            patrolRoute.Add(GameController.RandomPointInCircleTerrain(owner.transform.position, 2.5f, 10f));
+        if(stateMachine.owner is Enemy enemy){
+            stateMachine.owner.InitPatrolRoute(enemy.parentColony);
         }
     }
-    public override void Update()
+    
+    public override void Enter(StateMachine stateMachine)
     {
-        HandlePatroling();
+        this.enemyCheckDelay = stateMachine.owner.enemyCheckDelay;
+        _waitTime = waitTime;
+    }
+    public override void Update(StateMachine stateMachine)
+    {
+        HandlePatroling(stateMachine.owner);
         
-        owner.movement.UpdateAnimationParams();
+        stateMachine.owner.movement.UpdateAnimationParams();
         
         if (enemyCheckDelay > 0){
             enemyCheckDelay -= Time.deltaTime;
         }
         else
         {
-            enemyCheckDelay = owner.enemyCheckDelay;
-            if (owner.CheckForEnemies()) // нашли врага в радиусе
+            enemyCheckDelay = stateMachine.owner.enemyCheckDelay;
+            if (stateMachine.owner.CheckForEnemies()) // нашли врага в радиусе
             {
-                stateMachine.ChangeState(nextState);
+                stateMachine.ChangeState(OnEnemyFound);
             }
         }
 
-        if (owner.DistanceToHome() > 1.5f) // если далеко от дома
+        if (stateMachine.owner.DistanceToHome() > 1.5f) // если далеко от дома
         {
-            base.Back();
+            stateMachine.ChangeState(OnFarFromHome);
         }
     }
     
-    private void HandlePatroling()
+    private void HandlePatroling(Unit owner)
     {
         if(_waitTime > 0){
             _waitTime -= Time.deltaTime;
@@ -62,7 +55,7 @@ public class PatrolState : UnitState
         else{
             _waitTime = waitTime;
             
-            NextPoint();
+            NextPoint(owner);
         }
         
         if (owner.DistanceToHome() <= 1.5f)
@@ -73,16 +66,16 @@ public class PatrolState : UnitState
             owner.MoveToHome();
         }
     }
-    private void NextPoint()
+    private void NextPoint(Unit owner)
     {
-        if(currentPoint < patrolRoute.Count-1){
-            currentPoint++;
+        if(owner.currentPatrolPoint < owner.patrolRoute.Count-1){
+            owner.currentPatrolPoint++;
         }
         else{
-            currentPoint = 0;
+            owner.currentPatrolPoint = 0;
         }
         
-        owner.SetHome(patrolRoute[currentPoint]);
+        owner.SetHome(owner.patrolRoute[owner.currentPatrolPoint]);
     }
 
     public override void Exit()

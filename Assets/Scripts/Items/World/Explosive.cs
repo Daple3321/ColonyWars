@@ -27,7 +27,7 @@ public class Explosive : MonoBehaviour
     
     public virtual void Explode()
     {
-        explosion.Explode(transform.position);
+        explosion.Explode(transform.position, GameController.p.gameObject); // НУ ТАК ТОГДА НЕЛЬЗЯ БЛЯТЬ БУДЕТ ВРАГАМ ЭТО КИДАТЬ. Т.К. OWNER ВСЕГДА ИГРОК
         
         impulseSource.GenerateImpulse();
         

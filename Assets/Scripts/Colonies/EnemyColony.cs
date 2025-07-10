@@ -158,7 +158,9 @@ public class EnemyColony : Colony
         // else{
         // }
         u = SpawnUnit(randUnit, null, true);
-        u.GetComponent<Enemy>().InitEnemy(this);
+        if(u.TryGetComponent(out Enemy enemy)){
+            enemy.InitEnemy(this);
+        }
         u.Init();
         
         int randLevel = 1;
@@ -181,6 +183,7 @@ public class EnemyColony : Colony
         GameObject go = Instantiate(prefab, pointInCircle, Quaternion.identity);
         Unit u = go.GetComponent<Unit>();
         u.onUnitDeath += OnColonyUnitDeath;
+        u.InitPatrolRoute(this);
         
         if(assignToAlerts){
             AssignUnitToBuildingAlerts(u); // stupid lambda function, нельзя отписаться никак. кучу памяти жрёт если не задереференсить?
@@ -199,6 +202,7 @@ public class EnemyColony : Colony
         Vector3 pointInCircle = GameController.RandomPointInCircleTerrain(spawnPos, 2, 5);
         GameObject go = Instantiate(unit.prefab, pointInCircle, Quaternion.identity);
         Unit u = go.GetComponent<Unit>();
+        u.InitPatrolRoute(this);
         //u.onUnitDeath += OnColonyUnitDeath;
         
         return u;

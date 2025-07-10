@@ -5,10 +5,6 @@ using UnityEngine;
 public class Enemy : Unit
 {
     [Header("States")]
-    public UnitState idleState;
-    public UnitState patrolState;
-    public UnitState retreatState;
-    public UnitState attackState;
     public UnitState followState;
     public UnitState aggroState;
     
@@ -32,7 +28,7 @@ public class Enemy : Unit
         
         ConfigureStates();
         
-        Invoke(nameof(StartStates), Random.Range(0.1f, 3f));
+        //Invoke(nameof(StartStates), Random.Range(0.1f, 3f));
     }
     public virtual void InitEnemy(EnemyColony parentColony = null)
     {
@@ -41,51 +37,50 @@ public class Enemy : Unit
     
     public override void ConfigureStates()
     {
-        attackState = new AttackState
-        {
-            stateMachine = stateMachine,
-            owner = this,
-        };
-        retreatState = new HomeRetreatState
-        {
-            stateMachine = stateMachine,
-            owner = this,
-        };
-        idleState = new IdleState
-        {
-            stateMachine = stateMachine,
-            owner = this,
-        };
-        followState = new FollowState
-        {
-            stateMachine = stateMachine,
-            owner = this,
-        };
-        patrolState = new PatrolState
-        {
-            stateMachine = stateMachine,
-            owner = this,
-            parentColony = this.parentColony,
-            waitTime = 15f,
-        };
-        aggroState = new AggroAttackState
-        {
-            enemyOwner = this,
-            stateMachine = stateMachine,
-            owner = this,
-        };
+        // attackState = new AttackState
+        // {
+        //     stateMachine = stateMachine,
+        //     owner = this,
+        // };
+        // retreatState = new HomeRetreatState
+        // {
+        //     stateMachine = stateMachine,
+        //     owner = this,
+        // };
+        // idleState = new IdleState
+        // {
+        //     stateMachine = stateMachine,
+        //     owner = this,
+        // };
+        // followState = new FollowState
+        // {
+        //     stateMachine = stateMachine,
+        //     owner = this,
+        // };
+        // patrolState = new PatrolState
+        // {
+        //     stateMachine = stateMachine,
+        //     owner = this,
+        //     parentColony = this.parentColony,
+        //     waitTime = 15f,
+        // };
+        // aggroState = new AggroAttackState
+        // {
+        //     enemyOwner = this,
+        //     stateMachine = stateMachine,
+        //     owner = this,
+        // };
         
-        attackState.Init(idleState, retreatState);
-        retreatState.Init(patrolState, attackState);
-        idleState.Init(attackState, retreatState);
-        followState.Init(idleState, retreatState);
-        patrolState.Init(attackState, retreatState);
-        aggroState.Init(idleState, retreatState);
-        //stateMachine.ChangeState(idleState);
+        // attackState.Init(idleState, retreatState);
+        // retreatState.Init(patrolState, attackState);
+        // idleState.Init(attackState, retreatState);
+        // followState.Init(idleState, retreatState);
+        // patrolState.Init(attackState, retreatState);
+        // aggroState.Init(idleState, retreatState);
     }
     protected virtual void StartStates()
     {
-        stateMachine.ChangeState(patrolState);
+        //stateMachine.ChangeState(patrolState);
     }
     public override UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3(), DamageType damageType = DamageType.Melee)
     {
@@ -123,7 +118,7 @@ public class Enemy : Unit
     }
     public override void StopFollowing()
     {
-        stateMachine.ChangeState(idleState);
+        stateMachine.StartStates();
         followTarget = null;
     }
     

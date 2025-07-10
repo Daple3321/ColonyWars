@@ -1,25 +1,29 @@
 using UnityEngine;
 
-[System.Serializable]
+[CreateAssetMenu(fileName = "New Retreat State", menuName = "AI/States/Home Retreat state")]
 public class HomeRetreatState : UnitState
 {
     private float enemyCheckDelay;
     
-    public override void Enter()
+    public UnitState onArrivedState;
+    public UnitState onEnemyFoundState;
+    
+    public override void Enter(StateMachine stateMachine)
     {
-        this.enemyCheckDelay = owner.enemyCheckDelay;
+        this.enemyCheckDelay = stateMachine.owner.enemyCheckDelay;
     }
-    public override void Update()
+    public override void Update(StateMachine stateMachine)
     {
-        if(!owner.stun.IsStunned()){
-            owner.MoveToHome();
-            owner.movement.UpdateAnimationParams();
+        if(!stateMachine.owner.stun.IsStunned()){
+            stateMachine.owner.MoveToHome();
+            stateMachine.owner.movement.UpdateAnimationParams();
         }
 
-        if (owner.DistanceToHome() <= 1.5f)
+        if (stateMachine.owner.DistanceToHome() <= 1.5f)
         {
-            owner.movement.ResetVelocity();
-            stateMachine.ChangeState(nextState);
+            stateMachine.owner.movement.ResetVelocity();
+            stateMachine.ChangeState(onArrivedState);
+            return;
         }
 
         if (enemyCheckDelay > 0)
@@ -28,10 +32,11 @@ public class HomeRetreatState : UnitState
         }
         else
         {
-            enemyCheckDelay = owner.enemyCheckDelay;
-            if (owner.CheckForEnemies())
+            enemyCheckDelay = stateMachine.owner.enemyCheckDelay;
+            if (stateMachine.owner.CheckForEnemies())
             {
-                stateMachine.ChangeState(previousState);    
+                stateMachine.ChangeState(onEnemyFoundState);
+                return;  
             }
         }
     }

@@ -51,7 +51,7 @@ public class ExplosiveProjectile : Projectile
     
     protected void SpawnExplosion()
     {
-        explosion.Explode(transform.position);
+        explosion.Explode(transform.position, owner);
         impulseSource.GenerateImpulse();
     }
     

@@ -1,17 +1,20 @@
 using UnityEngine;
 
-[System.Serializable]
+[CreateAssetMenu(fileName = "New Idle State", menuName = "AI/States/Idle state")]
 public class IdleState : UnitState
 {
     private float enemyCheckDelay;
+    
+    public UnitState OnEnemyFound;
+    public UnitState OnFarFromHome;
 
-    public override void Enter()
+    public override void Enter(StateMachine stateMachine)
     {
-        this.enemyCheckDelay = owner.enemyCheckDelay;
+        this.enemyCheckDelay = stateMachine.owner.enemyCheckDelay;
     }
-    public override void Update()
+    public override void Update(StateMachine stateMachine)
     {
-        owner.movement.UpdateAnimationParams();
+        stateMachine.owner.movement.UpdateAnimationParams();
         
         if (enemyCheckDelay > 0)
         {
@@ -19,16 +22,16 @@ public class IdleState : UnitState
         }
         else
         {
-            enemyCheckDelay = owner.enemyCheckDelay;
-            if (owner.CheckForEnemies()) // нашли врага в радиусе
+            enemyCheckDelay = stateMachine.owner.enemyCheckDelay;
+            if (stateMachine.owner.CheckForEnemies()) // нашли врага в радиусе
             {
-                stateMachine.ChangeState(nextState);
+                stateMachine.ChangeState(OnEnemyFound);
             }
         }
 
-        if (owner.DistanceToHome() > 1.5f) // если далеко от дома
+        if (stateMachine.owner.DistanceToHome() > 1.5f) // если далеко от дома
         {
-            base.Back();
+            stateMachine.ChangeState(OnFarFromHome);
         }
     }
 

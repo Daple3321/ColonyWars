@@ -1,17 +1,19 @@
 using UnityEngine;
 
-[System.Serializable]
+[CreateAssetMenu(fileName = "New Follow State", menuName = "AI/States/Follow state")]
 public class FollowState : UnitState
 {
     public float stopDistance = 2f;
     
-    public override void Enter()
+    public UnitState OnNoFollowTarget;
+    
+    public override void Enter(StateMachine stateMachine)
     {
 
     }
-    public override void Update()
+    public override void Update(StateMachine stateMachine)
     {
-        owner.FollowTarget();
+        stateMachine.owner.FollowTarget();
         // if (owner.followTarget != null && Vector3.Distance(owner.transform.position, owner.followTarget.position) > stopDistance)
         // {
         //     owner.FollowTarget();
@@ -21,8 +23,8 @@ public class FollowState : UnitState
         // }
         // owner.UpdateAnimationParams();
         
-        if(owner.followTarget == null){
-            stateMachine.ChangeState(nextState);
+        if(stateMachine.owner.followTarget == null){
+            stateMachine.ChangeState(OnNoFollowTarget);
         }
     }
 

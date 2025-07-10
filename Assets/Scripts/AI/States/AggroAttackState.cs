@@ -1,36 +1,42 @@
 using UnityEngine;
 using static EntityStatType;
 
-[System.Serializable]
+[CreateAssetMenu(fileName = "New Aggro attack State", menuName = "AI/States/Aggro attack state")]
 public class AggroAttackState : UnitState
 {
     public Enemy enemyOwner;
     
-    public override void Enter()
+    public UnitState OnAggrEnd;
+    public UnitState OnNoTarget;
+    
+    public override void Enter(StateMachine stateMachine)
     {
-        
+        if(stateMachine.owner is Enemy e){
+            enemyOwner = e;
+        }
     }
-    public override void Update()
+    public override void Update(StateMachine stateMachine)
     {
-        if (owner.HasTarget() && owner.DistanceToTarget() <= owner.combat.stats[attackDistance].Value)
+        if (stateMachine.owner.HasTarget() && stateMachine.owner.DistanceToTarget() <= stateMachine.owner.combat.stats[attackDistance].Value)
         {
-            owner.combat.HandleAttacking();
-            owner.movement.RotateTo(owner.attackTarget.position);
+            stateMachine.owner.combat.HandleAttacking();
+            stateMachine.owner.movement.RotateTo(stateMachine.owner.attackTarget.position);
         }
-        else if(owner.combat.isAttacking && (!owner.HasTarget() || owner.DistanceToTarget() > owner.combat.stats[attackDistance].Value)){
+        else if(stateMachine.owner.combat.isAttacking && 
+        (!stateMachine.owner.HasTarget() || stateMachine.owner.DistanceToTarget() > stateMachine.owner.combat.stats[attackDistance].Value)){
             //Debug.Log("Attack canceled");
-            owner.combat.CancelAttackDelayed();
+            stateMachine.owner.combat.CancelAttackDelayed();
         }
         
-        if(!owner.stun.IsStunned()){
-            owner.MoveToAttackTarget();
+        if(!stateMachine.owner.stun.IsStunned()){
+            stateMachine.owner.MoveToAttackTarget();
         }
         
         if(!enemyOwner.aggrActive){ // если закончился аггр
-            stateMachine.ChangeState(nextState);
+            stateMachine.ChangeState(OnAggrEnd);
         }
-        if(!owner.HasTarget()){ // если таргета больше нет
-            stateMachine.ChangeState(nextState);
+        if(!stateMachine.owner.HasTarget()){ // если таргета больше нет
+            stateMachine.ChangeState(OnNoTarget);
         }
     }
 
