@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[System.Serializable]
 public class HomeRetreatState : UnitState
 {
     private float enemyCheckDelay;

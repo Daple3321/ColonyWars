@@ -1,6 +1,7 @@
 using UnityEngine;
 using static EntityStatType;
 
+[System.Serializable]
 public class AggroAttackState : UnitState
 {
     public Enemy enemyOwner;

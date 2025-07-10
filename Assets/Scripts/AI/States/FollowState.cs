@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[System.Serializable]
 public class FollowState : UnitState
 {
     public float stopDistance = 2f;

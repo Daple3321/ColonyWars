@@ -1,6 +1,7 @@
 using UnityEngine;
 using static EntityStatType;
 
+[System.Serializable]
 public class AttackState : UnitState
 {
     private float enemyCheckDelay;

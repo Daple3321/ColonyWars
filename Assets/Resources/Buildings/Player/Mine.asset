@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: Mine
   m_EditorClassIdentifier: 
   buildingName: Mine
-  description: 'General mine
-
-    Mines everything but with low efficiency'
+  description: Mines ores in its vicinity
   buildingIcon: {fileID: 21300000, guid: 04cd37b424ef0da4c978117f83b32047, type: 3}
   craftPrice:
     requirements:

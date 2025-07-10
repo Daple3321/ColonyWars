@@ -551,6 +551,7 @@ MonoBehaviour:
     stats:
       speedMultiplier: 0
       meanDamage: 0
+    lastMoveOrder: {x: 0, y: 0, z: 0}
     squadOwner: {fileID: 0}
     followTarget: {fileID: 0}
   mat: {fileID: 0}
@@ -613,7 +614,7 @@ MonoBehaviour:
     rid: -2
   selectedWorldItem: {fileID: 0}
   hotbarStartInventory: {fileID: 11400000, guid: 6cbfda2174ee86842880c747cdcdaee9, type: 2}
-  starterInventory: {fileID: 11400000, guid: 9d4c0ffe26e366e4ab2962453e438312, type: 2}
+  starterInventory: {fileID: 0}
   activeInventories: []
   dropPoint: {fileID: 1358582417517567280}
   inventoryUI: {fileID: 0}
@@ -816,14 +817,16 @@ MonoBehaviour:
     stats:
       speedMultiplier: 0
       meanDamage: 0
+    lastMoveOrder: {x: 0, y: 0, z: 0}
     squadOwner: {fileID: 0}
     followTarget: {fileID: 0}
-  selectedCommander: {fileID: 0}
+  selectedUnit: {fileID: 0}
   squadCallDistance: 4
   unitsMask:
     serializedVersion: 2
     m_Bits: 4096
   maxUnits: 6
+  commandMenu: {fileID: 0}
   playerSquadUI: {fileID: 0}
   selectedSquadUI: {fileID: 0}
   squadAssembleUI: {fileID: 0}

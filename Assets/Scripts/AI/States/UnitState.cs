@@ -4,8 +4,8 @@ using UnityEngine;
 public abstract class UnitState
 {
     public StateMachine stateMachine;
-    public UnitState nextState;
-    public UnitState previousState;
+    [SerializeReference, SubclassSelector] public UnitState nextState;
+    [SerializeReference, SubclassSelector] public UnitState previousState;
     public void Init(UnitState nextState, UnitState previousState)
     {
         this.nextState = nextState;

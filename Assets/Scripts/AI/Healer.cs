@@ -11,9 +11,9 @@ public class Healer : Unit
     public float healRate = 2f; // seconds
     
     
-    public UnitState idleState;
-    public UnitState retreatState;
-    public UnitState followState;
+    [SerializeReference, SubclassSelector] public UnitState idleState;
+    [SerializeReference, SubclassSelector] public UnitState retreatState;
+    [SerializeReference, SubclassSelector] public UnitState followState;
 
     public override void Init()
     {
@@ -57,9 +57,9 @@ public class Healer : Unit
             owner = this,
         };
         
-        retreatState.Init(idleState, retreatState);
-        idleState.Init(retreatState, retreatState);
-        followState.Init(idleState, retreatState);
+        //retreatState.Init(idleState, retreatState);
+        //idleState.Init(retreatState, retreatState);
+        //followState.Init(idleState, retreatState);
 
         stateMachine.ChangeState(idleState);
     }

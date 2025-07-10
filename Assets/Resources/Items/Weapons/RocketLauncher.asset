@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RocketLauncher
   m_EditorClassIdentifier: 
   itemName: Rocket launcher
-  description: 
+  description: Ideal for destroying buildings
   icon: {fileID: 21300000, guid: 66b351cd3e8ec2d4d88775064b48f617, type: 3}
   rarity: 4
   IsStackable: 0
