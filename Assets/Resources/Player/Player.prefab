@@ -614,7 +614,7 @@ MonoBehaviour:
     rid: -2
   selectedWorldItem: {fileID: 0}
   hotbarStartInventory: {fileID: 11400000, guid: 6cbfda2174ee86842880c747cdcdaee9, type: 2}
-  starterInventory: {fileID: 0}
+  starterInventory: {fileID: 11400000, guid: 9d4c0ffe26e366e4ab2962453e438312, type: 2}
   activeInventories: []
   dropPoint: {fileID: 1358582417517567280}
   inventoryUI: {fileID: 0}
@@ -845,13 +845,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 489b2430023f16b4c9f93572cdd04fdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState:
-    rid: -2
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+  currentState: {fileID: 0}
+  startState: {fileID: 0}
+  owner: {fileID: 0}
 --- !u!114 &6761362640697903048
 MonoBehaviour:
   m_ObjectHideFlags: 0

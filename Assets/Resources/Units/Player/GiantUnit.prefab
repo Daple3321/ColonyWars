@@ -170,6 +170,7 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   affiliation: 2
   stateMachine: {fileID: 5605921275455609930}
+  followState: {fileID: 11400000, guid: e0bf1530e97206441859187f359860c3, type: 2}
 --- !u!114 &5157907378804248574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,13 +276,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 489b2430023f16b4c9f93572cdd04fdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState:
-    rid: -2
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+  currentState: {fileID: 0}
+  startState: {fileID: 11400000, guid: 61c95463aea508543af066a75b47b894, type: 2}
+  owner: {fileID: 0}
 --- !u!114 &6426113644071845897
 MonoBehaviour:
   m_ObjectHideFlags: 0

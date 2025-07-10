@@ -20,6 +20,8 @@ MonoBehaviour:
       Value: 128
     - Key: {fileID: 11400000, guid: f6c5822ec4489f94bbdd98eb7862dec9, type: 2}
       Value: 1
+    - Key: {fileID: 11400000, guid: 5494435d96e3a624c9c357f9102154e7, type: 2}
+      Value: 8
     - Key: {fileID: 11400000, guid: 0ed7a9971a5f3a04d9314a863cb23196, type: 2}
       Value: 64
     - Key: {fileID: 11400000, guid: 23313022b98286f42b9ced6461d21457, type: 2}

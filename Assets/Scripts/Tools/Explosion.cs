@@ -12,6 +12,7 @@ public class Explosion
     
     public GameObject customExplosionPrefab;
     
+    
     public Explosion(float damage, float radius, float knockBackForce, LayerMask hitMask){
         this.damage = damage;
         this.radius = radius;
@@ -19,7 +20,7 @@ public class Explosion
         this.hitMask = hitMask;
     }
     
-    public void Explode(Vector3 pos)
+    public void Explode(Vector3 pos, GameObject owner = null)
     {
         Collider[] hits = Physics.OverlapSphere(pos, radius, hitMask);
         
@@ -34,7 +35,7 @@ public class Explosion
                     float distance = Vector3.Distance(pos, hit.transform.position);
                     float distanceLerp = Mathf.InverseLerp(0, radius, distance);
                     float finalDamage = 1 + (damage * damageDissipation.Evaluate(distanceLerp));
-                    damageable.TakeDamage(finalDamage, this, knockback*knockBackForce, DamageType.Explosive);
+                    damageable.TakeDamage(finalDamage, owner, knockback*knockBackForce, DamageType.Explosive);
                 }
             }
         }

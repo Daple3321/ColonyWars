@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using Cysharp.Threading.Tasks;
 using PrimeTween;
@@ -94,7 +95,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IClickable
         
         movement.Init(this);
 
-        stateMachine.Init();
+        InitPatrolRoute();
+        stateMachine.Init(this);
         
         InitUI();
         
@@ -204,7 +206,24 @@ public abstract class Unit : MonoBehaviour, IDamageable, IClickable
     public abstract void ConfigureStates();
     public abstract void StartFollowing();
     public abstract void StopFollowing();
-
+    
+    public List<Vector3> patrolRoute;
+    public int currentPatrolPoint = 0;
+    public virtual void InitPatrolRoute(Colony parentColony = null){
+        patrolRoute = new List<Vector3>();
+        if(parentColony != null)
+        {
+            foreach(var building in parentColony.buildings) // SET LIMIT ON LENGTH AND SHUFFLE BUILDINGS
+            {
+                Vector2 bPos = new Vector2(building.transform.position.x, building.transform.position.z);
+                patrolRoute.Add(GameController.RandomPointInCircleTerrain(bPos, 2.5f, 10f));
+            }
+        }
+        else{
+            patrolRoute.Add(GameController.RandomPointInCircleTerrain(transform.position, 2.5f, 10f));
+        }
+    }
+    
     public virtual void FollowTarget()
     {
         if (followTarget != null && Vector3.Distance(transform.position, followTarget.position) > targetStopDistance)

@@ -636,6 +636,7 @@ MonoBehaviour:
   healRadius: 8
   healAmount: 4
   healRate: 5
+  followState: {fileID: 11400000, guid: e0bf1530e97206441859187f359860c3, type: 2}
   healTargets: []
 --- !u!114 &7014061075724155418
 MonoBehaviour:
@@ -723,13 +724,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 489b2430023f16b4c9f93572cdd04fdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState:
-    rid: -2
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+  currentState: {fileID: 0}
+  startState: {fileID: 11400000, guid: 61c95463aea508543af066a75b47b894, type: 2}
+  owner: {fileID: 5887453954370066608}
 --- !u!114 &3746048410512964240
 MonoBehaviour:
   m_ObjectHideFlags: 0

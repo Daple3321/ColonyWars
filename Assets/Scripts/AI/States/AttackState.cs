@@ -1,33 +1,39 @@
 using UnityEngine;
 using static EntityStatType;
 
-[System.Serializable]
+[CreateAssetMenu(fileName = "New Attack State", menuName = "AI/States/Attack State")]
 public class AttackState : UnitState
 {
     private float enemyCheckDelay;
     
-    public override void Enter()
+    public UnitState OnHomeRadiusExit;
+    public UnitState OnNoEnemiesFound;
+    
+    public override void Enter(StateMachine stateMachine)
     {
-        this.enemyCheckDelay = owner.enemyCheckDelay;
+        this.enemyCheckDelay = stateMachine.owner.enemyCheckDelay;
     }
-    public override void Update()
+    public override void Update(StateMachine stateMachine)
     {
-        if (owner.HasTarget() && owner.DistanceToTarget() <= owner.combat.stats[attackDistance].Value && !owner.stun.IsStunned())
+        if (stateMachine.owner.HasTarget() && 
+        stateMachine.owner.DistanceToTarget() <= stateMachine.owner.combat.stats[attackDistance].Value && 
+        !stateMachine.owner.stun.IsStunned())
         {
-            owner.combat.HandleAttacking();
-            owner.movement.RotateTo(owner.attackTarget.position);
+            stateMachine.owner.combat.HandleAttacking();
+            stateMachine.owner.movement.RotateTo(stateMachine.owner.attackTarget.position);
         }
-        else if(owner.combat.isAttacking && (!owner.HasTarget() || owner.DistanceToTarget() > owner.combat.stats[attackDistance].Value)){
-            owner.combat.CancelAttackDelayed();
+        else if(stateMachine.owner.combat.isAttacking && 
+        (!stateMachine.owner.HasTarget() || stateMachine.owner.DistanceToTarget() > stateMachine.owner.combat.stats[attackDistance].Value)){
+            stateMachine.owner.combat.CancelAttackDelayed();
         }
         
-        if(!owner.stun.IsStunned()){
-            owner.MoveToAttackTarget();
+        if(!stateMachine.owner.stun.IsStunned()){
+            stateMachine.owner.MoveToAttackTarget();
         }
         
-        if (owner.DistanceToHome() > owner.homeRadius)
+        if (stateMachine.owner.DistanceToHome() > stateMachine.owner.homeRadius)
         {
-            stateMachine.ChangeState(previousState);
+            stateMachine.ChangeState(OnHomeRadiusExit);
         }
 
         if (enemyCheckDelay > 0)
@@ -36,10 +42,10 @@ public class AttackState : UnitState
         }
         else
         {
-            enemyCheckDelay = owner.enemyCheckDelay;
-            if (!owner.CheckForEnemies())
+            enemyCheckDelay = stateMachine.owner.enemyCheckDelay;
+            if (!stateMachine.owner.CheckForEnemies())
             {
-                stateMachine.ChangeState(previousState);
+                stateMachine.ChangeState(OnNoEnemiesFound);
             }
         }
     }

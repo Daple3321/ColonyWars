@@ -10,16 +10,13 @@ public class Healer : Unit
     public float healAmount = 5f;
     public float healRate = 2f; // seconds
     
-    
-    [SerializeReference, SubclassSelector] public UnitState idleState;
-    [SerializeReference, SubclassSelector] public UnitState retreatState;
-    [SerializeReference, SubclassSelector] public UnitState followState;
+    [Header("States")]
+    public UnitState followState;
 
     public override void Init()
     {
         base.Init();
         
-        healTargets = new();
         _healDelay = healRate;
         
         triggerZone = ZoneFactory.CreateTriggerZone(transform.position, GameAssets.colors.availableColor, ZoneShape.Cylinder, healRadius, 6f);
@@ -32,36 +29,36 @@ public class Healer : Unit
         combat.currentAttack = new RangedAttack(this, combat.attackData, affiliation);
         
         ConfigureStates();
-        Invoke(nameof(StartStates), Random.Range(0.1f, 3f));
+        //Invoke(nameof(StartStates), Random.Range(0.1f, 3f));
     }
     private void StartStates()
     {
-        stateMachine.ChangeState(idleState);
+        //stateMachine.ChangeState(idleState);
     }
     
     public override void ConfigureStates()
     {
-        retreatState = new HomeRetreatState
-        {
-            stateMachine = stateMachine,
-            owner = this,
-        };
-        idleState = new IdleState
-        {
-            stateMachine = stateMachine,
-            owner = this,
-        };
-        followState = new FollowState
-        {
-            stateMachine = stateMachine,
-            owner = this,
-        };
+        // retreatState = new HomeRetreatState
+        // {
+        //     stateMachine = stateMachine,
+        //     owner = this,
+        // };
+        // idleState = new IdleState
+        // {
+        //     stateMachine = stateMachine,
+        //     owner = this,
+        // };
+        // followState = new FollowState
+        // {
+        //     stateMachine = stateMachine,
+        //     owner = this,
+        // };
         
         //retreatState.Init(idleState, retreatState);
         //idleState.Init(retreatState, retreatState);
         //followState.Init(idleState, retreatState);
 
-        stateMachine.ChangeState(idleState);
+        //stateMachine.ChangeState(idleState);
     }
     public override void StartFollowing()
     {
@@ -69,7 +66,7 @@ public class Healer : Unit
     }
     public override void StopFollowing()
     {
-        stateMachine.ChangeState(idleState);
+        stateMachine.StartStates();
         followTarget = null;
     }
 
@@ -78,12 +75,9 @@ public class Healer : Unit
         HandleHeal();
     }
     
-    public List<Unit> healTargets;
     private float _healDelay;
     protected void HandleHeal()
     {
-        if(healTargets.Count <= 0) return;
-        
         if(_healDelay > 0){
             _healDelay -= Time.deltaTime;
         }
@@ -102,30 +96,7 @@ public class Healer : Unit
                 target.GetComponent<Unit>().AddHealth(healAmount);
             }
         }
-        
-        // foreach(Unit target in healTargets)
-        // {
-        //     target.AddHealth(healAmount);
-        // }
     }
-    // protected void OnZoneEnter(GameObject go)
-    // {
-    //     if(go.TryGetComponent(out Unit unit) && unit.affiliation == affiliation)
-    //     {
-    //         if(!healTargets.Contains(unit)){
-    //             healTargets.Add(unit);
-    //         }
-    //     }
-    // }
-    // protected void OnZoneExit(GameObject go)
-    // {
-    //     if(go.TryGetComponent(out Unit unit) && unit.affiliation == affiliation)
-    //     {
-    //         if(healTargets.Contains(unit)){
-    //             healTargets.Remove(unit);
-    //         }
-    //     }
-    // }
 
     public override void Death()
     {

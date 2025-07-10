@@ -193,8 +193,12 @@ public class GridManager
     {
         for(int i = 0; i < borders.Count; i++)
         {
-            if(borders[i].activeInHierarchy){
-                borderPool.Pool.Release(borders[i]);
+            if(borders[i] == null) { borders.RemoveAt(i); }
+            else
+            {
+                if(borders[i].activeInHierarchy){
+                    borderPool.Pool.Release(borders[i]);
+                }
             }
         }
     }

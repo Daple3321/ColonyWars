@@ -2,23 +2,42 @@ using UnityEngine;
 
 public class StateMachine : MonoBehaviour
 {
-    [SerializeReference] public UnitState currentState;
+    public UnitState currentState;
+    public UnitState startState;
+    
+    public Unit owner;
 
-    void Awake()
-    {
+    void Awake(){
         enabled = false;
     }
+    
+    public void StartStates(){ // technically REstart
+        if (startState != null){
+            ChangeState(startState);
+        }
+        else{
+            Debug.LogError($"No starting state selected", owner.gameObject);
+        }
+    }
 
-    public void Init(UnitState startState = null)
+    public void Init(Unit owner)
     {
-        //ChangeState(startState);
+        this.owner = owner;
+        
+        // if(startState is PatrolState ps){
+        //     ps.InitRoute(this);
+        // }
+        
+        if (startState != null){
+            ChangeState(startState);
+        }
         enabled = true;
     }
 
     void Update()
     {
         if (currentState != null)
-            currentState.Update();
+            currentState.Update(this);
     }
 
     void FixedUpdate()
@@ -34,6 +53,6 @@ public class StateMachine : MonoBehaviour
             currentState.Exit();
         currentState = newState;
         if (currentState != null)
-            currentState.Enter();
+            currentState.Enter(this);
     }
 }
