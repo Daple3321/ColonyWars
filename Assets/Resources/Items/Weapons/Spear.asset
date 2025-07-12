@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Spear
   description: 
-  icon: {fileID: 21300000, guid: f51aa60a5ff35d34e9d7682ca648cfe9, type: 3}
+  icon: {fileID: 21300000, guid: 02df7c816ec370d4b978f41b78b4e770, type: 3}
   rarity: 1
   IsStackable: 0
   maxStackSize: 1
