@@ -438,7 +438,6 @@ GameObject:
   - component: {fileID: 561148159243195092}
   - component: {fileID: 5685056463674500617}
   - component: {fileID: 8311137189873081287}
-  - component: {fileID: 8290539460608290715}
   - component: {fileID: 6761362640697903048}
   - component: {fileID: 287891762264843410}
   - component: {fileID: 7880495096100524603}
@@ -497,7 +496,6 @@ MonoBehaviour:
   animationEvents: {fileID: 287891762264843410}
   buildingPanelManager: {fileID: 0}
   squadManager: {fileID: 8311137189873081287}
-  stateMachine: {fileID: 8290539460608290715}
   stats:
     _serializedList:
     - Key: 0
@@ -833,21 +831,6 @@ MonoBehaviour:
   searchDelay: 0.5
   searchingForUnits: 0
   nearbyUnits: []
---- !u!114 &8290539460608290715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2512703263411247531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 489b2430023f16b4c9f93572cdd04fdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentState: {fileID: 0}
-  startState: {fileID: 0}
-  owner: {fileID: 0}
 --- !u!114 &6761362640697903048
 MonoBehaviour:
   m_ObjectHideFlags: 0

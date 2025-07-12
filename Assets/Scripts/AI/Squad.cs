@@ -151,7 +151,7 @@ public class Squad
             return false;
         }
         if(unit.InSquad()){
-            Debug.LogWarning($"Unit already in ANOTHER squad! Squad owner: {unit.squad.squadOwner}");
+            Debug.LogWarning("Unit already in ANOTHER squad!");
             return false;
         }
         if(unit.gameObject == squadOwner){

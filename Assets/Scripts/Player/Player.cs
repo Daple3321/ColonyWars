@@ -8,7 +8,6 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using static EntityStatType;
 
-[RequireComponent(typeof(StateMachine))]
 public class Player : MonoBehaviour, IDamageable, ICommander
 {
     public PlayerCameraController cameraController;
@@ -24,7 +23,6 @@ public class Player : MonoBehaviour, IDamageable, ICommander
     public AnimationEvents animationEvents;
     public BuildingPanelManager buildingPanelManager;
     public SquadManager squadManager;
-    public StateMachine stateMachine;
     
     [SerializedDictionary("Stat Type", "Stat")]
     public SerializedDictionary<EntityStatType, Stat> stats;

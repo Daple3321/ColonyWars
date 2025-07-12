@@ -38,6 +38,7 @@ public enum EntityStatType
     explosiveDamageResist = 13,
     destructiveDamageResist = 14,
     
+    maxUnitsInSquad = 15,
 }
 
 [System.Serializable]

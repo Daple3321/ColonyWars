@@ -31,6 +31,7 @@ public class EnemyColony : Colony
     [Tooltip("Delay in seconds")] private float spawnDelay;
     
     public RaidSquad raidSquad;
+    public WaveSystem waveSystem;
     
     
     [Space(10), Header("Building")]
@@ -64,23 +65,14 @@ public class EnemyColony : Colony
     public override void Init(BuildingData data)
     {
         base.Init(data);
-        
-        // foreach(ColonyStatType stat in (ColonyStatType[]) Enum.GetValues(typeof(ColonyStatType))){
-        //     stats[stat] = new Stat(stats[stat].Value);
-        // }
-        //stats = new SerializedDictionary<ColonyStatType, Stat>();
-        //stats[maxBuildings] = new(8);
-        //stats[maxDefenses] = new(3);
-        //stats[maxUnits] = new(5);
-        //stats[maxUnitsLevel] = new(1);
-        //stats[unitsSpawnSpeed] = new(30);
+
         ApplyInitialModifiers();
         
         builder.Init(this);
         
         spawnDelay = stats[unitsSpawnSpeed].Value;
-        //raidSquad = new RaidSquad((int)stats[raidSquadMaxUnits].Value, stats[raidSquadSpawnSpeed].Value, this);
         raidSquad.Init(this);
+        waveSystem.Init(this);
         
         expansionSequence = ScriptableObject.Instantiate<ExpansionSequence>(expansionSequence);
         expansionSequence.Init(GameController.timeManager, this);
@@ -89,23 +81,6 @@ public class EnemyColony : Colony
         EventBus.i.OnSunrise += ()=>{isDay = true;};
         EventBus.i.OnSunset += ()=>{isDay = false;};
         EventBus.i.OnMinuteChange += OnMinuteChange;
-        
-        // for(int i = 0; i < startingBuildings; i++)
-        // {
-        //     BuildingData randBuilding = resourcePool.First().Key;
-        //     Vector3 pointInCell = ColoniesManager.i.gridManager.RandomPointInCell(cellIndex.x, cellIndex.z);
-            
-        //     Building b = GameController.objectGenerator.CreateBuilding_Rules(randBuilding, pointInCell);
-        //     if(b != null)
-        //     {
-        //         b.Init(randBuilding);
-        //         StartCoroutine(b.Build());
-                
-        //         AddBuilding(b);
-                
-        //         ApplyModifiersToStats(b.GetComponent<EnemyBuilding>().GetModifiers());
-        //     }
-        // }
         
         EventBus.i.OnSunrise += OnSunrise;
     }
@@ -119,6 +94,7 @@ public class EnemyColony : Colony
     protected virtual void OnMinuteChange()
     {
         expansionSequence.UpdateSequence(isDay);
+        waveSystem.UpdateWaveContainer();
     }
 
     void Update()
@@ -126,7 +102,7 @@ public class EnemyColony : Colony
         if(CanSpawnUnit()){
             HandleUnitSpawn();
         }
-        raidSquad.HandleSpawning(stats[raidSquadSpawnSpeed].Value);
+        //raidSquad.HandleSpawning(stats[raidSquadSpawnSpeed].Value);
         //raidSquad.HandleRaid();
     }
     
@@ -221,7 +197,7 @@ public class EnemyColony : Colony
         OnAttacked += b => unit.SetHome(b.transform.position);
     }
     
-    public void PerformAction(ColonyAction action, bool immediate = false)
+    public void PerformAction(ColonyAction action, bool immediate = false) // НАДО ПЕРЕИМЕНОВАТЬ immediate --> simulation
     {
         HandleAction(action.actionType, immediate);
         
@@ -236,11 +212,11 @@ public class EnemyColony : Colony
         break;
         
         case ColonyActionType.Capture:
-            StartCoroutine(Capture(Affiliation.Player));
+            StartCoroutine(Capture(Affiliation.Player, immediate));
         break;
         
         case ColonyActionType.RaidSquad:
-           RaidSquad();
+           RaidSquad(default, immediate);
         break;
         
         case ColonyActionType.Resources:
@@ -384,26 +360,32 @@ public class EnemyColony : Colony
         }
     }
     
-    protected void RaidSquad(Vector2Int cellTarget = default)
+    protected void RaidSquad(Vector2Int cellTarget = default, bool immediate = false)
     {
+        if(immediate) return; // ЕСЛИ ЭТО СИМУЛЯЦИЯ ТО НИЧЕГО НЕ ДЕЛАЕМ.
+        
         if(cellTarget == default){
             Vector2Int closestCellIndex = ColoniesManager.i.gridManager.ClosestCell(cellIndex.x, cellIndex.z, Affiliation.Player);
             //Vector2Int closestCellIndex = await ColoniesManager.i.gridManager.FindClosestCell(cellIndex.x, cellIndex.z, Affiliation.Player);
             
             if(closestCellIndex.x != -1){
                 Cell closestCell = ColoniesManager.i.gridManager.GetCell(closestCellIndex.x, closestCellIndex.y);
+                raidSquad.AddUnitsToSquad(waveSystem.SpawnCurrentWave());
                 raidSquad.StartRaid(closestCell);
             }
         }
         else{
             Cell closestCell = ColoniesManager.i.gridManager.GetCell(cellTarget.x, cellTarget.y);
+            raidSquad.AddUnitsToSquad(waveSystem.SpawnCurrentWave());
             raidSquad.StartRaid(closestCell);
         }
     }
     
     
-    protected IEnumerator Capture(Affiliation cellAffiliation)
+    protected IEnumerator Capture(Affiliation cellAffiliation, bool immediate = false)
     {
+        if(immediate) yield break; // ЕСЛИ ЭТО СИМУЛЯЦИЯ ТО ВЫХОДИМ.
+        
         Vector2Int closestCellIndex = ColoniesManager.i.gridManager.ClosestCell(cellIndex.x, cellIndex.z, cellAffiliation);
         Cell closestCell = ColoniesManager.i.gridManager.GetCell(closestCellIndex.x, closestCellIndex.y);
         RaidSquad(closestCellIndex);

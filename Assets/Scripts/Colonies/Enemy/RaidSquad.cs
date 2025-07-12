@@ -29,12 +29,22 @@ public class RaidSquad
     public void Init(EnemyColony colony)
     {
         this.colony = colony;
-        squad = new Squad((int)colony.stats[raidSquadMaxUnits].Value);
+        //squad = new Squad((int)colony.stats[raidSquadMaxUnits].Value); // чё за бред ваще. Если эта стата изменится то здесь ничего не поменяется
+        squad = new Squad(100);
         targetBuildings = new List<Building>();
         unitsOnMission = new List<Unit>();
         _spawnDelay = colony.stats[raidSquadSpawnSpeed].Value;
         
         _raidTime = maxRaidTime;
+    }
+    
+    public void AddUnitsToSquad(Unit[] units)
+    {
+        foreach(Unit u in units)
+        {
+            squad.TryAddUnit(u);
+            Debug.Log("ADDING UNITS TO SQUAD");
+        }
     }
     
     public void HandleSpawning(float spawnDelay)

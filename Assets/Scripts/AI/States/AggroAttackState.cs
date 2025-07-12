@@ -32,7 +32,8 @@ public class AggroAttackState : UnitState
             stateMachine.owner.MoveToAttackTarget();
         }
         
-        if(!enemyOwner.aggrActive){ // если закончился аггр
+        // ENEMY OWNER надо вообще удалить. Он будет для всех одинаковый т.к. это SO
+        if(!enemyOwner.aggrActive){ // если закончился аггр 
             stateMachine.ChangeState(OnAggrEnd);
         }
         if(!stateMachine.owner.HasTarget()){ // если таргета больше нет

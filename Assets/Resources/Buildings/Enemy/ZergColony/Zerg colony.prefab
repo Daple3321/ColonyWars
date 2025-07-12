@@ -1,0 +1,399 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2015686339318020476
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6753788437987675978}
+  - component: {fileID: 5480465119419262617}
+  - component: {fileID: 8142058668351332128}
+  - component: {fileID: 3473146237031278637}
+  - component: {fileID: 5324605677053662671}
+  - component: {fileID: 4506702654462460506}
+  m_Layer: 13
+  m_Name: Zerg colony
+  m_TagString: EnemyColony
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 22
+  m_IsActive: 1
+--- !u!4 &6753788437987675978
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015686339318020476}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 61.652477, y: 13.30909, z: 107.43141}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6311382828604219310}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5480465119419262617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015686339318020476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84040d2d47a4d4b47bebbf00cecab5d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingData: {fileID: 11400000, guid: e7241f3078605de45bb9a7d3fac5ce29, type: 2}
+  health: 800
+  buildingStats:
+    _serializedList:
+    - Key: 0
+      Value:
+        baseValue: 800
+        statModifiers: []
+    - Key: 11
+      Value:
+        baseValue: 80
+        statModifiers: []
+    - Key: 12
+      Value:
+        baseValue: 70
+        statModifiers: []
+    - Key: 13
+      Value:
+        baseValue: 0
+        statModifiers: []
+    - Key: 14
+      Value:
+        baseValue: 0
+        statModifiers: []
+  interactionRange: 8
+  canInteract: 1
+  affiliation: 1
+  buildTime: 0
+  built: 0
+  buildProgress: 0
+  cell:
+    worldPosition: {x: 0, y: 0, z: 0}
+    captureProgress: 0
+    whoIsCapturing: 0
+    yieldAmount: 0
+    affiliation: 0
+  cellIndex: {x: 0, y: 0, z: 0}
+  capturedCells: []
+  colonyData: {fileID: 0}
+  colonyRadius: 10
+  buildings: []
+  colonyZone: {fileID: 0}
+  startingBuildings: 0
+  stats:
+    _serializedList:
+    - Key: 0
+      Value:
+        baseValue: 4
+        statModifiers: []
+    - Key: 5
+      Value:
+        baseValue: 1
+        statModifiers: []
+    - Key: 1
+      Value:
+        baseValue: 2
+        statModifiers: []
+    - Key: 2
+      Value:
+        baseValue: 6
+        statModifiers: []
+    - Key: 3
+      Value:
+        baseValue: 1
+        statModifiers: []
+    - Key: 4
+      Value:
+        baseValue: 25
+        statModifiers: []
+    - Key: 6
+      Value:
+        baseValue: 3
+        statModifiers: []
+    - Key: 7
+      Value:
+        baseValue: 20
+        statModifiers: []
+  baseModifiers:
+    _serializedList:
+    - Key: 0
+      Value:
+        Value: 0
+        Type: 100
+        Order: 0
+    - Key: 5
+      Value:
+        Value: 0
+        Type: 100
+        Order: 0
+    - Key: 1
+      Value:
+        Value: 0
+        Type: 100
+        Order: 0
+    - Key: 2
+      Value:
+        Value: 0
+        Type: 100
+        Order: 0
+    - Key: 3
+      Value:
+        Value: 0
+        Type: 100
+        Order: 0
+    - Key: 4
+      Value:
+        Value: 0
+        Type: 300
+        Order: 0
+    - Key: 6
+      Value:
+        Value: 0
+        Type: 100
+        Order: 0
+    - Key: 7
+      Value:
+        Value: 0
+        Type: 300
+        Order: 0
+  unitsAmount: 0
+  unitPool:
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 307f0b4d17cbe4e45b7a419a28c10fb6, type: 2}
+      Value: 0.8
+    - Key: {fileID: 11400000, guid: 81a9fbfa338f08a42b46b00da25cb48f, type: 2}
+      Value: 0.2
+    - Key: {fileID: 11400000, guid: 52efff97d8f05c244bf7733a63aa2269, type: 2}
+      Value: 0.1
+  raidSquad:
+    squad:
+      units: []
+      maxUnits: 0
+      stats:
+        speedMultiplier: 0
+        meanDamage: 0
+      lastMoveOrder: {x: 0, y: 0, z: 0}
+      squadOwner: {fileID: 0}
+      followTarget: {fileID: 0}
+    unitsOnMission: []
+    targetCell:
+      worldPosition: {x: 0, y: 0, z: 0}
+      captureProgress: 0
+      whoIsCapturing: 0
+      yieldAmount: 0
+      affiliation: 0
+    targetBuildings: []
+    hasTarget: 0
+    isCompleted: 0
+    maxRaidTime: 256
+    unitPool:
+    - {fileID: 11400000, guid: 3bedfa76f028d944fab5eba1adf70655, type: 2}
+    - {fileID: 11400000, guid: dd2e67506ceb0394ea7427f02e62e6e9, type: 2}
+  waveSystem: {fileID: 8142058668351332128}
+  builder: {fileID: 3473146237031278637}
+  outpost: {fileID: 11400000, guid: ef96ebcd2c46b3a48a5f855d62c8d1f5, type: 2}
+  expansionSequence: {fileID: 11400000, guid: 4e1773e528ffa7b4b993e8f41aff834e, type: 2}
+  playerDirection: 0
+--- !u!114 &8142058668351332128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015686339318020476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddd86f38b8a3e6b4191d594616e1749e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waveContainers:
+  - durationMinutes: 120
+    waves:
+    - {fileID: 11400000, guid: b53dcb44fb4a7dc498a34a40b339e211, type: 2}
+    difficulty: 0
+  - durationMinutes: 60
+    waves:
+    - {fileID: 11400000, guid: 9209614fa5e77294a9c612d2ea4887a2, type: 2}
+    difficulty: 1
+  containerIndex: 0
+  minutesLeftToNextContainer: 0
+--- !u!114 &3473146237031278637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015686339318020476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e5dceaa236058d4fb40bb35d01c0b8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourcePool:
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 0be8c435e11d2e441886f5bb9d17dfc0, type: 2}
+      Value: 0.5
+  barracksPool:
+    _serializedList:
+    - Key: {fileID: 11400000, guid: cbe375dc7d5665347a221f3880927cfe, type: 2}
+      Value: 0.5
+  storagePool:
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 511e7f41a07ea464f86fc6e26506c7f2, type: 2}
+      Value: 0.5
+  defensePool:
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 3ab62c90304b4fe4e85d6db6274e9af4, type: 2}
+      Value: 0.85
+    - Key: {fileID: 11400000, guid: f114b3c24fa15c34ba053248acb74ed6, type: 2}
+      Value: 0.1
+  wallPool:
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 7a9abd22cd3a5054fba5d163390b96b1, type: 2}
+      Value: 1
+--- !u!65 &5324605677053662671
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015686339318020476}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.8271065, y: 5.0224123, z: 1.7298889}
+  m_Center: {x: 0.026758194, y: 2.6208644, z: 0.016555786}
+--- !u!205 &4506702654462460506
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015686339318020476}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.0036632419, y: 2.6523144, z: -0.0016081333}
+  m_Size: 5.304629
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.6
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 4162579038574727725}
+  - screenRelativeHeight: 0.3
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 4162579038574727725}
+  - screenRelativeHeight: 0.049122527
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 4162579038574727725}
+  m_Enabled: 1
+--- !u!1 &4996329159970583419
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6311382828604219310}
+  - component: {fileID: 2730450693159181980}
+  - component: {fileID: 4162579038574727725}
+  m_Layer: 0
+  m_Name: Hut
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 22
+  m_IsActive: 1
+--- !u!4 &6311382828604219310
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4996329159970583419}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.65, y: 0.65, z: 0.65}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6753788437987675978}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &2730450693159181980
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4996329159970583419}
+  m_Mesh: {fileID: 3785296276508407262, guid: 0d5c231eebd5c064bb5e4259dda41ac6, type: 3}
+--- !u!23 &4162579038574727725
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4996329159970583419}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 89724052ada5ea540a83d7b1e4d279b2, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}

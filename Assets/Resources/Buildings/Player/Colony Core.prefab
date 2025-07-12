@@ -142,11 +142,11 @@ MonoBehaviour:
         statModifiers: []
     - Key: 11
       Value:
-        baseValue: 90
+        baseValue: 70
         statModifiers: []
     - Key: 12
       Value:
-        baseValue: 90
+        baseValue: 65
         statModifiers: []
     - Key: 13
       Value:
@@ -154,7 +154,7 @@ MonoBehaviour:
         statModifiers: []
     - Key: 14
       Value:
-        baseValue: 10
+        baseValue: 5
         statModifiers: []
   interactionRange: 8
   canInteract: 1

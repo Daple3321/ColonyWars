@@ -68,11 +68,12 @@ public abstract class Defense : MonoBehaviour
         Vector3 attackDir = Vector3.zero;
         if(currentTarget != null){
             attackDir = currentTarget.transform.position - attackPoint.position;
+            attackDir.y += 0.8f;
         }
         else if (currentTarget == null && playerTarget != null){
             attackDir = playerTarget.transform.position - attackPoint.position;
+            attackDir.y += 1;
         }
-        attackDir.y += 1;
         
         return attackDir;
     }
