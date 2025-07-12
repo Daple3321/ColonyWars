@@ -9,7 +9,13 @@ public class ColonyBuilder : MonoBehaviour
     public void Init(EnemyColony owner)
     {
         this.owner = owner;
+        coreDefenses = new();
     }
+    
+    [Space(6), Header("Core defenses settings")]
+    public int startingCoreDefenses = 5;
+    public int maxCoreDefenses = 5;
+    private List<Building> coreDefenses;
     
     [Space(10), Header("Building pools")]
     [SerializedDictionary("Resource miners", "Chance to spawn")]
@@ -40,6 +46,7 @@ public class ColonyBuilder : MonoBehaviour
         
         case ColonyActionType.DefenseTower:
             BuildDefense();
+            BuildCoreDefenses();
         break;
         
         case ColonyActionType.Wall:
@@ -124,5 +131,24 @@ public class ColonyBuilder : MonoBehaviour
         outpostPos = GameController.TerrainPoint(outpostPos);
         
         owner.Build(owner.outpost, outpostPos, owner.playerDirection);
+    }
+    
+    public virtual void BuildCoreDefenses()
+    {
+        if(coreDefenses.Count >= maxCoreDefenses) return;
+        
+        Vector3 pos = GameController.RandomPointInCircleTerrain(owner.transform.position, 4f, 11f);
+        Building defense = owner.Build(SelectBuildingFromPool(defensePool), pos);
+        
+        if(defense != null){ // если получилось заспавнить
+            defense.OnBuildingDestroyed += OnCoreDefenseDestroyed;
+            coreDefenses.Add(defense);
+        }
+    }
+    private void OnCoreDefenseDestroyed(Building defense){
+        if(coreDefenses.Contains(defense)){
+            defense.OnBuildingDestroyed -= OnCoreDefenseDestroyed;
+            coreDefenses.Remove(defense);
+        }
     }
 }

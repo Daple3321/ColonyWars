@@ -64,7 +64,7 @@ public class UnitCombat : MonoBehaviour
     private Coroutine cancelRoutine;
     private IEnumerator CancelRoutine()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         //Debug.Log("Attack canceled!");
         StopCoroutine(attackRoutine);
         currentAttack.OnAttackCanceled();

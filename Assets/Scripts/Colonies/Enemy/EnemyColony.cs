@@ -138,6 +138,7 @@ public class EnemyColony : Colony
             enemy.InitEnemy(this);
         }
         u.Init();
+        u.InitPatrolRoute(this);
         
         int randLevel = 1;
         if(stats[maxUnitsLevel].Value > 1){
@@ -159,7 +160,7 @@ public class EnemyColony : Colony
         GameObject go = Instantiate(prefab, pointInCircle, Quaternion.identity);
         Unit u = go.GetComponent<Unit>();
         u.onUnitDeath += OnColonyUnitDeath;
-        u.InitPatrolRoute(this);
+        //u.InitPatrolRoute(this);
         
         if(assignToAlerts){
             AssignUnitToBuildingAlerts(u); // stupid lambda function, нельзя отписаться никак. кучу памяти жрёт если не задереференсить?
@@ -242,7 +243,7 @@ public class EnemyColony : Colony
         }
     }
     
-    public void Build(BuildingData building, Vector3 pos)
+    public Building Build(BuildingData building, Vector3 pos)
     {
         if(buildings.Count >= stats[maxBuildings].Value){
             levelSystem.LevelUp();
@@ -260,7 +261,10 @@ public class EnemyColony : Colony
             if(b is EnemyBuilding eb){
                 ApplyModifiersToStats(eb.GetModifiers());
             }
+            
         }
+        
+        return b;
     }
     public void Build(BuildingData building, Vector3 pos, GridManager.Direction rotDir)
     {

@@ -10,35 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cea82e9e444860d48b56bd4043577e55, type: 3}
-  m_Name: ZergSequence
+  m_Name: DefaultExpansion
   m_EditorClassIdentifier: 
   daySeq:
   - actionType: 3
+    interval: 160
+  - actionType: 4
     interval: 120
-  - actionType: 5
-    interval: 120
-  - actionType: 3
-    interval: 300
   - actionType: 5
     interval: 120
   - actionType: 1
-    interval: 160
-  - actionType: 2
-    interval: 25
-  - actionType: 2
-    interval: 25
-  - actionType: 2
-    interval: 25
+    interval: 120
+  - actionType: 1
+    interval: 120
+  - actionType: 0
+    interval: 40
   - actionType: 0
     interval: 250
   dayActionIndex: 0
   nightSeq:
   - actionType: 6
-    interval: 300
+    interval: 60
   - actionType: 6
-    interval: 120
+    interval: 150
   - actionType: 7
-    interval: 200
+    interval: 300
   nightActionIndex: 0
   currentAction:
     actionType: 0

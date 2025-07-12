@@ -71,6 +71,7 @@ public class GameController : MonoBehaviour
     private async void StartGame(GameSettings gameSettings = null)
     {
         Application.targetFrameRate = 120;
+        //Shader.WarmupAllShaders();
         
         gameEnded = false;
         ResetStaticVars();

@@ -17,7 +17,9 @@ public class AggroAttackState : UnitState
     }
     public override void UpdateState(StateMachine stateMachine)
     {
-        if (stateMachine.owner.HasTarget() && stateMachine.owner.DistanceToTarget() <= stateMachine.owner.combat.stats[attackDistance].Value)
+        if (stateMachine.owner.HasTarget() && 
+        stateMachine.owner.DistanceToTarget() <= stateMachine.owner.combat.stats[attackDistance].Value &&
+        !stateMachine.owner.stun.IsStunned())
         {
             stateMachine.owner.combat.HandleAttacking();
             stateMachine.owner.movement.RotateTo(stateMachine.owner.attackTarget.position);

@@ -37,6 +37,8 @@ public class WaveSystem : MonoBehaviour
     
     public Unit[] SpawnCurrentWave()
     {
+        Building randBuilding = owner.buildings[Random.Range(0, owner.buildings.Count)];
+        
         int waveIdx = Random.Range(0, waveContainers[containerIndex].waves.Count);
         Wave wave = waveContainers[containerIndex].waves[waveIdx];
         
@@ -54,7 +56,7 @@ public class WaveSystem : MonoBehaviour
         
             selectedUnit = selector.SelectItemWithUnityRandom().Key;
             
-            Unit spawnedUnit = owner.SpawnRaidUnit(selectedUnit);
+            Unit spawnedUnit = owner.SpawnRaidUnit(selectedUnit, randBuilding);
             units[i] = spawnedUnit;
             
             if(spawnedUnit.TryGetComponent(out Enemy enemy)){
