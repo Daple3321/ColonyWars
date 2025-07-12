@@ -123,9 +123,7 @@ public class GameController : MonoBehaviour
         EventBus.i.OnMinuteChange += IncrementPoints;
         
         consoleManager.OnLogWindowShown += ()=>{
-            Debug.Log("CONSOLE OPENED!");
             GameAssets.controls.Player.Disable();
-            Debug.Log(GameAssets.controls.Player.enabled);
             GameAssets.controls.Squad.Disable();
             EventBus.i.OnInteractivePanelOpened?.Invoke();
         };

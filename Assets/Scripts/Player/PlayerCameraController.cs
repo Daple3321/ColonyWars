@@ -21,10 +21,12 @@ public class PlayerCameraController : MonoBehaviour
     public float zoomSpeed;
     //public InputAction panAction;
     [Header("Tilt")]
-    public float tiltSensetivity;
+    public float tiltSensetivity = 30;
+    private float defaultTiltSens;
     public Vector2 tiltAngleLimits;
     [Header("Panning")]
-    public float panSensetivity;
+    public float panSensetivity = 30;
+    private float defaultPanSens;
 
 
     [Space(10), Header("FOV settings")]
@@ -69,6 +71,9 @@ public class PlayerCameraController : MonoBehaviour
         xRotate = cinemachineCamera.transform.rotation.eulerAngles.x;
         yRotate = cinemachineCamera.transform.rotation.eulerAngles.y;
         
+        defaultTiltSens = tiltSensetivity;
+        defaultPanSens = panSensetivity;
+        
         EventBus.i.OnInteractivePanelOpened += () => {
             //cinemachineInputAxisController.enabled = false;
             rotationEnabled = false;
@@ -79,6 +84,16 @@ public class PlayerCameraController : MonoBehaviour
         };
         
         enabled = true;
+    }
+    
+    public void ChangeSensitivity(float newSens)
+    {
+        tiltSensetivity = newSens;
+        panSensetivity = newSens;
+    }
+    public void ResetSensitivity(){
+        tiltSensetivity = defaultTiltSens;
+        panSensetivity = defaultPanSens;
     }
 
     void Update()
