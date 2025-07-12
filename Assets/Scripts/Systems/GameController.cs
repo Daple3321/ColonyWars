@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using static EntityStatType;
+using IngameDebugConsole;
 
 public class GameController : MonoBehaviour
 {
@@ -38,6 +39,7 @@ public class GameController : MonoBehaviour
     public MouseFollower mouseFollower;
     public static Terrain currentTerrain;
     public GameSettings defaultGameSettings;
+    public DebugLogManager consoleManager;
     
     private EventBus eventBus;
     
@@ -119,6 +121,19 @@ public class GameController : MonoBehaviour
         
         EventBus.i.PlayerDeath += OnPlayerDeath;
         EventBus.i.OnMinuteChange += IncrementPoints;
+        
+        consoleManager.OnLogWindowShown += ()=>{
+            Debug.Log("CONSOLE OPENED!");
+            GameAssets.controls.Player.Disable();
+            Debug.Log(GameAssets.controls.Player.enabled);
+            GameAssets.controls.Squad.Disable();
+            EventBus.i.OnInteractivePanelOpened?.Invoke();
+        };
+        consoleManager.OnLogWindowHidden += ()=>{
+            GameAssets.controls.Player.Enable();
+            GameAssets.controls.Squad.Enable();
+            EventBus.i.OnInteractivePanelClosed?.Invoke();
+        };
         
         OnGameStarted?.Invoke();
     }

@@ -176,11 +176,13 @@ public class PlayerMovement : MonoBehaviour
     }
     private void HandleMovement()
     {
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float verticalInput = Input.GetAxisRaw("Vertical");
+        Vector2 input = controls.Player.Move.ReadValue<Vector2>();
+        //float horizontalInput = Input.GetAxisRaw("Horizontal");
+        //float verticalInput = Input.GetAxisRaw("Vertical");
 
         // Направление движения относительно ввода пользователя
-        Vector3 inputDirection = new Vector3(horizontalInput, 0f, verticalInput).normalized;
+        //Vector3 inputDirection = new Vector3(horizontalInput, 0f, verticalInput).normalized;
+        Vector3 inputDirection = new Vector3(input.x, 0f, input.y);
 
         if (inputDirection.magnitude >= 0.1f)
         {
@@ -204,11 +206,14 @@ public class PlayerMovement : MonoBehaviour
     }
     private void HandleRotationToVelocity()
     {
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float verticalInput = Input.GetAxisRaw("Vertical");
+        Vector2 input = controls.Player.Move.ReadValue<Vector2>();
+        //float horizontalInput = Input.GetAxisRaw("Horizontal");
+        //float verticalInput = Input.GetAxisRaw("Vertical");
         
         // Направление движения относительно ввода пользователя
-        Vector3 inputDirection = new Vector3(horizontalInput, 0f, verticalInput).normalized;
+        //Vector3 inputDirection = new Vector3(horizontalInput, 0f, verticalInput).normalized;
+        Vector3 inputDirection = new Vector3(input.x, 0f, input.y);
+        
         
         if (inputDirection.magnitude >= 0.1f)
         {
@@ -238,7 +243,7 @@ public class PlayerMovement : MonoBehaviour
             // Небольшое отрицательное значение помогает "приклеить" к земле
             _playerVelocity.y = -2f;
 
-            if (Input.GetKey(KeyCode.Space) && CanJump())
+            if (controls.Player.Jump.IsPressed() && CanJump())
             {
                 //_playerVelocity.y = jumpForce;
                 AddForce(Vector3.up*jumpForce);
