@@ -100,7 +100,8 @@ public class Player : MonoBehaviour, IDamageable, ICommander
 
         HandleCommands();
         
-        if (mouse.leftButton.wasPressedThisFrame && !EventSystem.current.IsPointerOverGameObject())
+        // mouse.leftButton.wasPressedThisFrame && !EventSystem.current.IsPointerOverGameObject()
+        if (controls.Player.Interact.WasPressedThisFrame())
         {
             Vector3 mousePosition = mouse.position.ReadValue();
             Ray ray = mainCam.ScreenPointToRay(mousePosition);

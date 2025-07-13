@@ -41,7 +41,8 @@ public class ResourceGeneratorData : BuildingData
     }
     
     public Action<Collider[]> OnOverlapResources;
-    public override bool CheckBuildConditions(Vector3 projectionPos)
+    //public List<int> previousResources = new();
+    public override bool CheckBuildConditions(Vector3 projectionPos, BuildProjection buildProjection = null)
     {
         // Collider[] resources = Physics.OverlapSphere(projectionPos, gatherRadius, resourceMask);
         // if(resources.Length > 0)
@@ -77,9 +78,30 @@ public class ResourceGeneratorData : BuildingData
         //     }
         // }
         
-        if(ResourceManager.i.GetResourcesInRadius_Id(projectionPos, gatherRadius, resourceConditions).Count > 0){
+        List<int> foundResources = ResourceManager.i.GetResourcesInRadius_Id(projectionPos, gatherRadius, resourceConditions);
+        List<int> outlinesToDelete = new();
+        // foreach(int foundRes in foundResources)
+        // {
+        //     if(!previousResources.Contains(foundRes)){
+        //         outlinesToDelete.Add(foundRes);
+        //     }
+        // }
+        foreach(int prevRes in buildProjection.previousResources)
+        {
+            if(!foundResources.Contains(prevRes)){
+                outlinesToDelete.Add(prevRes);
+            }
+        }
+        ResourceManager.i.DeleteOutlines(outlinesToDelete.ToArray());
+        
+        if(foundResources.Count > 0)
+        {
+            buildProjection.previousResources.Clear();
+            buildProjection.previousResources.AddRange(foundResources);
+            ResourceManager.i.OutlineResources(foundResources.ToArray());
             return true;
         }
+        
         
         return false;
     }

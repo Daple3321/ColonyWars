@@ -169,6 +169,8 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   affiliation: 1
   stateMachine: {fileID: 6652208709358791084}
+  patrolRoute: []
+  currentPatrolPoint: 0
   followState: {fileID: 11400000, guid: e0bf1530e97206441859187f359860c3, type: 2}
   aggroState: {fileID: 11400000, guid: 300ac1eab1b7ed849ad78f53e5d9b19d, type: 2}
   aggrTime: 25
@@ -314,7 +316,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.5
+  m_Radius: 0.38
   m_SlopeLimit: 60
   m_StepOffset: 0.3
   m_SkinWidth: 0.08

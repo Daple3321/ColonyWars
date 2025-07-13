@@ -46,10 +46,12 @@ public class ResourceGenerator : Generator
     {
         buildingInventory.PrepareUI(true, GameController.p.playerInventory.inventoryUI);
         buildingInventory.UpdateUI(buildingInventory.inventory.GetCurrentInventoryState());
+        EventBus.i.OnInventoryPanelOpened?.Invoke();
     }
     public override void ClearUI()
     {
         buildingInventory.ClearUI();
+        EventBus.i.OnInventoryPanelClosed?.Invoke();
     }
     
     
@@ -135,6 +137,7 @@ public class ResourceGenerator : Generator
         ChangeColor(Color.white);
         
         resourcesNearby = CheckForResources_Id();
+        ResourceManager.i.DeleteOutlines(resourcesNearby.ToArray());
         ResourceManager.i.OnResourceDeleted += OnResourceDeleted;
         // foreach(ResourceNode node in resourcesNearby){
         //     node.OnResourceDeleted += OnResourceDeleted;

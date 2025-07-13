@@ -48,6 +48,8 @@ public class PlayerBuilding : MonoBehaviour
         
         availableBuildingsChanged?.Invoke(availableBuildings);
         
+        EventBus.i.OnInventoryPanelOpened += () => buildUI.Hide();
+        
         enabled = true;
     }
 
@@ -88,7 +90,7 @@ public class PlayerBuilding : MonoBehaviour
     
     public bool TryBuild(BuildingData building, Vector3 buildPos, Quaternion buildRotation)
     {
-        if(!CheckBuildConditions(building, buildPos) || !building.CheckBuildConditions(buildPos)){
+        if(!CheckBuildConditions(building, buildPos) || !building.CheckBuildConditions(buildPos, buildingProjection)){
             Debug.LogWarning("Build conditions not met.");
             return false;
         }

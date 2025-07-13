@@ -159,7 +159,8 @@ public class ResourceManager : MonoBehaviour
         }
         return result;
     }
-     public List<int> GetResourcesInRadius_Id(Vector3 center, float radius, ItemData[] resourceFilter = null) {
+    public List<int> GetResourcesInRadius_Id(Vector3 center, float radius, ItemData[] resourceFilter = null) 
+    {
         List<int> result = new List<int>();
         
         foreach (var res in resources.Values) 
@@ -186,6 +187,31 @@ public class ResourceManager : MonoBehaviour
             // }
         }
         return result;
+    }
+    
+    public void OutlineResources(int[] resourceIds)
+    {
+        foreach (int id in resourceIds)
+        {
+            Outline o = resources[id].gameObject.AddComponent<Outline>();
+            if(o != null){
+                o.OutlineColor = Color.green;
+                o.OutlineMode = Outline.Mode.OutlineAndSilhouette;
+                o.OutlineWidth = 15f;
+            }
+        }
+    }
+    public void DeleteOutlines(int[] ids){
+        foreach (int id in ids)
+        {
+            DeleteOutline(id);
+        }
+    }
+    public void DeleteOutline(int id){
+        resources[id].gameObject.TryGetComponent(out Outline o);
+        if(o != null){
+            Destroy(o);
+        }
     }
     
     

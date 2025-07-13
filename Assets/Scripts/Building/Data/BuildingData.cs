@@ -34,7 +34,7 @@ public class BuildingData : ScriptableObject
         return zones;
     }
     
-    public virtual bool CheckBuildConditions(Vector3 projectionPos)
+    public virtual bool CheckBuildConditions(Vector3 projectionPos, BuildProjection buildProjection = null)
     {
         // if(insideColonyOnly)
         // {

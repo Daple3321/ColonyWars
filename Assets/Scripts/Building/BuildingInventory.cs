@@ -54,6 +54,8 @@ public class BuildingInventory
         inventoryUI.SetTransferInventory(transferInventory);
         
         this.inventoryUI.Show(transferPriority);
+        
+        //EventBus.i.OnInventoryPanelOpened?.Invoke();
         //UpdateUI(inventory.GetCurrentInventoryState());
     }
     public void ClearUI()
@@ -65,6 +67,8 @@ public class BuildingInventory
         this.inventoryUI.OnFastTransferRequest -= playerInventory.HandleFastTranferRequest;
         
         this.inventoryUI.Hide();
+        
+        //EventBus.i.OnInventoryPanelClosed?.Invoke();
     }
     
     private void HandleSwapItems(int itemIndex_1, int itemIndex_2, InventoryItem from, InventoryItem to)

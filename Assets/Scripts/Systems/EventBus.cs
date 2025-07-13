@@ -51,6 +51,15 @@ public class EventBus
     public Action OnInteractionStop;
     public Action OnInteractivePanelOpened;
     public Action OnInteractivePanelClosed;
+    
+    /// <summary>
+    /// When any panel is OPENED with inventory on it (For automatic inventory opening)
+    /// </summary>
+    public Action OnInventoryPanelOpened;
+    /// <summary>
+    /// When any panel is CLOSED with inventory on it (For automatic inventory closing)
+    /// </summary>
+    public Action OnInventoryPanelClosed;
     // ----------------------------------------------------------
 
     // ------------------------ WORLD ---------------------------

@@ -67,6 +67,9 @@ public class PlayerInventory : MonoBehaviour
         if(starterInventory != null){
             inventory.LoadFromData(starterInventory.items);
         }
+        
+        EventBus.i.OnInventoryPanelOpened += ()=> {inventoryUI.Show();};
+        EventBus.i.OnInventoryPanelClosed += ()=> {inventoryUI.Hide();};
         //SelectItem(hotbar, selectedSlotId);
     }
     

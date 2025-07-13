@@ -688,7 +688,7 @@ MonoBehaviour:
   canAttack: 0
   toolEquiped: 0
   blockTime: 0.8
-  blockResetTime: 1
+  blockResetTime: 0.6
   isBlocking: 0
   canBlock: 1
   references:

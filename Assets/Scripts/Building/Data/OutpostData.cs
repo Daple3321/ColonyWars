@@ -7,7 +7,7 @@ public class OutpostData : BuildingData
     
     public Affiliation affiliation;
 
-    public override bool CheckBuildConditions(Vector3 projectionPos)
+    public override bool CheckBuildConditions(Vector3 projectionPos ,BuildProjection buildProjection = null)
     {
         if (!base.CheckBuildConditions(projectionPos)){
             return false;

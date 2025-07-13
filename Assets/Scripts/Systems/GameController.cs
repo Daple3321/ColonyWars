@@ -54,14 +54,17 @@ public class GameController : MonoBehaviour
         
         eventBus = new EventBus(); // reseting event bus
         //EventBus.i.PlayerStaminaChanged += (x, y) => Debug.Log($"{EventBus.i.PlayerStaminaChanged.GetInvocationList()}");
-        ResetStaticVars();
+        //ResetStaticVars();
+        //PoolManager.Init();
     }
-
-    public void ResetStaticVars()
+    
+    [RuntimeInitializeOnLoadMethod]
+    public static void ResetStaticVars()
     {
         p = null;
         worldGenerator = null;
         objectGenerator = null;
+        currentTerrain = null;
         timeManager = null;
         PoolManager.Init();
     }

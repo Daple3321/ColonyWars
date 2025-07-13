@@ -25,7 +25,7 @@ public class ColonyCenterData : BuildingData
         return zones;
     }
     
-    public override bool CheckBuildConditions(Vector3 projectionPos)
+    public override bool CheckBuildConditions(Vector3 projectionPos, BuildProjection buildProjection = null)
     {
         if(!base.CheckBuildConditions(projectionPos)){
             return false;

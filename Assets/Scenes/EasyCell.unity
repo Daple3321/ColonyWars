@@ -4590,11 +4590,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a4f16ed905adcd4ab0d7c8c11f0d72c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &1060234177 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 22457152, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
-  m_PrefabInstance: {fileID: 1446952051}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1063750241
 GameObject:
   m_ObjectHideFlags: 0
@@ -4728,6 +4723,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e648b34400ad1c438a7f28f06590212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  items: []
+  units: []
 --- !u!1 &1088068592
 GameObject:
   m_ObjectHideFlags: 0
@@ -5108,7 +5105,6 @@ Transform:
   - {fileID: 791655238}
   - {fileID: 420636911}
   - {fileID: 1848512790}
-  - {fileID: 1060234177}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1174698139
@@ -6590,7 +6586,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1142738932}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 132536, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_Name
@@ -11625,6 +11621,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1142738932}
+  - {fileID: 1446952051}
   - {fileID: 1834750538}
   - {fileID: 1869264965}
   - {fileID: 1679285721}

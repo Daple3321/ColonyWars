@@ -30,11 +30,14 @@ public class ResourceRefiner : Building
         
         refinedInv.PrepareUI(false, GameController.p.playerInventory.inventoryUI, null, "Output");
         refinedInv.UpdateUI(refinedInv.inventory.GetCurrentInventoryState());
+        
+        EventBus.i.OnInventoryPanelOpened?.Invoke();
     }
     public override void ClearUI()
     {
         originInv.ClearUI();
         refinedInv.ClearUI();
+        EventBus.i.OnInventoryPanelClosed?.Invoke();
     }
     public override void OnDeath()
     {

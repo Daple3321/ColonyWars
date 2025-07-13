@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BuildProjection : MonoBehaviour
@@ -14,6 +15,7 @@ public class BuildProjection : MonoBehaviour
     {
         this.playerBuilding = playerBuilding;
         this.buildingData = building;
+        previousResources = new();
         
         GameObject go = Instantiate(building.prefab, PlayerAiming.worldMouseFollower.transform.position, Quaternion.identity);
         go.transform.SetParent(transform);
@@ -37,9 +39,10 @@ public class BuildProjection : MonoBehaviour
         Destroy(go.GetComponent<Collider>());
     }
     
+    public List<int> previousResources = new();
     public void UpdateProjection(Vector3 playerPos) // build rules (distance, slope, obstacles)
     {
-        if(playerBuilding.CheckBuildConditions(buildingData, transform.position) && buildingData.CheckBuildConditions(transform.position)) // EVERY FRAME!!
+        if(playerBuilding.CheckBuildConditions(buildingData, transform.position) && buildingData.CheckBuildConditions(transform.position, this)) // EVERY FRAME!!
         {
             foreach(MeshRenderer mesh in meshes){
                 mesh.material.SetColor("_BaseColor", Color.green);

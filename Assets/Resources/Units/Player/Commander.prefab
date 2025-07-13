@@ -297,6 +297,8 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   affiliation: 2
   stateMachine: {fileID: 4224800648514144094}
+  patrolRoute: []
+  currentPatrolPoint: 0
   followState: {fileID: 11400000, guid: e0bf1530e97206441859187f359860c3, type: 2}
   ownedSquad:
     units: []
@@ -455,8 +457,8 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 60
+  m_Radius: 0.29
+  m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001

@@ -16,10 +16,12 @@ public class Storage : Building
     {
         inv.PrepareUI(true, GameController.p.playerInventory.inventoryUI, null);
         inv.UpdateUI(inv.inventory.GetCurrentInventoryState());
+        EventBus.i.OnInventoryPanelOpened?.Invoke();
     }
     public override void ClearUI()
     {
         inv.ClearUI();
+        EventBus.i.OnInventoryPanelClosed?.Invoke();
     }
     public override void OnDeath()
     {

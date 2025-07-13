@@ -49,12 +49,13 @@ public class CraftingStation : Manufacturer
             //     slot.OnCraftClicked += QueueCraft;
             // }
         }
+        EventBus.i.OnInventoryPanelOpened?.Invoke();
     }
     public override void ClearUI()
     {
         originInv.ClearUI();
         outputInv.ClearUI();
-        
+        EventBus.i.OnInventoryPanelClosed?.Invoke();
         // if(GameController.i.buildingPanelManager.currentPanel is CraftingStationPanel csp)
         // {
         //     // foreach(CraftSlot slot in csp.crafts){
