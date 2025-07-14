@@ -5,6 +5,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using static EntityStatType;
 using static ColonyStatType;
+using IngameDebugConsole;
 
 public class WaveSystem : MonoBehaviour
 {
@@ -19,6 +20,8 @@ public class WaveSystem : MonoBehaviour
     {
         owner = enemyColony;
         minutesLeftToNextContainer = waveContainers[containerIndex].durationMinutes;
+        
+        DebugLogConsole.AddCommandInstance( "wave", "Spawns current raid wave", nameof(SpawnCurrentWave), this );
         
         enabled = true;
     }
@@ -59,6 +62,7 @@ public class WaveSystem : MonoBehaviour
             Unit spawnedUnit = owner.SpawnRaidUnit(selectedUnit, randBuilding);
             units[i] = spawnedUnit;
             
+            spawnedUnit.stateMachine.startState = GameAssets.idleState;
             if(spawnedUnit.TryGetComponent(out Enemy enemy)){
                 enemy.InitEnemy(owner);
             }

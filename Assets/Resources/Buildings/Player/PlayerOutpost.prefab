@@ -154,7 +154,7 @@ MonoBehaviour:
         statModifiers: []
     - Key: 8
       Value:
-        baseValue: 20
+        baseValue: 16
         statModifiers: []
   affiliation: 2
   whoIsEnemy: 1
@@ -336,6 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectionShape: 0
+  detector: {fileID: 5573639329986801565}
 --- !u!135 &5573639329986801565
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -355,5 +356,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 20
+  m_Radius: 20.42
   m_Center: {x: 0, y: 0, z: 0}

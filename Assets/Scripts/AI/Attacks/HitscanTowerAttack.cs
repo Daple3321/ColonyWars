@@ -19,7 +19,7 @@ public class HitscanTowerAttack : TowerAttack
             Ray shootRay = new Ray(owner.attackPoint.position, Helper.GetRandPointOnUnitSphereCap(attackDir, scatterAmount));
             
             RaycastHit hit;
-            if (Physics.Raycast(shootRay, out hit, owner.stats[attackDistance].Value, owner.attackHitMask))
+            if (Physics.Raycast(shootRay, out hit, Mathf.Infinity, owner.attackHitMask))
             {
                 IDamageable damageable;
                 if (hit.collider.gameObject.TryGetComponent(out damageable))
@@ -30,9 +30,11 @@ public class HitscanTowerAttack : TowerAttack
                 GameObject lineObj = GameObject.Instantiate(GameAssets.hitScanLine, owner.attackPoint.position, Quaternion.identity);
                 lineObj.GetComponent<HitscanLine>().Init(owner.attackPoint.position, hit.point);
                 Helper.SpawnHitEffect(hit.point, hit.normal, hit.collider.gameObject.layer);
-
                 Debug.DrawLine(owner.attackPoint.position, hit.point, Color.yellow, 3);
             }
+
+            
+            Debug.Log("OneShotAttack hitscan tower");
         }
     }
     public override void ConstantAttack(Vector3 attackDir)

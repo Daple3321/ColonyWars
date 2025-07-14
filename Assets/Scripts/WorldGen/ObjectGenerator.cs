@@ -204,7 +204,8 @@ public class ObjectGenerator : MonoBehaviour
     
     private GameObject CreateObject_Raycast(GenSettings obj, float terrainHeight, float terrainWidth)
     {
-        Vector3 rayOrigin = new Vector3(Random.Range(0, terrainHeight), raycastHeight, Random.Range(0, terrainWidth));
+        float edgeOffset = ColoniesManager.i.gridManager.mapEdgeOffset;
+        Vector3 rayOrigin = new Vector3(Random.Range(edgeOffset, terrainHeight-edgeOffset), raycastHeight, Random.Range(edgeOffset, terrainWidth-edgeOffset));
             
         Ray ray = new Ray(rayOrigin, Vector3.down);
         RaycastHit[] hit = new RaycastHit[1];

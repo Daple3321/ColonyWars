@@ -48,7 +48,14 @@ public class PlayerCombat : MonoBehaviour
         
         fists = fistsData.CreateItemInstance() as Tool;
         
+        EventBus.i.PlayerRespawn += OnPlayerRespawn;
+        
         enabled = true;
+    }
+    
+    private void OnPlayerRespawn()
+    {
+        canBlock = true;
     }
 
     private void PlayerInventory_OnItemSelected(object sender, PlayerInventory.OnItemSelectedEventArgs e)

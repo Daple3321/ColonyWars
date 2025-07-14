@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6d8a1e42e4efff4ca2e80f29ce0d19a, type: 3}
+  m_Name: Archers Tower
+  m_EditorClassIdentifier: 
+  buildingName: Archers' Tower
+  description: 
+  buildingIcon: {fileID: 21300000, guid: 85cbbb7b15261a347b8dbe0cb6c89524, type: 3}
+  craftPrice:
+    requirements:
+    - item: {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}
+      quantity: 16
+    - item: {fileID: 11400000, guid: 0a099496812a078478ee778696cb49a9, type: 2}
+      quantity: 16
+    - item: {fileID: 11400000, guid: cd29d64e0e90dc04787f8e8201e8f9fe, type: 2}
+      quantity: 5
+  insideColonyOnly: 1
+  overlapRadius: 2.5
+  maxBuildAngle: 35
+  prefab: {fileID: 7521872793769074543, guid: e60070ba107c9fa4b9764352b96940f3, type: 3}

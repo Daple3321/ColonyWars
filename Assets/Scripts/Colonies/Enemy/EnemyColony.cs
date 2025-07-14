@@ -8,6 +8,7 @@ using System.Text;
 using System.Collections;
 using MackySoft.Choice;
 using System.Linq;
+using IngameDebugConsole;
 
 [System.Serializable]
 public class EnemyColony : Colony
@@ -83,6 +84,12 @@ public class EnemyColony : Colony
         EventBus.i.OnMinuteChange += OnMinuteChange;
         
         EventBus.i.OnSunrise += OnSunrise;
+        
+        DebugLogConsole.AddCommandInstance( "raid", "Initiates RaidSquad method of enemy colony", nameof(RaidCommand), this );
+        DebugLogConsole.AddCommandInstance( "capture", "Initiates Capture method of enemy colony", nameof(Capture), this );
+    }
+    void RaidCommand(){
+        RaidSquad();
     }
     
     protected override void LevelSystem_OnLevelChanged(object sender, EventArgs e)

@@ -18,6 +18,8 @@ public class GridManager
     public int mapSize;
     public int gridDimension;
     public int outerCellOffset = 2;
+    // если есть outerCellOffset то это размер отступа
+    public float mapEdgeOffset;
 
     [Space(10), Header("Borders")]
     public float borderOffset = 0.45f;
@@ -103,6 +105,7 @@ public class GridManager
 
         //ColorGrid();
         UpdateBorders();
+        CalculateEdgeOffset();
 
         // Vector2Int closestCell = ClosestDifferentCell(4, 4);
         // Debug.Log(closestCell.x + ", " + closestCell.y);
@@ -113,6 +116,11 @@ public class GridManager
         //Debug.Log(RandomPointInCell(7,4));
         
         GameController.i.UpdatePointStats(playerCells, enemyCells);
+    }
+    
+    private void CalculateEdgeOffset()
+    {
+        mapEdgeOffset = grid.cellSize.x * outerCellOffset;
     }
     
     private void OnCellCaptured(Cell cell, Affiliation capturer)

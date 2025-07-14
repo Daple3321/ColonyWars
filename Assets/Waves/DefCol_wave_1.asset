@@ -27,4 +27,4 @@ MonoBehaviour:
         Type: 300
         Order: 0
   colonyInfluence_UnitAmount: 0.2
-  colonyInfluence_UnitLevel: 1
+  colonyInfluence_UnitLevel: 0.333

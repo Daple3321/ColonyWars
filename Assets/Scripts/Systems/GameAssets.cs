@@ -47,6 +47,9 @@ public class GameAssets
 
     //private static EventBus eventBus;
     
+    public static UnitState idleState;
+    public static UnitState patrolState;
+    
     public static Material intersectionMaterial;
     public static Mesh box;
     public static Mesh cylinder;
@@ -104,6 +107,9 @@ public class GameAssets
             stunEffect = Resources.Load<GameObject>("Effects/StunEffect");
             hitScanLine = Resources.Load<GameObject>("Effects/HitscanLine");
             explosion = Resources.Load<GameObject>("Effects/Explosion");
+            
+            idleState = Resources.Load<UnitState>("Units/States/Idle");
+            patrolState = Resources.Load<UnitState>("Units/States/Patrol");
             
             objectPooler = Resources.Load<GameObject>("ObjectPooler");
             

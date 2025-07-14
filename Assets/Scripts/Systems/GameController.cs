@@ -98,6 +98,7 @@ public class GameController : MonoBehaviour
 
         FindReferences();
 
+        ColoniesManager.i.Init();
         worldGenerator.Init(gameSettings.worldGenSettings);
         currentTerrain = worldGenerator.terrain;
         objectGenerator.Init(gameSettings.objectGenSettings);
@@ -108,7 +109,6 @@ public class GameController : MonoBehaviour
 
         //inventoryUI = GameObject.Find("PlayerInventory").GetComponent<InventoryUI>();
         
-        ColoniesManager.i.Init();
         SpawnPlayerAndColony();
         ColoniesManager.i.SpawnEnemyColonies(gameSettings.coloniesSpawnSettings);
         //ColoniesManager.i.SpawnEnemyCamps(gameSettings.coloniesSpawnSettings);
@@ -265,6 +265,7 @@ public class GameController : MonoBehaviour
         p.transform.position = pos;
         p.gameObject.SetActive(true);
         p.TakeDamage(p.stats[maxHealth].Value/2, this);
+        p.movement.AddStamina(p.stats[maxStamina].Value);
         
         EventBus.i.PlayerRespawn?.Invoke();
     }

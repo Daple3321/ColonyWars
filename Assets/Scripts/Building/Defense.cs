@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
+using static EntityStatType;
 
 public abstract class Defense : MonoBehaviour
 {
@@ -33,7 +34,7 @@ public abstract class Defense : MonoBehaviour
 
     protected virtual void Init()
     {
-        detection.Init(this, whoIsEnemy);
+        detection.Init(this, whoIsEnemy, stats[attackDistance].Value);
         EventBus.i.PlayerDeath += HandlePlayerDeath;
     }
     
@@ -46,9 +47,9 @@ public abstract class Defense : MonoBehaviour
             return;
         }
         
-        if(currentTarget != null){
-            currentTarget.onUnitDeath -= HandleTargetDeath;
-        }
+        // if(currentTarget != null){
+        //     currentTarget.onUnitDeath -= HandleTargetDeath;
+        // }
         
         currentTarget = targetingStyle switch
         {
@@ -60,7 +61,7 @@ public abstract class Defense : MonoBehaviour
             _ => targetsInRange.First()
         };
         
-        currentTarget.onUnitDeath += HandleTargetDeath;
+        //currentTarget.onUnitDeath += HandleTargetDeath;
     }
     
     protected virtual Vector3 GetFinalAttackDirection()
@@ -94,6 +95,7 @@ public abstract class Defense : MonoBehaviour
         if(targetsInRange.Contains(target)) return;
         
         targetsInRange.Add(target);
+        target.onUnitDeath += HandleTargetDeath;
         GetCurrentTarget();
     }
     public void RemoveTarget(Unit target)
