@@ -4695,6 +4695,7 @@ MonoBehaviour:
     mapSize: 0
     gridDimension: 0
     outerCellOffset: 0
+    mapEdgeOffset: 0
     borderOffset: 0.35
   grid: {fileID: 1910470729}
 --- !u!114 &1063750245

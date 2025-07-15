@@ -308,10 +308,14 @@ MonoBehaviour:
     waves:
     - {fileID: 11400000, guid: b53dcb44fb4a7dc498a34a40b339e211, type: 2}
     difficulty: 0
-  - durationMinutes: 2920
+  - durationMinutes: 1460
     waves:
     - {fileID: 11400000, guid: 9209614fa5e77294a9c612d2ea4887a2, type: 2}
     difficulty: 1
+  - durationMinutes: 1460
+    waves:
+    - {fileID: 11400000, guid: ac3564139631b284e84b3050680c23ac, type: 2}
+    difficulty: 2
   containerIndex: 0
   minutesLeftToNextContainer: 0
 --- !u!114 &4088329292403456286
@@ -326,6 +330,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e5dceaa236058d4fb40bb35d01c0b8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startingCoreDefenses: 5
+  maxCoreDefenses: 5
   resourcePool:
     _serializedList:
     - Key: {fileID: 11400000, guid: 0be8c435e11d2e441886f5bb9d17dfc0, type: 2}

@@ -177,11 +177,11 @@ MonoBehaviour:
       data:
         damageType: 1
         bulletsPerShot: 1
-        projectileSpeed: 45
+        projectileSpeed: 55
         projectileLifetime: 3
         penetrationAmount: 0
         knockBackForce: 7
-        projectileScatter: {x: 0, y: 8}
+        projectileScatter: {x: 0, y: 7}
         projectilePrefab: {fileID: 1014752688310764929, guid: d96163116091c5941b0d0e79d4b8396e, type: 3}
 --- !u!65 &3379516032304529234
 BoxCollider:

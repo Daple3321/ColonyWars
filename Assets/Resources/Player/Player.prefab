@@ -577,6 +577,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ee98459513c33e24c9d13c0863a2423a, type: 2}
   - {fileID: 11400000, guid: eddf1b41078b70945a3fb38484c94f30, type: 2}
   - {fileID: 11400000, guid: 23d712e21bbe2ea42a707f34c205274a, type: 2}
+  - {fileID: 11400000, guid: 21e647a82392a60488bf6893c7a6bbff, type: 2}
   - {fileID: 11400000, guid: 9a0a8d3bed2da63448cb0e34a8334991, type: 2}
   - {fileID: 11400000, guid: 8d647098786a0c7408fee3a8164bee49, type: 2}
   selectedBuilding: {fileID: 0}
@@ -614,7 +615,7 @@ MonoBehaviour:
     rid: -2
   selectedWorldItem: {fileID: 0}
   hotbarStartInventory: {fileID: 11400000, guid: 6cbfda2174ee86842880c747cdcdaee9, type: 2}
-  starterInventory: {fileID: 11400000, guid: 9d4c0ffe26e366e4ab2962453e438312, type: 2}
+  starterInventory: {fileID: 0}
   activeInventories: []
   dropPoint: {fileID: 1358582417517567280}
   inventoryUI: {fileID: 0}

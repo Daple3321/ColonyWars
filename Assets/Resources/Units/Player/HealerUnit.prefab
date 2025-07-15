@@ -577,13 +577,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitName: Healer
-  health: 35
+  health: 60
   movement: {fileID: 7014061075724155418}
   stats:
     _serializedList:
     - Key: 0
       Value:
-        baseValue: 35
+        baseValue: 60
         statModifiers: []
     - Key: 1
       Value:

@@ -238,7 +238,7 @@ Transform:
   m_GameObject: {fileID: 7521872793769074543}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 262.043, y: 25.94719, z: 99.53557}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -318,7 +318,7 @@ MonoBehaviour:
     _serializedList:
     - Key: 5
       Value:
-        baseValue: 6
+        baseValue: 7
         statModifiers: []
     - Key: 6
       Value:
@@ -353,11 +353,11 @@ MonoBehaviour:
       data:
         damageType: 1
         bulletsPerShot: 1
-        projectileSpeed: 65
+        projectileSpeed: 95
         projectileLifetime: 2.5
         penetrationAmount: 0
         knockBackForce: 8
-        projectileScatter: {x: 0, y: 4}
+        projectileScatter: {x: 0, y: 2}
         projectilePrefab: {fileID: 1014752688310764929, guid: d96163116091c5941b0d0e79d4b8396e, type: 3}
 --- !u!65 &3869959287549054358
 BoxCollider:

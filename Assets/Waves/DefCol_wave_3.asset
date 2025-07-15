@@ -10,21 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe08a3aaa1222044fbe69873dc2a72d8, type: 3}
-  m_Name: DefCol_wave_1
+  m_Name: DefCol_wave_3
   m_EditorClassIdentifier: 
   unitPool:
     _serializedList:
     - Key: {fileID: 11400000, guid: dd2e67506ceb0394ea7427f02e62e6e9, type: 2}
-      Value: 0.8
+      Value: 0.7
     - Key: {fileID: 11400000, guid: 3bedfa76f028d944fab5eba1adf70655, type: 2}
+      Value: 0.5
+    - Key: {fileID: 11400000, guid: 52efff97d8f05c244bf7733a63aa2269, type: 2}
       Value: 0.1
-  unitAmountRange: {x: 2, y: 4}
+  unitAmountRange: {x: 6, y: 7}
   unitModifiers:
-    _serializedList:
-    - Key: 0
-      Value:
-        Value: 50
-        Type: 300
-        Order: 0
-  colonyInfluence_UnitAmount: 0.2
-  colonyInfluence_UnitLevel: 0.333
+    _serializedList: []
+  colonyInfluence_UnitAmount: 0.297
+  colonyInfluence_UnitLevel: 0.512
