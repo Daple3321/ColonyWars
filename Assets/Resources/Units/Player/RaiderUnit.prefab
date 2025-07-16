@@ -219,7 +219,7 @@ MonoBehaviour:
     _serializedList:
     - Key: 0
       Value:
-        baseValue: 80
+        baseValue: 70
         statModifiers: []
     - Key: 1
       Value:
@@ -227,7 +227,7 @@ MonoBehaviour:
         statModifiers: []
     - Key: 2
       Value:
-        baseValue: 6.5
+        baseValue: 6
         statModifiers: []
     - Key: 11
       Value:
@@ -267,6 +267,7 @@ MonoBehaviour:
   stateMachine: {fileID: 6527958329443088639}
   patrolRoute: []
   currentPatrolPoint: 0
+  maxPatrolPoints: 15
   followState: {fileID: 11400000, guid: e0bf1530e97206441859187f359860c3, type: 2}
 --- !u!114 &7336192189378381793
 MonoBehaviour:
@@ -324,7 +325,7 @@ MonoBehaviour:
       Value:
         baseValue: 0
         statModifiers: []
-  attackSpeed: 1.5
+  attackSpeed: 2.2
   isAttacking: 0
   references:
     version: 2

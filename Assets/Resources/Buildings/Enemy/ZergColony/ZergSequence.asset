@@ -47,3 +47,5 @@ MonoBehaviour:
     interval: 60
   timeToNextAction: 0
   actionSpeedMultiplier: 0
+  shuffleDaySequence: 1
+  shuffleNightSequence: 1

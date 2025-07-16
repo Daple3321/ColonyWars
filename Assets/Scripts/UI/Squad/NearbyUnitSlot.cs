@@ -29,7 +29,7 @@ public class NearbyUnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         
         parentPanel = squadPanel;
         
-        nameText.text = unit.unitName;
+        nameText.text = unit.data.unitName;
         
         //Tween.PunchScale(rectTransform, strength: new Vector3(1.1f, 1.1f, 1), duration: 0.35f, frequency: 4);
     }

@@ -314,7 +314,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   currentUnits: 0
-  maxUnits: 6
+  maxUnits: 9
   searchDelay: 0.5
   searchingForUnits: 0
   nearbyUnits: []

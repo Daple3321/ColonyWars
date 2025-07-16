@@ -32,7 +32,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3d7a678796e9c75469f29d25095587fb, type: 2}
   - {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
   - {fileID: 11400000, guid: 857b41fb7bd31774cb5df1a783bc1631, type: 2}
-  gatherRadius: 5
+  gatherRadius: 5.5
   resourceQuantityMultiplier: 1
   resourceMask:
     serializedVersion: 2

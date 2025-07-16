@@ -12,6 +12,8 @@ public class Projectile : MonoBehaviour
     public LayerMask currentExcludeMask;
     public LayerMask playerExcludeMask;
     public LayerMask enemyExcludeMask;
+    public LayerMask playerMask;
+    public LayerMask enemyMask;
     [SerializeField] protected GameObject owner; // if == null => player's projectile
 
     [SerializeField] protected Rigidbody rb;

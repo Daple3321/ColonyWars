@@ -205,26 +205,26 @@ public class EnemyColony : Colony
         OnAttacked += b => unit.SetHome(b.transform.position);
     }
     
-    public void PerformAction(ColonyAction action, bool immediate = false) // НАДО ПЕРЕИМЕНОВАТЬ immediate --> simulation
+    public void PerformAction(ColonyAction action, bool isSimulation = false) // НАДО ПЕРЕИМЕНОВАТЬ immediate --> simulation
     {
-        HandleAction(action.actionType, immediate);
+        HandleAction(action.actionType, isSimulation);
         
         Debug.Log($"{gameObject.name} Performed {action.actionType}", gameObject);
     }
     
-    protected virtual void HandleAction(ColonyActionType actionType, bool immediate = false)
+    protected virtual void HandleAction(ColonyActionType actionType, bool isSimulation = false)
     {
         switch(actionType){
         case ColonyActionType.Expand:
-            Expand(immediate);
+            Expand(isSimulation);
         break;
         
         case ColonyActionType.Capture:
-            StartCoroutine(Capture(Affiliation.Player, immediate));
+            StartCoroutine(Capture(Affiliation.Player, isSimulation));
         break;
         
         case ColonyActionType.RaidSquad:
-           RaidSquad(default, immediate);
+           RaidSquad(default, isSimulation);
         break;
         
         case ColonyActionType.Resources:
@@ -353,9 +353,9 @@ public class EnemyColony : Colony
         //Expand();
     }
     
-    protected void Expand(bool immediate = false)
+    protected void Expand(bool isSimulation = false)
     {
-        if(!immediate){
+        if(!isSimulation){
             Vector2Int closestCellIndex = ColoniesManager.i.gridManager.ClosestCell(cellIndex.x, cellIndex.z, Affiliation.None);
             //Vector2Int closestCellIndex = await ColoniesManager.i.gridManager.FindClosestCell(cellIndex.x, cellIndex.z, Affiliation.None);
             
@@ -371,9 +371,9 @@ public class EnemyColony : Colony
         }
     }
     
-    protected void RaidSquad(Vector2Int cellTarget = default, bool immediate = false)
+    protected void RaidSquad(Vector2Int cellTarget = default, bool isSimulation = false)
     {
-        if(immediate) return; // ЕСЛИ ЭТО СИМУЛЯЦИЯ ТО НИЧЕГО НЕ ДЕЛАЕМ.
+        if(isSimulation) return; // ЕСЛИ ЭТО СИМУЛЯЦИЯ ТО НИЧЕГО НЕ ДЕЛАЕМ.
         
         if(cellTarget == default){
             Vector2Int closestCellIndex = ColoniesManager.i.gridManager.ClosestCell(cellIndex.x, cellIndex.z, Affiliation.Player);
@@ -393,9 +393,9 @@ public class EnemyColony : Colony
     }
     
     
-    protected IEnumerator Capture(Affiliation cellAffiliation, bool immediate = false)
+    protected IEnumerator Capture(Affiliation cellAffiliation, bool isSimulation = false)
     {
-        if(immediate) yield break; // ЕСЛИ ЭТО СИМУЛЯЦИЯ ТО ВЫХОДИМ.
+        if(isSimulation) yield break; // ЕСЛИ ЭТО СИМУЛЯЦИЯ ТО ВЫХОДИМ.
         
         Vector2Int closestCellIndex = ColoniesManager.i.gridManager.ClosestCell(cellIndex.x, cellIndex.z, cellAffiliation);
         Cell closestCell = ColoniesManager.i.gridManager.GetCell(closestCellIndex.x, closestCellIndex.y);

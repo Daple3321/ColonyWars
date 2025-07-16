@@ -203,6 +203,7 @@ MonoBehaviour:
   speed: 0
   penetrationAmount: 0
   lifeTime: 2.5
+  damageType: 1
   affiliation: 0
   currentExcludeMask:
     serializedVersion: 2
@@ -213,10 +214,16 @@ MonoBehaviour:
   enemyExcludeMask:
     serializedVersion: 2
     m_Bits: 12032
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 20544
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 10240
+  owner: {fileID: 0}
   rb: {fileID: 7108919652601319140}
   trail: {fileID: 2953940164481267054}
   rend: {fileID: 6869475292881352193}
-  impulseSource: {fileID: 824572252969133034}
 --- !u!33 &7316579652343664645
 MeshFilter:
   m_ObjectHideFlags: 0

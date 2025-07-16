@@ -18,9 +18,9 @@ MonoBehaviour:
   simulateDays: 10
   colonyPool:
     _serializedList:
-    - Key: {fileID: 11400000, guid: e7241f3078605de45bb9a7d3fac5ce29, type: 2}
-      Value: 0.9
     - Key: {fileID: 11400000, guid: 0f4de303d24a6894ca5ad8dca45d761f, type: 2}
+      Value: 0.5
+    - Key: {fileID: 11400000, guid: e7241f3078605de45bb9a7d3fac5ce29, type: 2}
       Value: 0.5
   campsRange: {x: 0, y: 0}
   campPool:

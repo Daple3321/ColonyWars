@@ -19,6 +19,18 @@ public class ExplosiveProjectile : Projectile
         rb.AddForce(moveDir, ForceMode.Impulse);
     }
     
+    public void SetExplosionHitMask()
+    {
+        if(affiliation == Affiliation.Player)
+        {
+            explosion.hitMask = enemyMask;
+        }
+        else if(affiliation == Affiliation.Enemy)
+        {
+            explosion.hitMask = playerMask;
+        }
+    }
+    
     protected override void Update()
     {
         

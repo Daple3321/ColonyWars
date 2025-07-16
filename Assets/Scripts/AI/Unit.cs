@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using AYellowpaper.SerializedCollections;
 using Cysharp.Threading.Tasks;
 using PrimeTween;
@@ -209,19 +211,38 @@ public abstract class Unit : MonoBehaviour, IDamageable, IClickable
     
     public List<Vector3> patrolRoute;
     public int currentPatrolPoint = 0;
-    public virtual void InitPatrolRoute(Colony parentColony = null){
-        patrolRoute = new List<Vector3>();
+    public int maxPatrolPoints = 15;
+    public virtual void InitPatrolRoute(Colony parentColony = null)
+    {
         if(parentColony != null)
         {
-            foreach(var building in parentColony.buildings) // SET LIMIT ON LENGTH AND SHUFFLE BUILDINGS
+            if(parentColony.buildings.Count >= maxPatrolPoints)
             {
-                Vector2 bPos = new Vector2(building.transform.position.x, building.transform.position.z);
-                patrolRoute.Add(GameController.RandomPointInCircleTerrain(bPos, 2.5f, 10f));
+                patrolRoute = new List<Vector3>(maxPatrolPoints);
+                for(int i = 0; i < maxPatrolPoints; i++)
+                {
+                    Vector2 bPos = new Vector2(parentColony.buildings[i].transform.position.x, parentColony.buildings[i].transform.position.z);
+                    patrolRoute.Add(GameController.RandomPointInCircleTerrain(bPos, 2.5f, 10f));
+                }
+            }
+            else if(parentColony.buildings.Count < maxPatrolPoints)
+            {
+                patrolRoute = new List<Vector3>(parentColony.buildings.Count);
+                for(int i = 0; i < parentColony.buildings.Count; i++)
+                {
+                    Vector2 bPos = new Vector2(parentColony.buildings[i].transform.position.x, parentColony.buildings[i].transform.position.z);
+                    patrolRoute.Add(GameController.RandomPointInCircleTerrain(bPos, 2.5f, 10f));
+                }
             }
         }
         else{
-            patrolRoute.Add(GameController.RandomPointInCircleTerrain(transform.position, 2.5f, 10f));
+            patrolRoute = new List<Vector3>
+            {
+                GameController.RandomPointInCircleTerrain(transform.position, 2.5f, 10f)
+            };
         }
+        
+        ArrayExtensionMethods.ShuffleList(patrolRoute);
     }
     
     public virtual void FollowTarget()

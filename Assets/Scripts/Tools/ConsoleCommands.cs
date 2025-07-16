@@ -2,6 +2,7 @@ using UnityEngine;
 using IngameDebugConsole;
 using System.Collections.Generic;
 using System.Linq;
+using static EntityStatType;
 
 public class ConsoleCommands : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class ConsoleCommands : MonoBehaviour
         DebugLogConsole.AddCommandInstance( "sens", "Changes mouse sensitivity", nameof(ChangeSens), this );
         DebugLogConsole.AddCommandInstance( "resetSens", "Resets mouse sensitivity to default", nameof(ResetSens), this );
         DebugLogConsole.AddCommandInstance( "unit", "Spawns unit of specified name and level", nameof(SpawnUnit), this );
+        
+        DebugLogConsole.AddCommandInstance( "fly", "Fly mode", nameof(Fly), this );
+        DebugLogConsole.AddCommandInstance( "god", "God mode. Can't die", nameof(GodMode), this );
     }
 
     [ConsoleMethod( "cube", "Creates a cube at specified position" )]
@@ -65,6 +69,38 @@ public class ConsoleCommands : MonoBehaviour
             }
             
             u.ChangeLevel(level);
+        }
+    }
+    
+    public void Fly(bool state)
+    {
+        if(state)
+        {
+            GameController.p.movement.gravity = 2;
+            GameController.p.stats[runSpeed].AddModifier(new StatModifier(30, StatModType.PercentMult));
+            Debug.Log("Fly mode: ON");
+        }
+        else
+        {
+            //GameController.p.movement.fallSpeed = 10;
+            GameController.p.movement.gravity = 15;
+            GameController.p.stats[runSpeed].RemoveAllModifiersFromSource(this);
+            Debug.Log("Fly mode: OFF");
+        }
+    }
+    
+    public void GodMode(bool state)
+    {
+        if(state)
+        {
+            GameController.p.health = 5000000;
+            Debug.Log("God mode: ON");
+        }
+        else
+        {
+            GameController.p.health = GameController.p.stats[maxHealth].Value;
+            
+            Debug.Log("God mode: OFF");
         }
     }
 }

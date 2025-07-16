@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77c30c5f6c3eb7d4abc9ea44e44b259a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingData: {fileID: 0}
+  buildingData: {fileID: 11400000, guid: eddf1b41078b70945a3fb38484c94f30, type: 2}
   health: 200
   buildingStats:
     _serializedList:
@@ -198,5 +198,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.448104, y: 1.8092811, z: 1.4170694}
-  m_Center: {x: -0.007516384, y: 1.0617307, z: -0.017672211}
+  m_Size: {x: 5.041397, y: 3.490201, z: 4.8725586}
+  m_Center: {x: -0.14465332, y: 1.9021907, z: -0.41067505}

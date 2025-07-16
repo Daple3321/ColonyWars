@@ -38,12 +38,12 @@ MonoBehaviour:
         spawnType: 1
         spawnRules:
         - spawnRuleType: 0
-          valueRange: {x: 3, y: 12}
+          valueRange: {x: 3, y: 14}
         spawnAmount: 500
         spawnChance: 0
         alignToGround: 0
-        randomizeScale: 0
-        scaleRange: {x: 0, y: 0}
+        randomizeScale: 1
+        scaleRange: {x: 0.85, y: 2}
         prefab: {fileID: 1303685909710911235, guid: 966bd39565e77c544b3581351e01a124, type: 3}
         resource: {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}
         amountRange: {x: 100, y: 200}

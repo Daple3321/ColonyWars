@@ -196,7 +196,6 @@ public class ResourceManager : MonoBehaviour
             Outline o = resources[id].gameObject.AddComponent<Outline>();
             if(o != null){
                 o.OutlineColor = Color.green;
-                o.OutlineMode = Outline.Mode.OutlineAndSilhouette;
                 o.OutlineWidth = 15f;
             }
         }

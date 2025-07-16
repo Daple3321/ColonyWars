@@ -14,6 +14,9 @@ public class ExpansionSequence : ScriptableObject
     
     public float actionSpeedMultiplier = 0f;
     
+    public bool shuffleDaySequence = false;
+    public bool shuffleNightSequence = false;
+    
     private TimeManager timeManager;
     private float timeMultiplier;
     
@@ -23,6 +26,13 @@ public class ExpansionSequence : ScriptableObject
         this.timeManager = timeManager;
         timeMultiplier = timeManager.timeSettings.timeMultiplier;
         this.ownerColony = ownerColony;
+        
+        if(shuffleDaySequence){
+            ArrayExtensionMethods.ShuffleList(daySeq);
+        }
+        if(shuffleNightSequence){
+            ArrayExtensionMethods.ShuffleList(nightSeq);
+        }
     }
     
     public void UpdateSequence(bool isDay) // tick action timers
@@ -44,20 +54,20 @@ public class ExpansionSequence : ScriptableObject
         }
     }
     
-    private void HandleDaySequence(bool immediate = false)
+    private void HandleDaySequence(bool isSimulation = false)
     {
         if(timeToNextAction > 0){
             timeToNextAction -= 1;
         }
         else if(timeToNextAction <= 0 && dayActionIndex < daySeq.Count-1){ // ещё не достигли конца
-            PerformAction(daySeq[dayActionIndex], immediate);
+            PerformAction(daySeq[dayActionIndex], isSimulation);
             dayActionIndex++;
             
             currentAction = daySeq[dayActionIndex];
             SetActionInterval(currentAction);
         }
         else if(timeToNextAction <= 0 && dayActionIndex < daySeq.Count){ // достигли конца сиквенса
-            PerformAction(daySeq[dayActionIndex], immediate);
+            PerformAction(daySeq[dayActionIndex], isSimulation);
             dayActionIndex = 0; // loop
             
             currentAction = daySeq[dayActionIndex];
@@ -65,20 +75,20 @@ public class ExpansionSequence : ScriptableObject
         }
     }
     
-    private void HandleNightSequence(bool immediate = false)
+    private void HandleNightSequence(bool isSimulation = false)
     {
         if(timeToNextAction > 0){
             timeToNextAction -= 1;
         }
         else if(timeToNextAction <= 0 && nightActionIndex < nightSeq.Count-1){
-            PerformAction(nightSeq[nightActionIndex], immediate);
+            PerformAction(nightSeq[nightActionIndex], isSimulation);
             nightActionIndex++;
             
             currentAction = nightSeq[nightActionIndex];
             SetActionInterval(currentAction);
         }
         else if(timeToNextAction <= 0 && nightActionIndex < nightSeq.Count){
-            PerformAction(nightSeq[nightActionIndex], immediate);
+            PerformAction(nightSeq[nightActionIndex], isSimulation);
             nightActionIndex = 0; // loop
             
             currentAction = nightSeq[nightActionIndex];
@@ -86,9 +96,9 @@ public class ExpansionSequence : ScriptableObject
         }
     }
     
-    private void PerformAction(ColonyAction action, bool immediate = false)
+    private void PerformAction(ColonyAction action, bool isSimulation = false)
     {
-        ownerColony.PerformAction(action, immediate);
+        ownerColony.PerformAction(action, isSimulation);
     }
     
     private void SetActionInterval(ColonyAction action)

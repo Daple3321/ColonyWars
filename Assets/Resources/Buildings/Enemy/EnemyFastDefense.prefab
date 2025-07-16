@@ -220,6 +220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectionShape: 0
+  detector: {fileID: 1718838544201722925}
 --- !u!135 &1718838544201722925
 SphereCollider:
   m_ObjectHideFlags: 0

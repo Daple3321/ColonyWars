@@ -122,6 +122,10 @@ public class RangedWeaponItem : WeaponWorldItem
             //projectile.transform.rotation.SetLookRotation(shootRay.direction, projectile.transform.up);
             projectile.transform.up = shootRay.direction;
             projectile.Init(damage, projectileSpeed, Affiliation.Player, GameController.p.gameObject, penetrationAmount, projectileLifetime, knockBackForce);
+            if(projectile is ExplosiveProjectile explosiveProjectile)
+            {
+                explosiveProjectile.SetExplosionHitMask();
+            }
             
             //Debug.DrawLine(shootPoint.position, mouseHit.point, Color.green, 2);
             Debug.DrawRay(shootPoint.position, mouseRay.direction * 4, Color.cyan, 3);

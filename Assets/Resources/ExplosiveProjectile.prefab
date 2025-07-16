@@ -215,6 +215,12 @@ MonoBehaviour:
   enemyExcludeMask:
     serializedVersion: 2
     m_Bits: 12032
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 20544
+  enemyMask:
+    serializedVersion: 2
+    m_Bits: 10240
   owner: {fileID: 0}
   rb: {fileID: 6048845701759167386}
   trail: {fileID: 5820712773288819112}

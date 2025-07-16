@@ -48,6 +48,10 @@ public class RangedAttack : Attack
                 rangedAttackData.knockBackForce,
                 rangedAttackData.damageType
             );
+            if(projectile is ExplosiveProjectile explosiveProjectile)
+            {
+                explosiveProjectile.SetExplosionHitMask();
+            }
 
             Debug.DrawRay(owner.attackPoint.position, shootRay.direction * 4, Color.cyan, 2);
         }
