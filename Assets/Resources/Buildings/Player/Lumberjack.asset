@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingName: Lumberjack
   description: Place near trees
-  buildingIcon: {fileID: 21300000, guid: 3b491736925476b4186d95564b57a1ba, type: 3}
+  buildingIcon: {fileID: 21300000, guid: b9987a18d675c4340877c522c66e52b2, type: 3}
   craftPrice:
     requirements:
     - item: {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}

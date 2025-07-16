@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingName: Barracks
   description: Can create units
-  buildingIcon: {fileID: 21300000, guid: 41feb7afcdcb84f48ac699cd7831108b, type: 3}
+  buildingIcon: {fileID: 21300000, guid: 8768325893cf8cf45943ecc9a5bf7a6a, type: 3}
   craftPrice:
     requirements:
     - item: {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}
