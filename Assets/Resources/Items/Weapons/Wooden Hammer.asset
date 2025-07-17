@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f80b962b15c4c240b3b12bea01003bc, type: 3}
-  m_Name: Stone axe
+  m_Script: {fileID: 11500000, guid: 1b8e2ba379dd3984db37e3c537243309, type: 3}
+  m_Name: Wooden Hammer
   m_EditorClassIdentifier: 
-  itemName: Stone axe
-  description: 
-  icon: {fileID: 21300000, guid: 096c58cb5c7f0024db5899b4e73d83b8, type: 3}
+  itemName: Wooden hammer
+  description: For repairing buildings
+  icon: {fileID: 21300000, guid: e04e6c970b950d946a782ea08e5f971d, type: 3}
   rarity: 1
   IsStackable: 0
   maxStackSize: 1
@@ -23,13 +23,13 @@ MonoBehaviour:
   itemMaterials: []
   hasCustomScale: 0
   customScale: {x: 1, y: 1, z: 1}
-  customPrefab: {fileID: 7127071996251879949, guid: c1640f6faad7979498d1422d7fc8f3d1, type: 3}
-  damage: 5
+  customPrefab: {fileID: 7188786082866678159, guid: d09f00118b49a50408db46efb0ee4b7e, type: 3}
+  damage: 4
   attackRate: 0.2
   chargeRate: 0.1
   needsAmmo: 0
   recoilForce: -2
-  slowingAmount: 65
+  slowingAmount: 70
   ammoType: {fileID: 0}
   attackType: 1
   weaponType: 3
@@ -53,8 +53,10 @@ MonoBehaviour:
       Type: 300
       Order: 0
   meleeAttackType: 0
-  gatherResources:
-  - {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}
-  - {fileID: 11400000, guid: 065d5255fd3582e45a5e83f3b880816d, type: 2}
-  - {fileID: 11400000, guid: 346abaaa7b2b2884c8d1f15c9d30634d, type: 2}
-  yieldRange: {x: 2, y: 4}
+  repairAmount: 15
+  repairPrice:
+    requirements:
+    - item: {fileID: 11400000, guid: b0f13f1f0cdf985489365cf00337a558, type: 2}
+      quantity: 3
+    - item: {fileID: 11400000, guid: cac02f16ed5c5924b8233daff02f34d9, type: 2}
+      quantity: 1

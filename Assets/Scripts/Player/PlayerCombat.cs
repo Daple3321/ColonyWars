@@ -180,9 +180,21 @@ public class PlayerCombat : MonoBehaviour
             }
             
             currentWeapon.Attack();
-            weaponWorld.Attack(concentraion);
+            if(!currentWeapon.weaponData.attackTriggeredByAnimation){
+                weaponWorld.Attack(concentraion);
+                ApplyRecoil(currentWeapon.recoilForce.Value);
+            }
             
-            ApplyRecoil(currentWeapon.recoilForce.Value);
+            if(attackRoutine != null){
+                StopCoroutine(attackRoutine);
+                p.movement.curSpeed.Remove();
+                p.movement.ResetSpeed();
+                p.movement.runningAllowed = true;
+            }
+            attackRoutine = StartCoroutine(AttackRoutine());
+            //weaponWorld.Attack(concentraion);
+            
+            //ApplyRecoil(currentWeapon.recoilForce.Value);
             //StartCoroutine(PlayerCameraController.CameraShake(1, 0.15f));
 
             currentWeapon.mouseReleased = false;

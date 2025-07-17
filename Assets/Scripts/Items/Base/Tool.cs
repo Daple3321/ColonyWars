@@ -12,16 +12,17 @@ public class Tool : MeleeWeapon
         yieldRange = _itemData.yieldRange;
         gatherResources = _itemData.gatherResources;
     }
-    
-    
+
+
+    readonly StringBuilder str = new StringBuilder();
     public override string GetDescription()
     {
-        StringBuilder str = new StringBuilder();
+        str.Clear();
         str.AppendLine($"Damage: {damage.Value:F0}");
         str.AppendLine($"Yield: {yieldRange.x}-{yieldRange.y}");
         str.AppendLine("Can gather: ");
         foreach (var item in gatherResources){
-            str.Append($"{item.itemName}, ");
+            str.Append($"<color={Colors.GetHex(GameAssets.colors.rare)}>{item.itemName} | </color>");
         }
         str.AppendLine(description);
         return str.ToString();

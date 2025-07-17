@@ -23,7 +23,7 @@ public class ItemRequirements
     {
         StringBuilder stringBuilder = new StringBuilder();
         
-        stringBuilder.Append($"<color={GameAssets.colors.GetHex(GameAssets.colors.craftReq)}>Requirements:</color>\n");
+        stringBuilder.Append($"<color={Colors.GetHex(GameAssets.colors.craftReq)}>Requirements:</color>\n");
         //stringBuilder.Append($"<color=#{ColorUtility.ToHtmlStringRGBA(GameAssets.colors.craftReq)}>Requirements:</color>\n");
         
         for(int i = 0; i < requirements.Count; i++)

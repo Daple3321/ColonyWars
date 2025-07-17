@@ -32,7 +32,7 @@ MonoBehaviour:
   recoilForce: -3
   slowingAmount: 65
   ammoType: {fileID: 0}
-  attackType: 2
+  attackType: 1
   weaponType: 3
   attackTriggeredByAnimation: 1
   attackDistance: 2.5

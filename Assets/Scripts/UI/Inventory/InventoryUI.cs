@@ -151,10 +151,10 @@ public class InventoryUI : MonoBehaviour
         {
             if (destinationIndex == -1) // Упали на свой UI, но не на слот? (Можно обработать или игнорировать)
             {
-                Debug.Log("Dropped onto self UI but not a specific slot.");
+                //Debug.Log("Dropped onto self UI but not a specific slot.");
                 return;
             }
-            Debug.Log($"Swapping within {this.name}: Slot {sourceIndex} <-> Slot {destinationIndex}");
+            //Debug.Log($"Swapping within {this.name}: Slot {sourceIndex} <-> Slot {destinationIndex}");
             // Используем существующее событие для обмена внутри одного инвентаря
             OnSwapItems?.Invoke(sourceIndex, destinationIndex, sourceItem, destinationSlot.item);
             HandleItemSelection(destinationSlot); // Выделяем целевой слот
@@ -163,11 +163,11 @@ public class InventoryUI : MonoBehaviour
         {
             if (destinationIndex == -1)
             {
-                Debug.LogError("Destination slot index not found in target UI. This shouldn't happen if dropped on a valid slot.");
+                //Debug.LogError("Destination slot index not found in target UI. This shouldn't happen if dropped on a valid slot.");
                 return;
             }
 
-            Debug.Log($"Transfer Request: From '{sourceUI.name}' (Slot {sourceIndex}) To '{this.name}' (Slot {destinationIndex})");
+            //Debug.Log($"Transfer Request: From '{sourceUI.name}' (Slot {sourceIndex}) To '{this.name}' (Slot {destinationIndex})");
 
             // Нужно новое событие для передачи данных о переносе в PlayerInventory или другой менеджер
             // Передаем: исходный UI, исходный индекс, целевой UI, целевой индекс

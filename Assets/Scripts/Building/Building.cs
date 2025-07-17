@@ -93,6 +93,22 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
         canAlarm = true;
     }
     
+    public virtual bool Repair(float amount)
+    {
+        bool wasRepaired = false;
+        if(health < buildingStats[maxHealth].Value){
+            wasRepaired = true;
+            health += amount;
+            health = Math.Clamp(health, 0, buildingStats[maxHealth].Value);
+            OnHealthChanged?.Invoke(health, buildingStats[maxHealth].Value);
+            Tween.ShakeScale(transform, strength: new Vector3(1.1f, 1.1f, 1.1f), duration: 0.25f, frequency: 2);
+            WorldUI.i.DamagePopup(transform.position+new Vector3(0, 2f, 0), Color.green)
+            .text = $"+{amount.ToString("F1")}";
+        }
+        
+        return wasRepaired;
+    }
+    
     Sequence colorSeq;
     protected bool isDead = false;
     public virtual UniTask<DamageResult> TakeDamage<T>(float damage, T source, Vector3 knockback = new Vector3(), DamageType damageType = DamageType.Melee)
