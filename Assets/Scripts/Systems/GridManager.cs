@@ -592,6 +592,45 @@ public class GridManager
         return new Vector2Int(-1, -1);
     }
     
+    public Vector2Int FindCellIterations(int x, int y, int iterationsAmount)
+    {
+        Queue<Vector2Int> frontier = new Queue<Vector2Int>();
+        frontier.Enqueue(new Vector2Int(x, y));
+        
+        HashSet<Vector2Int> visited = new HashSet<Vector2Int>();
+        visited.Add(new Vector2Int(x, y));
+        
+        int iterationsDone = 0;
+        while (frontier.Count > 0 || iterationsDone <= iterationsAmount) 
+        {
+            Vector2Int current = frontier.Dequeue();
+            
+            // if (iterationsDone == iterationsAmount)
+            // {
+            //     return current;
+            // }
+            Vector2Int[] neighbors = GetNeighbors(current.x, current.y);
+            ArrayExtensionMethods.Shuffle(neighbors);
+            foreach (Vector2Int next in neighbors)
+            {
+                // Проверяем, не посещали ли мы эту ячейку ранее
+                if(!visited.Contains(next))
+                {
+                    if(iterationsDone == iterationsAmount){
+                        return neighbors[Random.Range(0, neighbors.Length)];
+                    }
+                    
+                    // Если ещё не закончились итерации, добавляем в очередь и помечаем как посещенную
+                    frontier.Enqueue(next);
+                    visited.Add(next);
+                }
+            }
+            iterationsDone++;
+        }
+
+        return new Vector2Int(-1, -1);
+    }
+    
     /// <summary>
     /// Остались ли в мире ячейки с заданной affiliation
     /// </summary>

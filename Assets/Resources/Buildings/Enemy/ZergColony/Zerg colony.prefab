@@ -224,15 +224,19 @@ MonoBehaviour:
   waveContainers:
   - durationMinutes: 1460
     waves:
-    - {fileID: 11400000, guid: b53dcb44fb4a7dc498a34a40b339e211, type: 2}
+    - {fileID: 11400000, guid: 6733cd6baae9bd549982b655ecdee7b6, type: 2}
     difficulty: 0
   - durationMinutes: 1460
     waves:
-    - {fileID: 11400000, guid: 9209614fa5e77294a9c612d2ea4887a2, type: 2}
+    - {fileID: 11400000, guid: 1d4a65f33b59f814cb2e97c8a1c86e72, type: 2}
     difficulty: 1
   - durationMinutes: 1460
     waves:
-    - {fileID: 11400000, guid: ac3564139631b284e84b3050680c23ac, type: 2}
+    - {fileID: 11400000, guid: 363c07311934b114ca6b69df0ec732d7, type: 2}
+    difficulty: 3
+  - durationMinutes: 1460
+    waves:
+    - {fileID: 11400000, guid: 4b7434814418d6b49a030529207e72ef, type: 2}
     difficulty: 2
   containerIndex: 0
   minutesLeftToNextContainer: 0

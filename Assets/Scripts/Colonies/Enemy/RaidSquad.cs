@@ -43,7 +43,7 @@ public class RaidSquad
         foreach(Unit u in units)
         {
             squad.TryAddUnit(u);
-            Debug.Log("ADDING UNITS TO SQUAD");
+            //Debug.Log("ADDING UNITS TO SQUAD");
         }
     }
     
@@ -112,9 +112,27 @@ public class RaidSquad
         targetCellIndex = ColoniesManager.i.grid.WorldToCell(targetCell.worldPosition);
         targetBuildings.Clear();
     }
+    public (Cell foundCell, Vector3 pointInCell) FindDetourPoint(Cell fromCell)
+    {
+        //Vector2Int detourIdx = ColoniesManager.i.gridManager.ClosestCell(colony.cellIndex.x, colony.cellIndex.z, Affiliation.None);
+        Vector3Int targetCellIdx = ColoniesManager.i.grid.WorldToCell(fromCell.worldPosition);
+        Vector2Int detourIdx = ColoniesManager.i.gridManager.FindCellIterations(targetCellIdx.x, targetCellIdx.z, 6);
+        Cell detourCell = null;
+        Vector3 detourPoint = new Vector3(-1,-1,-1);
+        if(detourIdx.x != -1){
+            detourCell = ColoniesManager.i.gridManager.GetCell(detourIdx.x, detourIdx.y);
+            detourPoint = ColoniesManager.i.gridManager.RandomPointInCell(detourCell);
+        }
+        
+        return (detourCell, detourPoint);
+    }
+    
     public void StartRaid(Cell targetCell)
     {
         AssignTargetCell(targetCell);
+        
+        (Cell foundCell, Vector3 pointInCell) = FindDetourPoint(targetCell);
+        //Vector3 test = ColoniesManager.i.gridManager.RandomPointInCell(3, 3);
         
         Collider[] cols = ColoniesManager.i.gridManager.GetCellBuildings(targetCellIndex.x, targetCellIndex.z, Affiliation.Player);
         if(cols.Length > 0)
@@ -124,7 +142,16 @@ public class RaidSquad
                 AddTargetBuilding(b);
             }
             
-            squad.MoveOrder(targetBuildings[0].transform.position);
+            if(foundCell != null) // если нашли detour
+            {
+                squad.MoveOrder(new Vector3[]{pointInCell, targetBuildings[0].transform.position});
+                //Debug.Log("Detour point found!");
+            }
+            else{
+                squad.MoveOrder(targetBuildings[0].transform.position);
+                //Debug.Log("No detour point!");
+            }
+            
             foreach(Unit u in squad.units){
                 OnUnitSentToMission(u);
                 //u.onUnitDeath += OnUnitOnMissionDeath;

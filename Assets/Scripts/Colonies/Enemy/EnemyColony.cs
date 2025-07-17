@@ -254,7 +254,7 @@ public class EnemyColony : Colony
     {
         if(buildings.Count >= stats[maxBuildings].Value){
             levelSystem.LevelUp();
-            Debug.Log($"{gameObject.name} lvl up! Lv.{levelSystem.GetLevel()}", gameObject);
+            //Debug.Log($"{gameObject.name} lvl up! Lv.{levelSystem.GetLevel()}", gameObject);
         }
         
         Building b = GameController.objectGenerator.CreateBuilding_Rules(building, pos);
@@ -277,7 +277,7 @@ public class EnemyColony : Colony
     {
         if(buildings.Count >= stats[maxBuildings].Value){
             levelSystem.LevelUp();
-            Debug.Log($"{gameObject.name} lvl up! Lv.{levelSystem.GetLevel()}", gameObject);
+            //Debug.Log($"{gameObject.name} lvl up! Lv.{levelSystem.GetLevel()}", gameObject);
         }
         
         Building b = GameController.objectGenerator.CreateBuilding_Rules(building, pos, rotDir);

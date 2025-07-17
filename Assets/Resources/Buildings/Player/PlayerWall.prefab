@@ -133,16 +133,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingData: {fileID: 11400000, guid: 21e647a82392a60488bf6893c7a6bbff, type: 2}
-  health: 140
+  health: 110
   buildingStats:
     _serializedList:
     - Key: 0
       Value:
-        baseValue: 140
+        baseValue: 110
         statModifiers: []
     - Key: 11
       Value:
-        baseValue: 50
+        baseValue: 25
         statModifiers: []
     - Key: 12
       Value:

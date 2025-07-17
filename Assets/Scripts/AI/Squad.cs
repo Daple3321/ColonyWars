@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using static EntityStatType;
 
@@ -77,6 +79,140 @@ public class Squad
         //RemoveAllUnits();
 
         //units.Clear();
+    }
+    
+    // Источник токена для отмены текущего приказа на движение
+    private CancellationTokenSource _moveOrderCts;
+    /// <summary>
+    /// Приказывает отряду двигаться по последовательности точек.
+    /// </summary>
+    /// <param name="route">Массив точек для следования.</param>
+    public async void MoveOrder(Vector3[] route)
+    {
+        // 1. Проверки входных данных
+        if (route == null || route.Length == 0)
+        {
+            Debug.LogError("Маршрут не может быть пустым.");
+            return;
+        }
+
+        if (units.Count <= 0) return;
+
+        // 2. Отменяем предыдущий приказ на движение, если он был
+        _moveOrderCts?.Cancel();
+        _moveOrderCts = new CancellationTokenSource();
+        var token = _moveOrderCts.Token;
+
+        try
+        {
+            // 3. Последовательно проходим по всем точкам маршрута
+            foreach (var waypoint in route)
+            {
+                // Если задача была отменена (например, новым приказом), выходим из цикла
+                if (token.IsCancellationRequested) break;
+
+                lastMoveOrder = waypoint;
+
+                // Отдаем приказ всем юнитам двигаться к текущей точке
+                foreach (var unit in units)
+                {
+                    Vector3 offset = CalculateOffsetForUnit(units.IndexOf(unit), 1.8f);
+                    unit.SetHome(waypoint + offset);
+                    unit.StopFollowing();
+                    unit.followTarget = null;
+                }
+
+                // 4. Асинхронно ждем завершения движения к этой точке
+                bool waypointReached = await WaitForWaypointArrivalAsync(waypoint, token);
+
+                // Если точка не была достигнута (тайм-аут, отряд уничтожен), прерываем весь маршрут
+                if (!waypointReached)
+                {
+                    Debug.Log("Движение по маршруту прервано.");
+                    return;
+                }
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            // Это ожидаемое исключение, когда мы отменяем задачу через токен.
+            // Просто логируем, что старый приказ был отменен.
+            Debug.Log("Старый приказ на движение был отменен.");
+        }
+    }
+
+    /// <summary>
+    /// Асинхронно ждет, пока отряд достигнет точки назначения.
+    /// </summary>
+    /// <returns>True, если точка достигнута; False при тайм-ауте или уничтожении отряда.</returns>
+    private async UniTask<bool> WaitForWaypointArrivalAsync(Vector3 targetWaypoint, CancellationToken token)
+    {
+        const float moveTimeout = 120f; // Тайм-аут на одну точку маршрута
+
+        // Создаем задачи, завершения одной из которых мы будем ждать
+        var arrivalTcs = new UniTaskCompletionSource<bool>();
+
+        // Счетчик юнитов, которые должны прибыть
+        int unitsToArrive = units.Count;
+
+        // Обработчик события прибытия юнита
+        Action<Unit> onUnitArrivedHandler = null;
+        onUnitArrivedHandler = (arrivedUnit) =>
+        {
+            unitsToArrive--;
+            if (unitsToArrive <= 0)
+            {
+                // Все прибыли, успешно завершаем задачу
+                arrivalTcs.TrySetResult(true);
+            }
+            // Отписываемся от события этого юнита, чтобы не сработало повторно
+            arrivedUnit.OnArrivedHome -= onUnitArrivedHandler;
+        };
+
+        // Подписываемся на событие прибытия для каждого юнита
+        foreach (var unit in units)
+        {
+            unit.OnArrivedHome += onUnitArrivedHandler;
+        }
+
+        // Задача, которая завершится по тайм-ауту
+        var timeoutTask = UniTask.Delay(TimeSpan.FromSeconds(moveTimeout), cancellationToken: token);
+
+        // Задача, которая будет проверять, уничтожен ли отряд
+        var squadWipedTask = UniTask.WaitUntil(() => units.Count == 0, cancellationToken: token);
+
+        try
+        {
+            // Ждем, какая из задач завершится первой
+            int winningTaskIndex = await UniTask.WhenAny(arrivalTcs.Task, timeoutTask, squadWipedTask);
+            switch (winningTaskIndex)
+            {
+                case 0: // arrivalTcs.Task завершилась первой
+                    Debug.Log("Отряд достиг точки.");
+                    return true;
+                case 1: // timeoutTask завершилась первой
+                    Debug.LogWarning("Тайм-аут при движении к точке.");
+                    return false;
+                case 2: // squadWipedTask завершилась первой
+                    Debug.LogWarning("Отряд уничтожен при движении к точке.");
+                    return false;
+                default:
+                    return false;
+            }
+        }
+        finally
+        {
+            // Крайне важный блок!
+            // Отписываемся от всех событий, чтобы избежать утечек памяти,
+            // если ожидание было прервано (тайм-аут, отмена, уничтожение).
+            foreach (var unit in units)
+            {
+                if (unit != null) // Юнит мог быть уничтожен
+                {
+                    unit.OnArrivedHome -= onUnitArrivedHandler;
+                }
+            }
+        }
     }
     public void MoveOrder(Vector3 orderPos, Unit targetUnit)
     {

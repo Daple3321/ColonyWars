@@ -289,7 +289,7 @@ Transform:
   m_GameObject: {fileID: 2771398244645150855}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 207.75172, y: 26.887127, z: 332.03183}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -365,6 +365,7 @@ MonoBehaviour:
   stateMachine: {fileID: 153902723318275916}
   patrolRoute: []
   currentPatrolPoint: 0
+  maxPatrolPoints: 15
   followState: {fileID: 11400000, guid: e0bf1530e97206441859187f359860c3, type: 2}
   aggroState: {fileID: 11400000, guid: 300ac1eab1b7ed849ad78f53e5d9b19d, type: 2}
   aggrTime: 25
@@ -443,15 +444,15 @@ MonoBehaviour:
         attackSequence:
           sequenceCoolDown: 1.5
           attacks:
-          - duration: 0.8
+          - duration: 1
             damageMultiplier: 0
             recoilMultiplier: 0
             staminaDrain: 0
-          - duration: 0.85
+          - duration: 1.1
             damageMultiplier: 0.3
             recoilMultiplier: 0.5
             staminaDrain: 0
-          - duration: 1.2
+          - duration: 1.3
             damageMultiplier: 0.6
             recoilMultiplier: 0.6
             staminaDrain: 0
@@ -1184,7 +1185,7 @@ Transform:
   m_GameObject: {fileID: 8834174341226377589}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.292, y: 1.286, z: 0.36}
+  m_LocalPosition: {x: 0.099, y: 1.286, z: 0.252}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe08a3aaa1222044fbe69873dc2a72d8, type: 3}
+  m_Name: Zerg_wave_1
+  m_EditorClassIdentifier: 
+  unitPool:
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 307f0b4d17cbe4e45b7a419a28c10fb6, type: 2}
+      Value: 1
+  unitAmountRange: {x: 5, y: 7}
+  unitModifiers:
+    _serializedList: []
+  colonyInfluence_UnitAmount: 0.153
+  colonyInfluence_UnitLevel: 0.161

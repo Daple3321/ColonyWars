@@ -277,7 +277,10 @@ public abstract class Unit : MonoBehaviour, IDamageable, IClickable
         movement.MoveTo(homePos);
         movement.RotateTo(homePos);
     }
-    
+    public virtual void OnArrivedToHome()
+    {
+        OnArrivedHome?.Invoke(this);
+    }
     public void SetHome(Vector3 newHomePos)
     {
         homePos = newHomePos;
@@ -423,10 +426,11 @@ public abstract class Unit : MonoBehaviour, IDamageable, IClickable
         Destroy(gameObject);
     }
 
-    public Action<Unit> onUnitDeath;
+    public event Action<Unit> onUnitDeath;
     public Action<Squad> onRegiesterToSquad;
     public Action onUnregisterFromSquad;
     public Action<float, float> onUnitHealthChanged;
+    public event Action<Unit> OnArrivedHome;
     
 #if UNITY_EDITOR
     private void OnDrawGizmos()
