@@ -25,6 +25,7 @@ MonoBehaviour:
   - rid: 80067999182880873
   - rid: 80067999182880874
   - rid: 3942449631061344341
+  - rid: 8283305408586580048
   persistentObjects:
   - rid: 80067999182880864
   - rid: 80067999182880872
@@ -270,3 +271,17 @@ MonoBehaviour:
         randomizeScale: 0
         scaleRange: {x: 0, y: 0}
         prefab: {fileID: 6223873656198492998, guid: 6096666a8ce065541ace89c317e3c603, type: 3}
+    - rid: 8283305408586580048
+      type: {class: ObjGenSettings, ns: , asm: Assembly-CSharp}
+      data:
+        objName: rock slate 1
+        spawnType: 1
+        spawnRules:
+        - spawnRuleType: 0
+          valueRange: {x: 20, y: 100}
+        spawnAmount: 20
+        spawnChance: 0.367
+        alignToGround: 1
+        randomizeScale: 1
+        scaleRange: {x: 0.8, y: 1.2}
+        prefab: {fileID: 6625954842731774972, guid: 30c4f1a842e40024589da7391e188a48, type: 3}
