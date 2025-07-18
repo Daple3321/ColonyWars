@@ -73,6 +73,7 @@ MonoBehaviour:
         statModifiers: []
   interactionRange: 8
   canInteract: 1
+  sendDamageNotifications: 0
   affiliation: 1
   buildTime: 4
   built: 0
@@ -136,7 +137,7 @@ LODGroup:
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 7473988663172984142}
-  - screenRelativeHeight: 0.061233763
+  - screenRelativeHeight: 0.04577106
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 7473988663172984142}

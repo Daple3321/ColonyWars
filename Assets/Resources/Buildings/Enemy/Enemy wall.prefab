@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 5995221907767157198}
   - component: {fileID: 442829662802917792}
   - component: {fileID: 6382503812601173879}
+  - component: {fileID: 8528109335210555528}
   m_Layer: 13
   m_Name: Enemy wall
   m_TagString: Untagged
@@ -158,6 +159,7 @@ MonoBehaviour:
         statModifiers: []
   interactionRange: 8
   canInteract: 0
+  sendDamageNotifications: 0
   affiliation: 1
   buildTime: 4
   built: 0
@@ -195,3 +197,30 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.1110588, y: 1, z: 1}
   m_Center: {x: -0.05552917, y: 0, z: 0}
+--- !u!205 &8528109335210555528
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7580235864359956165}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.052591324, y: -0.009999514, z: 0}
+  m_Size: 1.1051801
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.32614934
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 3316248718067782578}
+  - screenRelativeHeight: 0.17898165
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 3316248718067782578}
+  - screenRelativeHeight: 0.094303176
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 3316248718067782578}
+  m_Enabled: 1

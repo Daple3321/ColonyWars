@@ -514,6 +514,8 @@ public class WorldGenerator : MonoBehaviour
         terrain.terrainData.SetDetailLayer(0, 0, 1, map);
         terrain.terrainData.SetDetailLayer(0, 0, 2, map);
         terrain.terrainData.SetDetailLayer(0, 0, 3, map);
+        terrain.terrainData.SetDetailLayer(0, 0, 4, map); // FLOWER 1
+        terrain.terrainData.SetDetailLayer(0, 0, 5, map); // FLOWER 2
     }
     
     private void GenerateDetailMap()
@@ -524,6 +526,8 @@ public class WorldGenerator : MonoBehaviour
         int[,] pebbleMap = terrain.terrainData.GetDetailLayer(0, 0, terrain.terrainData.detailWidth, terrain.terrainData.detailHeight, 1);
         int[,] logMap = terrain.terrainData.GetDetailLayer(0, 0, terrain.terrainData.detailWidth, terrain.terrainData.detailHeight, 2);
         int[,] stickMap = terrain.terrainData.GetDetailLayer(0, 0, terrain.terrainData.detailWidth, terrain.terrainData.detailHeight, 3);
+        int[,] flowerOneMap = terrain.terrainData.GetDetailLayer(0, 0, terrain.terrainData.detailWidth, terrain.terrainData.detailHeight, 4);
+        int[,] flowerTwoMap = terrain.terrainData.GetDetailLayer(0, 0, terrain.terrainData.detailWidth, terrain.terrainData.detailHeight, 5);
         for (int y = 0; y < terrainHeight; y++)
         {
             for (int x = 0; x < terrainWidth; x++)
@@ -542,6 +546,8 @@ public class WorldGenerator : MonoBehaviour
                 if (height > 5f && height < 20f)
                 {
                     grassMap[(int)terrainDetailPos.z, (int)terrainDetailPos.x] = 800;
+                    flowerOneMap[(int)terrainDetailPos.z, (int)terrainDetailPos.x] = 50;
+                    flowerTwoMap[(int)terrainDetailPos.z, (int)terrainDetailPos.x] = 15;
                 }
                 
                 if(height >= 1f && height < 4f)
@@ -563,6 +569,8 @@ public class WorldGenerator : MonoBehaviour
         terrain.terrainData.SetDetailLayer(0, 0, 1, pebbleMap);
         terrain.terrainData.SetDetailLayer(0, 0, 2, logMap);
         terrain.terrainData.SetDetailLayer(0, 0, 3, stickMap);
+        terrain.terrainData.SetDetailLayer(0, 0, 4, flowerOneMap);
+        terrain.terrainData.SetDetailLayer(0, 0, 5, flowerTwoMap);
         terrain.Flush();
     }
     

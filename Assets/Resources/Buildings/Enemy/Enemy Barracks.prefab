@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 3138871610185223326}
   - component: {fileID: 512844392226608064}
   - component: {fileID: 7462893797162953496}
+  - component: {fileID: 5936131649007841935}
   m_Layer: 13
   m_Name: Enemy Barracks
   m_TagString: Untagged
@@ -158,6 +159,7 @@ MonoBehaviour:
         statModifiers: []
   interactionRange: 8
   canInteract: 1
+  sendDamageNotifications: 0
   affiliation: 1
   buildTime: 4
   built: 0
@@ -197,3 +199,30 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4.9128876, y: 4.0111656, z: 4.7941895}
   m_Center: {x: 0.02884674, y: 1.8703136, z: -0.38058472}
+--- !u!205 &5936131649007841935
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614426742624893566}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.26681042, y: 2.3539805, z: -0.2976334}
+  m_Size: 5.7042904
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.35718417
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 7554940759487452666}
+  - screenRelativeHeight: 0.16480938
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 7554940759487452666}
+  - screenRelativeHeight: 0.05069109
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 7554940759487452666}
+  m_Enabled: 1

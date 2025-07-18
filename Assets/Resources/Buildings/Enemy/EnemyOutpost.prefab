@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectionShape: 0
+  detector: {fileID: 0}
 --- !u!135 &1045440930760441326
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -79,6 +80,7 @@ GameObject:
   - component: {fileID: 6770006506255845763}
   - component: {fileID: 1236453777374326491}
   - component: {fileID: 5444826313274340212}
+  - component: {fileID: 1820575108717663372}
   m_Layer: 13
   m_Name: EnemyOutpost
   m_TagString: Untagged
@@ -142,6 +144,7 @@ MonoBehaviour:
         statModifiers: []
   interactionRange: 8
   canInteract: 1
+  sendDamageNotifications: 0
   affiliation: 1
   buildTime: 3
   built: 0
@@ -240,6 +243,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.4921231, y: 7.9336023, z: 2.9071453}
   m_Center: {x: 0.033081613, y: 4.5081615, z: 0.017964682}
+--- !u!205 &1820575108717663372
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5258535729271118714}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.0056357384, y: 3.6804824, z: -0.0024740696}
+  m_Size: 8.160968
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.34593883
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 8284796047614541456}
+  - screenRelativeHeight: 0.15693647
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 8284796047614541456}
+  - screenRelativeHeight: 0.086467244
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 8284796047614541456}
+  m_Enabled: 1
 --- !u!1 &6409729136643362492
 GameObject:
   m_ObjectHideFlags: 0

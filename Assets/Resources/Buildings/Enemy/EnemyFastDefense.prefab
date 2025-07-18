@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8634378082213023725}
   - component: {fileID: 3657611277251216634}
   - component: {fileID: 536503456728644265}
+  - component: {fileID: 2088223450176973607}
   m_Layer: 13
   m_Name: EnemyFastDefense
   m_TagString: Untagged
@@ -75,6 +76,7 @@ MonoBehaviour:
         statModifiers: []
   interactionRange: 8
   canInteract: 0
+  sendDamageNotifications: 0
   affiliation: 1
   buildTime: 0
   built: 0
@@ -174,6 +176,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.4921231, y: 7.9336023, z: 2.9071453}
   m_Center: {x: 0.033081613, y: 4.5081615, z: 0.017964682}
+--- !u!205 &2088223450176973607
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 188448655872215890}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.0056357384, y: 3.6804843, z: -0.0024740696}
+  m_Size: 8.160968
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.25663316
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 3051091104556775062}
+  - screenRelativeHeight: 0.121765286
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 3051091104556775062}
+  - screenRelativeHeight: 0.044974968
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 3051091104556775062}
+  m_Enabled: 1
 --- !u!1 &497584752744898752
 GameObject:
   m_ObjectHideFlags: 0

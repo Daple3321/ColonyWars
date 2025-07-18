@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6734773352968536953}
   - component: {fileID: 5571443645151198842}
   - component: {fileID: 7266971337875760006}
+  - component: {fileID: 287607861172057055}
   m_Layer: 8
   m_Name: ItemPrefab
   m_TagString: Item
@@ -160,5 +161,32 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.3
+  m_Radius: 1.06
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!205 &287607861172057055
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119998569144866766}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.6
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 6734773352968536953}
+  - screenRelativeHeight: 0.3
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 6734773352968536953}
+  - screenRelativeHeight: 0.02138651
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 6734773352968536953}
+  m_Enabled: 1
