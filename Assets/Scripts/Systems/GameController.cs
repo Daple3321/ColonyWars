@@ -88,6 +88,8 @@ public class GameController : MonoBehaviour
         pointsToWin = gameSettings.pointsToWin;
         pointsMultiplier = gameSettings.pointsMultiplier;
         
+        NotificationManager.i.Init();
+        
         playerPoints = new PointStats(pointsToWin);
         playerPoints.onPointsChanged += (x, y)=>{EventBus.i.OnPlayerPointsChanged?.Invoke(x, y);};
         playerPoints.onYieldChanged += x => {EventBus.i.OnPlayerYieldChanged?.Invoke(x);};

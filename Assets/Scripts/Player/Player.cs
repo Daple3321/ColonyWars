@@ -90,8 +90,8 @@ public class Player : MonoBehaviour, IDamageable, ICommander
         EventBus.i.PlayerCommandEnergyChanged?.Invoke(commandEnergy, stats[maxCommandEnergy].Value);
 
         //TimeService.OnHourChange += x => Debug.Log($"Hour changed to: {x}. From player.");
-        EventBus.i.OnSunrise += () => Debug.Log($"Sunrise!");
-        EventBus.i.OnSunset += () => Debug.Log($"Sunset.");
+        EventBus.i.OnSunrise += () => NotificationManager.i.Add("Sunrise!", "It's more safe now", 10, Color.blue, Color.white);
+        EventBus.i.OnSunset += () => NotificationManager.i.Add("Night!", "Be careful, enemies might raid you.", 10, GameAssets.colors.blockedColor, Color.white);
     }
 
     void Update()

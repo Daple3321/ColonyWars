@@ -106,6 +106,7 @@ MonoBehaviour:
         statModifiers: []
   interactionRange: 8
   canInteract: 1
+  sendDamageNotifications: 1
   affiliation: 2
   buildTime: 3
   built: 0

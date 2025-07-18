@@ -390,6 +390,8 @@ public class EnemyColony : Colony
             raidSquad.AddUnitsToSquad(waveSystem.SpawnCurrentWave());
             raidSquad.StartRaid(closestCell);
         }
+        
+        NotificationManager.i.Add("Raiders are near!", "Be careful, the threat is near!", 10, Color.red, Color.white);
     }
     
     

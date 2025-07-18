@@ -24,6 +24,7 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
     
     public float interactionRange = 8;
     public bool canInteract = true; 
+    public bool sendDamageNotifications = false;
     
     public LevelSystem levelSystem;
     
@@ -84,13 +85,22 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
     
     //Coroutine attackAlarm;
     protected bool canAlarm = true;
-    protected virtual IEnumerator AttackAlarm()
+    protected IEnumerator AttackAlarm()
     {
         canAlarm = false;
         OnAttacked?.Invoke(this);
         yield return new WaitForSeconds(5f);
         
         canAlarm = true;
+    }
+    protected bool canNotify = true;
+    protected IEnumerator NotifyDamage()
+    {
+        canNotify = false;
+        NotificationManager.i.Add($"{buildingData.buildingName} being attacked!", "", 6f, Color.red, Color.white);
+        yield return new WaitForSeconds(10f);
+        
+        canNotify = true;
     }
     
     public virtual bool Repair(float amount)
@@ -119,6 +129,9 @@ public abstract class Building : MonoBehaviour, IDamageable, IInteractable
         
         if(canAlarm){
             StartCoroutine(AttackAlarm());
+        }
+        if(sendDamageNotifications && canNotify){
+            StartCoroutine(NotifyDamage());
         }
         
         colorSeq.Complete();
