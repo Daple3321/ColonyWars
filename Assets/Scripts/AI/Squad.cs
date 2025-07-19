@@ -70,8 +70,8 @@ public class Squad
         foreach (Unit unit in units)
         {
             Vector3 offset = CalculateOffsetForUnit(units.IndexOf(unit), 1.8f);
-            
-            unit.SetHome(orderPos + offset);
+            Vector3 newHome = GameController.TerrainPoint(orderPos + offset);
+            unit.SetHome(newHome);
             unit.StopFollowing();
             unit.followTarget = null;
             //unit.UnregisterFromSquad();
@@ -117,7 +117,8 @@ public class Squad
                 foreach (var unit in units)
                 {
                     Vector3 offset = CalculateOffsetForUnit(units.IndexOf(unit), 1.8f);
-                    unit.SetHome(waypoint + offset);
+                    Vector3 newHome = GameController.TerrainPoint(waypoint+offset);
+                    unit.SetHome(newHome);
                     unit.StopFollowing();
                     unit.followTarget = null;
                 }
@@ -154,6 +155,7 @@ public class Squad
 
         // Счетчик юнитов, которые должны прибыть
         int unitsToArrive = units.Count;
+        Debug.Log("Units scheduled to arrive: "+unitsToArrive);
 
         // Обработчик события прибытия юнита
         Action<Unit> onUnitArrivedHandler = null;
@@ -168,11 +170,19 @@ public class Squad
             // Отписываемся от события этого юнита, чтобы не сработало повторно
             arrivedUnit.OnArrivedHome -= onUnitArrivedHandler;
         };
+        Action<Unit> onUnitDiedHandler = null;
+        onUnitDiedHandler = (diedUnit) =>
+        {
+            unitsToArrive--;
+            Debug.Log("Unit died while moving. Units to arrive: "+unitsToArrive);
+            diedUnit.onUnitDeath -= onUnitDiedHandler;
+        };
 
         // Подписываемся на событие прибытия для каждого юнита
         foreach (var unit in units)
         {
-            unit.OnArrivedHome += onUnitArrivedHandler;
+            unit.OnArrivedHome += onUnitArrivedHandler; 
+            unit.onUnitDeath += onUnitDiedHandler;
         }
 
         // Задача, которая завершится по тайм-ауту
@@ -180,7 +190,7 @@ public class Squad
 
         // Задача, которая будет проверять, уничтожен ли отряд
         var squadWipedTask = UniTask.WaitUntil(() => units.Count == 0, cancellationToken: token);
-
+        
         try
         {
             // Ждем, какая из задач завершится первой

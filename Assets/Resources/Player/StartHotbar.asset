@@ -13,12 +13,4 @@ MonoBehaviour:
   m_Name: StartHotbar
   m_EditorClassIdentifier: 
   items:
-    _serializedList:
-    - Key: {fileID: 11400000, guid: 6b5b4916729fbed4abe7fad9b9d5eb3f, type: 2}
-      Value: 1
-    - Key: {fileID: 11400000, guid: 212b9491754779b4495838e46bac41fc, type: 2}
-      Value: 1
-    - Key: {fileID: 11400000, guid: 2d7012f1961c0ce46ba2fb71123b54c8, type: 2}
-      Value: 1
-    - Key: {fileID: 11400000, guid: 844df1fbf341976459209426a1c7e542, type: 2}
-      Value: 1
+    _serializedList: []

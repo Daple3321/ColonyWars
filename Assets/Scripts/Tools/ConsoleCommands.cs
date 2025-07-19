@@ -77,13 +77,13 @@ public class ConsoleCommands : MonoBehaviour
         if(state)
         {
             GameController.p.movement.gravity = 2;
-            GameController.p.stats[runSpeed].AddModifier(new StatModifier(30, StatModType.PercentMult));
+            GameController.p.stats[runSpeed].AddModifier(new StatModifier(20, StatModType.PercentMult));
             Debug.Log("Fly mode: ON");
         }
         else
         {
             //GameController.p.movement.fallSpeed = 10;
-            GameController.p.movement.gravity = 15;
+            GameController.p.movement.gravity = 13;
             GameController.p.stats[runSpeed].RemoveAllModifiersFromSource(this);
             Debug.Log("Fly mode: OFF");
         }

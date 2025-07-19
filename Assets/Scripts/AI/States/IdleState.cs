@@ -29,7 +29,7 @@ public class IdleState : UnitState
             }
         }
 
-        if (stateMachine.owner.DistanceToHome() > 1.5f) // если далеко от дома
+        if (stateMachine.owner.DistanceToHome() > stateMachine.owner.targetStopDistance) // если далеко от дома
         {
             stateMachine.ChangeState(OnFarFromHome);
         }

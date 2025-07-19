@@ -806,7 +806,7 @@ MonoBehaviour:
   combat: {fileID: 4762510695901131578}
   homePos: {x: 0, y: 0, z: 0}
   homeRadius: 4
-  targetStopDistance: 2
+  targetStopDistance: 1
   enemyCheckDelay: 1
   enemiesMask:
     serializedVersion: 2
@@ -825,6 +825,7 @@ MonoBehaviour:
   stateMachine: {fileID: 5876590817321308694}
   patrolRoute: []
   currentPatrolPoint: 0
+  maxPatrolPoints: 15
   triggerZone: {fileID: 0}
   healMask:
     serializedVersion: 2

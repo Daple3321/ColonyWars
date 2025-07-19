@@ -433,15 +433,18 @@ public abstract class Unit : MonoBehaviour, IDamageable, IClickable
     public event Action<Unit> OnArrivedHome;
     
 #if UNITY_EDITOR
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Handles.color = Color.green;
-        Vector3 labelPos1 = new Vector3(homePos.x + 0.5f, homePos.y, homePos.z + homeRadius + 0.1f);
-        Handles.Label(labelPos1, "Home Radius");
+        Vector3 labelPos1 = new Vector3(transform.position.x+1.5f, transform.position.y+3f, transform.position.z);
+        //Handles.Label(labelPos1, "Home Radius");
+        Handles.Label(labelPos1, $"Distance to HOME: {DistanceToHome():F2}");
         Handles.DrawWireDisc(new Vector3(homePos.x, homePos.y, homePos.z), Vector3.up, homeRadius);
+        
+        Handles.DrawWireCube(new Vector3(homePos.x, homePos.y, homePos.z), new Vector3(0.2f, 0.2f, 0.2f));
 
         Vector3 labelPos3 = new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z);
-        Handles.Label(labelPos3, $"Current state: {stateMachine.currentState}\n");
+        Handles.Label(labelPos3, $"State: {stateMachine.currentState}\n");
     }
 
 #endif

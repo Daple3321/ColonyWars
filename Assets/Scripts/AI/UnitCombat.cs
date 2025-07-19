@@ -122,8 +122,8 @@ public class UnitCombat : MonoBehaviour
     private void OnDrawGizmos()
     {
         Handles.color = Color.red;
-        Vector3 labelPos2 = new Vector3(transform.position.x + 0.5f, transform.position.y+1, transform.position.z + stats[attackDistance].Value+ 0.1f);
-        Handles.Label(labelPos2, "Attack distance");
+        //Vector3 labelPos2 = new Vector3(transform.position.x + 0.5f, transform.position.y+1, transform.position.z + stats[attackDistance].Value+ 0.1f);
+        //Handles.Label(labelPos2, "Attack distance");
         Handles.DrawWireDisc(new Vector3(transform.position.x, transform.position.y, transform.position.z), Vector3.up, stats[attackDistance].Value);
     }
 

@@ -5,9 +5,9 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 using Debug = UnityEngine.Debug;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks.Triggers;
-using UnityEditor.Experimental.GraphView;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class ObjectGenerator : MonoBehaviour
 {

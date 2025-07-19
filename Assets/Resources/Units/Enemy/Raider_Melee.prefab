@@ -346,7 +346,7 @@ MonoBehaviour:
   combat: {fileID: 7613943342512471892}
   homePos: {x: 0, y: 0, z: 0}
   homeRadius: 18
-  targetStopDistance: 2
+  targetStopDistance: 1
   enemyCheckDelay: 1
   enemiesMask:
     serializedVersion: 2

@@ -966,7 +966,7 @@ MonoBehaviour:
   combat: {fileID: 3032866134740245298}
   homePos: {x: 0, y: 0, z: 0}
   homeRadius: 18
-  targetStopDistance: 2
+  targetStopDistance: 1
   enemyCheckDelay: 1
   enemiesMask:
     serializedVersion: 2
@@ -985,6 +985,7 @@ MonoBehaviour:
   stateMachine: {fileID: 1562868129411341354}
   patrolRoute: []
   currentPatrolPoint: 0
+  maxPatrolPoints: 15
   followState: {fileID: 11400000, guid: e0bf1530e97206441859187f359860c3, type: 2}
   aggroState: {fileID: 11400000, guid: 300ac1eab1b7ed849ad78f53e5d9b19d, type: 2}
   aggrTime: 25

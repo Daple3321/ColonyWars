@@ -22,8 +22,36 @@ public class WaveSystem : MonoBehaviour
         minutesLeftToNextContainer = waveContainers[containerIndex].durationMinutes;
         
         DebugLogConsole.AddCommandInstance( "wave", "Spawns current raid wave", nameof(SpawnCurrentWave), this );
+        DebugLogConsole.AddCommandInstance( "rTest", "Spawns one raid unit", nameof(TestRaidUnit), this );
         
         enabled = true;
+    }
+    private void TestRaidUnit()
+    {
+        Building randBuilding = owner.buildings[Random.Range(0, owner.buildings.Count)];
+        
+        int waveIdx = Random.Range(0, waveContainers[containerIndex].waves.Count);
+        Wave wave = waveContainers[containerIndex].waves[waveIdx];
+        
+        int unitsAmount = Random.Range(wave.unitAmountRange.x, wave.unitAmountRange.y);
+        int amountBonus = CalculateUnitAmountBonusForWave(wave);
+        unitsAmount += amountBonus;
+        int unitLevel = CalculateUnitLevelForWave(wave);
+        
+        IWeightedSelector<KeyValuePair<UnitData, float>> selector;
+        selector = wave.unitPool.ToWeightedSelector(x => x.Value);
+        UnitData selectedUnit;
+        selectedUnit = selector.SelectItemWithUnityRandom().Key;
+        
+        Unit spawnedUnit = owner.SpawnRaidUnit(selectedUnit, randBuilding);
+                
+        spawnedUnit.stateMachine.startState = GameAssets.idleState;
+        if(spawnedUnit.TryGetComponent(out Enemy enemy)){
+            enemy.InitEnemy(owner);
+        }
+        spawnedUnit.Init();
+        
+        spawnedUnit.ChangeLevel(unitLevel);
     }
     
     public void UpdateWaveContainer()

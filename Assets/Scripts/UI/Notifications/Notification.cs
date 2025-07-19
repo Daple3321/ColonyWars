@@ -10,21 +10,24 @@ public class Notification : MonoBehaviour, IPointerClickHandler
     public TextMeshProUGUI headerText;
     public TextMeshProUGUI descText;
     
+    public Image notificationIcon;
     public Image outline;
     public Image bg;
     
     private float timeLeft;
     private bool isOver = false;
     public float notificationTime;
-    public void Init(string header, string content, float time = 7, Color outlineColor = default, Color headerColor = default)
+    public void Init(string header, string content, float time = 7, Color outlineColor = default, Color headerColor = default, Sprite icon = null)
     {
-        
-        
         headerText.text = header;
         descText.text = content;
         
         outline.color = outlineColor;
         headerText.color = headerColor;
+        
+        if(icon != null){
+            notificationIcon.sprite = icon;
+        }
         
         this.timeLeft = time;
         notificationTime = time;

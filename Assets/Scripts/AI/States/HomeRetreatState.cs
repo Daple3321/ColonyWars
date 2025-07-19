@@ -19,7 +19,7 @@ public class HomeRetreatState : UnitState
             stateMachine.owner.movement.UpdateAnimationParams();
         }
 
-        if (stateMachine.owner.DistanceToHome() < stateMachine.owner.targetStopDistance)
+        if (stateMachine.owner.DistanceToHome() <= stateMachine.owner.targetStopDistance)
         {
             stateMachine.owner.movement.ResetVelocity();
             stateMachine.owner.OnArrivedToHome();

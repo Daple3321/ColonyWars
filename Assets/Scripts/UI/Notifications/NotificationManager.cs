@@ -58,16 +58,16 @@ public class NotificationManager : MonoBehaviour
         }
     }
     
-    public async void Add(string header, string content, float time = 7, Color outlineColor = default, Color headerColor = default)
+    public async void Add(string header, string content, float time = 7, Color outlineColor = default, Color headerColor = default, Sprite icon = null)
     {
-        await AddNotification(header, content, time, outlineColor, headerColor);
+        await AddNotification(header, content, time, outlineColor, headerColor, icon);
     }
-    private async UniTask<Notification> AddNotification(string header, string content, float time = 7, Color outlineColor = default, Color headerColor = default)
+    private async UniTask<Notification> AddNotification(string header, string content, float time = 7, Color outlineColor = default, Color headerColor = default, Sprite icon = null)
     {
         GameObject go = Instantiate(notificationPrefab);
         go.transform.SetParent(container);
         Notification n = go.GetComponent<Notification>();
-        n.Init(header, content, time, outlineColor, headerColor);
+        n.Init(header, content, time, outlineColor, headerColor, icon);
         notifications.Add(n);
         n.OnClick += OnNotificationClicked;
         
