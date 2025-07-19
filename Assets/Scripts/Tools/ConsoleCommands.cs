@@ -17,6 +17,7 @@ public class ConsoleCommands : MonoBehaviour
         DebugLogConsole.AddCommandInstance( "sens", "Changes mouse sensitivity", nameof(ChangeSens), this );
         DebugLogConsole.AddCommandInstance( "resetSens", "Resets mouse sensitivity to default", nameof(ResetSens), this );
         DebugLogConsole.AddCommandInstance( "unit", "Spawns unit of specified name and level", nameof(SpawnUnit), this );
+        DebugLogConsole.AddCommandInstance( "fps", "Change targer framerate", nameof(Fps), this );
         
         DebugLogConsole.AddCommandInstance( "fly", "Fly mode", nameof(Fly), this );
         DebugLogConsole.AddCommandInstance( "god", "God mode. Can't die", nameof(GodMode), this );
@@ -102,5 +103,10 @@ public class ConsoleCommands : MonoBehaviour
             
             Debug.Log("God mode: OFF");
         }
+    }
+    
+    public void Fps(int fps)
+    {
+        Application.targetFrameRate = fps;
     }
 }

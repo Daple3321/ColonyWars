@@ -36,6 +36,9 @@ public class BuildProjection : MonoBehaviour
         //cellZone.transform.SetParent(transform);
         
         Destroy(go.GetComponent<Building>());
+        if(go.TryGetComponent(out Defense def)){
+            Destroy(def);
+        }
         Destroy(go.GetComponent<Collider>());
     }
     

@@ -76,7 +76,9 @@ public class GameController : MonoBehaviour
     private async void StartGame(GameSettings gameSettings = null)
     {
         Application.targetFrameRate = 120;
-        //Shader.WarmupAllShaders();
+    #if UNITY_STANDALONE_WIN
+        Shader.WarmupAllShaders();
+    #endif
         
         gameEnded = false;
         ResetStaticVars();
@@ -105,8 +107,10 @@ public class GameController : MonoBehaviour
         currentTerrain = worldGenerator.terrain;
         objectGenerator.Init(gameSettings.objectGenSettings);
         timeManager.Init();
-        //await worldGenerator.GenerateTerrain();
-        //await objectGenerator.GenerateObjects();
+    #if UNITY_STANDALONE_WIN
+        await worldGenerator.GenerateTerrain();
+        await objectGenerator.GenerateObjects();
+    #endif
         //Pools.Init();
 
         //inventoryUI = GameObject.Find("PlayerInventory").GetComponent<InventoryUI>();

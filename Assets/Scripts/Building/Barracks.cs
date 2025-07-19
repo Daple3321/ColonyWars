@@ -200,7 +200,7 @@ public class Barracks : Manufacturer
     {
         Vector2 spawnPos = new Vector2(transform.position.x, transform.position.z);
         
-        Vector3 pointInCircle = GameController.RandomPointInCircleTerrain(spawnPos, 2, 4);
+        Vector3 pointInCircle = GameController.RandomPointInCircleTerrain(spawnPos, 3.5f, 4.5f);
         GameObject go = Instantiate(unit.prefab, pointInCircle, Quaternion.identity);
         Unit u = go.GetComponent<Unit>();
 
