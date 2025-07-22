@@ -278,7 +278,9 @@ MonoBehaviour:
         spawnType: 1
         spawnRules:
         - spawnRuleType: 0
-          valueRange: {x: 20, y: 100}
+          valueRange: {x: 20, y: 30}
+        - spawnRuleType: 1
+          valueRange: {x: 0, y: 25}
         spawnAmount: 20
         spawnChance: 0.367
         alignToGround: 1
