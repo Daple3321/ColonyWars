@@ -14,6 +14,8 @@ You will progress from solo survival to a colony which you will lead into battle
 - Day & Night system
 - Dynamic enemy colony expansion and attacks system
 
+All graphics by [Badger](https://github.com/Badgerok) | [ArtStation](https://www.artstation.com/badgerzx)
+
 <img width="1573" height="881" alt="Снимок экрана 2025-06-16 171734" src="https://github.com/user-attachments/assets/91903e54-a47b-4772-9f81-f89dc9b1d10b" />
 <img width="1919" height="1079" alt="Снимок экрана 2025-06-22 193635" src="https://github.com/user-attachments/assets/2bf4bc6d-ad4c-4166-92e5-d0d39bc9d50d" />
 <img width="1919" height="1079" alt="Снимок экрана 2025-06-05 133041" src="https://github.com/user-attachments/assets/9d4dd2da-9129-4212-a55a-4ce8e4734b9d" />
